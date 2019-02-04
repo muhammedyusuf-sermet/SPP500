@@ -3,7 +3,7 @@
     "rulesDirectory": ["path/to/custom/rules/directory/", "another/path/"],
     "rules": {
 
-
+        "no-trailing-whitespace": true,
         "no-consecutive-blank-lines": [true, 3],
         "indent": [true, "tabs"],
         "no-unused-variable": true,
