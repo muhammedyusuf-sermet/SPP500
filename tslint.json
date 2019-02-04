@@ -1,0 +1,24 @@
+{
+    "extends": "tslint-consistent-codestyle",
+    "rulesDirectory": ["path/to/custom/rules/directory/", "another/path/"],
+    "rules": {
+
+
+        "no-consecutive-blank-lines": [true, 3],
+        "indent": [true, "tabs"],
+        "no-unused-variable": true,
+
+        "new-parens": true,
+        "no-bitwise": true,
+        "no-conditional-assignment": true,
+        
+        "no-collapsible-if": true,
+        "ext-curly": [
+            true,
+            "consistent",
+            "else",
+            "nested-if-else",
+            "braced-child"
+          ]
+    }
+}

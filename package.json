@@ -15,6 +15,7 @@
     "electron": "4.0.1",
     "electron-builder": "20.38.4",
     "electron-webpack": "^2.6.2",
+    "tslint-consistent-codestyle": "^1.15.0",
     "webpack": "4.28.4"
   }
 }
