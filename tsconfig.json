@@ -1,0 +1,8 @@
+{
+    "exclude": ["node_modules"],
+    "compilerOptions": {
+        "allowUnreachableCode": false,
+        "allowJs": false,
+        "strict": true
+    }
+}

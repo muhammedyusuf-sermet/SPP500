@@ -1,12 +1,13 @@
 {
-  "name": "DM-Tools",
+  "name": "dm-tools",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "lint": "tslint --fix -p tsconfig.json"
   },
   "dependencies": {
     "source-map-support": "^0.5.10"
