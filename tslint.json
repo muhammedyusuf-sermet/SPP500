@@ -19,6 +19,12 @@
             "else",
             "nested-if-else",
             "braced-child"
-          ]
+          ],
+        "naming-convention": [
+            true,
+            {"type": "default", "modifiers": ["private", "protected"], "format": "camelCase", "leadingUnderscore": "require", "trailingUnderscore": "forbid"},
+            {"type": "default", "modifiers": "local", "format": "camelCase", "leadingUnderscore": "forbid", "trailingUnderscore": "forbid"},
+            {"type": "default", "modifiers": "public", "format": "PascalCase", "leadingUnderscore": "forbid", "trailingUnderscore": "forbid"}
+        ]
     }
 }
