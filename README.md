@@ -32,8 +32,8 @@ yarn dist:dir
 #### Backend
 ```bash
 # install dependencies
-npm install
+npm install (yarn install)
 
 # run application
-npm start
+npm start (yarn install)
 ```
