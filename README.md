@@ -14,7 +14,7 @@ yarn
 ```
 
 ### Development Scripts
-
+#### Frontend
 ```bash
 # run application in development mode
 yarn dev
@@ -27,4 +27,13 @@ yarn dist
 
 # `yarn compile` & create unpacked build with electron-builder
 yarn dist:dir
+```
+
+#### Backend
+```bash
+# install dependencies
+npm install
+
+# run application
+npm start
 ```
