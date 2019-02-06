@@ -35,5 +35,5 @@ yarn dist:dir
 npm install (yarn install)
 
 # run application
-npm start (yarn install)
+npm start (yarn start)
 ```
