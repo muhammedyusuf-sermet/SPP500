@@ -32,7 +32,7 @@ yarn dist:dir
 #### Backend
 ```bash
 # build and run docker image
-docker compose-up
+docker-compose up
 
 # install dependencies
 npm install (yarn install)
