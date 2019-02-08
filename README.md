@@ -34,6 +34,9 @@ yarn dist:dir
 # build and run docker image
 docker-compose up
 
+# rebuild docker image
+docker-compose build
+
 # install dependencies
 npm install (yarn install)
 
