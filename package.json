@@ -1,5 +1,5 @@
 {
-  "name": "DM-Tools",
+  "name": "dm-tools",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -7,7 +7,8 @@
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "test" : "\n"
+    "lint": "tslint --fix -p tsconfig.json",
+    "test": "\n"
   },
   "dependencies": {
     "source-map-support": "^0.5.10"
@@ -16,6 +17,11 @@
     "electron": "4.0.1",
     "electron-builder": "20.38.4",
     "electron-webpack": "^2.6.2",
+    "electron-webpack-ts": "^3.1.1",
+    "jest": "^24.1.0",
+    "tslint": "^5.12.1",
+    "tslint-consistent-codestyle": "^1.15.0",
+    "typescript": "^3.3.3",
     "webpack": "4.28.4"
   }
 }
