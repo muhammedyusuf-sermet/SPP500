@@ -7,10 +7,10 @@ import { format as formatUrl } from "url";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
-let mainWindow: BrowserWindow | null = null;
+let mainWindow: (BrowserWindow | null) = null;
 
 function createMainWindow() {
-const window = new BrowserWindow();
+	const window = new BrowserWindow();
 
 	if (isDevelopment)
 		window.webContents.openDevTools();
