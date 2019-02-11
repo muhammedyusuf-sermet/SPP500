@@ -3,18 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "backend-start": "node backend/server.js",
-    "frontend-dev": "electron-webpack dev",
-    "frontend-compile": "electron-webpack",
-    "frontend-dist": "yarn frontend-compile && electron-builder",
-    "frontend-dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "lint": "tslint --fix -p tsconfig.json",
     "test": "yarn run jest --passWithNoTests --coverage"
   },
   "dependencies": {
-    "boom": "^7.3.0",
-    "hapi": "^18.1.0",
-    "joi": "^14.3.1",
     "source-map-support": "^0.5.10"
   },
   "devDependencies": {
@@ -35,13 +31,5 @@
       "node_modules/react/",
       "node_modules/enzyme/"
     ]
-  },
-  "electronWebpack": {
-    "main": {
-      "sourceDirectory": "frontend/src/main"
-    },
-    "renderer": {
-      "sourceDirectory": "frontend/src/renderer"
-    }
   }
 }
