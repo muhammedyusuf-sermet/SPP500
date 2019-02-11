@@ -30,16 +30,28 @@ yarn dist:dir
 ```
 
 #### Backend
+> Note: This backend server works on Windows containers currently. If you are on a Mac, you will need to work with a Windows container as follows: https://stackoverflow.com/questions/45380972/how-can-i-run-a-docker-windows-container-on-osx
 ```bash
-# build and run docker image
+# Navigate into the backend folder
+cd backend
+
+# build and run docker image (Note: this both runs and builds the docker file sequentially. It will only build it once unless you specify the build again in the below commands. This only matters to developers. For users, they will only need to run it once, ideally)
 docker-compose up
 
-# rebuild docker image
+# (Optional/when changes are made to the local files)
+# rebuilds docker image
 docker-compose build
+# runs the docker image
+docker run backend_server
 
 # install dependencies
-npm install (yarn install)
+npm install
+# Alternatively 
+yarn install
 
 # run application
-npm start (yarn start)
+npm start 
+# Alternatively 
+yarn start
+
 ```
