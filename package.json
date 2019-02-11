@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "backend-start": "node server.js",
+    "backend-start": "node backend/server.js",
     "frontend-dev": "electron-webpack dev",
     "frontend-compile": "electron-webpack",
     "frontend-dist": "yarn frontend-compile && electron-builder",
