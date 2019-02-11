@@ -6,7 +6,7 @@
     "backend-start": "node server.js",
     "frontend-dev": "electron-webpack dev",
     "frontend-compile": "electron-webpack",
-    "frontend-dist": "yarn compile && electron-builder",
+    "frontend-dist": "yarn frontend-compile && electron-builder",
     "frontend-dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "lint": "tslint --fix -p tsconfig.json",
     "test": "yarn run jest --passWithNoTests --coverage"
@@ -35,5 +35,13 @@
       "node_modules/react/",
       "node_modules/enzyme/"
     ]
+  },
+  "electronWebpack": {
+    "main": {
+      "sourceDirectory": "frontend/src/main"
+    },
+    "renderer": {
+      "sourceDirectory": "frontend/src/renderer"
+    }
   }
 }
