@@ -26,7 +26,7 @@ CREATE TABLE "Tool" (
         "Name" varchar(50),
         "Category" tool_categories,
         "Cost" integer DEFAULT 1,
-        "Weight" varchar(20) DEFAULT '1 lb.',
+        "Weight" integer DEFAULT 1,
         "Description" text,
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
@@ -48,7 +48,7 @@ CREATE TABLE "Weapon" (
         "Cost" integer DEFAULT 1,
         "Damage" varchar(20) DEFAULT '1d4',
         "Range" varchar(20) DEFAULT '(5/-)',
-        "Weight" integer DEFAULT '1 lb.',
+        "Weight" integer DEFAULT 1,
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
@@ -73,7 +73,7 @@ CREATE TABLE "Armor" (
         "Name" varchar(50),
         "Proficiency" armor_proficiencies,
         "Cost" integer DEFAULT 1,
-        "Weight" integer DEFAULT '1 lb.',
+        "Weight" integer DEFAULT 1,
         "Armor_Class" integer DEFAULT 1,
         "Dexterity_Bonus" boolean DEFAULT false,
         "Max_Bonus" integer DEFAULT null,
@@ -97,7 +97,7 @@ CREATE TABLE "Adventuring_Gear" (
         "Name" varchar(50),
         "Category" adventuring_gear_categories,
         "Cost" integer DEFAULT 1,
-        "Weight" integer DEFAULT '1 lb.',
+        "Weight" integer DEFAULT 1,
         "Description" varchar(500),
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
