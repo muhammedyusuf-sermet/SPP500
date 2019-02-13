@@ -117,3 +117,87 @@ CREATE TABLE "Equipment_Pack" (
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
+
+CREATE TYPE monster_size AS ENUM (
+        'Tiny',
+        'Small',
+        'Medium',
+        'Large',
+        'Huge',
+        'Gargantuan'
+);
+CREATE TYPE monster_type AS ENUM (
+        'Beast',
+        'Dragon',
+        'Monstrosity',
+        'Humanoid',
+        'Fiend',
+        'Undead',
+        'Giant',
+        'Elemental',
+        'Swarm of Tiny beasts',
+        'Construct',
+        'Celestial',
+        'Aberration',
+        'Fey',
+        'Plant',
+        'Ooze'
+);
+CREATE TYPE monster_race AS ENUM (
+        'Any race',
+        'Devil',
+        'Demon',
+        'Human',
+        'Shapechanger',
+        'Goblinoid',
+        'Titan',
+        'Gnoll',
+        'Gnome',
+        'Dwarf',
+        'Elf',
+        'Orc',
+        'Kobold',
+        'Lizardfolk',
+        'Merfolk',
+        'Sahuagin',
+        'Grimlock'
+);
+CREATE TYPE alignment AS ENUM (
+        'Unaligned'
+        'Any alignment',
+        'Lawful good',
+        'Lawful neutral',
+        'Lawful evil',
+        'Neutral good'
+        'Neutral'
+        'Neutral evil'
+        'Chaotic good'
+        'Chaotic neutral'
+        'Chaotic evil'
+);
+
+CREATE TABLE "Monster" (
+        "Name" varchar(50),
+        "Size" monster_size DEFAULT 'Medium',
+        "Type" monster_type DEFAULT 'Beast',
+        "Race" monster_race DEFAULT 'Any race',
+        "Alignment" alignment DEFAULT 'Unaligned',
+        "Armor_Class" integer,
+        "Hit_Points" integer,
+        "Hit_Die" varchar(20),
+        "Speed" varchar(100),
+        "Senses" varchar(100),
+        "Languages" varchar(100),
+        "Challange_Rating" integer,
+        -- Special_abillities
+        -- Actions
+        -- Legendary Actions
+        PRIMARY KEY ("Name"),
+        CONSTRAINT Positive_Armor_class CHECK ("Armor_Class" > 0),
+        CONSTRAINT Positive_Hit_Points CHECK ("Hit_Points" > 0),
+        CONSTRAINT Positive_Challange_Rating CHECK ("Challange_Rating" > 0)
+);
+
+CREATE TABLE "Monster_Damage"(
+
+);
