@@ -25,7 +25,7 @@ CREATE TYPE tool_categories AS ENUM (
 CREATE TABLE "Tool" (
         "Name" varchar(50),
         "Category" tool_categories,
-        "Cost" integer DEFAULT '1 gp',
+        "Cost" integer DEFAULT 1,
         "Weight" varchar(20) DEFAULT '1 lb.',
         "Description" text,
         PRIMARY KEY ("Name"),
@@ -45,7 +45,7 @@ CREATE TABLE "Weapon" (
         "Name" varchar(50),
         "Proficiency" weapon_proficiencies,
         "Type" weapon_types,
-        "Cost" integer DEFAULT '1 gp',
+        "Cost" integer DEFAULT 1,
         "Damage" varchar(20) DEFAULT '1d4',
         "Range" varchar(20) DEFAULT '(5/-)',
         "Weight" integer DEFAULT '1 lb.',
@@ -72,7 +72,7 @@ CREATE TYPE armor_proficiencies AS ENUM ('Light', 'Medium', 'Heavy', 'Sheild');
 CREATE TABLE "Armor" (
         "Name" varchar(50),
         "Proficiency" armor_proficiencies,
-        "Cost" integer DEFAULT '1 gp',
+        "Cost" integer DEFAULT 1,
         "Weight" integer DEFAULT '1 lb.',
         "Armor_Class" integer DEFAULT 1,
         "Dexterity_Bonus" boolean DEFAULT false,
@@ -96,7 +96,7 @@ CREATE TYPE adventuring_gear_categories AS ENUM (
 CREATE TABLE "Adventuring_Gear" (
         "Name" varchar(50),
         "Category" adventuring_gear_categories,
-        "Cost" integer DEFAULT '1 gp',
+        "Cost" integer DEFAULT 1,
         "Weight" integer DEFAULT '1 lb.',
         "Description" varchar(500),
         PRIMARY KEY ("Name"),
@@ -113,7 +113,7 @@ CREATE TABLE "Pack_Contents" (
 
 CREATE TABLE "Equipment_Pack" (
         "Name" varchar(50),
-        "Cost" integer DEFAULT '1 gp',
+        "Cost" integer DEFAULT 1,
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
