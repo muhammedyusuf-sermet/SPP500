@@ -25,10 +25,11 @@ CREATE TYPE tool_categories AS ENUM (
 CREATE TABLE "Tool" (
         "Name" varchar(50),
         "Category" tool_categories,
-        "Cost" varchar(20) DEFAULT '1 gp',
+        "Cost" integer DEFAULT '1 gp',
         "Weight" varchar(20) DEFAULT '1 lb.',
         "Description" text,
-        PRIMARY KEY ("Name")
+        PRIMARY KEY ("Name"),
+        CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
 
 CREATE TABLE "Damage_Type" (
@@ -44,11 +45,12 @@ CREATE TABLE "Weapon" (
         "Name" varchar(50),
         "Proficiency" weapon_proficiencies,
         "Type" weapon_types,
-        "Cost" varchar(20) DEFAULT '1 gp',
+        "Cost" integer DEFAULT '1 gp',
         "Damage" varchar(20) DEFAULT '1d4',
         "Range" varchar(20) DEFAULT '(5/-)',
         "Weight" integer DEFAULT '1 lb.',
-        PRIMARY KEY ("Name")
+        PRIMARY KEY ("Name"),
+        CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
 
 CREATE TABLE "Property" (
@@ -70,7 +72,7 @@ CREATE TYPE armor_proficiencies AS ENUM ('Light', 'Medium', 'Heavy', 'Sheild');
 CREATE TABLE "Armor" (
         "Name" varchar(50),
         "Proficiency" armor_proficiencies,
-        "Cost" varchar(20) DEFAULT '1 gp',
+        "Cost" integer DEFAULT '1 gp',
         "Weight" integer DEFAULT '1 lb.',
         "Armor_Class" integer DEFAULT 1,
         "Dexterity_Bonus" boolean DEFAULT false,
@@ -78,7 +80,8 @@ CREATE TABLE "Armor" (
         "Min_Strength" integer DEFAULT null,
         "Stealth_Disadvantage" boolean DEFAULT false,
         PRIMARY KEY ("Name"),
-        CONSTRAINT Positive_Armor_class CHECK ("Armor_Class" > 0)
+        CONSTRAINT Positive_Armor_class CHECK ("Armor_Class" > 0),
+        CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
 
 CREATE TYPE adventuring_gear_categories AS ENUM (
@@ -93,10 +96,11 @@ CREATE TYPE adventuring_gear_categories AS ENUM (
 CREATE TABLE "Adventuring_Gear" (
         "Name" varchar(50),
         "Category" adventuring_gear_categories,
-        "Cost" varchar(20) DEFAULT '1 gp',
+        "Cost" integer DEFAULT '1 gp',
         "Weight" integer DEFAULT '1 lb.',
         "Description" varchar(500),
-        PRIMARY KEY ("Name")
+        PRIMARY KEY ("Name"),
+        CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
 
 CREATE TABLE "Pack_Contents" (
@@ -109,6 +113,7 @@ CREATE TABLE "Pack_Contents" (
 
 CREATE TABLE "Equipment_Pack" (
         "Name" varchar(50),
-        "Cost" varchar(20) DEFAULT '1 gp',
-        PRIMARY KEY ("Name")
+        "Cost" integer DEFAULT '1 gp',
+        PRIMARY KEY ("Name"),
+        CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
 );
