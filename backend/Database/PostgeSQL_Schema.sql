@@ -1,4 +1,4 @@
-﻿CREATE TYPE spell_components AS ENUM ('verbal', 'somatic', 'material');
+﻿CREATE TYPE spell_components AS ENUM ('Verbal', 'Somatic', 'Material');
 
 CREATE TABLE "Spell" (
         "Name" varchar(50),
@@ -15,9 +15,16 @@ CREATE TABLE "Spell" (
         PRIMARY KEY ("Name")
 );
 
+CREATE TYPE tool_categories AS ENUM (
+        'Artisan''s Tools',
+        'Gaming Sets',
+        'Musical Instrument',
+        'Other Tools'
+);
+
 CREATE TABLE "Tool" (
         "Name" varchar(50),
-        "Category" varchar(50),
+        "Category" tool_categories,
         "Cost" varchar(20),
         "Weight" varchar(20),
         "Description" text,
@@ -30,67 +37,77 @@ CREATE TABLE "Damage_Type" (
 PRIMARY KEY ("Name")
 );
 
-CREATE TYPE weapon_types AS ENUM ('melee', 'ranged', 'other');
+CREATE TYPE weapon_types AS ENUM ('Melee', 'Ranged', 'Other');
+CREATE TYPE weapon_proficiencies AS ENUM ('Simple', 'Martial');
 
-CREATE TABLE Weapon (
+CREATE TABLE "Weapon" (
         "Name" varchar(50),
-        "Proficiency" varchar(20),
+        "Proficiency" weapon_proficiencies,
         "Type" weapon_types,
         "Cost" varchar(20),
         "Damage" varchar(20),
         "Range" varchar(20),
-        "Weight" varchar(20),
+        "Weight" integer,
         PRIMARY KEY ("Name")
 );
 
-CREATE TABLE Property (
+CREATE TABLE "Property" (
         "Name" varchar(50),
         "Description" varchar(500),
         PRIMARY KEY ("Name")
 );
 
-CREATE TABLE WeaponProperty (
+CREATE TABLE "Weapon_Property" (
         "Weapon_Name" varchar(50) REFERENCES Weapon ("Name"),
         "Property_Name" varchar(50) REFERENCES Property ("Name"),
-        "DamageModifier" varchar(20),
-        "RangeModifier" varchar(20),
+        "Damage_Modifier" varchar(20),
+        "Range_Modifier" varchar(20),
         PRIMARY KEY ("Weapon_Name", "Property_Name")
 );
 
+CREATE TYPE armor_proficiencies AS ENUM ('Light', 'Medium', 'Heavy', 'Sheild');
 
-CREATE TABLE Armor (
+CREATE TABLE "Armor" (
         "Name" varchar(50),
-        "Proficiency" varchar(20),
+        "Proficiency" armor_proficiencies,
         "Cost" varchar(20),
-        "Weight" varchar(20),
-        "ArmorClass" varchar(20),
-        "DexterityBonus" varchar(10),
-        "MaxBonus" varchar(10),
-        "MinStrength" varchar(10),
-        "StealthDisadvantage" boolean,
+        "Weight" integer,
+        "Armor_Class" integer,
+        "Dexterity_Bonus" boolean,
+        "Max_Bonus" integer,
+        "Min_Strength" integer,
+        "Stealth_Disadvantage" boolean,
         PRIMARY KEY ("Name")
 );
 
+CREATE TYPE adventuring_gear_categories AS ENUM (
+        'Standard Gear',
+        'Ammunition',
+        'Holy Symbol',
+        'Arcane focus',
+        'Druidic focus',
+        'Kit'
+);
 
-CREATE TABLE AdventuringGear (
+CREATE TABLE "Adventuring_Gear" (
         "Name" varchar(50),
-        "Category" varchar(20),
+        "Category" adventuring_gear_categories,
         "Cost" varchar(20),
-        "Weight" varchar(20),
+        "Weight" integer,
         "Description" varchar(500),
         PRIMARY KEY ("Name")
 );
 
-
-CREATE TABLE PackContents (
-        "Pack_Name" varchar(50) REFERENCES EquipmentPack ("Name"),
-        "Gear_Name" varchar(50) REFERENCES AdventuringGear ("Name"),
-        "Quantity" varchar(20),
+CREATE TABLE "Pack_Contents" (
+        "Pack_Name" varchar(50) REFERENCES "Equipment_Pack" ("Name"),
+        "Gear_Name" varchar(50) REFERENCES "Adventuring_Gear" ("Name"),
+        "Quantity" integer,
         PRIMARY KEY ("Pack_Name", "Gear_Name")
 );
 
 
-CREATE TABLE EquipmentPack (
+CREATE TABLE "Equipment_Pack" (
         "Name" varchar(50),
         "Cost" varchar(20),
+        PRIMARY KEY ("Name")
 );
