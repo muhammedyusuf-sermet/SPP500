@@ -12,6 +12,7 @@
     "test": "yarn run jest --passWithNoTests --coverage"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
     "joi": "^14.3.1",
