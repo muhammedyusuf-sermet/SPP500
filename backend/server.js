@@ -38,7 +38,7 @@ Server.route({
         }
 
         // check if username exists
-        var username_check = await connection
+        var username_check = await Connection
             .getRepository(User)
             .createQueryBuilder("user")
             .where("user.username = :username", { username: data.username })
@@ -52,7 +52,7 @@ Server.route({
         }
 
         // check if email exists
-        var email_check = await connection
+        var email_check = await Connection
             .getRepository(User)
             .createQueryBuilder("user")
             .where("user.email = :email", { email: data.email })
@@ -76,7 +76,7 @@ Server.route({
         var salt = Bcrypt.genSaltSync(10);
         var hash = Bcrypt.hashSync(data.password, salt);
 
-        var repository = connection.getRepository("User");
+        var repository = Connection.getRepository("User");
         const user = await repository.insert({
             name: data.name,
             username: data.username,
@@ -106,12 +106,12 @@ const init = async () => {
         ]
     }).then(async function (conn) {
         console.log("connected")
-        connection = conn;
+        Connection = conn;
     }).catch(error => {
         console.log('DB connection error: ', error)
     });
     await Server.start();
-    module.exports["connection"] = connection
+    module.exports["connection"] = Connection
     console.log(`Server running at: ${Server.info.uri}`);
 
 };
