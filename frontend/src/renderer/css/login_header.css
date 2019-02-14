@@ -31,4 +31,9 @@
 .login-header-container .input {
 	margin-right: 10px;
 	color: white;
+	width: 35%;
+}
+
+.login-header-container .button {
+	width: 15%;
 }
