@@ -203,16 +203,18 @@ CREATE TABLE "Monster" (
         "Type" monster_type DEFAULT 'Beast',
         "Race" monster_race DEFAULT 'Any race',
         "Alignment" alignment DEFAULT 'Unaligned',
-        "Armor_Class" integer,
-        "Hit_Points" integer,
-        "Hit_Die" varchar(20),
-        "Speed" varchar(100),
-        "Senses" varchar(100),
-        "Languages" varchar(100),
-        "Challange_Rating" integer,
-        -- Special_abillities
-        -- Actions
-        -- Legendary Actions
+        "Armor_Class" integer DEFAULT 12,
+        "Hit_Points" integer DEFAULT 12,
+        -- hit_dice but missing base for some reason?
+        "Damage" varchar(20) DEFAULT '2d8',
+        "Speed" varchar(100) DEFAULT '30 ft.',
+        "Senses" varchar(100) DEFAULT '',
+        "Languages" varchar(100) DEFAULT '',
+        "Challange_Rating" integer DEFAULT 1,
+        "Special_Abillities" json DEFAULT '[]',
+        "Actions" json DEFAULT '[]',
+        "Reactions" json DEFAULT '[]',
+        "Legendary_Actions" json DEFAULT '[]',
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Armor_class CHECK ("Armor_Class" > 0),
         CONSTRAINT Positive_Hit_Points CHECK ("Hit_Points" > 0),
