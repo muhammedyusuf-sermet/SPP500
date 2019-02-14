@@ -105,8 +105,8 @@ CREATE TABLE "Adventuring_Gear" (
 );
 
 CREATE TABLE "Pack_Contents" (
-        "Pack_Name" varchar(50) REFERENCES "Equipment_Pack" ("Name"),
-        "Gear_Name" varchar(50) REFERENCES "Adventuring_Gear" ("Name"),
+        "Equipment_Pack_Name" varchar(50) REFERENCES "Equipment_Pack" ("Name"),
+        "Adventuring_Gear_Name" varchar(50) REFERENCES "Adventuring_Gear" ("Name"),
         "Quantity" integer DEFAULT 1,
         PRIMARY KEY ("Pack_Name", "Gear_Name"),
         CONSTRAINT Positive_Quantity CHECK ("Quantity" > 0)
@@ -219,22 +219,51 @@ CREATE TABLE "Monster" (
         CONSTRAINT Positive_Challange_Rating CHECK ("Challange_Rating" > 0)
 );
 
-CREATE TYPE monster_damage_type AS ENUM (
+-- stats of the monsters ability scores
+CREATE TABLE "Monster_Ability_Score" (
+        "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
+        "Damage_Type_Name" varchar(50) REFERENCES "Damage_Type" ("Name"),
+        "Score" integer DEFAULT 0,
+        PRIMARY KEY ("Monster_Name", "Damage_Type_Name"),
+        CONSTRAINT Positive_Score CHECK ("Score" >= 0)
+)
+
+-- bonus applied when monster uses a specific skill
+CREATE TABLE "Monster_Skill" (
+        "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
+        "Skill_Name" varchar(50) REFERENCES "Skill" ("Name"),
+        "Bonus" integer DEFAULT 0,
+        PRIMARY KEY ("Monster_Name", "Skill_Name"),
+        CONSTRAINT Positive_Bonus CHECK ("Bonus" >= 0),
+);
+
+-- bonus applied when monster has to do a saving throw for a specific ability
+CREATE TABLE "Monster_Saving_Throw" (
+        "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
+        "Ability_Score_Name" varchar(50) REFERENCES "Ability_Score" ("Name"),
+        "Bonus" integer DEFAULT 0,
+        PRIMARY KEY ("Monster_Name", "Ability_Score"),
+        CONSTRAINT Positive_Bonus CHECK ("Bonus" >= 0),
+);
+
+-- options for defining resistance used with damage_type
+CREATE TYPE resistance_type AS ENUM (
         'Vulnerable',
         'Resistance',
         'Immunity'
 );
 
-CREATE TABLE "Monster_Damage" (
+-- types of damage that the monster is either vulnerable, resistant or immune to.
+CREATE TABLE "Monster_Damage_Type_Resistance" (
         "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
         "Damage_Type_Name" varchar(50) REFERENCES "Damage_Type" ("Name"),
-        "Type" monster_damage_type DEFAULT 'Resistance',
+        "Type" resistance_type DEFAULT 'Resistance',
         PRIMARY KEY ("Monster_Name", "Damage_Type_Name"),
 );
 
-CREATE TABLE "Monster_Skill" (
+-- conditions that don't affect this monster
+CREATE TABLE "Monster_Condition_Immunity" (
         "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
-        "Skill_Name" varchar(50) REFERENCES "Skill" ("Name"),
-        "Type" monster_damage_type DEFAULT 'Resistance',
-        PRIMARY KEY ("Monster_Name", "Damage_Type_Name"),
+        "Condition_Name" varchar(50) REFERENCES "Condition" ("Name"),
+        PRIMARY KEY ("Monster_Name", "Condition_Name"),
 );
