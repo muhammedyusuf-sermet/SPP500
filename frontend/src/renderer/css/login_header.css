@@ -6,8 +6,8 @@
 }
 
 .login-header-container .left-block {
-    float: left;
-    width: 30%;
+	float: left;
+	width: 30%;
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
@@ -16,12 +16,12 @@
 }
 
 .login-header-container .right-block {
-    float: right;
-    width: 50%;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    padding-right: 10px;
+	float: right;
+	width: 50%;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	padding-right: 10px;
 }
 
 .login-header-container .logo {
