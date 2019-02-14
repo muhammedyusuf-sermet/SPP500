@@ -1,26 +1,26 @@
 // START Registration Tests
 
-const _server = require('./server.js');
+const Server_ = require('./server.js');
 
-let server;
-let connection;
+let Server;
+let Connection;
 
 beforeAll(async () => {
-	await _server.init();
-	server = _server.server;
-	connection = _server.connection;
+	await Server_.init();
+	Server = Server_.server;
+	Connection = Server_.connection;
 });
-
 
 afterAll(async () => {
-	server.stop();
-	connection.close();
+	Server.stop();
+	Connection.close();
 });
+
 
 describe('registration tests', () => {
 	test('registers a user when provided with a valid form', async () => {
 		
-		const response = await server.inject({
+		const response = await Server.inject({
 	        method: 'POST',
 	        url: '/register',
 	        payload: {
@@ -40,7 +40,7 @@ describe('registration tests', () => {
 
 	test('does not register a user when a registered email is provided', async () => {
 		
-		const response = await server.inject({
+		const response = await Server.inject({
 	        method: 'POST',
 	        url: '/register',
 	        payload: {
@@ -60,7 +60,7 @@ describe('registration tests', () => {
 
 	test('does not register a user when a registered username is provided', async () => {
 		
-		const response = await server.inject({
+		const response = await Server.inject({
 	        method: 'POST',
 	        url: '/register',
 	        payload: {
@@ -80,7 +80,7 @@ describe('registration tests', () => {
 
 	test('does not register a user when password is not valid', async () => {
 		
-		const response = await server.inject({
+		const response = await Server.inject({
 	        method: 'POST',
 	        url: '/register',
 	        payload: {
@@ -100,7 +100,7 @@ describe('registration tests', () => {
 
 	test('does not register a user when email is not valid', async () => {
 		
-		const response = await server.inject({
+		const response = await Server.inject({
 	        method: 'POST',
 	        url: '/register',
 	        payload: {
@@ -117,8 +117,6 @@ describe('registration tests', () => {
 	    expect(payload.status).toBe(400);
 	    expect(payload.message).toBe("email is not valid");
 	});
-
-
 
 })
 

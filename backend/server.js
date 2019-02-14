@@ -1,10 +1,10 @@
 'use strict';
 
-const typeorm = require('typeorm');
-const bcrypt = require('bcrypt');
+const Typeorm = require('typeorm');
+const Bcrypt = require('bcrypt');
 const Hapi = require('hapi');
 
-const server = Hapi.server({
+const Server = Hapi.server({
     port: 3000,
     host: '0.0.0.0'
 });
@@ -12,9 +12,9 @@ const server = Hapi.server({
 
 const User = require("./model/User").User;
 
-let connection;
+let Connection;
 
-server.route({
+Server.route({
     method: 'GET',
     path: '/',
     handler: function (request, h) {
@@ -22,7 +22,7 @@ server.route({
     }
 });
 
-server.route({
+Server.route({
     method: 'POST',
     path: '/register',
     handler: async function (request, h) {
@@ -73,8 +73,8 @@ server.route({
             }
         }
 
-        var salt = bcrypt.genSaltSync(10);
-        var hash = bcrypt.hashSync(data.password, salt);
+        var salt = Bcrypt.genSaltSync(10);
+        var hash = Bcrypt.hashSync(data.password, salt);
 
         var repository = connection.getRepository("User");
         const user = await repository.insert({
@@ -92,10 +92,8 @@ server.route({
     }
 });
 
-
-
 const init = async () => {
-    await typeorm.createConnection({
+    await Typeorm.createConnection({
         "type": "postgres",
         "host": "localhost",
         "port": "5432",
@@ -112,9 +110,9 @@ const init = async () => {
     }).catch(error => {
         console.log('DB connection error: ', error)
     });
-    await server.start();
+    await Server.start();
     module.exports["connection"] = connection
-    console.log(`Server running at: ${server.info.uri}`);
+    console.log(`Server running at: ${Server.info.uri}`);
 
 };
 
@@ -123,7 +121,7 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-module.exports = {"init": init, "server": server};
+module.exports = {"init": init, "server": Server};
 
 
 init();
