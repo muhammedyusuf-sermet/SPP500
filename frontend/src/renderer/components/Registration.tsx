@@ -66,10 +66,7 @@ export const Registration: React.StatelessComponent<{}> = () => {
 						/>
 					</Grid>
 					<Grid item xs={12}>
-						<FormControlLabel
-							control={<Checkbox color="secondary" name="addMailingList" value="yes" />}
-							label="Keep me updated on the D&D Community!"
-						/>
+						{/*Needed for spacing purposes - No functionality*/}
 					</Grid>
 				</Grid>
 				<Button className="button" variant="contained" color="primary">Register</Button>

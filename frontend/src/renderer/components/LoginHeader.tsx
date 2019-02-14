@@ -8,7 +8,7 @@ export const LoginHeader: React.StatelessComponent<{}> = () => {
 	return (
 		<div className="login-header-container">
 			<div className="left-block">
-				<img src={require('../images/dndlogo.png')} className="logo"></img>
+				<img src={require('../../../../doc/art/DM-Tools-Logo.png')} className="logo"></img>
 			</div>
 			<div className="right-block">
 				<Input className="input" id="email" placeholder="Username" name="email" autoComplete="email" autoFocus required/>
