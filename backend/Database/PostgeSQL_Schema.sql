@@ -43,6 +43,7 @@ CREATE TYPE weapon_proficiencies AS ENUM ('Simple', 'Martial');
 
 CREATE TABLE "Weapon" (
         "Name" varchar(50),
+        "Damage_Type_Name" varchar(50) REFERENCES "Damage_Type" ("Name"),
         "Proficiency" weapon_proficiencies,
         "Type" weapon_types,
         "Cost" integer DEFAULT 1,
@@ -60,8 +61,8 @@ CREATE TABLE "Property" (
 );
 
 CREATE TABLE "Weapon_Property" (
-        "Weapon_Name" varchar(50) REFERENCES Weapon ("Name"),
-        "Property_Name" varchar(50) REFERENCES Property ("Name"),
+        "Weapon_Name" varchar(50) REFERENCES "Weapon" ("Name"),
+        "Property_Name" varchar(50) REFERENCES "Property" ("Name"),
         "Damage_Modifier" varchar(20) DEFAULT '-',
         "Range_Modifier" varchar(20) DEFAULT '(-/-)',
         PRIMARY KEY ("Weapon_Name", "Property_Name")
@@ -116,6 +117,26 @@ CREATE TABLE "Equipment_Pack" (
         "Cost" integer DEFAULT 1,
         PRIMARY KEY ("Name"),
         CONSTRAINT Positive_Cost CHECK ("Cost" > 0)
+);
+
+CREATE TABLE "Ability_Score" (
+        "Name" varchar(50),
+        "Abbreviation" char(3),
+        "Description" varchar(500),
+        PRIMARY KEY ("Name")
+);
+
+CREATE TABLE "Skill" (
+        "Ability_Score_Name" varchar(50) REFERENCES "Ability_Score" ("Name"),
+        "Name" varchar(50),
+        "Description" varchar(500),
+        PRIMARY KEY ("Name")
+);
+
+CREATE TABLE "Condition" (
+        "Name" varchar(50),
+        "Description" varchar(500),
+        PRIMARY KEY ("Name")
 );
 
 CREATE TYPE monster_size AS ENUM (
@@ -198,6 +219,22 @@ CREATE TABLE "Monster" (
         CONSTRAINT Positive_Challange_Rating CHECK ("Challange_Rating" > 0)
 );
 
-CREATE TABLE "Monster_Damage"(
+CREATE TYPE monster_damage_type AS ENUM (
+        'Vulnerable',
+        'Resistance',
+        'Immunity'
+);
 
+CREATE TABLE "Monster_Damage" (
+        "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
+        "Damage_Type_Name" varchar(50) REFERENCES "Damage_Type" ("Name"),
+        "Type" monster_damage_type DEFAULT 'Resistance',
+        PRIMARY KEY ("Monster_Name", "Damage_Type_Name"),
+);
+
+CREATE TABLE "Monster_Skill" (
+        "Monster_Name" varchar(50) REFERENCES "Monster" ("Name"),
+        "Skill_Name" varchar(50) REFERENCES "Skill" ("Name"),
+        "Type" monster_damage_type DEFAULT 'Resistance',
+        PRIMARY KEY ("Monster_Name", "Damage_Type_Name"),
 );
