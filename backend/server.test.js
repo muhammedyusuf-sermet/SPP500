@@ -1,28 +1,125 @@
 // START Registration Tests
 
-// when a new registration entry with non-existing 
-// email and username is posted to the route 
-// expect statuscode to be 201
-// expect result to be "success"
+const _server = require('./server.js');
 
-// when a new registration entry with existing 
-// email is posted to the route 
-// expect statuscode to be 400
-// expect result to be "already have this email"
+let server;
+let connection;
 
-// when a new registration entry with existing 
-// username is posted to the route 
-// expect statuscode to be 400
-// expect result to be "already have this username"
+beforeAll(async () => {
+	await _server.init();
+	server = _server.server;
+	connection = _server.connection;
+});
 
-// when a new registration entry with non-valid 
-// email is posted to the route 
-// expect statuscode to be 400
-// expect result to be "email is not valid"
 
-// when a new registration entry with a password
-// with a length of less than 8 
-// expect statuscode to be 400
-// expect result to be "password is not strong enough"
+afterAll(async () => {
+	server.stop();
+	connection.close();
+});
+
+describe('registration tests', () => {
+	test('registers a user when provided with a valid form', async () => {
+		
+		const response = await server.inject({
+	        method: 'POST',
+	        url: '/register',
+	        payload: {
+	        	"username": "john-doe",
+	        	"name": "John Doe",
+	        	"email": "john@doe.com",
+	        	"password": "testtest"
+	        }
+	    });
+
+	    var payload = JSON.parse(response.payload)
+
+	    expect.assertions(2);
+	    expect(payload.status).toBe(201);
+	    expect(payload.message).toBe("success");
+	});
+
+	test('does not register a user when a registered email is provided', async () => {
+		
+		const response = await server.inject({
+	        method: 'POST',
+	        url: '/register',
+	        payload: {
+	        	"username": "john-doe1",
+	        	"name": "John Doe",
+	        	"email": "john@doe.com",
+	        	"password": "testtest"
+	        }
+	    });
+
+		var payload = JSON.parse(response.payload)
+		
+	    expect.assertions(2);
+	    expect(payload.status).toBe(400);
+	    expect(payload.message).toBe("already have this email");
+	});
+
+	test('does not register a user when a registered username is provided', async () => {
+		
+		const response = await server.inject({
+	        method: 'POST',
+	        url: '/register',
+	        payload: {
+	        	"username": "john-doe",
+	        	"name": "John Doe",
+	        	"email": "john1@doe.com",
+	        	"password": "testtest"
+	        }
+	    });
+
+		var payload = JSON.parse(response.payload)
+
+	    expect.assertions(2);
+	    expect(payload.status).toBe(400);
+	    expect(payload.message).toBe("already have this username");
+	});
+
+	test('does not register a user when password is not valid', async () => {
+		
+		const response = await server.inject({
+	        method: 'POST',
+	        url: '/register',
+	        payload: {
+	        	"username": "john-doe1",
+	        	"name": "John Doe",
+	        	"email": "john1@doe.com",
+	        	"password": "test"
+	        }
+	    });
+
+		var payload = JSON.parse(response.payload)
+
+	    expect.assertions(2);
+	    expect(payload.status).toBe(400);
+	    expect(payload.message).toBe("password is not strong enough");
+	});
+
+	test('does not register a user when email is not valid', async () => {
+		
+		const response = await server.inject({
+	        method: 'POST',
+	        url: '/register',
+	        payload: {
+	        	"username": "john-doe1",
+	        	"name": "John Doe",
+	        	"email": "john1",
+	        	"password": "testtest"
+	        }
+	    });
+
+		var payload = JSON.parse(response.payload)
+
+	    expect.assertions(2);
+	    expect(payload.status).toBe(400);
+	    expect(payload.message).toBe("email is not valid");
+	});
+
+
+
+})
 
 // END Registration Tests
