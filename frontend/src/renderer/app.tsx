@@ -1,5 +1,6 @@
 import React from 'react';
 import {LoginHeader} from './components/LoginHeader';
+import {Footer} from './components/Footer';
 import {LandingPage} from './components/LandingPage';
 import {Registration} from './components/Registration';
 
@@ -14,6 +15,8 @@ export const App: React.StatelessComponent<{}> = () => {
       	<div className="align-left"><LandingPage/></div>
       	<div className="align-right"><Registration/></div>
       </div>
+
+      <div className="footer"><Footer/></div>
     </div>
   );
 }

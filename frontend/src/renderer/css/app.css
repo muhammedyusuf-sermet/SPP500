@@ -26,4 +26,5 @@ body {
     width: 95%;
     margin: 20px auto;
     text-align: center;
+    display: flow-root;
 }
