@@ -1,7 +1,6 @@
 'use strict';
 
 const Typeorm = require('typeorm');
-const Bcrypt = require('bcrypt');
 const Hapi = require('hapi');
 
 const Server = Hapi.server({
@@ -22,75 +21,6 @@ Server.route({
     }
 });
 
-Server.route({
-    method: 'POST',
-    path: '/register',
-    handler: async function (request, h) {
-        var data = request.payload;
-        
-        // check if email is valid
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!re.test(String(data.email).toLowerCase())) {
-            return {
-                "status": 400,
-                "message": "email is not valid"
-            }
-        }
-
-        // check if username exists
-        var username_check = await Connection
-            .getRepository(User)
-            .createQueryBuilder("user")
-            .where("user.username = :username", { username: data.username })
-            .getOne();
-
-        if (username_check) {
-            return {
-                "status": 400,
-                "message": "already have this username"
-            }
-        }
-
-        // check if email exists
-        var email_check = await Connection
-            .getRepository(User)
-            .createQueryBuilder("user")
-            .where("user.email = :email", { email: data.email })
-            .getOne();
-
-        if (email_check) {
-            return {
-                "status": 400,
-                "message": "already have this email"
-            }
-        }
-
-        // check if password fails
-        if (data.password.length < 8) {
-            return {
-                "status": 400,
-                "message": "password is not strong enough"
-            }
-        }
-
-        var salt = Bcrypt.genSaltSync(10);
-        var hash = Bcrypt.hashSync(data.password, salt);
-
-        var repository = Connection.getRepository("User");
-        const user = await repository.insert({
-            name: data.name,
-            username: data.username,
-            password: hash,
-            email: data.email,
-            type: "user"
-        });
-
-        return {
-            "status": 201,
-            "message": "success"
-        }
-    }
-});
 
 const init = async () => {
     await Typeorm.createConnection({
@@ -123,5 +53,7 @@ process.on('unhandledRejection', (err) => {
 
 module.exports = {"init": init, "server": Server};
 
+var registration = require('./registration');
+Server.route(registration);
 
 init();
