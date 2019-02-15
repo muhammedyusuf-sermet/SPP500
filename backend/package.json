@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
+    "start": "npx ts-node server.ts",
     "parse": "npx ts-node Parse-Json.ts",
     "parse-yarn": "yarn run ts-node Parse-Json.ts"
   },
