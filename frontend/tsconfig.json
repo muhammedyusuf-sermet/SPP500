@@ -1,3 +1,10 @@
 {
-	"extends": "../tsconfig.json",
+	"extends": "./node_modules/electron-webpack/tsconfig-base.json",
+	"exclude": ["node_modules", "doc", "dist"],
+	"compilerOptions": {
+		"allowUnreachableCode": false,
+		"allowJs": false,
+		"strict": true,
+		"jsx": "react"
+	}
 }
