@@ -8,8 +8,8 @@ let Conditions: Array<any> = []
 
 fs.readFile('5e-SRD-Spells.json', ParseSpellData);
 fs.readFile('5e-SRD-Ability-Scores.json', ParseAbilityScoreData)
-fs.readFile('5e-SRD-Ability-Scores.json', ParseSkillData)
-fs.readFile('5e-SRD-Ability-Scores.json', ParseConditionData)
+fs.readFile('5e-SRD-Skills.json', ParseSkillData)
+fs.readFile('5e-SRD-Conditions.json', ParseConditionData)
 
 function ParseSpellData (err: any, data: any): void{
 
@@ -46,7 +46,7 @@ function ParseSpellData (err: any, data: any): void{
     }
 
     // Output all spells in console.
-    // console.log(Spells)
+    console.log(Spells)
 
     // Insert using query builder.
     // await getConnection()
@@ -77,7 +77,7 @@ function ParseAbilityScoreData (err: any, data: any): void{
         AbilityScores.push(abilityScore);
     }
     // Output all ability scores in console.
-    // console.log(AbilityScores)
+    console.log(AbilityScores)
 }
 
 function ParseSkillData (err: any, data: any): void{
@@ -88,12 +88,12 @@ function ParseSkillData (err: any, data: any): void{
     {
         let skill: any = 
         {
+            Ability_Score_Id: 1,
             Name: '',
-            Abbreviation: '',
             Description: '',
         }
-
-        skill.Abbreviation = Data[i]['name']
+        //skill.Ability_Score_Id = Data[i]
+        skill.Name = Data[i]['name']
         skill.Description = Data[i]['desc'][0]
         
         Skills.push(skill);
@@ -110,11 +110,10 @@ function ParseConditionData (err: any, data: any): void{
         let condition: any = 
         {
             Name: '',
-            Abbreviation: '',
             Description: '',
         }
 
-        condition.Abbreviation = Data[i]['name']
+        condition.Name = Data[i]['name']
         condition.Description = Data[i]['desc'][0]
         
         Conditions.push(condition);
