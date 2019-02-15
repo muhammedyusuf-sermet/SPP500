@@ -3,9 +3,13 @@
 var fs = require('fs');
 let Spells: Array<any> = [] // 5e-SRD-Spells.json
 let AbilityScores: Array<any> = [] // 5e-SRD-Ability-Scores.json
+let Skills: Array<any> = [] 
+let Conditions: Array<any> = [] 
 
 fs.readFile('5e-SRD-Spells.json', ParseSpellData);
 fs.readFile('5e-SRD-Ability-Scores.json', ParseAbilityScoreData)
+fs.readFile('5e-SRD-Ability-Scores.json', ParseSkillData)
+fs.readFile('5e-SRD-Ability-Scores.json', ParseConditionData)
 
 function ParseSpellData (err: any, data: any): void{
 
@@ -74,4 +78,46 @@ function ParseAbilityScoreData (err: any, data: any): void{
     }
     // Output all ability scores in console.
     // console.log(AbilityScores)
+}
+
+function ParseSkillData (err: any, data: any): void{
+
+    let Data: any = JSON.parse(data)
+    
+    for (let i in Data)
+    {
+        let skill: any = 
+        {
+            Name: '',
+            Abbreviation: '',
+            Description: '',
+        }
+
+        skill.Abbreviation = Data[i]['name']
+        skill.Description = Data[i]['desc'][0]
+        
+        Skills.push(skill);
+    }
+    console.log(Skills)
+}
+
+function ParseConditionData (err: any, data: any): void{
+
+    let Data: any = JSON.parse(data)
+    
+    for (let i in Data)
+    {
+        let condition: any = 
+        {
+            Name: '',
+            Abbreviation: '',
+            Description: '',
+        }
+
+        condition.Abbreviation = Data[i]['name']
+        condition.Description = Data[i]['desc'][0]
+        
+        Conditions.push(condition);
+    }
+    console.log(Conditions)
 }
