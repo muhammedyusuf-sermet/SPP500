@@ -9,7 +9,6 @@
         "password": "test",
         "database": "testDB"
       },
-      "autoSchemaSync": true,
       "entities": [
         "entity/*.js>"
       ],
