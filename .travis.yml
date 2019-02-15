@@ -7,5 +7,15 @@ before_install:
   - export PATH="$HOME/.yarn/bin:$PATH"
 cache:
   yarn: true
+matrix:
+  include:
+    - name: "Backend Pipeline"
+      env: PACKAGE_LOCATION=backend
+    - name: "Frontend Pipeline"
+      env: PACKAGE_LOCATION=frontend
+script: 
+  - cd $PACKAGE_LOCATION
+  - yarn install
+  - yarn test
 after_success:
     - bash <(curl -s https://codecov.io/bash)
