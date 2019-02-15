@@ -21,25 +21,25 @@ function ParseSpellData (err: any, data: any): void{
         {
             Name: '',
             Level: 1,
-            Casting_Time: '',
+            CastingTime: '',
             Range: '60 feet',
             Components: [],
             Material: '',
             Duration: '',
             Description: [],
-            Higher_Level: '',
+            HigherLevel: '',
             School: ''
         }
 
         spell.Name = Data[i]['name']
         spell.Level = Data[i]['level']
-        spell.Casting_Time = Data[i]['casting_time']
+        spell.CastingTime = Data[i]['casting_time']
         spell.Range = Data[i]['range']
         spell.Components = Data[i]['components']
         spell.Material = Data[i]['material']
         spell.Duration = Data[i]['duration']
         spell.Description = Data[i]['desc']
-        spell.Higher_Level = Data[i]['higher_level']
+        spell.HigherLevel = Data[i]['higher_level']
         spell.School = Data[i]['school']['name']
         
         Spells.push(spell);
@@ -88,11 +88,11 @@ function ParseSkillData (err: any, data: any): void{
     {
         let skill: any = 
         {
-            Ability_Score_Id: 1,
+            //AbilityScoreId: 1,
             Name: '',
             Description: '',
         }
-        //skill.Ability_Score_Id = Data[i]
+        //skill.AbilityScoreId = Data[i]
         skill.Name = Data[i]['name']
         skill.Description = Data[i]['desc'][0]
         
