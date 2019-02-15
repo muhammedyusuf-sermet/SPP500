@@ -1,8 +1,6 @@
 import * as Bcrypt from "bcrypt";
-import * as Typeorm from "typeorm";
 
 import {User} from "./entity/User";
-
 
 export async function Register(request, h) {
 	var data = request.payload;
@@ -64,23 +62,8 @@ export async function Register(request, h) {
 }
 
 
-const init_aux = async () => {
-	await Typeorm.createConnection({
-		"type": "postgres",
-		"host": process.env.HOST,
-		"port": Number(process.env.PORT),
-		"username": process.env.USERNAME,
-		"password": process.env.PASSWORD,
-		"database": process.env.DATABASE,
-		"synchronize": true,
-		"entities": [
-			User
-		]
-	}).then(async function (conn) {
-		console.log("connected")
-	}).catch(error => {
-		console.log('DB connection error: ', error)
-	});
-}
+// const init_aux = async () => {
+// 	await Database.Init();
+// }
 
-init_aux();
+// init_aux();
