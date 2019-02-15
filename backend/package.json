@@ -11,6 +11,8 @@
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
     "joi": "^14.3.1",
+    "pg": "^7.8.0",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^8.0.2",
     "typeorm": "^0.2.13",
     "typescript": "^3.3.3"
