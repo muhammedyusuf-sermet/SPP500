@@ -1,0 +1,20 @@
+[
+    {
+      "name": "default",
+      "driver": {
+        "type": "postgres",
+        "host": "pg_db",
+        "port": 5433,
+        "username": "postgres",
+        "password": "test",
+        "database": "testDB"
+      },
+      "autoSchemaSync": true,
+      "entities": [
+        "Database/Mock-Entity-Schema/*.js>"
+      ],
+      "cli": {
+        "entitiesDir": "Database/Mock-Entity-Schema"
+      }
+    }
+  ]

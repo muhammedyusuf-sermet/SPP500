@@ -3,12 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "parse": "npx ts-node Parse-Json.ts",
+    "parse-yarn": "yarn run ts-node Parse-Json.ts"
   },
   "dependencies": {
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
-    "joi": "^14.3.1"
+    "joi": "^14.3.1",
+    "ts-node": "^8.0.2",
+    "typeorm": "^0.2.13",
+    "typescript": "^3.3.3"
   },
   "devDependencies": {}
 }
