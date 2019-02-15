@@ -1,4 +1,5 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import { Skill } from "./Skill";
 
 @Entity()
 export class AbilityScore {
@@ -24,5 +25,8 @@ export class AbilityScore {
         length: 500
     })
     Description: string;
+    
+    @OneToMany(type => Skill, (skill : Skill) => skill.AbilityScore)
+    Skills: Skill[];
 
 }
