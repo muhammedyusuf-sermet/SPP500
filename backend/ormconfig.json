@@ -11,10 +11,10 @@
       },
       "autoSchemaSync": true,
       "entities": [
-        "Database/Mock-Entity-Schema/*.js>"
+        "entity/*.js>"
       ],
       "cli": {
-        "entitiesDir": "Database/Mock-Entity-Schema"
+        "entitiesDir": "entity"
       }
     }
   ]
