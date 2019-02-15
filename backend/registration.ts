@@ -3,7 +3,6 @@ import * as Typeorm from "typeorm";
 
 import {User} from "./entity/User";
 
-let Connection;
 
 export async function Register(request, h) {
 	var data = request.payload;
@@ -69,7 +68,7 @@ const init_aux = async () => {
 	await Typeorm.createConnection({
 		"type": "postgres",
 		"host": process.env.HOST,
-		"port": +process.env.PORT,
+		"port": Number(process.env.PORT),
 		"username": process.env.USERNAME,
 		"password": process.env.PASSWORD,
 		"database": process.env.DATABASE,
@@ -79,7 +78,6 @@ const init_aux = async () => {
 		]
 	}).then(async function (conn) {
 		console.log("connected")
-		Connection = conn;
 	}).catch(error => {
 		console.log('DB connection error: ', error)
 	});
