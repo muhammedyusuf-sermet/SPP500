@@ -1,4 +1,4 @@
-
+//import {getConnection} from "typeorm";
 var fs = require('fs');
 let Spells: Array<any> = []
 
@@ -37,6 +37,16 @@ function ParseSpellData (err: any, data: any): void{
         
         Spells.push(spell);
     }
+
     // Output all spells in console.
-    //console.log(Spells)
+    // console.log(Spells)
+
+    // Insert using query builder.
+    // await getConnection()
+    // .createQueryBuilder()
+    // .insert()
+    // .into(Spell)
+    // .values(Spells)
+    // .execute();
+    
 }
