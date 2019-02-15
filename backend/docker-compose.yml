@@ -11,4 +11,7 @@ services:
     image: postgres
     environment:
       - PGPORT=5433
+      - PGUSERNAME=postgres
+      - PGPASSWORD=test
+      - PGDATABASE=testDB
 
