@@ -224,7 +224,7 @@ CREATE TABLE "Monster" (
 -- stats of the monsters ability scores
 CREATE TABLE "Monster_Ability_Score" (
         "Monster_Id" integer REFERENCES "Monster" ("Id"),
-        "Damage_Type_Id" integer REFERENCES "Damage_Type" ("Id"),
+        "Ability_Score_Id" integer REFERENCES "Ability_Score" ("Id"),
         "Score" integer DEFAULT 0,
         PRIMARY KEY ("Monster_Id", "Damage_Type_Id"),
         CONSTRAINT Positive_Score CHECK ("Score" >= 0)
