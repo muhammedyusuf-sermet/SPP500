@@ -1,6 +1,7 @@
 //import {getConnection} from "typeorm";
+
 var fs = require('fs');
-let Spells: Array<any> = []
+let Spells: Array<any> = [] // 5e-SRD-Spells.json
 
 fs.readFile('5e-SRD-Spells.json', ParseSpellData);
 
@@ -47,6 +48,5 @@ function ParseSpellData (err: any, data: any): void{
     // .insert()
     // .into(Spell)
     // .values(Spells)
-    // .execute();
-    
+    // .execute();  
 }
