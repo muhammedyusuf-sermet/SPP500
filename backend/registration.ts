@@ -68,11 +68,11 @@ export async function Register(request, h) {
 const init_aux = async () => {
 	await Typeorm.createConnection({
 		"type": "postgres",
-		"host": "localhost",
-		"port": 5432,
-		"username": "postgres",
-		"password": "test",
-		"database": "sep",
+		"host": process.env.HOST,
+		"port": +process.env.PORT,
+		"username": process.env.USERNAME,
+		"password": process.env.PASSWORD,
+		"database": process.env.DATABASE,
 		"synchronize": true,
 		"entities": [
 			User
