@@ -1,4 +1,4 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import {Entity, Column, ManyToOne} from "typeorm";
 import { Monster } from "./Monster";
 import { AbilityScore } from "./AbilityScore";
 
