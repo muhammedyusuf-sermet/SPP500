@@ -16,7 +16,6 @@ export class Registration {
     	// check if username exists
     	var username_check = await User.find({ Username: data.username });
 
-
     	if (username_check.length > 0) {
             messages.push("This username is already in use.")
     	}
