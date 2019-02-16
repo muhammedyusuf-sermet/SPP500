@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn ts-node server.ts",
-    "test": "jest --forceExit --passWithNoTests --coverage"
+    "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
   "dependencies": {
     "@types/hapi": "^18.0.1",
