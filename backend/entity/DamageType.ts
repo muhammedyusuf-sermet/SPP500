@@ -1,4 +1,5 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import { MonsterDamageTypeResistance } from "./MonsterDamageTypeResistance";
 
 @Entity()
 export class DamageType {
@@ -18,5 +19,8 @@ export class DamageType {
         length: 500
     })
     Description: string;
+
+    @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.DamageType)
+    MonsterResistance: MonsterDamageTypeResistance[];
 
 }
