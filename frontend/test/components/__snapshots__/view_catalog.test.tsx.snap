@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the View Catalog Page renders correctly when the page is loaded 1`] = `
+<div
+  className="view-catalog-container"
+>
+  <h1
+    className="page-title"
+  >
+    View Catalog Items
+  </h1>
+  <div
+    className="tab-root"
+  >
+    <WithStyles(AppBar)
+      position="static"
+    >
+      <WithStyles(Tabs)
+        onChange={[Function]}
+        value={0}
+      >
+        <WithStyles(Tab)
+          label="Monsters"
+        />
+        <WithStyles(Tab)
+          label="Equipment"
+        />
+        <WithStyles(Tab)
+          label="Locations"
+        />
+        <WithStyles(Tab)
+          label="Buildings"
+        />
+        <WithStyles(Tab)
+          label="Characters"
+        />
+        <WithStyles(Tab)
+          label="Spells"
+        />
+      </WithStyles(Tabs)>
+    </WithStyles(AppBar)>
+    <TabContainer>
+      <Component />
+    </TabContainer>
+  </div>
+</div>
+`;
