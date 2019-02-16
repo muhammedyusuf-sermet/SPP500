@@ -1,8 +1,9 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany} from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 import { MonsterDamageTypeResistance } from "./MonsterDamageTypeResistance";
+import { Condition } from "./Condition";
 
 export enum Size {
     Tiny = "Tiny",
@@ -163,5 +164,8 @@ export class Monster {
 
     @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.Monster)
     DamageResistance: MonsterDamageTypeResistance[];
+    
+    @ManyToMany(() => Condition, condition => condition.MonsterImmunity)
+    ConditionImmunity: Condition[];
     
 }
