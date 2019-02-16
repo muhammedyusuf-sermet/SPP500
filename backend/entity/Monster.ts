@@ -1,6 +1,7 @@
 import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
+import { MonsterSavingThrow } from "./MonsterSavingThrow";
 
 export enum Size {
     Tiny = "Tiny",
@@ -154,7 +155,10 @@ export class Monster {
     AbilityScores: MonsterAbilityScore[];
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
-    Skills: MonsterSkill;
+    Skills: MonsterSkill[];
+
+    @OneToMany(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
+    SavingThrow: MonsterSavingThrow[];
 
     
 }
