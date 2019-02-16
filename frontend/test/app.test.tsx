@@ -2,6 +2,7 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {App} from '../src/renderer/app';
 
+
 describe('Test the Landing/Registration/Login Page', () => {
 	const appInstance = shallow(<App/>);
 
