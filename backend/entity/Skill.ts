@@ -1,5 +1,6 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, ManyToOne, OneToMany} from "typeorm";
 import { AbilityScore } from "./AbilityScore";
+import { MonsterSkill } from "./MonsterSkill";
 
 @Entity()
 export class Skill {
@@ -22,5 +23,8 @@ export class Skill {
         length: 500
     })
     Description: string;
+
+    @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Skill)
+    Monsters: MonsterSkill;
 
 }
