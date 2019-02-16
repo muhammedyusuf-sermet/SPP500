@@ -12,10 +12,10 @@ export enum ResistanceType {
 @Entity()
 export class MonsterDamageTypeResistance {
 
-    @ManyToOne(() => Monster, monster => monster.DamageResistance, { primary: true })
+    @ManyToOne(() => Monster, monster => monster.DamageResistances, { primary: true })
     Monster: Monster;
 
-    @ManyToOne(() => DamageType, damageType => damageType.MonsterResistance, { primary: true })
+    @ManyToOne(() => DamageType, damageType => damageType.ResistantMonsters, { primary: true })
     DamageType: DamageType;
     
     @Column({

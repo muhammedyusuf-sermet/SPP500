@@ -160,12 +160,12 @@ export class Monster {
     Skills: MonsterSkill[];
 
     @OneToMany(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
-    SavingThrow: MonsterSavingThrow[];
+    SavingThrows: MonsterSavingThrow[];
 
     @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.Monster)
-    DamageResistance: MonsterDamageTypeResistance[];
+    DamageResistances: MonsterDamageTypeResistance[];
     
-    @ManyToMany(() => Condition, condition => condition.MonsterImmunity)
+    @ManyToMany(() => Condition, condition => condition.ImmuneMonsters)
     ConditionImmunity: Condition[];
-    
+
 }

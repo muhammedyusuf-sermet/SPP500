@@ -35,6 +35,6 @@ export class AbilityScore {
     Monsters: MonsterAbilityScore[];
 
     @OneToMany(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.AbilityScore)
-    SavingThrow: MonsterSavingThrow[];
+    SavingThrows: MonsterSavingThrow[];
 
 }

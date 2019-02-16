@@ -21,6 +21,6 @@ export class DamageType {
     Description: string;
 
     @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.DamageType)
-    MonsterResistance: MonsterDamageTypeResistance[];
+    ResistantMonsters: MonsterDamageTypeResistance[];
 
 }

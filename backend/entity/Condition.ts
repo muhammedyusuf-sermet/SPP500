@@ -21,5 +21,5 @@ export class Condition {
     Description: string;
 
     @ManyToMany(() => Monster, monster => monster.ConditionImmunity)
-    MonsterImmunity: Monster[];
+    ImmuneMonsters: Monster[];
 }

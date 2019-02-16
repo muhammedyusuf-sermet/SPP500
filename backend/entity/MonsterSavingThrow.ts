@@ -5,10 +5,10 @@ import { AbilityScore } from "./AbilityScore";
 @Entity()
 export class MonsterSavingThrow {
 
-    @ManyToOne(() => Monster, monster => monster.SavingThrow, { primary: true })
+    @ManyToOne(() => Monster, monster => monster.SavingThrows, { primary: true })
     Monster: Monster;
 
-    @ManyToOne(() => AbilityScore, abilityScore => abilityScore.SavingThrow, { primary: true })
+    @ManyToOne(() => AbilityScore, abilityScore => abilityScore.SavingThrows, { primary: true })
     AbilityScore: AbilityScore;
     
     @Column({
