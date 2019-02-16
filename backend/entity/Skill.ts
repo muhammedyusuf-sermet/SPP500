@@ -7,7 +7,7 @@ export class Skill {
     @PrimaryGeneratedColumn()
     Id: number;
 
-    @ManyToOne(type => AbilityScore, (abilityScore : AbilityScore) => abilityScore.Skills)
+    @ManyToOne(() => AbilityScore, (abilityScore : AbilityScore) => abilityScore.Skills)
     AbilityScore: AbilityScore;
 
     @Index()

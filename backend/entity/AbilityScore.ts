@@ -26,7 +26,7 @@ export class AbilityScore {
     })
     Description: string;
     
-    @OneToMany(type => Skill, (skill : Skill) => skill.AbilityScore)
+    @OneToMany(() => Skill, (skill : Skill) => skill.AbilityScore)
     Skills: Skill[];
 
 }
