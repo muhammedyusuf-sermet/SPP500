@@ -2,6 +2,18 @@ import * as Bcrypt from "bcrypt";
 
 import {User} from "./entity/User";
 
+/*
+Parameters:
+ - username
+ - email
+ - password
+ - name
+Sample curl request,
+ curl --header "Content-Type: application/json" \
+ --request POST \
+ --data '{"username":"johndoe", "email": "john@doe.com", "name": "john", "password":"test"}' \
+ http://localhost:3000/register
+ */
 export class Registration {
     public async Register(request, h) {
     	var data = request.payload;
