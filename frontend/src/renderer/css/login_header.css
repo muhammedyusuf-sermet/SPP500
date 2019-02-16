@@ -1,0 +1,39 @@
+.login-header-container {
+	background-color: #0074D9;
+	text-align: center;
+	color: white;
+	height: 80px;
+}
+
+.login-header-container .left-block {
+	float: left;
+	width: 30%;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: left;
+	margin-left: 3%;
+}
+
+.login-header-container .right-block {
+	float: right;
+	width: 50%;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	padding-right: 10px;
+}
+
+.login-header-container .logo {
+	width: 50%;
+}
+
+.login-header-container .input {
+	margin-right: 10px;
+	color: white;
+	width: 35%;
+}
+
+.login-header-container .button {
+	width: 15%;
+}

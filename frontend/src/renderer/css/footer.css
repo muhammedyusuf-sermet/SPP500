@@ -1,0 +1,12 @@
+.footer-container {
+	background-color: #0074D9;
+	text-align: center;
+	color: white;
+	height: 40px;
+}
+
+.footer-container h5{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
