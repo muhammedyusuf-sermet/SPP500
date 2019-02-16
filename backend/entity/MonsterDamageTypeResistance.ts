@@ -1,6 +1,5 @@
-import {Entity, Column, ManyToOne} from "typeorm";
+import {Entity, Column, ManyToOne, BaseEntity} from "typeorm";
 import { Monster } from "./Monster";
-import { AbilityScore } from "./AbilityScore";
 import { DamageType } from "./DamageType";
 
 export enum ResistanceType {
@@ -10,7 +9,7 @@ export enum ResistanceType {
 }
 
 @Entity()
-export class MonsterDamageTypeResistance {
+export class MonsterDamageTypeResistance extends BaseEntity {
 
     @ManyToOne(() => Monster, monster => monster.DamageResistances, { primary: true })
     Monster: Monster;

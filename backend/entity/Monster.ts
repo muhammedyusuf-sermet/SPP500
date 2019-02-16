@@ -1,4 +1,4 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, JoinTable} from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
@@ -67,7 +67,7 @@ export enum Alignment {
 }
 
 @Entity()
-export class Monster {
+export class Monster extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     Id: number;
@@ -166,6 +166,7 @@ export class Monster {
     DamageResistances: MonsterDamageTypeResistance[];
     
     @ManyToMany(() => Condition, condition => condition.ImmuneMonsters)
+    @JoinTable()
     ConditionImmunity: Condition[];
 
 }

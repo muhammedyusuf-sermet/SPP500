@@ -1,4 +1,4 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, Check} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
 
 export enum SpellComponents {
     Verbal = "Verbal",
@@ -7,7 +7,7 @@ export enum SpellComponents {
 }
 
 @Entity()
-export class Spell {
+export class Spell extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     Id: number;

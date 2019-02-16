@@ -1,10 +1,10 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, BaseEntity} from "typeorm";
 import { Skill } from "./Skill";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 
 @Entity()
-export class AbilityScore {
+export class AbilityScore extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     Id: number;

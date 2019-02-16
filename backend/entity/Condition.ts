@@ -1,8 +1,8 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, ManyToMany} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, ManyToMany, BaseEntity} from "typeorm";
 import { Monster } from "./Monster";
 
 @Entity()
-export class Condition {
+export class Condition extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     Id: number;

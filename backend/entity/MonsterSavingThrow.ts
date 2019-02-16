@@ -1,9 +1,9 @@
-import {Entity, Column, ManyToOne} from "typeorm";
+import {Entity, Column, ManyToOne, BaseEntity} from "typeorm";
 import { Monster } from "./Monster";
 import { AbilityScore } from "./AbilityScore";
 
 @Entity()
-export class MonsterSavingThrow {
+export class MonsterSavingThrow extends BaseEntity {
 
     @ManyToOne(() => Monster, monster => monster.SavingThrows, { primary: true })
     Monster: Monster;

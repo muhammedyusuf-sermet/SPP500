@@ -1,8 +1,8 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, BaseEntity} from "typeorm";
 import { MonsterDamageTypeResistance } from "./MonsterDamageTypeResistance";
 
 @Entity()
-export class DamageType {
+export class DamageType extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     Id: number;
