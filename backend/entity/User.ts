@@ -4,27 +4,27 @@ import {BaseEntity, Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    Id: number;
 
     @Column({
         type: 'varchar',
         unique: true
     })
-    email: string;
+    Email: string;
 
     @Column({
         type: 'varchar',
         unique: true
     })
-    username: string;
+    Username: string;
 
     @Column({ type: 'varchar' })
-    name: string;
+    Name: string;
 
     @Column({ type: 'varchar' })
-    hashed_password: string;
+    HashedPassword: string;
 
     @Column({ type: 'varchar' })
-    type: string;
+    Type: string;
 
 }

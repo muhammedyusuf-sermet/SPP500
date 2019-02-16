@@ -4,7 +4,9 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
+    "noImplicitAny": false,
     "sourceMap": true,
+    "experimentalDecorators": true,
     "typeRoots": ["node_modules/@types"]
   },
   "include": [

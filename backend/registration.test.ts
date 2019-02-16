@@ -1,4 +1,4 @@
-import {Server} from "./server";
+import {Registration} from "./registration";
 
 describe('registration tests', () => {
 	var returnValue1 = { payload: {status: 201, messages: ['success']} };
@@ -10,9 +10,11 @@ describe('registration tests', () => {
 	var returnValue7 = { payload: {status: 400, messages: ['Password should be at least 8 characters.']} };
 	var returnValue8 = { payload: {status: 400, messages: ['Email is not valid, email needs to match the x@y.z format.']} };
 
-	const mockServer = jest.fn();
+	const mockRegistration = jest.fn();
 
-	mockServer.mockReturnValueOnce(returnValue1)
+	var reg = new Registration();
+
+	mockRegistration.mockReturnValueOnce(returnValue1)
 				.mockReturnValueOnce(returnValue2)
 				.mockReturnValueOnce(returnValue3)
 				.mockReturnValueOnce(returnValue4)
@@ -21,19 +23,17 @@ describe('registration tests', () => {
 				.mockReturnValueOnce(returnValue7)
 				.mockReturnValueOnce(returnValue8);
 
-	Server.inject = mockServer;
+	reg.Register = mockRegistration;
 
 	test('registers a user when provided with a valid form', async () => {
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe",
 				"name": "John Doe",
 				"email": "john@doe.com",
 				"password": "testtest"
-			}
-		});
+			},
+		}, null);
 
 		var payload = response['payload']
 
@@ -45,16 +45,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when a non-valid email and registered username are provided', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe",
 				"name": "John Doe",
 				"email": "johndoe.com",
 				"password": "testtest"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 		
@@ -67,16 +65,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when a registered email, registered username and, non-valid password are provided', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe",
 				"name": "John Doe",
 				"email": "john@doe.com",
 				"password": "test"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 		
@@ -90,16 +86,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when a registered email and registered username is provided', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe",
 				"name": "John Doe",
 				"email": "john@doe.com",
 				"password": "testtest"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 		
@@ -112,16 +106,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when a registered email is provided', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe1",
 				"name": "John Doe",
 				"email": "john@doe.com",
 				"password": "testtest"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 		
@@ -133,16 +125,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when a registered username is provided', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe",
 				"name": "John Doe",
 				"email": "john@doe1.com",
 				"password": "testtest"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 		
@@ -154,16 +144,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when password is not at least 8 characters', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe1",
 				"name": "John Doe",
 				"email": "john1@doe.com",
 				"password": "test"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 
@@ -176,16 +164,14 @@ describe('registration tests', () => {
 
 	test('does not register a user when email is not in the right format', async () => {
 		
-		const response = await Server.inject({
-			method: 'POST',
-			url: '/register',
+		const response = await reg.Register({
 			payload: {
 				"username": "john-doe1",
 				"name": "John Doe",
 				"email": "john1",
 				"password": "testtest"
 			}
-		});
+		}, null);
 
 		var payload = response['payload']
 		

@@ -4,25 +4,28 @@ import * as Hapi from "hapi";
 import * as Typeorm from "typeorm";
 
 import {User} from "./entity/User";
-import * as Register from "./registration";
+import {Registration} from "./registration";
 
 export const Server = new Hapi.Server({
 	port: 3000,
 	host: '0.0.0.0'
 });
 
-Server.route({
-	method: 'GET',
-	path: '/',
-	handler: function (request, h) {
-		return 'Hello, world!';
-	}
-});
+// Server.route({
+// 	method: 'GET',
+// 	path: '/',
+// 	handler: function (request, h) {
+// 		return 'Hello, world!';
+// 	}
+// });
 
 Server.route({
 	method: 'POST',
 	path: '/register',
-	handler: Register.Register
+	handler: function (request, h) {
+        var reg = new Registration();
+        return reg.Register(request, h);
+    }
 });
 
 
