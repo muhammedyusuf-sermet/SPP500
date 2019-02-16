@@ -1,5 +1,6 @@
 import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany} from "typeorm";
 import { Skill } from "./Skill";
+import { MonsterAbilityScore } from "./MonsterAbilityScore";
 
 @Entity()
 export class AbilityScore {
@@ -28,5 +29,8 @@ export class AbilityScore {
     
     @OneToMany(() => Skill, (skill : Skill) => skill.AbilityScore)
     Skills: Skill[];
+    
+    @OneToMany(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.AbilityScore)
+    Monsters: MonsterAbilityScore[];
 
 }
