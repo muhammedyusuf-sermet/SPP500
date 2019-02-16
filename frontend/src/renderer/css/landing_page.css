@@ -1,0 +1,16 @@
+.landing-container {
+	text-align: center;
+	border: 2px solid #0074D9;
+	border-radius: 15px;
+	padding: 15px;
+	color: #0074D9;
+}
+
+.logo {
+	width: 80%;
+}
+
+div.landing-container h1, div.landing-container h3 {
+	margin-block-start: 0.2em;
+	margin-block-end: 0.2em;
+}
