@@ -11,42 +11,34 @@ export const Server = new Hapi.Server({
 	host: '0.0.0.0'
 });
 
-// Server.route({
-// 	method: 'GET',
-// 	path: '/',
-// 	handler: function (request, h) {
-// 		return 'Hello, world!';
-// 	}
-// });
-
 Server.route({
 	method: 'POST',
 	path: '/register',
 	handler: function (request, h) {
-        var reg = new Registration();
-        return reg.Register(request, h);
-    }
+		var reg = new Registration();
+		return reg.Register(request, h);
+	}
 });
 
 
 export const init = async () => {
 	await Server.start();
-    await Typeorm.createConnection({
-        "type": "postgres",
-        "host": process.env.HOST,
-        "port": Number(process.env.PORT),
-        "username": process.env.USERNAME,
-        "password": process.env.PASSWORD,
-        "database": process.env.DATABASE,
-        "synchronize": true,
-        "entities": [
-            User
-        ]
-    }).then(async function (conn) {
-        console.log("connected")
-    }).catch(error => {
-        console.log('DB connection error: ', error)
-    });
+	await Typeorm.createConnection({
+		"type": "postgres",
+		"host": process.env.HOST,
+		"port": Number(process.env.PORT),
+		"username": process.env.USERNAME,
+		"password": process.env.PASSWORD,
+		"database": process.env.DATABASE,
+		"synchronize": true,
+		"entities": [
+			User
+		]
+	}).then(async function (conn) {
+		console.log("connected")
+	}).catch(error => {
+		console.log('DB connection error: ', error)
+	});
 	console.log(`Server running at: ${Server.info.uri}`);
 };
 
