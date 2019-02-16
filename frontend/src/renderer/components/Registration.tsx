@@ -40,6 +40,7 @@ export const Registration: React.StatelessComponent<{}> = () => {
 							id="email"
 							name="email"
 							label="E-mail Address"
+							type="email"
 							fullWidth
 							autoComplete="email"
 						/>
@@ -60,6 +61,7 @@ export const Registration: React.StatelessComponent<{}> = () => {
 							id="password"
 							name="password"
 							label="Password"
+							type="password"
 							fullWidth
 						/>
 					</Grid>
