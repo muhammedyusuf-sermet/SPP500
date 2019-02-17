@@ -4,3 +4,14 @@ services:
     build: .
     ports:
       - "3000:3000"
+    links:
+      - pg_db
+
+  pg_db:
+    image: postgres
+    environment:
+      - PGPORT=5433
+      - PGUSERNAME=postgres
+      - PGPASSWORD=test
+      - PGDATABASE=devDB
+
