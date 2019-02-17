@@ -1,12 +1,9 @@
 {
-    "version": "2.1.1",
     "compilerOptions": {
-        "lib": ["es5", "es6"],
-        "outDir": "build/compiled",
+        "outDir": "build",
         "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
-        "importHelpers": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
@@ -19,11 +16,17 @@
         "strictNullChecks": true,
         "noUnusedLocals": true,
         "downlevelIteration": true
+        "typeRoots": ["node_modules/@types"]
     },
+    "include": [
+        "*.ts"
+        "**/*.ts"
+    ],
     "exclude": [
         "tmp",
         "temp",
         "build",
         "node_modules"
-    ]
+    ],
+    
 }
