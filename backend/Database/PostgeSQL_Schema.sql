@@ -1,4 +1,11 @@
-﻿CREATE TYPE spell_components AS ENUM ('Verbal', 'Somatic', 'Material');
+﻿/***
+        THIS IS NOT THE ACTUAL SCHEMA.
+        THE SCHEMA IS DEFINED BY THE ENTITIES.
+        TypeORM MANAGES THE SCHEMA THROUGH MIGRATIONS.
+        DO NOT RUN THIS SCRIPT IT IS FOR REFERENCE ONLY.
+***/
+
+CREATE TYPE spell_components AS ENUM ('Verbal', 'Somatic', 'Material');
 
 CREATE TABLE "Spell" (
         "Id" serial PRIMARY KEY,
