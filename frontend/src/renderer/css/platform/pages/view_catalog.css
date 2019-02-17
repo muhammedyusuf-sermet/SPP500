@@ -1,0 +1,39 @@
+.view-catalog-container {
+	text-align: center;
+}
+.page-title {
+	padding: 5px 15px;
+	display: inline-block;
+}
+
+.view-catalog-container .tab-root {
+	flex-grow: 1;
+}
+
+.view-catalog-container .app-bar {
+	position: relative;
+}
+
+.view-catalog-container .layout {
+	width: auto;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.view-catalog-container .card-grid {
+	padding: 8px 0;
+}
+
+.view-catalog-container .card {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.view-catalog-container .card-media {
+	padding-top: 56.25%; /* 16:9 */
+}
+
+.view-catalog-container .card-content {
+	flex-grow: 1;
+}
