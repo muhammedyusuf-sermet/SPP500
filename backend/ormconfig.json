@@ -10,7 +10,7 @@
         "database": "devDB"
       },
       "entities": [
-        "entity/*.js>"
+        "entity/*.ts>"
       ],
       "cli": {
         "entitiesDir": "entity"
