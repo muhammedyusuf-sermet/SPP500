@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "test": "yarn run jest --passWithNoTests --coverage"
+    "start": "yarn ts-node server.ts",
+    "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
   "dependencies": {
     "@types/hapi": "^18.0.1",
+    "@types/node": "^11.9.4",
     "bcrypt": "^3.0.4",
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
