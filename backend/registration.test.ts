@@ -1,4 +1,3 @@
-import {User} from "./entity/User";
 import {Registration} from "./registration";
 
 jest.mock("./entity/User");
@@ -16,10 +15,10 @@ describe('registration tests', () => {
 				"email": "john@doe.com",
 				"password": "testtest"
 			},
-		}, null);
+		});
 
 
-		var payload = response['payload']
+		//var payload = response['payload']
 
 
 		expect.assertions(3);
@@ -37,7 +36,7 @@ describe('registration tests', () => {
 				"email": "johndoe.com",
 				"password": "testtest"
 			}
-		}, null);
+		});
 
 		// var payload = response['payload']
 		
@@ -57,7 +56,7 @@ describe('registration tests', () => {
 				"email": "john@doe.com",
 				"password": "test"
 			}
-		}, null);
+		});
 		
 		expect.assertions(5);
 		expect(response['status']).toBe(400);
@@ -76,7 +75,7 @@ describe('registration tests', () => {
 				"email": "john@doe.com",
 				"password": "testtest"
 			}
-		}, null);
+		});
 		
 		expect.assertions(4);
 		expect(response['status']).toBe(400);
@@ -94,7 +93,7 @@ describe('registration tests', () => {
 				"email": "john@doe.com",
 				"password": "testtest"
 			}
-		}, null);
+		});
 		
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
@@ -111,7 +110,7 @@ describe('registration tests', () => {
 				"email": "john@doe1.com",
 				"password": "testtest"
 			}
-		}, null);
+		});
 
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
@@ -128,7 +127,7 @@ describe('registration tests', () => {
 				"email": "john1@doe.com",
 				"password": "test"
 			}
-		}, null);
+		});
 
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
@@ -146,7 +145,7 @@ describe('registration tests', () => {
 				"email": "john1",
 				"password": "testtest"
 			}
-		}, null);
+		});
 
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
