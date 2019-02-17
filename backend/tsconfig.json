@@ -15,11 +15,11 @@
         "pretty": true,
         "strictNullChecks": true,
         "noUnusedLocals": true,
-        "downlevelIteration": true
+        "downlevelIteration": true,
         "typeRoots": ["node_modules/@types"]
     },
     "include": [
-        "*.ts"
+        "*.ts",
         "**/*.ts"
     ],
     "exclude": [
