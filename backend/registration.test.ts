@@ -1,4 +1,3 @@
-import {User} from "./entity/User";
 import {Registration} from "./registration";
 
 jest.mock("./entity/User");
@@ -19,7 +18,7 @@ describe('registration tests', () => {
 		}, null);
 
 
-		var payload = response['payload']
+		//var payload = response['payload']
 
 
 		expect.assertions(3);
