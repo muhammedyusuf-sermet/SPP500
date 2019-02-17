@@ -13,5 +13,5 @@ services:
       - PGPORT=5433
       - PGUSERNAME=postgres
       - PGPASSWORD=test
-      - PGDATABASE=DevDB
+      - PGDATABASE=devDB
 
