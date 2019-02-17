@@ -15,7 +15,7 @@ Sample curl request,
  http://localhost:3000/register
  */
 export class Registration {
-	public async Register(request, h) {
+	public async Register(request: {payload: any}) {
 		var data = request.payload;
 		var messages = [];
 

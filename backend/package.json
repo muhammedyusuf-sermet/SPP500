@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/hapi": "^18.0.1",
     "@types/node": "^11.9.4",
+    "@types/bcrypt": "^2.0.0",
     "bcrypt": "^3.0.4",
     "boom": "^7.3.0",
     "hapi": "^18.1.0",

@@ -40,9 +40,9 @@ export const Server = new Hapi.Server({
 Server.route({
 	method: 'POST',
 	path: '/register',
-	handler: function (request, h) {
+	handler: function (request) {
 		var reg = new Registration();
-		return reg.Register(request, h);
+		return reg.Register(request);
 	}
 });
 
