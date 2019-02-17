@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the Landing/Registration/Login Page renders correctly when the page is loaded 1`] = `
+<div
+  className="container-fluid"
+>
+  <div
+    className="header"
+  >
+    <Component />
+  </div>
+  <div
+    className="horizontal-block"
+  >
+    <div
+      className="align-left"
+    >
+      <Component />
+    </div>
+    <div
+      className="align-right"
+    >
+      <Component />
+    </div>
+  </div>
+  <div
+    className="footer"
+  >
+    <Component />
+  </div>
+</div>
+`;

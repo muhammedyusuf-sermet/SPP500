@@ -2,3 +2,8 @@
 dist/
 node_modules/
 thumbs.db
+coverage/
+frontend/coverage/
+backend/coverage/
+frontend/node_modules/
+backend/node_modules/

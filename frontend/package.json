@@ -1,35 +1,82 @@
 {
-  "name": "dm-tools",
-  "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {
-    "dev": "electron-webpack dev",
-    "compile": "electron-webpack",
-    "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "lint": "tslint --fix -p tsconfig.json",
-    "test": "yarn run jest --passWithNoTests --coverage"
-  },
-  "dependencies": {
-    "source-map-support": "^0.5.10"
-  },
-  "devDependencies": {
-    "electron": "4.0.1",
-    "electron-builder": "20.38.4",
-    "electron-webpack": "^2.6.2",
-    "electron-webpack-ts": "^3.1.1",
-    "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.9.1",
-    "jest": "^24.1.0",
-    "tslint": "^5.12.1",
-    "tslint-consistent-codestyle": "^1.15.0",
-    "typescript": "^3.3.3",
-    "webpack": "4.28.4"
-  },
-  "jest": {
-    "unmockedModulePathPatterns": [
-      "node_modules/react/",
-      "node_modules/enzyme/"
-    ]
-  }
+	"name": "dm-tools",
+	"version": "0.0.0",
+	"license": "MIT",
+	"scripts": {
+		"dev": "electron-webpack dev",
+		"compile": "electron-webpack",
+		"dist": "yarn compile && electron-builder",
+		"dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+		"lint": "tslint --fix -p tsconfig.json",
+		"test": "yarn run jest --passWithNoTests --coverage"
+	},
+	"dependencies": {
+		"@material-ui/core": "^3.9.2",
+		"@types/enzyme": "^3.1.18",
+		"@types/enzyme-adapter-react-16": "^1.0.4",
+		"@types/prop-types": "^15.5.9",
+		"boom": "^7.3.0",
+		"enzyme-to-json": "^3.3.5",
+		"hapi": "^18.1.0",
+		"jest-css-modules": "^1.1.0",
+		"joi": "^14.3.1",
+		"react": "16.8.1",
+		"react-dom": "16.8.1",
+		"source-map-support": "^0.5.10"
+	},
+	"devDependencies": {
+		"@types/jest": "^24.0.5",
+		"@types/react": "^16.8.3",
+		"@types/react-dom": "^16.8.1",
+		"electron": "4.0.1",
+		"electron-builder": "20.38.4",
+		"electron-webpack": "^2.6.2",
+		"electron-webpack-ts": "^3.1.1",
+		"enzyme": "^3.8.0",
+		"enzyme-adapter-react-16": "^1.9.1",
+		"jest": "^23.6.0",
+		"ts-jest": "^23.10.5",
+		"tslint": "^5.12.1",
+		"tslint-consistent-codestyle": "^1.15.0",
+		"typescript": "^3.3.3",
+		"webpack": "4.28.4"
+	},
+	"jest": {
+		"unmockedModulePathPatterns": [
+			"node_modules/react/",
+			"node_modules/enzyme/"
+		],
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+		"testPathIgnorePatterns": [
+			"/lib/",
+			"/node_modules/"
+		],
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js",
+			"jsx",
+			"json",
+			"node"
+		],
+		"moduleNameMapper": {
+			"\\.(css|jpg|png|svg)$": "<rootDir>/node_modules/jest-css-modules"
+		},
+		"collectCoverage": true,
+		"snapshotSerializers": [
+			"enzyme-to-json/serializer"
+		],
+		"setupTestFrameworkScriptFile": "<rootDir>/setupEnzyme.ts"
+	},
+	"electronWebpack": {
+		"main": {
+			"sourceDirectory": "src/main"
+		},
+		"renderer": {
+			"sourceDirectory": "src/renderer"
+		}
+	}
 }
