@@ -20,6 +20,10 @@ export class User {
 		return result
 	}
 
+	static findOne(a: any) {
+		return this.find(a)[0]
+	}
+
 	save() {
 		User.users.push(this)
 	}
