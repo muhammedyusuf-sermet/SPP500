@@ -25,6 +25,6 @@ export class Skill extends BaseEntity{
     Description: string;
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Skill)
-    Monsters: MonsterSkill;
+    Monsters: MonsterSkill[];
 
 }
