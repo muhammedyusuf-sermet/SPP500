@@ -28,7 +28,7 @@ export class AbilityScore extends BaseEntity {
     })
     Description: string;
     
-    @OneToMany(() => Skill, (skill : Skill) => skill.AbilityScore)
+    @OneToMany(() => Skill, skill => skill.AbilityScore)
     Skills: Skill[];
     
     @OneToMany(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.AbilityScore)
