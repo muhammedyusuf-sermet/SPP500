@@ -34,7 +34,6 @@ import {User} from "./entity/User";
 import {Registration} from "./registration";
 import {Login} from "./login";
 
-
 export const Server = new Hapi.Server({
 	port: 3000,
 	host: '0.0.0.0'
@@ -85,7 +84,7 @@ export const initServer = async () => {
 }
 
 
-const validate = async function (decoded, request) {
+const validate = async function (decoded: any, request: any) {
 	var user = await User.findOne({ Id: decoded.id });
 
 	if (user) {

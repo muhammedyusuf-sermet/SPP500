@@ -20,7 +20,7 @@ export class User {
 		return result
 	}
 
-	static findOne(a) {
+	static findOne(a: any) {
 		var result = User.users.slice(0);
 		for (let key in a) {
 			let value = a[key];

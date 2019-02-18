@@ -14,7 +14,7 @@ Sample curl request,
  http://localhost:3000/login
  */
 export class Login {
-	public async Login(request) {
+	public async Login(request: {payload: any}) {
 		var data = request.payload;
 
 		if((data.username || data.email ) && data.password){
@@ -36,10 +36,10 @@ export class Login {
 			}
 			
 			var pass_check = Bcrypt.compareSync(password, user.HashedPassword);
-
+			// var jwt_secret_key = ;
 			if (pass_check) {
 				var payload = {id: user.Id};
-				var token = JWT.sign(payload, process.env.JWTSECRET);
+				var token = JWT.sign(payload, String(process.env.JWTSECRET));
 
 				return {
 					"status": 201,

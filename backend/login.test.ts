@@ -1,4 +1,3 @@
-import {User} from "./entity/User";
 import {Registration} from "./registration";
 import {Login} from "./login";
 
@@ -8,7 +7,7 @@ jest.mock("./entity/User");
 describe('login tests', async () => {
 	beforeAll( async () => {
 		var reg = new Registration();
-		const response = await reg.Register({
+		await reg.Register({
 			payload: {
 				"username": "john-doe",
 				"name": "John Doe",
@@ -28,8 +27,6 @@ describe('login tests', async () => {
 			},
 		});
 
-		var payload = response['payload']
-
 		expect.assertions(3);
 		expect(response['status']).toBe(201);
 		expect(response['message']).toBe("Logged in successfully.");
@@ -43,8 +40,6 @@ describe('login tests', async () => {
 				"password": "testtest"
 			},
 		});
-
-		var payload = response['payload']
 
 		expect.assertions(3);
 		expect(response['status']).toBe(201);
@@ -60,8 +55,6 @@ describe('login tests', async () => {
 			},
 		});
 
-		var payload = response['payload']
-
 		expect.assertions(2);
 		expect(response['status']).toBe(400);
 		expect(response['message']).toBe("Given credentials do not match with our records.");
@@ -74,8 +67,6 @@ describe('login tests', async () => {
 				"password": "test"
 			},
 		});
-
-		var payload = response['payload']
 
 		expect.assertions(2);
 		expect(response['status']).toBe(400);
@@ -90,8 +81,6 @@ describe('login tests', async () => {
 			},
 		});
 
-		var payload = response['payload']
-
 		expect.assertions(2);
 		expect(response['status']).toBe(400);
 		expect(response['message']).toBe("Given credentials do not match with our records.");
@@ -105,8 +94,6 @@ describe('login tests', async () => {
 			},
 		});
 
-		var payload = response['payload']
-
 		expect.assertions(2);
 		expect(response['status']).toBe(400);
 		expect(response['message']).toBe("Given credentials do not match with our records.");
@@ -119,8 +106,6 @@ describe('login tests', async () => {
 				"password": "test"
 			},
 		});
-
-		var payload = response['payload']
 
 		expect.assertions(2);
 		expect(response['status']).toBe(400);
