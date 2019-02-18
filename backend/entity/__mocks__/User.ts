@@ -21,15 +21,7 @@ export class User {
 	}
 
 	static findOne(a: any) {
-		var result = User.users.slice(0);
-		for (let key in a) {
-			let value = a[key];
-			result = result.filter(function (el) {
-				return el[key] == value;
-			});
-		}
-
-		return result[0]
+		return this.find(a)[0]
 	}
 
 	save() {
