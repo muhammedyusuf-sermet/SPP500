@@ -10,9 +10,11 @@
     "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
   "dependencies": {
-    "@types/hapi": "^18.0.1",
-    "@types/node": "^11.9.4",
     "@types/bcrypt": "^2.0.0",
+    "@types/hapi": "^18.0.1",
+    "@types/hapi-auth-jwt2": "^8.0.2",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/node": "^11.9.4",
     "bcrypt": "^3.0.4",
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
