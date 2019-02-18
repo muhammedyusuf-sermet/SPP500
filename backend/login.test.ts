@@ -1,4 +1,6 @@
-import {Registration} from "./registration";
+import * as Bcrypt from "bcrypt";
+
+import {User} from "./entity/User";
 import {Login} from "./login";
 
 jest.mock("./entity/User");
@@ -6,15 +8,16 @@ jest.mock("./entity/User");
 
 describe('login tests', async () => {
 	beforeAll( async () => {
-		var reg = new Registration();
-		await reg.Register({
-			payload: {
-				"username": "john-doe",
-				"name": "John Doe",
-				"email": "john@doe.com",
-				"password": "testtest"
-			},
-		});
+		var salt = Bcrypt.genSaltSync(10);
+		var hash = Bcrypt.hashSync("testtest", salt);
+
+		const user = new User();
+		user.Name = "John Doe";
+		user.Username = "john-doe";
+		user.HashedPassword = hash;
+		user.Email = "john@doe.com";
+		user.Type = "user";
+		await user.save();
 	});
 
 	var log = new Login();
