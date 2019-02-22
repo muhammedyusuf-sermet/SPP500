@@ -6,6 +6,7 @@
     "connect": "npx ts-node server.ts",
     "parse": "npx ts-node Parse-Json.ts",
     "parse-yarn": "yarn run ts-node Parse-Json.ts",
+    "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
     "start": "yarn ts-node server.ts",
     "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
