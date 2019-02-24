@@ -8,7 +8,8 @@
 		"dist": "yarn compile && electron-builder",
 		"dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
 		"lint": "tslint --fix -p tsconfig.json",
-		"test": "yarn run jest --passWithNoTests --coverage"
+		"test": "yarn run jest --passWithNoTests --coverage",
+		"updateSnapshots": "yarn run jest --updateSnapshot"
 	},
 	"dependencies": {
 		"@material-ui/core": "^3.9.2",
