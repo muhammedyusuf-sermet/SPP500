@@ -1,29 +1,3 @@
-/* EXAMPLE USE OF typeorm
-import {createConnection} from "typeorm";
-import {Post} from "./entity/Post";
-import {Category} from "./entity/Category";
-
-// connection settings are in the "ormconfig.json" file
-createConnection().then(async connection => {
-
-    const category1 = new Category();
-    category1.name = "TypeScript";
-    await connection.manager.save(category1);
-
-    const category2 = new Category();
-    category2.name = "Programming";
-    await connection.manager.save(category2);
-
-    const post = new Post();
-    post.title = "Control flow based type analysis";
-    post.text = `TypeScript 2.0 implements a control flow-based type analysis for local variables and parameters.`;
-    post.categories = [category1, category2];
-
-    await connection.manager.save(post);
-
-    console.log("Post has been saved: ", post);
-
-}).catch(error => console.log("Error: ", error));*/
 'use strict';
 
 import * as Hapi from "hapi";
@@ -80,6 +54,18 @@ export const initServer = async () => {
 				"message": "This is a secret content."
 			};
 		}
+	},
+	{
+		method: 'GET',
+		path: '/test',
+		options: { auth: false },
+		handler: function (request) {
+			console.log("test request with docker update!")
+			return {
+				"status": 200,
+				"message": "This is test content."
+			};
+		}
 	}]);
 }
 
@@ -97,22 +83,13 @@ const validate = async function (decoded: any, request: any) {
 export const init = async () => {
 	await initServer();
 	await Server.start();
-	await Typeorm.createConnection({
-		"type": "postgres",
-		"host": process.env.HOST,
-		"port": Number(process.env.PORT),
-		"username": process.env.USERNAME,
-		"password": process.env.PASSWORD,
-		"database": process.env.DATABASE,
-		"synchronize": true,
-		"entities": [
-			User
-		]
-	}).then(async function (conn) {
-		console.log("connected")
-	}).catch(error => {
-		console.log('DB connection error: ', error)
-	});
+	// This sets up active record ? maybe ?
+	// This reads from ormconfig.ts
+	if (Typeorm.createConnection()){
+		console.log("Connected to DB.")
+	} else {
+		console.log('DB connection error.');
+	}
 	console.log(`Server running at: ${Server.info.uri}`);
 };
 
