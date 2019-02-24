@@ -1,17 +1,21 @@
-version: '3'
+version: "3"
 services:
+  postgres_database:
+    image: postgres:10-alpine
+    restart: "no"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: local
+      POSTGRES_DB: devDB
+    ports:
+      - 5433:5432
+  
   server:
     build: .
     ports:
-      - "3000:3000"
+      - 3000:3000
     links:
-      - pg_db
+      - postgres_database
 
-  pg_db:
-    image: postgres
-    environment:
-      - PGPORT=5433
-      - PGUSERNAME=postgres
-      - PGPASSWORD=test
-      - PGDATABASE=devDB
+  
 
