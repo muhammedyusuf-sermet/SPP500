@@ -1,32 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test the Landing/Registration/Login Page renders correctly when the page is loaded 1`] = `
-<div
-  className="container-fluid"
->
-  <div
-    className="header"
-  >
-    <Component />
+<BrowserRouter>
+  <div>
+    <ul>
+      <li>
+        <Link
+          replace={false}
+          to="/"
+        >
+          Home
+        </Link>
+        <Link
+          replace={false}
+          to="/registration"
+        >
+          Home
+        </Link>
+      </li>
+    </ul>
+    <hr />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/"
+    />
+    <Route
+      component={[Function]}
+      path="/registration"
+    />
   </div>
-  <div
-    className="horizontal-block"
-  >
-    <div
-      className="align-left"
-    >
-      <Component />
-    </div>
-    <div
-      className="align-right"
-    >
-      <Component />
-    </div>
-  </div>
-  <div
-    className="footer"
-  >
-    <Component />
-  </div>
-</div>
+</BrowserRouter>
 `;
