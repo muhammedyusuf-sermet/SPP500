@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {LoginHeader} from './components/LoginHeader';
-import {Footer} from './components/Footer';
-import {LandingPage} from './components/LandingPage';
-import {Registration} from './components/Registration';
+
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import './css/app.css';
+import { HomePage } from './components/Home';
+import { Registration } from './components/Registration';
 
 type AppProps = {}
 
@@ -12,20 +12,22 @@ export class App extends React.Component<{}> {
 	constructor(props: AppProps) {
 		super(props);
 	}
-
 	render() {
 		return (
-			<div className="container-fluid">
-				<div className="header"><LoginHeader/></div>
-			
-				<div className="horizontal-block">
-					<div className="align-left"><LandingPage/></div>
-					<div className="align-right"><Registration/></div>
-				</div>
+			<Router>
+				<div>
+					<ul>
+						<li>
+							<Link to="/">Home</Link>
+							<Link to="/registration">Home</Link>
+						</li>
+					</ul>
+					<hr />
 
-				<div className="footer"><Footer/></div>
-			</div>
+					<Route exact path="/" component={HomePage} />
+					<Route path="/registration" component={Registration} />
+				</div>
+			</Router>
 		);
 	}
-
 }
