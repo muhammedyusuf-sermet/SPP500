@@ -106,6 +106,40 @@ export const MonsterRaceNames = new Map<number, string>([
 	[MonsterRace.Grimlock, "Grimlock"],
 ])
 
+export const enum MonsterAlignment {
+	Unaligned,
+	AnyAlignment,
+	LawfulGood,
+	LawfulNeutral,
+	LawfulEvil,
+	NeutralGood,
+	Neutral,
+	NeutralEvil,
+	ChaoticGood,
+	ChaoticNeutral,
+	ChaoticEvil,
+}
+
+export const MonsterAlignmentNames = new Map<number, string>([
+	[MonsterSize.Tiny, "Tiny"],
+	[MonsterSize.Small, "Small"],
+	[MonsterSize.Medium, "Medium"],
+	[MonsterSize.Large, "Large"],
+	[MonsterSize.Huge, "Huge"],
+	[MonsterSize.Gargantuan, "Gargantuan"],
+	Unaligned = "Unaligned",
+    AnyAlignment = "AnyAlignment",
+    LawfulDood = "LawfulDood",
+    LawfulNeutral = "LawfulNeutral",
+    LawfulEvil = "LawfulEvil",
+    NeutralGood = "NeutralGood",
+    Neutral = "Neutral",
+    NeutralEvil = "NeutralEvil",
+    ChaoticGood = "ChaoticGood",
+    ChaoticNeutral = "ChaoticNeutral",
+    ChaoticEvil = "ChaoticEvil"
+])
+
 export interface IMonsterAbilities {
 	name: string,
 	description: string,
