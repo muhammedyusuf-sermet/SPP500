@@ -121,23 +121,17 @@ export const enum MonsterAlignment {
 }
 
 export const MonsterAlignmentNames = new Map<number, string>([
-	[MonsterSize.Tiny, "Tiny"],
-	[MonsterSize.Small, "Small"],
-	[MonsterSize.Medium, "Medium"],
-	[MonsterSize.Large, "Large"],
-	[MonsterSize.Huge, "Huge"],
-	[MonsterSize.Gargantuan, "Gargantuan"],
-	Unaligned = "Unaligned",
-    AnyAlignment = "AnyAlignment",
-    LawfulDood = "LawfulDood",
-    LawfulNeutral = "LawfulNeutral",
-    LawfulEvil = "LawfulEvil",
-    NeutralGood = "NeutralGood",
-    Neutral = "Neutral",
-    NeutralEvil = "NeutralEvil",
-    ChaoticGood = "ChaoticGood",
-    ChaoticNeutral = "ChaoticNeutral",
-    ChaoticEvil = "ChaoticEvil"
+	[MonsterAlignment.Unaligned, "Unaligned"],
+	[MonsterAlignment.AnyAlignment, "Any Alignment"],
+	[MonsterAlignment.LawfulGood, "Lawful Good"],
+	[MonsterAlignment.LawfulNeutral, "Lawful Neutral"],
+	[MonsterAlignment.LawfulEvil, "Lawful Evil"],
+	[MonsterAlignment.NeutralGood, "Neutral Good"],
+	[MonsterAlignment.Neutral, "Neutral"],
+	[MonsterAlignment.NeutralEvil, "Neutral Evil"],
+	[MonsterAlignment.ChaoticGood, "Chaotic Good"],
+	[MonsterAlignment.ChaoticNeutral, "Chaotic Neutral"],
+	[MonsterAlignment.ChaoticEvil, "Chaotic Evil"],
 ])
 
 export interface IMonsterAbilities {
