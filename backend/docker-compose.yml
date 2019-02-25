@@ -16,6 +16,18 @@ services:
       - 3000:3000
     links:
       - postgres_database
+    depends_on:
+      - postgres_database
+    command: >
+      /bin/bash -c "
+        while ! nc -z postgres_database 5432;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+        yarn run start;
+      "
 
   
 
