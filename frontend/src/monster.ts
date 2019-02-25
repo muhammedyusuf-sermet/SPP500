@@ -66,6 +66,46 @@ export enum MonsterEnvironment {
 	Urban = "Urban",
 }
 
+export const enum MonsterRace {
+	AnyRace,
+	Devil,
+	Demon,
+	Human,
+	Shapechanger,
+	Goblinoid,
+	Titan,
+	Gnoll,
+	Gnome,
+	Dwarf,
+	Elf,
+	Orc,
+	Kobold,
+	Lizardfolk,
+	Merfolk,
+	Sahuagin,
+	Grimlock,
+}
+
+export const MonsterRaceNames = new Map<number, string>([
+	[MonsterRace.AnyRace, "AnyRace"],
+	[MonsterRace.Devil, "Devil"],
+	[MonsterRace.Demon, "Demon"],
+	[MonsterRace.Human, "Human"],
+	[MonsterRace.Shapechanger, "Shapechanger"],
+	[MonsterRace.Goblinoid, "Goblinoid"],
+	[MonsterRace.Titan, "Titan"],
+	[MonsterRace.Gnoll, "Gnoll"],
+	[MonsterRace.Gnome, "Gnome"],
+	[MonsterRace.Dwarf, "Dwarf"],
+	[MonsterRace.Elf, "Elf"],
+	[MonsterRace.Orc, "Orc"],
+	[MonsterRace.Kobold, "Kobold"],
+	[MonsterRace.Lizardfolk, "Lizardfolk"],
+	[MonsterRace.Merfolk, "Merfolk"],
+	[MonsterRace.Sahuagin, "Sahuagin"],
+	[MonsterRace.Grimlock, "Grimlock"],
+])
+
 export interface IMonsterAbilities {
 	name: string,
 	description: string,
