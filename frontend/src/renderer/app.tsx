@@ -19,7 +19,7 @@ export class App extends React.Component<{}> {
 					<ul>
 						<li>
 							<Link to="/">Home</Link>
-							<Link to="/registration">Home</Link>
+							<Link to="/registration">Registration</Link>
 						</li>
 					</ul>
 					<hr />
