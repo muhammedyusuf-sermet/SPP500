@@ -4,7 +4,6 @@ export class Initialize1551147887406 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`CREATE TABLE "encounter" ("Id" SERIAL NOT NULL, "Name" character varying(50) NOT NULL, "Description" character varying(1000) NOT NULL, "creatorId" integer, CONSTRAINT "PK_c754ade895137904bc19eaca5f7" PRIMARY KEY ("Id"))`);
-        await queryRunner.query(`CREATE INDEX "IDX_7ee94c4c72fc31071ca981b58e" ON "encounter" ("Name") `);
         await queryRunner.query(`CREATE TABLE "encounter__monsters_monster" ("encounterId" integer NOT NULL, "monsterId" integer NOT NULL, CONSTRAINT "PK_157e524d8a5f118f5c51c8aeeec" PRIMARY KEY ("encounterId", "monsterId"))`);
         await queryRunner.query(`CREATE TABLE "monster__encounters_encounter" ("monsterId" integer NOT NULL, "encounterId" integer NOT NULL, CONSTRAINT "PK_e3a9dddbe8dacdf8c586f638472" PRIMARY KEY ("monsterId", "encounterId"))`);
         await queryRunner.query(`ALTER TABLE "encounter" ADD CONSTRAINT "FK_1e0f1d64c0c913509e260c741c4" FOREIGN KEY ("creatorId") REFERENCES "user"("Id")`);
@@ -22,7 +21,6 @@ export class Initialize1551147887406 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "encounter" DROP CONSTRAINT "FK_1e0f1d64c0c913509e260c741c4"`);
         await queryRunner.query(`DROP TABLE "monster__encounters_encounter"`);
         await queryRunner.query(`DROP TABLE "encounter__monsters_monster"`);
-        await queryRunner.query(`DROP INDEX "IDX_7ee94c4c72fc31071ca981b58e"`);
         await queryRunner.query(`DROP TABLE "encounter"`);
     }
 

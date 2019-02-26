@@ -1,4 +1,4 @@
-import { Entity, Column, Index, PrimaryGeneratedColumn, ManyToMany, BaseEntity, JoinTable, ManyToOne} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BaseEntity, JoinTable, ManyToOne} from "typeorm";
 import { Monster } from "./Monster";
 import { User } from "./User";
 
@@ -11,7 +11,6 @@ export class Encounter extends BaseEntity {
     @ManyToOne(() => User, user => user.CreatedEncounters)
     Creator: User;
 
-    @Index()
     @Column({
         type: "varchar",
         length: 50
