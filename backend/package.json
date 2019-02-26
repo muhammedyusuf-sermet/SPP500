@@ -3,16 +3,30 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "test": "yarn run jest --passWithNoTests --coverage"
+    "connect": "npx ts-node server.ts",
+    "parse": "npx ts-node Parse-Json.ts",
+    "parse-yarn": "yarn run ts-node Parse-Json.ts",
+    "seed:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c seed -n Initialize",
+    "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
+    "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
+    "start": "yarn run seed:run && yarn ts-node server.ts",
+    "dev-start": "yarn ts-node server.ts",
+    "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
   "dependencies": {
+    "@types/bcrypt": "^2.0.0",
     "@types/hapi": "^18.0.1",
+    "@types/hapi-auth-jwt2": "^8.0.2",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/node": "^11.9.4",
     "bcrypt": "^3.0.4",
     "boom": "^7.3.0",
     "hapi": "^18.1.0",
+    "hapi-auth-jwt2": "^8.3.0",
     "joi": "^14.3.1",
+    "jsonwebtoken": "^8.4.0",
     "pg": "^7.8.0",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^8.0.2",
     "typeorm": "^0.2.13",
     "typescript": "^3.3.3"
@@ -20,8 +34,9 @@
   "devDependencies": {
     "@types/jest": "^24.0.5",
     "jest": "^24.1.0",
-    "ts-jest": "^23.10.5"
-  }, "jest": {
+    "ts-jest": "^24.0.0"
+  },
+  "jest": {
     "moduleFileExtensions": [
       "ts",
       "tsx",

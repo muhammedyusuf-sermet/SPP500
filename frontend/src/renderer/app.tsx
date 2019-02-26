@@ -1,17 +1,33 @@
 import * as React from 'react';
-import {LoginHeader} from './components/LoginHeader';
-import {Footer} from './components/Footer';
-import {LandingPage} from './components/LandingPage';
-import {Registration} from './components/Registration';
-import {MonsterCreation} from "./components/MonsterCreation";
+
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import './css/app.css';
+import { HomePage } from './components/Home';
+import { Registration } from './components/Registration';
 
-export const App: React.StatelessComponent<{}> = () => {
-  return (
-    <div className="container-fluid">
-      <div className="header"><LoginHeader/></div>
-        <div><MonsterCreation/></div>
-      </div>
-  );
+type AppProps = {}
+
+export class App extends React.Component<{}> {
+	constructor(props: AppProps) {
+		super(props);
+	}
+	render() {
+		return (
+			<Router>
+				<div>
+					<ul>
+						<li>
+							<Link to="/">Home</Link>
+							<Link to="/registration">Registration</Link>
+						</li>
+					</ul>
+					<hr />
+
+					<Route exact path="/" component={HomePage} />
+					<Route path="/registration" component={Registration} />
+				</div>
+			</Router>
+		);
+	}
 }

@@ -5,6 +5,7 @@
         "allowUnreachableCode": false,
         "allowJs": false,
         "strict": true,
-        "jsx": "react"
+        "jsx": "react",
+        "noImplicitAny": false,
     }
 }
