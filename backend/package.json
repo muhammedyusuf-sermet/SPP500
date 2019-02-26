@@ -9,7 +9,11 @@
     "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
     "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
     "parse-yarn": "yarn run ts-node Parse-Json.ts",
-    "start": "yarn ts-node server.ts",
+    "seed:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c seed -n Initialize",
+    "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
+    "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
+    "start": "yarn run seed:run && yarn ts-node server.ts",
+    "dev-start": "yarn ts-node server.ts",
     "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
   "dependencies": {
@@ -33,7 +37,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.5",
     "jest": "^24.1.0",
-    "ts-jest": "^23.10.5"
+    "ts-jest": "^24.0.0"
   },
   "jest": {
     "moduleFileExtensions": [

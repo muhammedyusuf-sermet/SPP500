@@ -1,17 +1,30 @@
-version: '3'
+version: "3"
 services:
+  postgres_database:
+    image: postgres:10-alpine
+    restart: "no"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: local
+      POSTGRES_DB: devDB
+    ports:
+      - 5431:5432
+  
   server:
     build: .
     ports:
-      - "3000:3000"
+      - 3000:3000
     links:
-      - pg_db
+      - postgres_database
+    depends_on:
+      - postgres_database
+    command: >
+      /bin/bash -c "
+        echo Sleeping 10 seconds;
+        sleep 10;
+        echo Trying to connect;
+        yarn run start;
+      "
 
-  pg_db:
-    image: postgres
-    environment:
-      - PGPORT=5433
-      - PGUSERNAME=postgres
-      - PGPASSWORD=test
-      - PGDATABASE=devDB
+  
 

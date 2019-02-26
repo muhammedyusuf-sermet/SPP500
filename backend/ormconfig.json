@@ -1,4 +1,4 @@
-module.exports = [
+[
     {
         "name": "default",
         "type": "postgres",
@@ -16,7 +16,7 @@ module.exports = [
         ],
         "cli": {
             "entitiesDir": "./entity",
-            "migrationsDir": './migrations',
+            "migrationsDir": "./migrations"
         }
     },
     {
