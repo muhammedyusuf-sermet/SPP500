@@ -20,12 +20,9 @@ services:
       - postgres_database
     command: >
       /bin/bash -c "
-        while ! nc -z postgres_database 5432;
-        do
-          echo sleeping;
-          sleep 1;
-        done;
-        echo Connected!;
+        echo Sleeping 10 seconds;
+        sleep 10;
+        echo Trying to connect;
         yarn run start;
       "
 
