@@ -1,4 +1,5 @@
-import {BaseEntity, Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import { Encounter } from "./Encounter";
 
 @Entity()
 export class User extends BaseEntity {
@@ -26,5 +27,8 @@ export class User extends BaseEntity {
 
 	@Column({ type: 'varchar' })
 	Type: string;
+	
+	@OneToMany(() => Encounter, encounter => encounter.Creator)
+    CreatedEncounters: Encounter[];
 
 }

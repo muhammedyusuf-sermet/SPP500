@@ -4,6 +4,7 @@ import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 import { MonsterDamageTypeResistance } from "./MonsterDamageTypeResistance";
 import { Condition } from "./Condition";
+import { Encounter } from "./Encounter";
 
 export enum Size {
     Tiny = "Tiny",
@@ -168,5 +169,9 @@ export class Monster extends BaseEntity {
     @ManyToMany(() => Condition, condition => condition.ImmuneMonsters)
     @JoinTable()
     ConditionImmunity: Condition[];
+
+    @ManyToMany(() => Encounter, encounter => encounter.Monsters)
+    @JoinTable()
+    Encounters: Encounter[];
 
 }
