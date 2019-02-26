@@ -1,5 +1,7 @@
-FROM node:alpine
-ADD . /backend
+FROM node:10-slim
+COPY . /backend
 WORKDIR /backend
-RUN npm install
+EXPOSE 3000
+RUN npm install --global yarn
+RUN yarn install --production --force
 CMD ["npm", "start"]

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 

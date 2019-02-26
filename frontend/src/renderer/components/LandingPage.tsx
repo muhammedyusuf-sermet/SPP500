@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import '../css/landing_page.css';
 
 export const LandingPage: React.StatelessComponent<{}> = () => {
