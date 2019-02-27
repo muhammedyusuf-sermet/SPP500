@@ -1,5 +1,12 @@
 var fs = require('fs');
 
+function ToUpperCamelCase (value: string): string{
+    var lowerCamel: string =  value.toLowerCase().replace(/\s+(.)/g, function(match, group1) {
+        return group1.toUpperCase();
+    });
+    return lowerCamel.charAt(0).toUpperCase() + lowerCamel.substr(1); 
+}
+
 fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
 
     var monsters: Array<JSON> = []
@@ -35,9 +42,9 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
 
         monster.Name = Data[i]['name']
         monster.Size = Data[i]['size']
-        monster.Type = Data[i]['type']
+        monster.Type = ToUpperCamelCase(Data[i]['type'])
         monster.Race = Data[i]['subtype'] == '' ? 'AnyRace' : Data[i]['subtype']
-        monster.Alignment = Data[i]['alignment']
+        monster.Alignment = ToUpperCamelCase(Data[i]['alignment'])
         monster.ArmorClass = Data[i]['armor_class']
         monster.HitPoints = Data[i]['hit_points']
         monster.Damage = Data[i]['hit_dice']
@@ -62,12 +69,12 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         // TODO: add skills.
 
         // SavingThrows properties.
-        if (Data[i].hasOwnProperty('strength_save')) { monster.SavingThrows.StrengthSave = Data[i]['strength_save'] }
-        if (Data[i].hasOwnProperty('dexterity_save')) { monster.SavingThrows.DexteritySave = Data[i]['dexterity_save'] }
-        if (Data[i].hasOwnProperty('constitution_save')) { monster.SavingThrows.ConstitutionSave = Data[i]['constitution_save'] }
-        if (Data[i].hasOwnProperty('intelligence_save')) { monster.SavingThrows.IntelligenceSave = Data[i]['intelligence_save'] }
-        if (Data[i].hasOwnProperty('wisdom_save')) { monster.SavingThrows.WisdomSave = Data[i]['wisdom_save'] }
-        if (Data[i].hasOwnProperty('charisma_save')) { monster.SavingThrows.CharismaSave = Data[i]['charisma_save'] }
+        if (Data[i].hasOwnProperty('strength_save')) { monster.SavingThrows.Strength = Data[i]['strength_save'] }
+        if (Data[i].hasOwnProperty('dexterity_save')) { monster.SavingThrows.Dexterity = Data[i]['dexterity_save'] }
+        if (Data[i].hasOwnProperty('constitution_save')) { monster.SavingThrows.Constitution = Data[i]['constitution_save'] }
+        if (Data[i].hasOwnProperty('intelligence_save')) { monster.SavingThrows.Intelligence = Data[i]['intelligence_save'] }
+        if (Data[i].hasOwnProperty('wisdom_save')) { monster.SavingThrows.Wisdom = Data[i]['wisdom_save'] }
+        if (Data[i].hasOwnProperty('charisma_save')) { monster.SavingThrows.Charisma = Data[i]['charisma_save'] }
 
         monster.SpecialAbilities = Data[i]['special_abilities']
         monster.Actions = Data[i]['actions']

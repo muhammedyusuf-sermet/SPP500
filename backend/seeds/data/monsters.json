@@ -2,9 +2,9 @@
     {
         "Name": "Aboleth",
         "Size": "Large",
-        "Type": "aberration",
+        "Type": "Aberration",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 17,
         "HitPoints": 135,
         "Damage": "18d10",
@@ -25,9 +25,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 6,
-            "IntelligenceSave": 8,
-            "WisdomSave": 6
+            "Constitution": 6,
+            "Intelligence": 8,
+            "Wisdom": 6
         },
         "SpecialAbilities": [
             {
@@ -93,9 +93,9 @@
     {
         "Name": "Acolyte",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 10,
         "HitPoints": 9,
         "Damage": "2d8",
@@ -136,9 +136,9 @@
     {
         "Name": "Adult Black Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 19,
         "HitPoints": 195,
         "Damage": "17d12",
@@ -160,10 +160,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 10,
-            "WisdomSave": 6,
-            "CharismaSave": 8
+            "Dexterity": 7,
+            "Constitution": 10,
+            "Wisdom": 6,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -237,9 +237,9 @@
     {
         "Name": "Adult Blue Dracolich",
         "Size": "Huge",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 19,
         "HitPoints": 225,
         "Damage": "18d12",
@@ -333,9 +333,9 @@
     {
         "Name": "Adult Blue Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 19,
         "HitPoints": 225,
         "Damage": "18d12",
@@ -357,10 +357,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 11,
-            "WisdomSave": 7,
-            "CharismaSave": 9
+            "Dexterity": 5,
+            "Constitution": 11,
+            "Wisdom": 7,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -429,9 +429,9 @@
     {
         "Name": "Adult Brass Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 18,
         "HitPoints": 172,
         "Damage": "15d12",
@@ -453,10 +453,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 10,
-            "WisdomSave": 6,
-            "CharismaSave": 8
+            "Dexterity": 5,
+            "Constitution": 10,
+            "Wisdom": 6,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -508,9 +508,9 @@
     {
         "Name": "Adult Bronze Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 19,
         "HitPoints": 212,
         "Damage": "17d12",
@@ -532,10 +532,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 11,
-            "WisdomSave": 7,
-            "CharismaSave": 9
+            "Dexterity": 5,
+            "Constitution": 11,
+            "Wisdom": 7,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -609,9 +609,9 @@
     {
         "Name": "Adult Copper Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 18,
         "HitPoints": 184,
         "Damage": "16d12",
@@ -633,10 +633,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 10,
-            "WisdomSave": 7,
-            "CharismaSave": 8
+            "Dexterity": 6,
+            "Constitution": 10,
+            "Wisdom": 7,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -705,9 +705,9 @@
     {
         "Name": "Adult Gold Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 19,
         "HitPoints": 256,
         "Damage": "19d12",
@@ -729,10 +729,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 8,
-            "ConstitutionSave": 13,
-            "WisdomSave": 8,
-            "CharismaSave": 13
+            "Dexterity": 8,
+            "Constitution": 13,
+            "Wisdom": 8,
+            "Charisma": 13
         },
         "SpecialAbilities": [
             {
@@ -806,9 +806,9 @@
     {
         "Name": "Adult Green Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 19,
         "HitPoints": 207,
         "Damage": "18d12",
@@ -830,10 +830,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 10,
-            "WisdomSave": 7,
-            "CharismaSave": 8
+            "Dexterity": 6,
+            "Constitution": 10,
+            "Wisdom": 7,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -907,9 +907,9 @@
     {
         "Name": "Adult Red Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 19,
         "HitPoints": 256,
         "Damage": "19d12",
@@ -931,10 +931,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 13,
-            "WisdomSave": 7,
-            "CharismaSave": 11
+            "Dexterity": 6,
+            "Constitution": 13,
+            "Wisdom": 7,
+            "Charisma": 11
         },
         "SpecialAbilities": [
             {
@@ -1009,9 +1009,9 @@
     {
         "Name": "Adult Silver Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 19,
         "HitPoints": 243,
         "Damage": "18d12",
@@ -1033,10 +1033,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 12,
-            "WisdomSave": 6,
-            "CharismaSave": 10
+            "Dexterity": 5,
+            "Constitution": 12,
+            "Wisdom": 6,
+            "Charisma": 10
         },
         "SpecialAbilities": [
             {
@@ -1105,9 +1105,9 @@
     {
         "Name": "Adult White Dragon",
         "Size": "Huge",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 18,
         "HitPoints": 200,
         "Damage": "16d12",
@@ -1129,10 +1129,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 11,
-            "WisdomSave": 6,
-            "CharismaSave": 6
+            "Dexterity": 5,
+            "Constitution": 11,
+            "Wisdom": 6,
+            "Charisma": 6
         },
         "SpecialAbilities": [
             {
@@ -1206,9 +1206,9 @@
     {
         "Name": "Air Elemental",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 15,
         "HitPoints": 90,
         "Damage": "12d10",
@@ -1260,9 +1260,9 @@
     {
         "Name": "Ancient Black Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 22,
         "HitPoints": 367,
         "Damage": "21d20",
@@ -1284,10 +1284,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 9,
-            "ConstitutionSave": 14,
-            "WisdomSave": 9,
-            "CharismaSave": 11
+            "Dexterity": 9,
+            "Constitution": 14,
+            "Wisdom": 9,
+            "Charisma": 11
         },
         "SpecialAbilities": [
             {
@@ -1365,9 +1365,9 @@
     {
         "Name": "Ancient Blue Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 22,
         "HitPoints": 481,
         "Damage": "26d20",
@@ -1389,10 +1389,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 15,
-            "WisdomSave": 10,
-            "CharismaSave": 12
+            "Dexterity": 7,
+            "Constitution": 15,
+            "Wisdom": 10,
+            "Charisma": 12
         },
         "Actions": [
             {
@@ -1454,9 +1454,9 @@
     {
         "Name": "Ancient Brass Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 20,
         "HitPoints": 297,
         "Damage": "17d20",
@@ -1478,10 +1478,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 13,
-            "WisdomSave": 8,
-            "CharismaSave": 10
+            "Dexterity": 6,
+            "Constitution": 13,
+            "Wisdom": 8,
+            "Charisma": 10
         },
         "SpecialAbilities": [
             {
@@ -1555,9 +1555,9 @@
     {
         "Name": "Ancient Bronze Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 22,
         "HitPoints": 444,
         "Damage": "24d20",
@@ -1579,10 +1579,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 15,
-            "WisdomSave": 10,
-            "CharismaSave": 12
+            "Dexterity": 7,
+            "Constitution": 15,
+            "Wisdom": 10,
+            "Charisma": 12
         },
         "SpecialAbilities": [
             {
@@ -1661,9 +1661,9 @@
     {
         "Name": "Ancient Copper Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 21,
         "HitPoints": 350,
         "Damage": "20d20",
@@ -1685,10 +1685,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 8,
-            "ConstitutionSave": 14,
-            "WisdomSave": 10,
-            "CharismaSave": 11
+            "Dexterity": 8,
+            "Constitution": 14,
+            "Wisdom": 10,
+            "Charisma": 11
         },
         "SpecialAbilities": [
             {
@@ -1762,9 +1762,9 @@
     {
         "Name": "Ancient Gold Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 22,
         "HitPoints": 546,
         "Damage": "28d20",
@@ -1786,10 +1786,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 9,
-            "ConstitutionSave": 16,
-            "WisdomSave": 10,
-            "CharismaSave": 16
+            "Dexterity": 9,
+            "Constitution": 16,
+            "Wisdom": 10,
+            "Charisma": 16
         },
         "SpecialAbilities": [
             {
@@ -1868,9 +1868,9 @@
     {
         "Name": "Ancient Green Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 21,
         "HitPoints": 385,
         "Damage": "22d20",
@@ -1892,10 +1892,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 8,
-            "ConstitutionSave": 14,
-            "WisdomSave": 10,
-            "CharismaSave": 11
+            "Dexterity": 8,
+            "Constitution": 14,
+            "Wisdom": 10,
+            "Charisma": 11
         },
         "SpecialAbilities": [
             {
@@ -1969,9 +1969,9 @@
     {
         "Name": "Ancient Red Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 22,
         "HitPoints": 546,
         "Damage": "28d20",
@@ -1993,10 +1993,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 16,
-            "WisdomSave": 9,
-            "CharismaSave": 13
+            "Dexterity": 7,
+            "Constitution": 16,
+            "Wisdom": 9,
+            "Charisma": 13
         },
         "SpecialAbilities": [
             {
@@ -2065,9 +2065,9 @@
     {
         "Name": "Ancient Silver Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 22,
         "HitPoints": 487,
         "Damage": "25d20",
@@ -2089,10 +2089,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 16,
-            "WisdomSave": 9,
-            "CharismaSave": 13
+            "Dexterity": 7,
+            "Constitution": 16,
+            "Wisdom": 9,
+            "Charisma": 13
         },
         "SpecialAbilities": [
             {
@@ -2166,9 +2166,9 @@
     {
         "Name": "Ancient White Dragon",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 20,
         "HitPoints": 333,
         "Damage": "18d20",
@@ -2190,10 +2190,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 14,
-            "WisdomSave": 7,
-            "CharismaSave": 8
+            "Dexterity": 6,
+            "Constitution": 14,
+            "Wisdom": 7,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -2250,9 +2250,9 @@
     {
         "Name": "Androsphinx",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "lawful neutral",
+        "Alignment": "LawfulNeutral",
         "ArmorClass": 17,
         "HitPoints": 199,
         "Damage": "19d10",
@@ -2274,10 +2274,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 11,
-            "IntelligenceSave": 9,
-            "WisdomSave": 10
+            "Dexterity": 6,
+            "Constitution": 11,
+            "Intelligence": 9,
+            "Wisdom": 10
         },
         "SpecialAbilities": [
             {
@@ -2336,9 +2336,9 @@
     {
         "Name": "Animated Armor",
         "Size": "Medium",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 18,
         "HitPoints": 33,
         "Damage": "6d8",
@@ -2390,9 +2390,9 @@
     {
         "Name": "Ankheg",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 39,
         "Damage": "6d10",
@@ -2433,9 +2433,9 @@
     {
         "Name": "Ape",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 19,
         "Damage": "3d8",
@@ -2482,9 +2482,9 @@
     {
         "Name": "Archmage",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 12,
         "HitPoints": 99,
         "Damage": "18d8",
@@ -2506,8 +2506,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "IntelligenceSave": 9,
-            "WisdomSave": 6
+            "Intelligence": 9,
+            "Wisdom": 6
         },
         "SpecialAbilities": [
             {
@@ -2534,9 +2534,9 @@
     {
         "Name": "Assassin",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any non-good alignment",
+        "Alignment": "AnyNon-goodAlignment",
         "ArmorClass": 15,
         "HitPoints": 78,
         "Damage": "12d8",
@@ -2558,8 +2558,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "IntelligenceSave": 4
+            "Dexterity": 6,
+            "Intelligence": 4
         },
         "SpecialAbilities": [
             {
@@ -2604,9 +2604,9 @@
     {
         "Name": "Awakened Shrub",
         "Size": "Small",
-        "Type": "plant",
+        "Type": "Plant",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 9,
         "HitPoints": 10,
         "Damage": "3d6",
@@ -2648,9 +2648,9 @@
     {
         "Name": "Awakened Tree",
         "Size": "Huge",
-        "Type": "plant",
+        "Type": "Plant",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 59,
         "Damage": "7d12",
@@ -2692,9 +2692,9 @@
     {
         "Name": "Axe Beak",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -2729,9 +2729,9 @@
     {
         "Name": "Azer",
         "Size": "Medium",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "lawful neutral",
+        "Alignment": "LawfulNeutral",
         "ArmorClass": 17,
         "HitPoints": 39,
         "Damage": "6d8",
@@ -2753,7 +2753,7 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 4
+            "Constitution": 4
         },
         "SpecialAbilities": [
             {
@@ -2786,9 +2786,9 @@
     {
         "Name": "Baboon",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 3,
         "Damage": "1d6",
@@ -2830,9 +2830,9 @@
     {
         "Name": "Badger",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 3,
         "Damage": "1d4",
@@ -2873,9 +2873,9 @@
     {
         "Name": "Balor",
         "Size": "Huge",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 19,
         "HitPoints": 262,
         "Damage": "21d12",
@@ -2897,10 +2897,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 14,
-            "ConstitutionSave": 12,
-            "WisdomSave": 9,
-            "CharismaSave": 12
+            "Strength": 14,
+            "Constitution": 12,
+            "Wisdom": 9,
+            "Charisma": 12
         },
         "SpecialAbilities": [
             {
@@ -2961,9 +2961,9 @@
     {
         "Name": "Bandit",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any non-lawful alignment",
+        "Alignment": "AnyNon-lawfulAlignment",
         "ArmorClass": 12,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -3005,9 +3005,9 @@
     {
         "Name": "Bandit Captain",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any non-lawful alignment",
+        "Alignment": "AnyNon-lawfulAlignment",
         "ArmorClass": 15,
         "HitPoints": 65,
         "Damage": "10d8",
@@ -3029,9 +3029,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 4,
-            "DexteritySave": 5,
-            "WisdomSave": 2
+            "Strength": 4,
+            "Dexterity": 5,
+            "Wisdom": 2
         },
         "Actions": [
             {
@@ -3058,9 +3058,9 @@
     {
         "Name": "Barbed Devil",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 15,
         "HitPoints": 110,
         "Damage": "13d8",
@@ -3082,10 +3082,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 6,
-            "ConstitutionSave": 7,
-            "WisdomSave": 5,
-            "CharismaSave": 5
+            "Strength": 6,
+            "Constitution": 7,
+            "Wisdom": 5,
+            "Charisma": 5
         },
         "SpecialAbilities": [
             {
@@ -3136,9 +3136,9 @@
     {
         "Name": "Basilisk",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 52,
         "Damage": "8d8",
@@ -3180,9 +3180,9 @@
     {
         "Name": "Bat",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -3228,9 +3228,9 @@
     {
         "Name": "Bearded Devil",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 13,
         "HitPoints": 52,
         "Damage": "8d8",
@@ -3252,9 +3252,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 5,
-            "ConstitutionSave": 4,
-            "WisdomSave": 2
+            "Strength": 5,
+            "Constitution": 4,
+            "Wisdom": 2
         },
         "SpecialAbilities": [
             {
@@ -3298,9 +3298,9 @@
     {
         "Name": "Behir",
         "Size": "Huge",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 17,
         "HitPoints": 168,
         "Damage": "16d12",
@@ -3359,9 +3359,9 @@
     {
         "Name": "Berserker",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any chaotic alignment",
+        "Alignment": "AnyChaoticAlignment",
         "ArmorClass": 13,
         "HitPoints": 67,
         "Damage": "9d8",
@@ -3403,9 +3403,9 @@
     {
         "Name": "Black Bear",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 19,
         "Damage": "3d8",
@@ -3459,9 +3459,9 @@
     {
         "Name": "Black Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 17,
         "HitPoints": 33,
         "Damage": "6d8",
@@ -3483,10 +3483,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 3,
-            "WisdomSave": 2,
-            "CharismaSave": 3
+            "Dexterity": 4,
+            "Constitution": 3,
+            "Wisdom": 2,
+            "Charisma": 3
         },
         "SpecialAbilities": [
             {
@@ -3514,9 +3514,9 @@
     {
         "Name": "Black Pudding",
         "Size": "Large",
-        "Type": "ooze",
+        "Type": "Ooze",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 7,
         "HitPoints": 85,
         "Damage": "10d10",
@@ -3569,9 +3569,9 @@
     {
         "Name": "Blink Dog",
         "Size": "Medium",
-        "Type": "fey",
+        "Type": "Fey",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 13,
         "HitPoints": 22,
         "Damage": "4d8",
@@ -3618,9 +3618,9 @@
     {
         "Name": "Blood Hawk",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 7,
         "Damage": "2d6",
@@ -3667,9 +3667,9 @@
     {
         "Name": "Blue Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 17,
         "HitPoints": 52,
         "Damage": "8d8",
@@ -3691,10 +3691,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 2,
-            "ConstitutionSave": 4,
-            "WisdomSave": 2,
-            "CharismaSave": 4
+            "Dexterity": 2,
+            "Constitution": 4,
+            "Wisdom": 2,
+            "Charisma": 4
         },
         "Actions": [
             {
@@ -3715,9 +3715,9 @@
     {
         "Name": "Boar",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -3765,9 +3765,9 @@
     {
         "Name": "Bone Devil",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 19,
         "HitPoints": 142,
         "Damage": "15d10",
@@ -3789,9 +3789,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "IntelligenceSave": 5,
-            "WisdomSave": 6,
-            "CharismaSave": 7
+            "Intelligence": 5,
+            "Wisdom": 6,
+            "Charisma": 7
         },
         "SpecialAbilities": [
             {
@@ -3849,9 +3849,9 @@
     {
         "Name": "Brass Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 16,
         "HitPoints": 16,
         "Damage": "3d8",
@@ -3873,10 +3873,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 2,
-            "ConstitutionSave": 3,
-            "WisdomSave": 2,
-            "CharismaSave": 3
+            "Dexterity": 2,
+            "Constitution": 3,
+            "Wisdom": 2,
+            "Charisma": 3
         },
         "Actions": [
             {
@@ -3897,9 +3897,9 @@
     {
         "Name": "Bronze Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 17,
         "HitPoints": 32,
         "Damage": "5d8",
@@ -3921,10 +3921,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 2,
-            "ConstitutionSave": 4,
-            "WisdomSave": 2,
-            "CharismaSave": 4
+            "Dexterity": 2,
+            "Constitution": 4,
+            "Wisdom": 2,
+            "Charisma": 4
         },
         "SpecialAbilities": [
             {
@@ -3952,9 +3952,9 @@
     {
         "Name": "Brown Bear",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 34,
         "Damage": "4d10",
@@ -4008,9 +4008,9 @@
     {
         "Name": "Bugbear",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "goblinoid",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 16,
         "HitPoints": 27,
         "Damage": "5d8",
@@ -4065,9 +4065,9 @@
     {
         "Name": "Bulette",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 17,
         "HitPoints": 94,
         "Damage": "9d10",
@@ -4114,9 +4114,9 @@
     {
         "Name": "Camel",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 9,
         "HitPoints": 15,
         "Damage": "2d10",
@@ -4150,9 +4150,9 @@
     {
         "Name": "Carrion Crawler",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 51,
         "Damage": "6d10",
@@ -4211,9 +4211,9 @@
     {
         "Name": "Cat",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 2,
         "Damage": "1d4",
@@ -4254,9 +4254,9 @@
     {
         "Name": "Cave Bear",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 42,
         "Damage": "5d10",
@@ -4310,9 +4310,9 @@
     {
         "Name": "Centaur",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral good",
+        "Alignment": "NeutralGood",
         "ArmorClass": 12,
         "HitPoints": 45,
         "Damage": "6d10",
@@ -4374,9 +4374,9 @@
     {
         "Name": "Chain Devil",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 16,
         "HitPoints": 85,
         "Damage": "10d8",
@@ -4433,9 +4433,9 @@
     {
         "Name": "Chimera",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 14,
         "HitPoints": 114,
         "Damage": "12d10",
@@ -4495,9 +4495,9 @@
     {
         "Name": "Chuul",
         "Size": "Large",
-        "Type": "aberration",
+        "Type": "Aberration",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 16,
         "HitPoints": 93,
         "Damage": "11d10",
@@ -4554,9 +4554,9 @@
     {
         "Name": "Clay Golem",
         "Size": "Large",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 133,
         "Damage": "14d10",
@@ -4628,9 +4628,9 @@
     {
         "Name": "Cloaker",
         "Size": "Large",
-        "Type": "aberration",
+        "Type": "Aberration",
         "Race": "AnyRace",
-        "Alignment": "chaotic neutral",
+        "Alignment": "ChaoticNeutral",
         "ArmorClass": 14,
         "HitPoints": 78,
         "Damage": "12d10",
@@ -4704,9 +4704,9 @@
     {
         "Name": "Cloud Giant",
         "Size": "Huge",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "neutral good (50%) or neutral evil (50%)",
+        "Alignment": "NeutralGood(50%)OrNeutralEvil(50%)",
         "ArmorClass": 14,
         "HitPoints": 200,
         "Damage": "16d12",
@@ -4728,9 +4728,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 10,
-            "WisdomSave": 7,
-            "CharismaSave": 7
+            "Constitution": 10,
+            "Wisdom": 7,
+            "Charisma": 7
         },
         "SpecialAbilities": [
             {
@@ -4769,9 +4769,9 @@
     {
         "Name": "Cockatrice",
         "Size": "Small",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 27,
         "Damage": "6d6",
@@ -4806,9 +4806,9 @@
     {
         "Name": "Commoner",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 10,
         "HitPoints": 4,
         "Damage": "1d8",
@@ -4842,9 +4842,9 @@
     {
         "Name": "Constrictor Snake",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 13,
         "Damage": "2d10",
@@ -4886,9 +4886,9 @@
     {
         "Name": "Copper Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 16,
         "HitPoints": 22,
         "Damage": "4d8",
@@ -4910,10 +4910,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 3,
-            "WisdomSave": 2,
-            "CharismaSave": 3
+            "Dexterity": 3,
+            "Constitution": 3,
+            "Wisdom": 2,
+            "Charisma": 3
         },
         "Actions": [
             {
@@ -4934,9 +4934,9 @@
     {
         "Name": "Couatl",
         "Size": "Medium",
-        "Type": "celestial",
+        "Type": "Celestial",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 19,
         "HitPoints": 97,
         "Damage": "13d8",
@@ -4958,9 +4958,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 5,
-            "WisdomSave": 7,
-            "CharismaSave": 6
+            "Constitution": 5,
+            "Wisdom": 7,
+            "Charisma": 6
         },
         "SpecialAbilities": [
             {
@@ -5004,9 +5004,9 @@
     {
         "Name": "Crab",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 2,
         "Damage": "1d4",
@@ -5047,9 +5047,9 @@
     {
         "Name": "Crocodile",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -5091,9 +5091,9 @@
     {
         "Name": "Cult Fanatic",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any non-good alignment",
+        "Alignment": "AnyNon-goodAlignment",
         "ArmorClass": 13,
         "HitPoints": 22,
         "Damage": "6d8",
@@ -5145,9 +5145,9 @@
     {
         "Name": "Cultist",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any non-good alignment",
+        "Alignment": "AnyNon-goodAlignment",
         "ArmorClass": 12,
         "HitPoints": 9,
         "Damage": "2d8",
@@ -5189,9 +5189,9 @@
     {
         "Name": "Darkmantle",
         "Size": "Small",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 22,
         "Damage": "5d6",
@@ -5243,9 +5243,9 @@
     {
         "Name": "Death Dog",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 12,
         "HitPoints": 39,
         "Damage": "6d8",
@@ -5292,9 +5292,9 @@
     {
         "Name": "Deep Gnome (Svirfneblin)",
         "Size": "Small",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "gnome",
-        "Alignment": "neutral good",
+        "Alignment": "NeutralGood",
         "ArmorClass": 15,
         "HitPoints": 16,
         "Damage": "3d6",
@@ -5353,9 +5353,9 @@
     {
         "Name": "Deer",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 4,
         "Damage": "1d8",
@@ -5389,9 +5389,9 @@
     {
         "Name": "Deva",
         "Size": "Medium",
-        "Type": "celestial",
+        "Type": "Celestial",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 17,
         "HitPoints": 136,
         "Damage": "16d8",
@@ -5413,8 +5413,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "WisdomSave": 9,
-            "CharismaSave": 9
+            "Wisdom": 9,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -5461,9 +5461,9 @@
     {
         "Name": "Dire Wolf",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 37,
         "Damage": "5d10",
@@ -5510,9 +5510,9 @@
     {
         "Name": "Djinni",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 17,
         "HitPoints": 161,
         "Damage": "14d10",
@@ -5534,9 +5534,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "WisdomSave": 7,
-            "CharismaSave": 9
+            "Dexterity": 6,
+            "Wisdom": 7,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -5578,9 +5578,9 @@
     {
         "Name": "Doppelganger",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "shapechanger",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 52,
         "Damage": "8d8",
@@ -5643,9 +5643,9 @@
     {
         "Name": "Draft Horse",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -5680,9 +5680,9 @@
     {
         "Name": "Dragon Turtle",
         "Size": "Gargantuan",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 20,
         "HitPoints": 341,
         "Damage": "22d20",
@@ -5704,9 +5704,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 11,
-            "WisdomSave": 7
+            "Dexterity": 6,
+            "Constitution": 11,
+            "Wisdom": 7
         },
         "SpecialAbilities": [
             {
@@ -5753,9 +5753,9 @@
     {
         "Name": "Dretch",
         "Size": "Small",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 11,
         "HitPoints": 18,
         "Damage": "4d6",
@@ -5805,9 +5805,9 @@
     {
         "Name": "Drider",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 19,
         "HitPoints": 123,
         "Damage": "13d10",
@@ -5888,9 +5888,9 @@
     {
         "Name": "Drow",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "elf",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 15,
         "HitPoints": 13,
         "Damage": "3d8",
@@ -5949,9 +5949,9 @@
     {
         "Name": "Druid",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 11,
         "HitPoints": 27,
         "Damage": "5d8",
@@ -5992,9 +5992,9 @@
     {
         "Name": "Dryad",
         "Size": "Medium",
-        "Type": "fey",
+        "Type": "Fey",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 11,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -6055,9 +6055,9 @@
     {
         "Name": "Duergar",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "dwarf",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 16,
         "HitPoints": 26,
         "Damage": "4d8",
@@ -6121,9 +6121,9 @@
     {
         "Name": "Dust Mephit",
         "Size": "Small",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 12,
         "HitPoints": 17,
         "Damage": "5d6",
@@ -6180,9 +6180,9 @@
     {
         "Name": "Eagle",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 3,
         "Damage": "1d6",
@@ -6224,9 +6224,9 @@
     {
         "Name": "Earth Elemental",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 17,
         "HitPoints": 126,
         "Damage": "12d10",
@@ -6278,9 +6278,9 @@
     {
         "Name": "Efreeti",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 17,
         "HitPoints": 200,
         "Damage": "16d10",
@@ -6302,9 +6302,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "IntelligenceSave": 7,
-            "WisdomSave": 6,
-            "CharismaSave": 7
+            "Intelligence": 7,
+            "Wisdom": 6,
+            "Charisma": 7
         },
         "SpecialAbilities": [
             {
@@ -6347,9 +6347,9 @@
     {
         "Name": "Elephant",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 76,
         "Damage": "8d12",
@@ -6398,9 +6398,9 @@
     {
         "Name": "Elk",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 13,
         "Damage": "2d10",
@@ -6446,9 +6446,9 @@
     {
         "Name": "Erinyes",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 153,
         "Damage": "18d8",
@@ -6470,10 +6470,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 8,
-            "WisdomSave": 6,
-            "CharismaSave": 8
+            "Dexterity": 7,
+            "Constitution": 8,
+            "Wisdom": 6,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -6517,9 +6517,9 @@
     {
         "Name": "Ettercap",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 13,
         "HitPoints": 44,
         "Damage": "8d8",
@@ -6595,9 +6595,9 @@
     {
         "Name": "Ettin",
         "Size": "Large",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 12,
         "HitPoints": 85,
         "Damage": "10d10",
@@ -6656,9 +6656,9 @@
     {
         "Name": "Fire Elemental",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 13,
         "HitPoints": 102,
         "Damage": "12d10",
@@ -6716,9 +6716,9 @@
     {
         "Name": "Fire Giant",
         "Size": "Huge",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 162,
         "Damage": "13d12",
@@ -6740,9 +6740,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 10,
-            "CharismaSave": 5
+            "Dexterity": 3,
+            "Constitution": 10,
+            "Charisma": 5
         },
         "Actions": [
             {
@@ -6769,9 +6769,9 @@
     {
         "Name": "Flesh Golem",
         "Size": "Medium",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 9,
         "HitPoints": 93,
         "Damage": "11d8",
@@ -6843,9 +6843,9 @@
     {
         "Name": "Flying Snake",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 5,
         "Damage": "2d4",
@@ -6886,9 +6886,9 @@
     {
         "Name": "Flying Sword",
         "Size": "Small",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 17,
         "HitPoints": 17,
         "Damage": "5d6",
@@ -6910,7 +6910,7 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4
+            "Dexterity": 4
         },
         "SpecialAbilities": [
             {
@@ -6937,9 +6937,9 @@
     {
         "Name": "Frog",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -6977,9 +6977,9 @@
     {
         "Name": "Frost Giant",
         "Size": "Huge",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 15,
         "HitPoints": 138,
         "Damage": "12d12",
@@ -7001,9 +7001,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 8,
-            "WisdomSave": 3,
-            "CharismaSave": 4
+            "Constitution": 8,
+            "Wisdom": 3,
+            "Charisma": 4
         },
         "Actions": [
             {
@@ -7030,9 +7030,9 @@
     {
         "Name": "Gargoyle",
         "Size": "Medium",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 15,
         "HitPoints": 52,
         "Damage": "7d8",
@@ -7086,9 +7086,9 @@
     {
         "Name": "Gelatinous Cube",
         "Size": "Large",
-        "Type": "ooze",
+        "Type": "Ooze",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 6,
         "HitPoints": 84,
         "Damage": "8d10",
@@ -7139,9 +7139,9 @@
     {
         "Name": "Ghast",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 13,
         "HitPoints": 36,
         "Damage": "8d8",
@@ -7195,9 +7195,9 @@
     {
         "Name": "Ghost",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 11,
         "HitPoints": 45,
         "Damage": "10d8",
@@ -7259,9 +7259,9 @@
     {
         "Name": "Ghoul",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -7301,9 +7301,9 @@
     {
         "Name": "Giant Ape",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 157,
         "Damage": "15d12",
@@ -7350,9 +7350,9 @@
     {
         "Name": "Giant Badger",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 13,
         "Damage": "2d8",
@@ -7406,9 +7406,9 @@
     {
         "Name": "Giant Bat",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 22,
         "Damage": "4d10",
@@ -7455,9 +7455,9 @@
     {
         "Name": "Giant Boar",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 42,
         "Damage": "5d10",
@@ -7505,9 +7505,9 @@
     {
         "Name": "Giant Centipede",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 4,
         "Damage": "1d6",
@@ -7542,9 +7542,9 @@
     {
         "Name": "Giant Constrictor Snake",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 60,
         "Damage": "8d12",
@@ -7586,9 +7586,9 @@
     {
         "Name": "Giant Crab",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 15,
         "HitPoints": 13,
         "Damage": "3d8",
@@ -7630,9 +7630,9 @@
     {
         "Name": "Giant Crocodile",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 85,
         "Damage": "9d12",
@@ -7686,9 +7686,9 @@
     {
         "Name": "Giant Eagle",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "neutral good",
+        "Alignment": "NeutralGood",
         "ArmorClass": 13,
         "HitPoints": 26,
         "Damage": "4d10",
@@ -7742,9 +7742,9 @@
     {
         "Name": "Giant Elk",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 15,
         "HitPoints": 42,
         "Damage": "5d12",
@@ -7794,9 +7794,9 @@
     {
         "Name": "Giant Fire Beetle",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 4,
         "Damage": "1d6",
@@ -7838,9 +7838,9 @@
     {
         "Name": "Giant Frog",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 18,
         "Damage": "4d8",
@@ -7892,9 +7892,9 @@
     {
         "Name": "Giant Goat",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -7942,9 +7942,9 @@
     {
         "Name": "Giant Hyena",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 45,
         "Damage": "6d10",
@@ -7986,9 +7986,9 @@
     {
         "Name": "Giant Lizard",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -8035,9 +8035,9 @@
     {
         "Name": "Giant Octopus",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 52,
         "Damage": "8d10",
@@ -8094,9 +8094,9 @@
     {
         "Name": "Giant Owl",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 12,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -8143,9 +8143,9 @@
     {
         "Name": "Giant Poisonous Snake",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -8180,9 +8180,9 @@
     {
         "Name": "Giant Rat",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 7,
         "Damage": "2d6",
@@ -8229,9 +8229,9 @@
     {
         "Name": "Giant Rat (Diseased)",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 7,
         "Damage": "2d6",
@@ -8266,9 +8266,9 @@
     {
         "Name": "Giant Scorpion",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 15,
         "HitPoints": 52,
         "Damage": "7d10",
@@ -8315,9 +8315,9 @@
     {
         "Name": "Giant Sea Horse",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 16,
         "Damage": "3d10",
@@ -8365,9 +8365,9 @@
     {
         "Name": "Giant Shark",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 126,
         "Damage": "11d12",
@@ -8414,9 +8414,9 @@
     {
         "Name": "Giant Spider",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 26,
         "Damage": "4d10",
@@ -8473,9 +8473,9 @@
     {
         "Name": "Giant Toad",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 39,
         "Damage": "6d10",
@@ -8527,9 +8527,9 @@
     {
         "Name": "Giant Vulture",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 10,
         "HitPoints": 22,
         "Damage": "3d10",
@@ -8588,9 +8588,9 @@
     {
         "Name": "Giant Wasp",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 13,
         "Damage": "3d8",
@@ -8625,9 +8625,9 @@
     {
         "Name": "Giant Weasel",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 9,
         "Damage": "2d8",
@@ -8669,9 +8669,9 @@
     {
         "Name": "Giant Wolf Spider",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -8723,9 +8723,9 @@
     {
         "Name": "Gibbering Mouther",
         "Size": "Medium",
-        "Type": "aberration",
+        "Type": "Aberration",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 9,
         "HitPoints": 67,
         "Damage": "9d8",
@@ -8781,9 +8781,9 @@
     {
         "Name": "Glabrezu",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 17,
         "HitPoints": 157,
         "Damage": "15d10",
@@ -8805,10 +8805,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 9,
-            "ConstitutionSave": 9,
-            "WisdomSave": 7,
-            "CharismaSave": 7
+            "Strength": 9,
+            "Constitution": 9,
+            "Wisdom": 7,
+            "Charisma": 7
         },
         "SpecialAbilities": [
             {
@@ -8852,9 +8852,9 @@
     {
         "Name": "Gladiator",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 16,
         "HitPoints": 112,
         "Damage": "15d8",
@@ -8876,9 +8876,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 7,
-            "DexteritySave": 5,
-            "ConstitutionSave": 6
+            "Strength": 7,
+            "Dexterity": 5,
+            "Constitution": 6
         },
         "SpecialAbilities": [
             {
@@ -8917,9 +8917,9 @@
     {
         "Name": "Gnoll",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "gnoll",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 15,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -8975,9 +8975,9 @@
     {
         "Name": "Goat",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 4,
         "Damage": "1d8",
@@ -9025,9 +9025,9 @@
     {
         "Name": "Goblin",
         "Size": "Small",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "goblinoid",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 15,
         "HitPoints": 7,
         "Damage": "2d6",
@@ -9076,9 +9076,9 @@
     {
         "Name": "Gold Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 17,
         "HitPoints": 60,
         "Damage": "8d8",
@@ -9100,10 +9100,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 5,
-            "WisdomSave": 2,
-            "CharismaSave": 5
+            "Dexterity": 4,
+            "Constitution": 5,
+            "Wisdom": 2,
+            "Charisma": 5
         },
         "SpecialAbilities": [
             {
@@ -9131,9 +9131,9 @@
     {
         "Name": "Gorgon",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 19,
         "HitPoints": 114,
         "Damage": "12d10",
@@ -9187,9 +9187,9 @@
     {
         "Name": "Gray Ooze",
         "Size": "Medium",
-        "Type": "ooze",
+        "Type": "Ooze",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 8,
         "HitPoints": 22,
         "Damage": "3d8",
@@ -9241,9 +9241,9 @@
     {
         "Name": "Green Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 17,
         "HitPoints": 38,
         "Damage": "7d8",
@@ -9265,10 +9265,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 3,
-            "WisdomSave": 2,
-            "CharismaSave": 3
+            "Dexterity": 3,
+            "Constitution": 3,
+            "Wisdom": 2,
+            "Charisma": 3
         },
         "SpecialAbilities": [
             {
@@ -9296,9 +9296,9 @@
     {
         "Name": "Green Hag",
         "Size": "Medium",
-        "Type": "fey",
+        "Type": "Fey",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 17,
         "HitPoints": 82,
         "Damage": "11d8",
@@ -9375,9 +9375,9 @@
     {
         "Name": "Grick",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 14,
         "HitPoints": 27,
         "Damage": "6d8",
@@ -9431,9 +9431,9 @@
     {
         "Name": "Griffon",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 59,
         "Damage": "7d10",
@@ -9487,9 +9487,9 @@
     {
         "Name": "Grimlock",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "grimlock",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 11,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -9541,9 +9541,9 @@
     {
         "Name": "Guard",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 16,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -9578,9 +9578,9 @@
     {
         "Name": "Guardian Naga",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 18,
         "HitPoints": 127,
         "Damage": "15d10",
@@ -9602,11 +9602,11 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 8,
-            "ConstitutionSave": 7,
-            "IntelligenceSave": 7,
-            "WisdomSave": 8,
-            "CharismaSave": 8
+            "Dexterity": 8,
+            "Constitution": 7,
+            "Intelligence": 7,
+            "Wisdom": 8,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -9639,9 +9639,9 @@
     {
         "Name": "Gynosphinx",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "lawful neutral",
+        "Alignment": "LawfulNeutral",
         "ArmorClass": 17,
         "HitPoints": 136,
         "Damage": "16d10",
@@ -9715,9 +9715,9 @@
     {
         "Name": "Half-Red Dragon Veteran",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "human",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 18,
         "HitPoints": 65,
         "Damage": "10d8",
@@ -9777,9 +9777,9 @@
     {
         "Name": "Harpy",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 11,
         "HitPoints": 38,
         "Damage": "7d8",
@@ -9831,9 +9831,9 @@
     {
         "Name": "Hawk",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -9874,9 +9874,9 @@
     {
         "Name": "Hell Hound",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 15,
         "HitPoints": 45,
         "Damage": "7d8",
@@ -9929,9 +9929,9 @@
     {
         "Name": "Hezrou",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 16,
         "HitPoints": 136,
         "Damage": "13d10",
@@ -9953,9 +9953,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 7,
-            "ConstitutionSave": 8,
-            "WisdomSave": 4
+            "Strength": 7,
+            "Constitution": 8,
+            "Wisdom": 4
         },
         "SpecialAbilities": [
             {
@@ -9999,9 +9999,9 @@
     {
         "Name": "Hill Giant",
         "Size": "Huge",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 13,
         "HitPoints": 105,
         "Damage": "10d12",
@@ -10048,9 +10048,9 @@
     {
         "Name": "Hippogriff",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -10104,9 +10104,9 @@
     {
         "Name": "Hobgoblin",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "goblinoid",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -10156,9 +10156,9 @@
     {
         "Name": "Homunculus",
         "Size": "Tiny",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 13,
         "HitPoints": 5,
         "Damage": "2d4",
@@ -10199,9 +10199,9 @@
     {
         "Name": "Horned Devil",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 148,
         "Damage": "17d10",
@@ -10223,10 +10223,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 10,
-            "DexteritySave": 7,
-            "WisdomSave": 7,
-            "CharismaSave": 7
+            "Strength": 10,
+            "Dexterity": 7,
+            "Wisdom": 7,
+            "Charisma": 7
         },
         "SpecialAbilities": [
             {
@@ -10271,9 +10271,9 @@
     {
         "Name": "Hunter Shark",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 45,
         "Damage": "6d10",
@@ -10320,9 +10320,9 @@
     {
         "Name": "Hydra",
         "Size": "Huge",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 15,
         "HitPoints": 172,
         "Damage": "15d12",
@@ -10384,9 +10384,9 @@
     {
         "Name": "Hyena",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 5,
         "Damage": "1d8",
@@ -10427,9 +10427,9 @@
     {
         "Name": "Ice Devil",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 180,
         "Damage": "19d10",
@@ -10451,10 +10451,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 7,
-            "ConstitutionSave": 9,
-            "WisdomSave": 7,
-            "CharismaSave": 9
+            "Dexterity": 7,
+            "Constitution": 9,
+            "Wisdom": 7,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -10505,9 +10505,9 @@
     {
         "Name": "Ice Mephit",
         "Size": "Small",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 11,
         "HitPoints": 21,
         "Damage": "6d6",
@@ -10570,9 +10570,9 @@
     {
         "Name": "Imp",
         "Size": "Tiny",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 13,
         "HitPoints": 10,
         "Damage": "3d4",
@@ -10634,9 +10634,9 @@
     {
         "Name": "Invisible Stalker",
         "Size": "Medium",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 14,
         "HitPoints": 104,
         "Damage": "16d8",
@@ -10688,9 +10688,9 @@
     {
         "Name": "Iron Golem",
         "Size": "Large",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 20,
         "HitPoints": 210,
         "Damage": "20d10",
@@ -10765,9 +10765,9 @@
     {
         "Name": "Jackal",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 3,
         "Damage": "1d6",
@@ -10814,9 +10814,9 @@
     {
         "Name": "Killer Whale",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 90,
         "Damage": "12d12",
@@ -10866,9 +10866,9 @@
     {
         "Name": "Knight",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 18,
         "HitPoints": 52,
         "Damage": "8d8",
@@ -10890,8 +10890,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 4,
-            "WisdomSave": 2
+            "Constitution": 4,
+            "Wisdom": 2
         },
         "SpecialAbilities": [
             {
@@ -10929,9 +10929,9 @@
     {
         "Name": "Kobold",
         "Size": "Small",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "kobold",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 12,
         "HitPoints": 5,
         "Damage": "2d6",
@@ -10985,9 +10985,9 @@
     {
         "Name": "Kraken",
         "Size": "Gargantuan",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "titan",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 18,
         "HitPoints": 472,
         "Damage": "27d20",
@@ -11009,11 +11009,11 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 17,
-            "DexteritySave": 7,
-            "ConstitutionSave": 14,
-            "IntelligenceSave": 13,
-            "WisdomSave": 11
+            "Strength": 17,
+            "Dexterity": 7,
+            "Constitution": 14,
+            "Intelligence": 13,
+            "Wisdom": 11
         },
         "SpecialAbilities": [
             {
@@ -11085,9 +11085,9 @@
     {
         "Name": "Lamia",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 13,
         "HitPoints": 97,
         "Damage": "13d10",
@@ -11146,9 +11146,9 @@
     {
         "Name": "Lemure",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 7,
         "HitPoints": 13,
         "Damage": "3d8",
@@ -11194,9 +11194,9 @@
     {
         "Name": "Lich",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "any evil alignment",
+        "Alignment": "AnyEvilAlignment",
         "ArmorClass": 17,
         "HitPoints": 135,
         "Damage": "18d8",
@@ -11218,9 +11218,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 10,
-            "IntelligenceSave": 12,
-            "WisdomSave": 9
+            "Constitution": 10,
+            "Intelligence": 12,
+            "Wisdom": 9
         },
         "SpecialAbilities": [
             {
@@ -11279,9 +11279,9 @@
     {
         "Name": "Lion",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 26,
         "Damage": "4d10",
@@ -11345,9 +11345,9 @@
     {
         "Name": "Lizard",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 2,
         "Damage": "1d4",
@@ -11381,9 +11381,9 @@
     {
         "Name": "Lizardfolk",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "lizardfolk",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 15,
         "HitPoints": 22,
         "Damage": "4d8",
@@ -11451,9 +11451,9 @@
     {
         "Name": "Mage",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 12,
         "HitPoints": 40,
         "Damage": "9d8",
@@ -11475,8 +11475,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "IntelligenceSave": 6,
-            "WisdomSave": 4
+            "Intelligence": 6,
+            "Wisdom": 4
         },
         "SpecialAbilities": [
             {
@@ -11498,9 +11498,9 @@
     {
         "Name": "Magma Mephit",
         "Size": "Small",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 11,
         "HitPoints": 22,
         "Damage": "5d6",
@@ -11563,9 +11563,9 @@
     {
         "Name": "Magmin",
         "Size": "Small",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "chaotic neutral",
+        "Alignment": "ChaoticNeutral",
         "ArmorClass": 14,
         "HitPoints": 9,
         "Damage": "2d6",
@@ -11612,9 +11612,9 @@
     {
         "Name": "Mammoth",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 126,
         "Damage": "11d12",
@@ -11663,9 +11663,9 @@
     {
         "Name": "Manticore",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 14,
         "HitPoints": 68,
         "Damage": "8d10",
@@ -11726,9 +11726,9 @@
     {
         "Name": "Marilith",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 18,
         "HitPoints": 189,
         "Damage": "18d10",
@@ -11750,10 +11750,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 9,
-            "ConstitutionSave": 10,
-            "WisdomSave": 8,
-            "CharismaSave": 10
+            "Strength": 9,
+            "Constitution": 10,
+            "Wisdom": 8,
+            "Charisma": 10
         },
         "SpecialAbilities": [
             {
@@ -11807,9 +11807,9 @@
     {
         "Name": "Mastiff",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 5,
         "Damage": "1d8",
@@ -11851,9 +11851,9 @@
     {
         "Name": "Medusa",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 15,
         "HitPoints": 127,
         "Damage": "17d8",
@@ -11913,9 +11913,9 @@
     {
         "Name": "Merfolk",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "merfolk",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 11,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -11956,9 +11956,9 @@
     {
         "Name": "Merrow",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 13,
         "HitPoints": 45,
         "Damage": "6d10",
@@ -12019,9 +12019,9 @@
     {
         "Name": "Mimic",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "shapechanger",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 12,
         "HitPoints": 58,
         "Damage": "9d8",
@@ -12085,9 +12085,9 @@
     {
         "Name": "Minotaur",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 14,
         "HitPoints": 76,
         "Damage": "9d10",
@@ -12147,9 +12147,9 @@
     {
         "Name": "Minotaur Skeleton",
         "Size": "Large",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 12,
         "HitPoints": 67,
         "Damage": "9d10",
@@ -12199,9 +12199,9 @@
     {
         "Name": "Mule",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -12248,9 +12248,9 @@
     {
         "Name": "Mummy",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 11,
         "HitPoints": 58,
         "Damage": "9d8",
@@ -12272,7 +12272,7 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "WisdomSave": 2
+            "Wisdom": 2
         },
         "Actions": [
             {
@@ -12297,9 +12297,9 @@
     {
         "Name": "Mummy Lord",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 17,
         "HitPoints": 97,
         "Damage": "13d8",
@@ -12321,10 +12321,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 8,
-            "IntelligenceSave": 5,
-            "WisdomSave": 9,
-            "CharismaSave": 8
+            "Constitution": 8,
+            "Intelligence": 5,
+            "Wisdom": 9,
+            "Charisma": 8
         },
         "SpecialAbilities": [
             {
@@ -12393,9 +12393,9 @@
     {
         "Name": "Nalfeshnee",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 18,
         "HitPoints": 184,
         "Damage": "16d10",
@@ -12417,10 +12417,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 11,
-            "IntelligenceSave": 9,
-            "WisdomSave": 6,
-            "CharismaSave": 7
+            "Constitution": 11,
+            "Intelligence": 9,
+            "Wisdom": 6,
+            "Charisma": 7
         },
         "SpecialAbilities": [
             {
@@ -12469,9 +12469,9 @@
     {
         "Name": "Night Hag",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 17,
         "HitPoints": 112,
         "Damage": "15d8",
@@ -12553,9 +12553,9 @@
     {
         "Name": "Nightmare",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 13,
         "HitPoints": 68,
         "Damage": "8d10",
@@ -12607,9 +12607,9 @@
     {
         "Name": "Noble",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 15,
         "HitPoints": 9,
         "Damage": "2d8",
@@ -12644,9 +12644,9 @@
     {
         "Name": "Ochre Jelly",
         "Size": "Large",
-        "Type": "ooze",
+        "Type": "Ooze",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 8,
         "HitPoints": 45,
         "Damage": "6d10",
@@ -12693,9 +12693,9 @@
     {
         "Name": "Octopus",
         "Size": "Small",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 3,
         "Damage": "1d6",
@@ -12751,9 +12751,9 @@
     {
         "Name": "Ogre",
         "Size": "Large",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 11,
         "HitPoints": 59,
         "Damage": "7d10",
@@ -12795,9 +12795,9 @@
     {
         "Name": "Ogre Zombie",
         "Size": "Large",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 8,
         "HitPoints": 85,
         "Damage": "9d10",
@@ -12819,7 +12819,7 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "WisdomSave": 0
+            "Wisdom": 0
         },
         "SpecialAbilities": [
             {
@@ -12841,9 +12841,9 @@
     {
         "Name": "Oni",
         "Size": "Large",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 16,
         "HitPoints": 110,
         "Damage": "13d10",
@@ -12865,10 +12865,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 6,
-            "WisdomSave": 4,
-            "CharismaSave": 5
+            "Dexterity": 3,
+            "Constitution": 6,
+            "Wisdom": 4,
+            "Charisma": 5
         },
         "SpecialAbilities": [
             {
@@ -12917,9 +12917,9 @@
     {
         "Name": "Orc",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "orc",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 13,
         "HitPoints": 15,
         "Damage": "2d8",
@@ -12968,9 +12968,9 @@
     {
         "Name": "Otyugh",
         "Size": "Large",
-        "Type": "aberration",
+        "Type": "Aberration",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 14,
         "HitPoints": 114,
         "Damage": "12d10",
@@ -12992,7 +12992,7 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 7
+            "Constitution": 7
         },
         "SpecialAbilities": [
             {
@@ -13031,9 +13031,9 @@
     {
         "Name": "Owl",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -13079,9 +13079,9 @@
     {
         "Name": "Owlbear",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 59,
         "Damage": "7d10",
@@ -13135,9 +13135,9 @@
     {
         "Name": "Panther",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 13,
         "Damage": "3d8",
@@ -13191,9 +13191,9 @@
     {
         "Name": "Pegasus",
         "Size": "Large",
-        "Type": "celestial",
+        "Type": "Celestial",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 12,
         "HitPoints": 59,
         "Damage": "7d10",
@@ -13215,9 +13215,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "WisdomSave": 4,
-            "CharismaSave": 3
+            "Dexterity": 4,
+            "Wisdom": 4,
+            "Charisma": 3
         },
         "Actions": [
             {
@@ -13232,9 +13232,9 @@
     {
         "Name": "Phase Spider",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 32,
         "Damage": "5d10",
@@ -13286,9 +13286,9 @@
     {
         "Name": "Pit Fiend",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "devil",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 19,
         "HitPoints": 300,
         "Damage": "24d10",
@@ -13310,9 +13310,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 8,
-            "ConstitutionSave": 13,
-            "WisdomSave": 10
+            "Dexterity": 8,
+            "Constitution": 13,
+            "Wisdom": 10
         },
         "SpecialAbilities": [
             {
@@ -13375,9 +13375,9 @@
     {
         "Name": "Planetar",
         "Size": "Large",
-        "Type": "celestial",
+        "Type": "Celestial",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 19,
         "HitPoints": 200,
         "Damage": "16d10",
@@ -13399,9 +13399,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 12,
-            "WisdomSave": 11,
-            "CharismaSave": 12
+            "Constitution": 12,
+            "Wisdom": 11,
+            "Charisma": 12
         },
         "SpecialAbilities": [
             {
@@ -13448,9 +13448,9 @@
     {
         "Name": "Plesiosaurus",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 68,
         "Damage": "8d10",
@@ -13492,9 +13492,9 @@
     {
         "Name": "Poisonous Snake",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 2,
         "Damage": "1d4",
@@ -13528,9 +13528,9 @@
     {
         "Name": "Polar Bear",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 42,
         "Damage": "5d10",
@@ -13584,9 +13584,9 @@
     {
         "Name": "Pony",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -13621,9 +13621,9 @@
     {
         "Name": "Priest",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 13,
         "HitPoints": 27,
         "Damage": "5d8",
@@ -13670,9 +13670,9 @@
     {
         "Name": "Pseudodragon",
         "Size": "Tiny",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "neutral good",
+        "Alignment": "NeutralGood",
         "ArmorClass": 13,
         "HitPoints": 7,
         "Damage": "2d4",
@@ -13736,9 +13736,9 @@
     {
         "Name": "Purple Worm",
         "Size": "Gargantuan",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 18,
         "HitPoints": 247,
         "Damage": "15d20",
@@ -13760,8 +13760,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "ConstitutionSave": 11,
-            "WisdomSave": 4
+            "Constitution": 11,
+            "Wisdom": 4
         },
         "SpecialAbilities": [
             {
@@ -13795,9 +13795,9 @@
     {
         "Name": "Quasit",
         "Size": "Tiny",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 13,
         "HitPoints": 7,
         "Damage": "3d4",
@@ -13859,9 +13859,9 @@
     {
         "Name": "Quipper",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -13907,9 +13907,9 @@
     {
         "Name": "Rakshasa",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 16,
         "HitPoints": 110,
         "Damage": "13d8",
@@ -13961,9 +13961,9 @@
     {
         "Name": "Rat",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -14004,9 +14004,9 @@
     {
         "Name": "Raven",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -14046,9 +14046,9 @@
     {
         "Name": "Red Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 17,
         "HitPoints": 75,
         "Damage": "10d8",
@@ -14070,10 +14070,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 2,
-            "ConstitutionSave": 5,
-            "WisdomSave": 2,
-            "CharismaSave": 4
+            "Dexterity": 2,
+            "Constitution": 5,
+            "Wisdom": 2,
+            "Charisma": 4
         },
         "Actions": [
             {
@@ -14094,9 +14094,9 @@
     {
         "Name": "Reef Shark",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "4d8",
@@ -14143,9 +14143,9 @@
     {
         "Name": "Remorhaz",
         "Size": "Huge",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 17,
         "HitPoints": 195,
         "Damage": "17d12",
@@ -14193,9 +14193,9 @@
     {
         "Name": "Rhinoceros",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 45,
         "Damage": "6d10",
@@ -14238,9 +14238,9 @@
     {
         "Name": "Riding Horse",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 13,
         "Damage": "2d10",
@@ -14275,9 +14275,9 @@
     {
         "Name": "Roc",
         "Size": "Gargantuan",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 15,
         "HitPoints": 248,
         "Damage": "16d20",
@@ -14299,10 +14299,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 9,
-            "WisdomSave": 4,
-            "CharismaSave": 3
+            "Dexterity": 4,
+            "Constitution": 9,
+            "Wisdom": 4,
+            "Charisma": 3
         },
         "SpecialAbilities": [
             {
@@ -14336,9 +14336,9 @@
     {
         "Name": "Roper",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 20,
         "HitPoints": 93,
         "Damage": "11d10",
@@ -14405,9 +14405,9 @@
     {
         "Name": "Rug of Smothering",
         "Size": "Large",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 33,
         "Damage": "6d10",
@@ -14459,9 +14459,9 @@
     {
         "Name": "Rust Monster",
         "Size": "Medium",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 27,
         "Damage": "5d8",
@@ -14513,9 +14513,9 @@
     {
         "Name": "Saber-Toothed Tiger",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 52,
         "Damage": "7d10",
@@ -14569,9 +14569,9 @@
     {
         "Name": "Sahuagin",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "sahuagin",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "4d8",
@@ -14642,9 +14642,9 @@
     {
         "Name": "Salamander",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 15,
         "HitPoints": 90,
         "Damage": "12d10",
@@ -14704,9 +14704,9 @@
     {
         "Name": "Satyr",
         "Size": "Medium",
-        "Type": "fey",
+        "Type": "Fey",
         "Race": "AnyRace",
-        "Alignment": "chaotic neutral",
+        "Alignment": "ChaoticNeutral",
         "ArmorClass": 14,
         "HitPoints": 31,
         "Damage": "7d8",
@@ -14767,9 +14767,9 @@
     {
         "Name": "Scorpion",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -14803,9 +14803,9 @@
     {
         "Name": "Scout",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 13,
         "HitPoints": 16,
         "Damage": "3d8",
@@ -14859,9 +14859,9 @@
     {
         "Name": "Sea Hag",
         "Size": "Medium",
-        "Type": "fey",
+        "Type": "Fey",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 14,
         "HitPoints": 52,
         "Damage": "7d8",
@@ -14933,9 +14933,9 @@
     {
         "Name": "Sea Horse",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -14968,9 +14968,9 @@
     {
         "Name": "Shadow",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 12,
         "HitPoints": 16,
         "Damage": "3d8",
@@ -15022,9 +15022,9 @@
     {
         "Name": "Shambling Mound",
         "Size": "Large",
-        "Type": "plant",
+        "Type": "Plant",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 15,
         "HitPoints": 136,
         "Damage": "16d10",
@@ -15076,9 +15076,9 @@
     {
         "Name": "Shield Guardian",
         "Size": "Large",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 17,
         "HitPoints": 142,
         "Damage": "15d10",
@@ -15135,9 +15135,9 @@
     {
         "Name": "Shrieker",
         "Size": "Medium",
-        "Type": "plant",
+        "Type": "Plant",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 5,
         "HitPoints": 13,
         "Damage": "3d8",
@@ -15177,9 +15177,9 @@
     {
         "Name": "Silver Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 17,
         "HitPoints": 45,
         "Damage": "6d8",
@@ -15201,10 +15201,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 2,
-            "ConstitutionSave": 5,
-            "WisdomSave": 2,
-            "CharismaSave": 4
+            "Dexterity": 2,
+            "Constitution": 5,
+            "Wisdom": 2,
+            "Charisma": 4
         },
         "Actions": [
             {
@@ -15225,9 +15225,9 @@
     {
         "Name": "Skeleton",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 13,
         "HitPoints": 13,
         "Damage": "2d8",
@@ -15269,9 +15269,9 @@
     {
         "Name": "Solar",
         "Size": "Large",
-        "Type": "celestial",
+        "Type": "Celestial",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 21,
         "HitPoints": 243,
         "Damage": "18d10",
@@ -15293,9 +15293,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "IntelligenceSave": 14,
-            "WisdomSave": 14,
-            "CharismaSave": 17
+            "Intelligence": 14,
+            "Wisdom": 14,
+            "Charisma": 17
         },
         "SpecialAbilities": [
             {
@@ -15371,9 +15371,9 @@
     {
         "Name": "Specter",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -15419,9 +15419,9 @@
     {
         "Name": "Spider",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -15472,9 +15472,9 @@
     {
         "Name": "Spirit Naga",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 15,
         "HitPoints": 75,
         "Damage": "10d10",
@@ -15496,10 +15496,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 5,
-            "WisdomSave": 5,
-            "CharismaSave": 6
+            "Dexterity": 6,
+            "Constitution": 5,
+            "Wisdom": 5,
+            "Charisma": 6
         },
         "SpecialAbilities": [
             {
@@ -15526,9 +15526,9 @@
     {
         "Name": "Sprite",
         "Size": "Tiny",
-        "Type": "fey",
+        "Type": "Fey",
         "Race": "AnyRace",
-        "Alignment": "neutral good",
+        "Alignment": "NeutralGood",
         "ArmorClass": 15,
         "HitPoints": 2,
         "Damage": "1d4",
@@ -15578,9 +15578,9 @@
     {
         "Name": "Spy",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 12,
         "HitPoints": 27,
         "Damage": "6d8",
@@ -15640,9 +15640,9 @@
     {
         "Name": "Steam Mephit",
         "Size": "Small",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 10,
         "HitPoints": 21,
         "Damage": "6d6",
@@ -15699,9 +15699,9 @@
     {
         "Name": "Stirge",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 2,
         "Damage": "1d4",
@@ -15736,9 +15736,9 @@
     {
         "Name": "Stone Giant",
         "Size": "Huge",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 17,
         "HitPoints": 126,
         "Damage": "11d12",
@@ -15760,9 +15760,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 8,
-            "WisdomSave": 4
+            "Dexterity": 5,
+            "Constitution": 8,
+            "Wisdom": 4
         },
         "SpecialAbilities": [
             {
@@ -15796,9 +15796,9 @@
     {
         "Name": "Stone Golem",
         "Size": "Large",
-        "Type": "construct",
+        "Type": "Construct",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 17,
         "HitPoints": 178,
         "Damage": "17d10",
@@ -15860,9 +15860,9 @@
     {
         "Name": "Storm Giant",
         "Size": "Huge",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 16,
         "HitPoints": 230,
         "Damage": "20d12",
@@ -15884,10 +15884,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "StrengthSave": 14,
-            "ConstitutionSave": 10,
-            "WisdomSave": 9,
-            "CharismaSave": 9
+            "Strength": 14,
+            "Constitution": 10,
+            "Wisdom": 9,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -15932,9 +15932,9 @@
     {
         "Name": "Succubus/Incubus",
         "Size": "Medium",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "shapechanger",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 15,
         "HitPoints": 66,
         "Damage": "12d8",
@@ -15998,9 +15998,9 @@
     {
         "Name": "Swarm of Bats",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -16051,9 +16051,9 @@
     {
         "Name": "Swarm of Beetles",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -16094,9 +16094,9 @@
     {
         "Name": "Swarm of Centipedes",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -16137,9 +16137,9 @@
     {
         "Name": "Swarm of Insects",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -16180,9 +16180,9 @@
     {
         "Name": "Swarm of Poisonous Snakes",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 14,
         "HitPoints": 36,
         "Damage": "8d8",
@@ -16223,9 +16223,9 @@
     {
         "Name": "Swarm of Quippers",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 28,
         "Damage": "8d8",
@@ -16276,9 +16276,9 @@
     {
         "Name": "Swarm of Rats",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 24,
         "Damage": "7d8",
@@ -16324,9 +16324,9 @@
     {
         "Name": "Swarm of Ravens",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 24,
         "Damage": "7d8",
@@ -16367,9 +16367,9 @@
     {
         "Name": "Swarm of Spiders",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -16425,9 +16425,9 @@
     {
         "Name": "Swarm of Wasps",
         "Size": "Medium",
-        "Type": "swarm of Tiny beasts",
+        "Type": "SwarmOfTinyBeasts",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 22,
         "Damage": "5d8",
@@ -16468,9 +16468,9 @@
     {
         "Name": "Tarrasque",
         "Size": "Gargantuan",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "titan",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 25,
         "HitPoints": 676,
         "Damage": "33d20",
@@ -16492,9 +16492,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "IntelligenceSave": 5,
-            "WisdomSave": 9,
-            "CharismaSave": 9
+            "Intelligence": 5,
+            "Wisdom": 9,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -16584,9 +16584,9 @@
     {
         "Name": "Thug",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any non-good alignment",
+        "Alignment": "AnyNon-goodAlignment",
         "ArmorClass": 11,
         "HitPoints": 32,
         "Damage": "5d8",
@@ -16639,9 +16639,9 @@
     {
         "Name": "Tiger",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 12,
         "HitPoints": 37,
         "Damage": "5d10",
@@ -16693,9 +16693,9 @@
     {
         "Name": "Treant",
         "Size": "Huge",
-        "Type": "plant",
+        "Type": "Plant",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 16,
         "HitPoints": 138,
         "Damage": "12d12",
@@ -16759,9 +16759,9 @@
     {
         "Name": "Tribal Warrior",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 12,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -16803,9 +16803,9 @@
     {
         "Name": "Triceratops",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 95,
         "Damage": "10d12",
@@ -16854,9 +16854,9 @@
     {
         "Name": "Troll",
         "Size": "Large",
-        "Type": "giant",
+        "Type": "Giant",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 15,
         "HitPoints": 84,
         "Damage": "8d10",
@@ -16920,9 +16920,9 @@
     {
         "Name": "Tyrannosaurus Rex",
         "Size": "Huge",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 136,
         "Damage": "13d12",
@@ -16969,9 +16969,9 @@
     {
         "Name": "Unicorn",
         "Size": "Large",
-        "Type": "celestial",
+        "Type": "Celestial",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 12,
         "HitPoints": 67,
         "Damage": "9d10",
@@ -17068,9 +17068,9 @@
     {
         "Name": "Vampire",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "shapechanger",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 16,
         "HitPoints": 144,
         "Damage": "17d8",
@@ -17092,9 +17092,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 9,
-            "WisdomSave": 7,
-            "CharismaSave": 9
+            "Dexterity": 9,
+            "Wisdom": 7,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -17180,9 +17180,9 @@
     {
         "Name": "Vampire Spawn",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 15,
         "HitPoints": 82,
         "Damage": "11d8",
@@ -17204,8 +17204,8 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "WisdomSave": 3
+            "Dexterity": 6,
+            "Wisdom": 3
         },
         "SpecialAbilities": [
             {
@@ -17247,9 +17247,9 @@
     {
         "Name": "Veteran",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "any race",
-        "Alignment": "any alignment",
+        "Alignment": "AnyAlignment",
         "ArmorClass": 17,
         "HitPoints": 58,
         "Damage": "9d8",
@@ -17303,9 +17303,9 @@
     {
         "Name": "Violet Fungus",
         "Size": "Medium",
-        "Type": "plant",
+        "Type": "Plant",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 5,
         "HitPoints": 18,
         "Damage": "4d8",
@@ -17351,9 +17351,9 @@
     {
         "Name": "Vrock",
         "Size": "Large",
-        "Type": "fiend",
+        "Type": "Fiend",
         "Race": "demon",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 15,
         "HitPoints": 104,
         "Damage": "11d10",
@@ -17375,9 +17375,9 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "WisdomSave": 4,
-            "CharismaSave": 2
+            "Dexterity": 5,
+            "Wisdom": 4,
+            "Charisma": 2
         },
         "SpecialAbilities": [
             {
@@ -17426,9 +17426,9 @@
     {
         "Name": "Vulture",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 10,
         "HitPoints": 5,
         "Damage": "1d8",
@@ -17474,9 +17474,9 @@
     {
         "Name": "Warhorse",
         "Size": "Large",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 11,
         "HitPoints": 19,
         "Damage": "3d10",
@@ -17518,9 +17518,9 @@
     {
         "Name": "Warhorse Skeleton",
         "Size": "Large",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 13,
         "HitPoints": 22,
         "Damage": "3d10",
@@ -17555,9 +17555,9 @@
     {
         "Name": "Water Elemental",
         "Size": "Large",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 14,
         "HitPoints": 114,
         "Damage": "12d10",
@@ -17614,9 +17614,9 @@
     {
         "Name": "Weasel",
         "Size": "Tiny",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 1,
         "Damage": "1d4",
@@ -17657,9 +17657,9 @@
     {
         "Name": "Werebear",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "human",
-        "Alignment": "neutral good",
+        "Alignment": "NeutralGood",
         "ArmorClass": 10,
         "HitPoints": 135,
         "Damage": "18d8",
@@ -17725,9 +17725,9 @@
     {
         "Name": "Wereboar",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "human",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 10,
         "HitPoints": 78,
         "Damage": "12d8",
@@ -17792,9 +17792,9 @@
     {
         "Name": "Wererat",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "human",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 12,
         "HitPoints": 33,
         "Damage": "6d8",
@@ -17860,9 +17860,9 @@
     {
         "Name": "Weretiger",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "human",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 12,
         "HitPoints": 120,
         "Damage": "16d8",
@@ -17940,9 +17940,9 @@
     {
         "Name": "Werewolf",
         "Size": "Medium",
-        "Type": "humanoid",
+        "Type": "Humanoid",
         "Race": "human",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 11,
         "HitPoints": 58,
         "Damage": "9d8",
@@ -18008,9 +18008,9 @@
     {
         "Name": "White Dragon Wyrmling",
         "Size": "Medium",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 16,
         "HitPoints": 32,
         "Damage": "5d8",
@@ -18032,10 +18032,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 2,
-            "ConstitutionSave": 4,
-            "WisdomSave": 2,
-            "CharismaSave": 2
+            "Dexterity": 2,
+            "Constitution": 4,
+            "Wisdom": 2,
+            "Charisma": 2
         },
         "Actions": [
             {
@@ -18056,9 +18056,9 @@
     {
         "Name": "Wight",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 14,
         "HitPoints": 45,
         "Damage": "6d8",
@@ -18119,9 +18119,9 @@
     {
         "Name": "Will-o'-Wisp",
         "Size": "Tiny",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 19,
         "HitPoints": 22,
         "Damage": "9d4",
@@ -18182,9 +18182,9 @@
     {
         "Name": "Winter Wolf",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 13,
         "HitPoints": 75,
         "Damage": "10d10",
@@ -18242,9 +18242,9 @@
     {
         "Name": "Wolf",
         "Size": "Medium",
-        "Type": "beast",
+        "Type": "Beast",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 11,
         "Damage": "2d8",
@@ -18291,9 +18291,9 @@
     {
         "Name": "Worg",
         "Size": "Large",
-        "Type": "monstrosity",
+        "Type": "Monstrosity",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 13,
         "HitPoints": 26,
         "Damage": "4d10",
@@ -18335,9 +18335,9 @@
     {
         "Name": "Wraith",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 13,
         "HitPoints": 67,
         "Damage": "9d8",
@@ -18389,9 +18389,9 @@
     {
         "Name": "Wyvern",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "unaligned",
+        "Alignment": "Unaligned",
         "ArmorClass": 13,
         "HitPoints": 110,
         "Damage": "13d10",
@@ -18445,9 +18445,9 @@
     {
         "Name": "Xorn",
         "Size": "Medium",
-        "Type": "elemental",
+        "Type": "Elemental",
         "Race": "AnyRace",
-        "Alignment": "neutral",
+        "Alignment": "Neutral",
         "ArmorClass": 19,
         "HitPoints": 73,
         "Damage": "7d8",
@@ -18511,9 +18511,9 @@
     {
         "Name": "Young Black Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 18,
         "HitPoints": 127,
         "Damage": "15d10",
@@ -18535,10 +18535,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 5,
-            "ConstitutionSave": 6,
-            "WisdomSave": 3,
-            "CharismaSave": 5
+            "Dexterity": 5,
+            "Constitution": 6,
+            "Wisdom": 3,
+            "Charisma": 5
         },
         "SpecialAbilities": [
             {
@@ -18578,9 +18578,9 @@
     {
         "Name": "Young Blue Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 152,
         "Damage": "16d10",
@@ -18602,10 +18602,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 8,
-            "WisdomSave": 5,
-            "CharismaSave": 7
+            "Dexterity": 4,
+            "Constitution": 8,
+            "Wisdom": 5,
+            "Charisma": 7
         },
         "Actions": [
             {
@@ -18638,9 +18638,9 @@
     {
         "Name": "Young Brass Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 17,
         "HitPoints": 110,
         "Damage": "13d10",
@@ -18662,10 +18662,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 6,
-            "WisdomSave": 3,
-            "CharismaSave": 5
+            "Dexterity": 3,
+            "Constitution": 6,
+            "Wisdom": 3,
+            "Charisma": 5
         },
         "Actions": [
             {
@@ -18698,9 +18698,9 @@
     {
         "Name": "Young Bronze Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 18,
         "HitPoints": 142,
         "Damage": "15d10",
@@ -18722,10 +18722,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 7,
-            "WisdomSave": 4,
-            "CharismaSave": 6
+            "Dexterity": 3,
+            "Constitution": 7,
+            "Wisdom": 4,
+            "Charisma": 6
         },
         "SpecialAbilities": [
             {
@@ -18765,9 +18765,9 @@
     {
         "Name": "Young Copper Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic good",
+        "Alignment": "ChaoticGood",
         "ArmorClass": 17,
         "HitPoints": 119,
         "Damage": "14d10",
@@ -18789,10 +18789,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 6,
-            "WisdomSave": 4,
-            "CharismaSave": 5
+            "Dexterity": 4,
+            "Constitution": 6,
+            "Wisdom": 4,
+            "Charisma": 5
         },
         "Actions": [
             {
@@ -18825,9 +18825,9 @@
     {
         "Name": "Young Gold Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 18,
         "HitPoints": 178,
         "Damage": "17d10",
@@ -18849,10 +18849,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 6,
-            "ConstitutionSave": 9,
-            "WisdomSave": 5,
-            "CharismaSave": 9
+            "Dexterity": 6,
+            "Constitution": 9,
+            "Wisdom": 5,
+            "Charisma": 9
         },
         "SpecialAbilities": [
             {
@@ -18892,9 +18892,9 @@
     {
         "Name": "Young Green Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful evil",
+        "Alignment": "LawfulEvil",
         "ArmorClass": 18,
         "HitPoints": 136,
         "Damage": "16d10",
@@ -18916,10 +18916,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 6,
-            "WisdomSave": 4,
-            "CharismaSave": 5
+            "Dexterity": 4,
+            "Constitution": 6,
+            "Wisdom": 4,
+            "Charisma": 5
         },
         "SpecialAbilities": [
             {
@@ -18959,9 +18959,9 @@
     {
         "Name": "Young Red Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 18,
         "HitPoints": 178,
         "Damage": "17d10",
@@ -18983,10 +18983,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 9,
-            "WisdomSave": 4,
-            "CharismaSave": 8
+            "Dexterity": 4,
+            "Constitution": 9,
+            "Wisdom": 4,
+            "Charisma": 8
         },
         "Actions": [
             {
@@ -19019,9 +19019,9 @@
     {
         "Name": "Young Silver Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "lawful good",
+        "Alignment": "LawfulGood",
         "ArmorClass": 18,
         "HitPoints": 168,
         "Damage": "16d10",
@@ -19043,10 +19043,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 4,
-            "ConstitutionSave": 9,
-            "WisdomSave": 4,
-            "CharismaSave": 8
+            "Dexterity": 4,
+            "Constitution": 9,
+            "Wisdom": 4,
+            "Charisma": 8
         },
         "Actions": [
             {
@@ -19079,9 +19079,9 @@
     {
         "Name": "Young White Dragon",
         "Size": "Large",
-        "Type": "dragon",
+        "Type": "Dragon",
         "Race": "AnyRace",
-        "Alignment": "chaotic evil",
+        "Alignment": "ChaoticEvil",
         "ArmorClass": 17,
         "HitPoints": 133,
         "Damage": "14d10",
@@ -19103,10 +19103,10 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "DexteritySave": 3,
-            "ConstitutionSave": 7,
-            "WisdomSave": 3,
-            "CharismaSave": 4
+            "Dexterity": 3,
+            "Constitution": 7,
+            "Wisdom": 3,
+            "Charisma": 4
         },
         "SpecialAbilities": [
             {
@@ -19146,9 +19146,9 @@
     {
         "Name": "Zombie",
         "Size": "Medium",
-        "Type": "undead",
+        "Type": "Undead",
         "Race": "AnyRace",
-        "Alignment": "neutral evil",
+        "Alignment": "NeutralEvil",
         "ArmorClass": 8,
         "HitPoints": 22,
         "Damage": "3d8",
@@ -19170,7 +19170,7 @@
         },
         "Skills": [],
         "SavingThrows": {
-            "WisdomSave": 0
+            "Wisdom": 0
         },
         "SpecialAbilities": [
             {
