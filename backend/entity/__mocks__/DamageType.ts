@@ -1,4 +1,3 @@
-var damageTypes : DamageType[] = [];
 
 export class DamageType {
     Id: number;
@@ -6,8 +5,10 @@ export class DamageType {
     Description: string;
     [key: string]: string|number|(()=>void);
 
+    static TableRows: DamageType[] = [];
+
 	static find(a: any) {
-        var result = damageTypes.slice(0);
+        var result = DamageType.TableRows.slice(0);
         for (let key in a) {
             let value = a[key];
             result = result.filter(function (el: DamageType) {
@@ -23,7 +24,7 @@ export class DamageType {
     }
 
     save() {
-        damageTypes.push(this)
+        DamageType.TableRows.push(this)
     }
 
 }

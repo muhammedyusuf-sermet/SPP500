@@ -1,4 +1,4 @@
-var conditions : Condition[] = [];
+//var conditions : Condition[] = [];
 
 export class Condition {
     Id: number;
@@ -6,8 +6,10 @@ export class Condition {
     Description: string;
     [key: string]: string|number|(()=>void);
 
+    static TableRows: Condition[] = []
+
 	static find(a: any) {
-        var result = conditions.slice(0);
+        var result = Condition.TableRows.slice(0);
         for (let key in a) {
             let value = a[key];
             result = result.filter(function (el: Condition) {
@@ -23,7 +25,7 @@ export class Condition {
     }
 
     save() {
-        conditions.push(this)
+        Condition.TableRows.push(this)
     }
 }
 
