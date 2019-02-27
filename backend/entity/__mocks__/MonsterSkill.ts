@@ -6,9 +6,9 @@ export class MonsterSkill {
 	Skill: Skill;
 	Bonus: number;
 
-	static monsterSkills: MonsterSkill[] = [];
+	static TableRows: MonsterSkill[] = [];
 
     save() {
-        MonsterSkill.monsterSkills.push(this)
+        MonsterSkill.TableRows.push(this)
     }
 }

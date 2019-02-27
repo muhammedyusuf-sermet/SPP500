@@ -6,9 +6,9 @@ export class MonsterSavingThrow {
 	AbilityScore: AbilityScore;
 	Bonus: number;
 
-	static monsterSavingThrows: MonsterSavingThrow[] = [];
+	static TableRows: MonsterSavingThrow[] = [];
 
     save() {
-        MonsterSavingThrow.monsterSavingThrows.push(this)
+        MonsterSavingThrow.TableRows.push(this)
     }
 }
