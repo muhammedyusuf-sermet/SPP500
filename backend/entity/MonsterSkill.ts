@@ -1,4 +1,4 @@
-import {Entity, Column, ManyToOne, BaseEntity} from "typeorm";
+import { Entity, Column, ManyToOne, BaseEntity } from "typeorm";
 import { Monster } from "./Monster";
 import { Skill } from "./Skill";
 

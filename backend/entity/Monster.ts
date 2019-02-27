@@ -1,9 +1,7 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, JoinTable} from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, OneToOne, JoinColumn } from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
-import { MonsterDamageTypeResistance } from "./MonsterDamageTypeResistance";
-import { Condition } from "./Condition";
 import { Encounter } from "./Encounter";
 
 export enum Size {
@@ -149,29 +147,51 @@ export class Monster extends BaseEntity {
     Languages: string;
 
     @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    DamageVulnerabilities: string;
+
+    @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    DamageResistances: string;
+
+    @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    DamageImmunities: string;
+
+    @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    ConditionImmunities: string;
+
+    @Column({
         type: "int",
         default: 1
     })
     ChallengeRating: number;
     
-    @OneToMany(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.Monster)
-    AbilityScores: MonsterAbilityScore[];
+    @OneToOne(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.Monster)
+    @JoinColumn()
+    AbilityScores: MonsterAbilityScore;
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
     Skills: MonsterSkill[];
 
-    @OneToMany(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
-    SavingThrows: MonsterSavingThrow[];
-
-    @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.Monster)
-    DamageResistances: MonsterDamageTypeResistance[];
-    
-    @ManyToMany(() => Condition, condition => condition.ImmuneMonsters)
-    @JoinTable()
-    ConditionImmunity: Condition[];
+    @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
+    @JoinColumn()
+    SavingThrows: MonsterSavingThrow;
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
-    @JoinTable()
     Encounters: Encounter[];
 
 }
