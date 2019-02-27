@@ -14,31 +14,47 @@ Sample curl request,
  --data '
  {
 	"Name": "Test",
+	"Size": "Tiny", // default Medium
+	"Type": "Fiend", // default Beast
+	"Race": "Human", // default AnyRace
+	"Alignment": "AnyAlignment", // default Unaligned
+	"ArmorClass": 5, // default 12
+	"HitPoints": 13, // default 12
+	"Damage": "5d12", // default "2d8"
+	"Speed": "20 ft.", // default "30 ft."
 	"Senses": "test sense",
 	"Languages": "test languages",
-	"HitPoints": 13,
-	"Size": "Tiny",
-	"Type": "Fiend",
-	"MonsterAbilityScores": {
-		"A": 20,
-		"B": 3
+	"DamageVulnerabilities": "test",
+	"DamageResistances": "test",
+	"DamageImmunities": "test",
+	"ConditionImmunities": "test",
+	"ChallengeRating": 3, // default 1
+	"AbilityScores": { 
+		// all properties should either be a number or not provided
+		"Strength": 5, // default 1
+		"Dexterity": 5, // default 1
+		"Constitution": 5, // default 1
+		"Intelligence": 5, // default 1
+		"Wisdom": 5, // default 1
+		"Charisma": 5, // default 1
 	},
-	"MonsterSavingThrows": {
-		"A": null,
-		"B": 3
+	"SavingThrows": {
+		// all properties should either be a number or not provided
+		"Strength": 5, // default 1
+		"Dexterity": 5, // default 1
+		"Constitution": 5, // default 1
+		"Intelligence": 5, // default 1
+		"Wisdom": 5, // default 1
+		"Charisma": 5, // default 1
 	},
-	"MonsterSkills": {
+	"Skills": {
+		// key, value pairs
+		// key is the name of the Skill
+		// value is the Bonus field, default is 0 so null can be given
 		"A": 10,
 		"B": null,
 		"C": 3
 	},
-	"MonsterDamageTypeResistances": {
-		"A": "Immunit",
-		"B": null
-	},
-	"MonsterConditions": [
-		"A"
-	]
 }' \
  http://localhost:3000/monster/create
  */

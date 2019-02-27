@@ -9,9 +9,9 @@ export class MonsterAbilityScore {
 	Wisdom: number;
 	Charisma: number;
 
-    static TableRows: MonsterAbilityScore[] = [];
+	static TableRows: MonsterAbilityScore[] = [];
 
-    save() {
-        MonsterAbilityScore.TableRows.push(this)
-    }
+	save() {
+		MonsterAbilityScore.TableRows.push(this)
+	}
 }

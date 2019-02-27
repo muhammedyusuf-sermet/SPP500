@@ -8,7 +8,7 @@ export class MonsterSkill {
 
 	static TableRows: MonsterSkill[] = [];
 
-    save() {
-        MonsterSkill.TableRows.push(this)
-    }
+	save() {
+		MonsterSkill.TableRows.push(this)
+	}
 }

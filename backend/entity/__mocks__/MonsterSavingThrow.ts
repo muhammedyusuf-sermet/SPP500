@@ -11,7 +11,7 @@ export class MonsterSavingThrow {
 
 	static TableRows: MonsterSavingThrow[] = [];
 
-    save() {
-        MonsterSavingThrow.TableRows.push(this)
-    }
+	save() {
+		MonsterSavingThrow.TableRows.push(this)
+	}
 }
