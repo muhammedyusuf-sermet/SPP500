@@ -2,7 +2,6 @@ import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, Ba
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
-import { MonsterDamageTypeResistance } from "./MonsterDamageTypeResistance";
 import { Condition } from "./Condition";
 import { Encounter } from "./Encounter";
 
@@ -149,6 +148,27 @@ export class Monster extends BaseEntity {
     Languages: string;
 
     @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    DamageVulnerabilities: string;
+
+    @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    DamageResistances: string;
+
+    @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    DamageImmunities: string;
+
+    @Column({
         type: "int",
         default: 1
     })
@@ -162,9 +182,6 @@ export class Monster extends BaseEntity {
 
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     SavingThrows: MonsterSavingThrow;
-
-    @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.Monster)
-    DamageResistances: MonsterDamageTypeResistance[];
     
     @ManyToMany(() => Condition, condition => condition.ImmuneMonsters)
     @JoinTable()
