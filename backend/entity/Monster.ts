@@ -171,7 +171,6 @@ export class Monster extends BaseEntity {
     ConditionImmunity: Condition[];
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
-    @JoinTable()
     Encounters: Encounter[];
 
 }
