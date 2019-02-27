@@ -1,8 +1,7 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, JoinTable, OneToOne} from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, JoinTable, OneToOne } from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
-import { Condition } from "./Condition";
 import { Encounter } from "./Encounter";
 
 export enum Size {
@@ -169,6 +168,13 @@ export class Monster extends BaseEntity {
     DamageImmunities: string;
 
     @Column({
+        type: "varchar",
+        length: 200,
+        nullable: true
+    })
+    ConditionImmunities: string;
+
+    @Column({
         type: "int",
         default: 1
     })
@@ -182,10 +188,6 @@ export class Monster extends BaseEntity {
 
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     SavingThrows: MonsterSavingThrow;
-    
-    @ManyToMany(() => Condition, condition => condition.ImmuneMonsters)
-    @JoinTable()
-    ConditionImmunity: Condition[];
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
     Encounters: Encounter[];
