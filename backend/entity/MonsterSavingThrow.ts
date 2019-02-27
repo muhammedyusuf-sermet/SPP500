@@ -1,10 +1,13 @@
-import { Entity, Column, BaseEntity, OneToOne } from "typeorm";
+import { Entity, Column, BaseEntity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Monster } from "./Monster";
 
 @Entity()
 export class MonsterSavingThrow extends BaseEntity {
 
-    @OneToOne(() => Monster, monster => monster.SavingThrows, { primary: true })
+    @PrimaryGeneratedColumn()
+	Id: number;
+
+    @OneToOne(() => Monster, monster => monster.SavingThrows)
     Monster: Monster;
     
     // each of these is a bonus to the type of saving throw

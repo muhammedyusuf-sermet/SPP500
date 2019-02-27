@@ -1,10 +1,13 @@
-import { Entity, Column, BaseEntity, OneToOne } from "typeorm";
+import { Entity, Column, BaseEntity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Monster } from "./Monster";
 
 @Entity()
 export class MonsterAbilityScore extends BaseEntity {
 
-    @OneToOne(() => Monster, monster => monster.AbilityScores, { primary: true })
+    @PrimaryGeneratedColumn()
+	Id: number;
+
+    @OneToOne(() => Monster, monster => monster.AbilityScores)
     Monster: Monster;
     
     // each of these is the actual stat.

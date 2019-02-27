@@ -1,4 +1,4 @@
-import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, OneToOne } from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, OneToOne, JoinColumn } from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
@@ -181,12 +181,14 @@ export class Monster extends BaseEntity {
     ChallengeRating: number;
     
     @OneToOne(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.Monster)
+    @JoinColumn()
     AbilityScores: MonsterAbilityScore;
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
     Skills: MonsterSkill[];
 
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
+    @JoinColumn()
     SavingThrows: MonsterSavingThrow;
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
