@@ -1,20 +1,45 @@
-import {Entity, Column, ManyToOne, BaseEntity} from "typeorm";
+import {Entity, Column, BaseEntity, OneToOne} from "typeorm";
 import { Monster } from "./Monster";
-import { AbilityScore } from "./AbilityScore";
 
 @Entity()
 export class MonsterAbilityScore extends BaseEntity {
 
-    @ManyToOne(() => Monster, monster => monster.AbilityScores, { primary: true })
+    @OneToOne(() => Monster, monster => monster.AbilityScores, { primary: true })
     Monster: Monster;
-
-    @ManyToOne(() => AbilityScore, abilityScore => abilityScore.Monsters, { primary: true })
-    AbilityScore: AbilityScore;
     
     @Column({
         type: "int",
         default: 1
     })
-    Score: number;
+    Strength: number;
     
+    @Column({
+        type: "int",
+        default: 1
+    })
+    Dexterity: number;
+
+    @Column({
+        type: "int",
+        default: 1
+    })
+    Constitution: number;
+
+    @Column({
+        type: "int",
+        default: 1
+    })
+    Intelligence: number;
+
+    @Column({
+        type: "int",
+        default: 1
+    })
+    Wisdom: number;
+
+    @Column({
+        type: "int",
+        default: 1
+    })
+    Charisma: number;
 }
