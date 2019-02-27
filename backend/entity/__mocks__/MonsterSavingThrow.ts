@@ -1,10 +1,13 @@
 import { Monster } from "./Monster";
-import { AbilityScore } from "./AbilityScore";
 
 export class MonsterSavingThrow {
 	Monster: Monster;
-	AbilityScore: AbilityScore;
-	Bonus: number;
+	Strength: number;
+	Dexterity: number;
+	Constitution: number;
+	Intelligence: number;
+	Wisdom: number;
+	Charisma: number;
 
 	static TableRows: MonsterSavingThrow[] = [];
 

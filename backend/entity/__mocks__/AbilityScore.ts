@@ -1,14 +1,14 @@
+import { Skill } from "./Skill";
 
 export class AbilityScore {
     Id: number;
     Name: string;
     Abbreviation: string;
     Description: string;
-    // Skills: number[];
-	// SavingThrows: number[];
-    [key: string]: string|number|(()=>void);
+    Skills: Skill[];
+    [key: string]: string|Skill[]|number|(()=>void);
 
-    static TableRows : AbilityScore[] = [];
+    static TableRows: AbilityScore[] = [];
 
     static find(a: any) {
         var result = AbilityScore.TableRows.slice(0);
@@ -30,16 +30,3 @@ export class AbilityScore {
         AbilityScore.TableRows.push(this)
     }
 }
-
-function init() {
-    var a = new AbilityScore();
-    var b = new AbilityScore();
-    a.Name = "A";
-    b.Name = "B";
-    a.Id = 1;
-    b.Id = 2;
-    a.save();
-    b.save();
-}
-
-init();

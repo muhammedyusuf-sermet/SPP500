@@ -1,12 +1,8 @@
 import {Size, MonsterType, MonsterRace, Alignment, Monster} from "./entity/Monster";
-import {AbilityScore} from "./entity/AbilityScore";
 import {Skill} from "./entity/Skill"
 import {MonsterAbilityScore} from "./entity/MonsterAbilityScore";
 import {MonsterSavingThrow} from "./entity/MonsterSavingThrow";
 import {MonsterSkill} from "./entity/MonsterSkill";
-import {ResistanceType, MonsterDamageTypeResistance} from "./entity/MonsterDamageTypeResistance"
-import {DamageType} from "./entity/DamageType";
-import {Condition} from "./entity/Condition";
 
 /*
 Parameters:
@@ -74,6 +70,31 @@ export class MonsterClass {
 		
 		monster.Languages = data.Languages;
 
+		if (!data.DamageVulnerabilities) {
+			messages.push("DamageVulnerabilities must be provided.");
+		}
+		
+		monster.DamageVulnerabilities = data.DamageVulnerabilities;
+
+		if (!data.DamageResistances) {
+			messages.push("DamageResistances must be provided.");
+		}
+		
+		monster.DamageResistances = data.DamageResistances;
+
+		if (!data.DamageImmunities) {
+			messages.push("DamageImmunities must be provided.");
+		}
+		
+		monster.DamageImmunities = data.DamageImmunities;
+
+		if (!data.ConditionImmunities) {
+			messages.push("ConditionImmunities must be provided.");
+		}
+		
+		monster.ConditionImmunities = data.ConditionImmunities;
+		
+
 		// check if enum fields are properly provided
 		// if not raise an error
 		// size, type, race, alignment
@@ -102,7 +123,7 @@ export class MonsterClass {
 		}
 
 		// check if fields with defaults are provided
-		// if not do not define them
+		// if not do not assign them
 		var armorClass = Number(data.ArmorClass)
 		if (armorClass) {
 			monster.ArmorClass = armorClass
@@ -126,34 +147,98 @@ export class MonsterClass {
 			monster.ChallengeRating = challengeRating
 		}
 		
-		var abilityScoresArray = [];
+		// var abilityScoresArray = [];
 
 		// MonsterAbilityScore
-		var monsterAbilityScores = data.MonsterAbilityScores
-		if (monsterAbilityScores) {
-			for (const key in monsterAbilityScores) {
-				var abilityScore = await AbilityScore.findOne({ Name: key });
+		var abilityScore = data.AbilityScores
+		if (abilityScore) {
+			var monsterAbilityScore = new MonsterAbilityScore();
+			monsterAbilityScore.Monster = monster;
 
-				if (abilityScore) {
-					var monsterAbilityScore = new MonsterAbilityScore();
-					monsterAbilityScore.Monster = monster;
-					monsterAbilityScore.AbilityScore = abilityScore;
-					var score = Number(monsterAbilityScores[key]);
-					if (score || monsterAbilityScores[key] == null) {
-						monsterAbilityScore.Score = score;
-						abilityScoresArray.push(monsterAbilityScore);
-					} else {
-						messages.push("MonsterAbilityScore value have to be either null or a number.")
-					}
-				} else {
-					messages.push("AbilityScore is invalid: " + key);
-				}
+			if (abilityScore.Strength && typeof abilityScore.Strength !== 'number') {
+				messages.push("Strength value for AbilityScores is not valid: " + abilityScore.Strength)
+			} else {
+				monsterAbilityScore.Strength = abilityScore.Strength;
+			}
+
+			if (abilityScore.Dexterity && typeof abilityScore.Dexterity !== 'number') {
+				messages.push("Dexterity value for AbilityScores is not valid: " + abilityScore.Dexterity)
+			} else {
+				monsterAbilityScore.Dexterity = abilityScore.Dexterity;
+			}
+
+			if (abilityScore.Constitution && typeof abilityScore.Constitution !== 'number') {
+				messages.push("Constitution value for AbilityScores is not valid: " + abilityScore.Constitution)
+			} else {
+				monsterAbilityScore.Constitution = abilityScore.Constitution;
+			}
+
+			if (abilityScore.Intelligence && typeof abilityScore.Intelligence !== 'number') {
+				messages.push("Intelligence value for AbilityScores is not valid: " + abilityScore.Intelligence)
+			} else {
+				monsterAbilityScore.Intelligence = abilityScore.Intelligence;
+			}
+			
+			if (abilityScore.Wisdom && typeof abilityScore.Wisdom !== 'number') {
+				messages.push("Wisdom value for AbilityScores is not valid: " + abilityScore.Wisdom)
+			} else {
+				monsterAbilityScore.Wisdom = abilityScore.Wisdom;
+			}
+
+			if (abilityScore.Charisma && typeof abilityScore.Charisma !== 'number') {
+				messages.push("Charisma value for AbilityScores is not valid: " + abilityScore.Charisma)
+			} else {
+				monsterAbilityScore.Charisma = abilityScore.Charisma;
+			}
+
+		}
+
+		// MonsterSavingThrow
+		var savingThrow = data.SavingThrows
+		if (savingThrow) {
+			var monsterSavingThrow = new MonsterSavingThrow();
+			monsterSavingThrow.Monster = monster;
+
+			if (savingThrow.Strength && typeof savingThrow.Strength !== 'number') {
+				messages.push("Strength value for SavingThrows is not valid: " + savingThrow.Strength)
+			} else {
+				monsterSavingThrow.Strength = savingThrow.Strength;
+			}
+
+			if (savingThrow.Dexterity && typeof savingThrow.Dexterity !== 'number') {
+				messages.push("Dexterity value for SavingThrows is not valid: " + savingThrow.Dexterity)
+			} else {
+				monsterSavingThrow.Dexterity = savingThrow.Dexterity;
+			}
+
+			if (savingThrow.Constitution && typeof savingThrow.Constitution !== 'number') {
+				messages.push("Constitution value for SavingThrows is not valid: " + savingThrow.Constitution)
+			} else {
+				monsterSavingThrow.Constitution = savingThrow.Constitution;
+			}
+
+			if (savingThrow.Intelligence && typeof savingThrow.Intelligence !== 'number') {
+				messages.push("Intelligence value for SavingThrows is not valid: " + savingThrow.Intelligence)
+			} else {
+				monsterSavingThrow.Intelligence = savingThrow.Intelligence;
+			}
+			
+			if (savingThrow.Wisdom && typeof savingThrow.Wisdom !== 'number') {
+				messages.push("Wisdom value for SavingThrows is not valid: " + savingThrow.Wisdom)
+			} else {
+				monsterSavingThrow.Wisdom = savingThrow.Wisdom;
+			}
+
+			if (savingThrow.Charisma && typeof savingThrow.Charisma !== 'number') {
+				messages.push("Charisma value for SavingThrows is not valid: " + savingThrow.Charisma)
+			} else {
+				monsterSavingThrow.Charisma = savingThrow.Charisma;
 			}
 		}
 
 		var skillsArray = [];
 		// MonsterSkill
-		var monsterSkills = data.MonsterSkills
+		var monsterSkills = data.Skills
 		if (monsterSkills) {
 			for (const key in monsterSkills) {
 				var skill = await Skill.findOne({ Name: key });
@@ -167,7 +252,7 @@ export class MonsterClass {
 						monsterSkill.Bonus = bonus;
 						skillsArray.push(monsterSkill);
 					} else {
-						messages.push("MonsterSkill value have to be either null or a number.")
+						messages.push("MonsterSkill value has to be either null or a number.")
 					}
 					
 				} else {
@@ -177,87 +262,16 @@ export class MonsterClass {
 		}
 
 
-		var savingThrowsArray = [];
-		// MonsterSavingThrow
-		var monsterSavingThrows = data.MonsterSavingThrows
-		if (monsterSavingThrows) {
-			for (const key in monsterSavingThrows) {
-				var abilityScore = await AbilityScore.findOne({ Name: key });
-
-				if (abilityScore) {
-					var monsterSavingThrow = new MonsterSavingThrow();
-					monsterSavingThrow.Monster = monster;
-					monsterSavingThrow.AbilityScore = abilityScore;
-					var bonus = Number(monsterSavingThrows[key]);
-					if (bonus || monsterSavingThrows[key] == null) {
-						monsterSavingThrow.Bonus = bonus;
-						savingThrowsArray.push(monsterSavingThrow);
-					} else {
-						messages.push("MonsterSavingThrow value have to be either null or a number.")
-					}
-					
-				} else {
-					messages.push("AbilityScore is invalid: " + key);
-				}
-			}
-		}
-
-
-		var damageResistancesArray = [];
-		// MonsterDamageTypeResistance
-		var monsterDamageTypeResistances = data.MonsterDamageTypeResistances;
-		if (monsterDamageTypeResistances) {
-			for (const key in monsterDamageTypeResistances) {
-				var damageType = await DamageType.findOne({ Name: key });
-
-				if (damageType) {
-					var monsterDamageTypeResistance = new MonsterDamageTypeResistance();
-					monsterDamageTypeResistance.Monster = monster;
-					monsterDamageTypeResistance.DamageType = damageType;
-					var resistenceType = monsterDamageTypeResistances[key]
-
-					if (ResistanceType[resistenceType]) {
-						monsterDamageTypeResistance.Type = resistenceType;
-						damageResistancesArray.push(monsterDamageTypeResistance);
-					} else if (resistenceType == null) {
-						damageResistancesArray.push(monsterDamageTypeResistance);
-					} else {
-						messages.push("ResistenceType value have to be one of the following: null, Vulnerable, Resistance, Immunit")
-					}
-				} else {
-					messages.push("DamageType is invalid: " + key);
-				}
-			}
-		}
-
-		// Condition
-		var monsterConditions = data.MonsterConditions;
-		var conditionsArray = [];
-		if (monsterConditions) {
-			for (let conditionName of monsterConditions) {
-				var condition = await Condition.findOne({ Name: conditionName });
-				if (condition) {
-					conditionsArray.push(condition);
-				} else {
-					messages.push("Condition is invalid: " + conditionName)
-				}
-			}
-		}
-
-		monster.ConditionImmunity = conditionsArray;
-
-		monster.AbilityScores = abilityScoresArray;
+		monster.AbilityScores = abilityScore;
+		monster.SavingThrows = savingThrow;
 		monster.Skills = skillsArray;
-		monster.SavingThrows = savingThrowsArray;
-		monster.DamageResistances = damageResistancesArray;
+		
 
 		// save to db
 		if (messages.length == 0) {
 			await monster.save();
-			for (let abilityScore of abilityScoresArray) await abilityScore.save(); 
 			for (let skill of skillsArray) await skill.save();
-			for (let sawingThrow of savingThrowsArray) await sawingThrow.save();
-			for (let damageResistence of damageResistancesArray) await damageResistence.save();
+
 			return {
 				"status": 201,
 				"message": "success"

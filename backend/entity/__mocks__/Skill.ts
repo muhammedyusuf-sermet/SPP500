@@ -1,11 +1,11 @@
-// import { AbilityScore } from "./AbilityScore";
+import { AbilityScore } from "./AbilityScore";
 
 export class Skill {
     Id: number;
-    AbilityScore: number;
+    AbilityScore: AbilityScore;
     Name: string;
     Description: string;
-    [key: string]: string|number|(()=>void);
+    [key: string]: string|AbilityScore|number|(()=>void);
 
     static TableRows: Skill[] = [];
 
@@ -31,16 +31,22 @@ export class Skill {
 }
 
 function init() {
-    var a = new Skill();
-    var b = new Skill();
-    a.Name = "A";
-    b.Name = "B";
-    a.AbilityScore = 1;
-    b.AbilityScore = 2;
-    a.Id = 1;
-    b.Id = 2;
-    a.save();
-    b.save();
+    var as_1 = new AbilityScore();
+    var as_2 = new AbilityScore();
+    as_1.Name = "A";
+    as_2.Name = "B";
+    var s_1 = new Skill();
+    var s_2 = new Skill();
+    as_1.Skills = [s_1];
+    as_2.Skills = [s_2];
+    s_1.Name = "A";
+    s_2.Name = "B";
+    s_1.AbilityScore = as_1;
+    s_2.AbilityScore = as_2;
+    as_1.save();
+    as_2.save();
+    s_1.save();
+    s_2.save();
 }
 
 init();
