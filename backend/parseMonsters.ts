@@ -1,50 +1,50 @@
-//import {getConnection} from "typeorm";
 var fs = require('fs');
 
-fs.readFile('5e-SRD-Monsters.json', ParseMonsterData);
+fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
 
-function ParseMonsterData (err: any, data: any): void{
-
-    let Monsters: Array<any> = []
+    var monsters: Array<JSON> = []
     let Data: any = JSON.parse(data)
     
     for (let i in Data)
     {
-        let monster: any = 
+        let monster: any =
         {
             Name: '',
             Size: '',
             Type: '',
-            Race: '',       // Enum.
+            Race: '',       
             Alignment: '',
-            Armor_Class: '',
-            Hit_Points: '',
-            Hit_Dice: '',
+            ArmorClass: '',
+            HitPoints: '',
+            Damage: '',
             Speed: '',
             Senses: '',
             Languages: '',
-            Challange_ratting: 0,
-            Special_abilities: [],
-            Actions: [],
-            Legendary_Actions: []
+            ChallengeRating: 0,
+            //SpecialAbilities: [],
+            //Actions: [],
+            //LegendaryActions: []
         }
+
         monster.Name = Data[i]['name']
         monster.Size = Data[i]['size']
         monster.Type = Data[i]['type']
-        //monster.Race = Data[i]['']
+        monster.Race = Data[i]['subtype'] == '' ? 'AnyRace' : Data[i]['subtype']
         monster.Alignment = Data[i]['alignment']
-        monster.Armor_Class = Data[i]['armor_class']
-        monster.Hit_Points = Data[i]['hit_points']
-        monster.Hit_Dice = Data[i]['hit_dice']
+        monster.ArmorClass = Data[i]['armor_class']
+        monster.HitPoints = Data[i]['hit_points']
+        monster.Damage = Data[i]['hit_dice']
         monster.Speed = Data[i]['speed']
         monster.Senses = Data[i]['senses']
         monster.Languages = Data[i]['languages']
-        monster.Challange_ratting = Data[i]['challenge_rating']
-        monster.Special_abilities = Data[i]['special_abilities']
-        monster.Actions = Data[i]['actions']
-        monster.Legendary_Actions = Data[i]['legendary_actions']
+        monster.ChallengeRating = Data[i]['challenge_rating']
+        //monster.SpecialAbilities = Data[i]['special_abilities']
+        //monster.Actions = Data[i]['actions']
+        //monster.LegendaryActions = Data[i]['legendary_actions']
         
-        Monsters.push(monster);
+        //console.log(monster)
+       
+        monsters.push(monster);
     }
-    console.log(Monsters)
-}
+    fs.writeFileSync("./seeds/data/monsters.json", JSON.stringify(monsters,null,4))
+});
