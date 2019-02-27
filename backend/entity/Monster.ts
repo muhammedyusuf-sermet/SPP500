@@ -1,4 +1,4 @@
-import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, JoinTable, OneToOne } from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, OneToOne } from "typeorm";
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";

@@ -1,4 +1,4 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, BaseEntity} from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
 @Entity()
 export class DamageType extends BaseEntity {

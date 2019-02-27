@@ -1,4 +1,4 @@
-import {Entity, Column, BaseEntity, OneToOne} from "typeorm";
+import { Entity, Column, BaseEntity, OneToOne } from "typeorm";
 import { Monster } from "./Monster";
 
 @Entity()
