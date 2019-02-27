@@ -1,4 +1,4 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
 export enum SpellComponents {
     Verbal = "Verbal",

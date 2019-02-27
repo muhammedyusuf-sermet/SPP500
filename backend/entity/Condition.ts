@@ -1,5 +1,4 @@
-import {Entity, Column, Index, PrimaryGeneratedColumn, ManyToMany, BaseEntity} from "typeorm";
-import { Monster } from "./Monster";
+import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
 @Entity()
 export class Condition extends BaseEntity {
@@ -19,7 +18,4 @@ export class Condition extends BaseEntity {
         length: 500
     })
     Description: string;
-
-    @ManyToMany(() => Monster, monster => monster.ConditionImmunity)
-    ImmuneMonsters: Monster[];
 }
