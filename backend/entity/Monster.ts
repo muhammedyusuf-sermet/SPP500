@@ -160,8 +160,8 @@ export class Monster extends BaseEntity {
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
     Skills: MonsterSkill[];
 
-    @OneToMany(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
-    SavingThrows: MonsterSavingThrow[];
+    @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
+    SavingThrows: MonsterSavingThrow;
 
     @OneToMany(() => MonsterDamageTypeResistance, monsterDamageTypeResistance => monsterDamageTypeResistance.Monster)
     DamageResistances: MonsterDamageTypeResistance[];

@@ -1,20 +1,47 @@
-import {Entity, Column, ManyToOne, BaseEntity} from "typeorm";
+import {Entity, Column, BaseEntity, OneToOne} from "typeorm";
 import { Monster } from "./Monster";
-import { AbilityScore } from "./AbilityScore";
 
 @Entity()
 export class MonsterSavingThrow extends BaseEntity {
 
-    @ManyToOne(() => Monster, monster => monster.SavingThrows, { primary: true })
+    @OneToOne(() => Monster, monster => monster.SavingThrows, { primary: true })
     Monster: Monster;
-
-    @ManyToOne(() => AbilityScore, abilityScore => abilityScore.SavingThrows, { primary: true })
-    AbilityScore: AbilityScore;
+    
+    // each of these is a bonus to the type of saving throw
+    @Column({
+        type: "int",
+        default: 0
+    })
+    Strength: number;
     
     @Column({
         type: "int",
         default: 0
     })
-    Bonus: number;
+    Dexterity: number;
+
+    @Column({
+        type: "int",
+        default: 0
+    })
+    Constitution: number;
+
+    @Column({
+        type: "int",
+        default: 0
+    })
+    Intelligence: number;
+
+    @Column({
+        type: "int",
+        default: 0
+    })
+    Wisdom: number;
+
+    @Column({
+        type: "int",
+        default: 0
+    })
+    Charisma: number;
     
 }
