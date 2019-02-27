@@ -21,9 +21,14 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
             Senses: '',
             Languages: '',
             ChallengeRating: 0,
-            //SpecialAbilities: [],
-            //Actions: [],
-            //LegendaryActions: []
+            SpecialAbilities: [],
+            Actions: [],
+            LegendaryActions: [],
+            AbilityScores: {},
+            Skills: {},
+            SavingThrows: {},
+            DamageResistances: {},
+
         }
 
         monster.Name = Data[i]['name']
@@ -38,12 +43,10 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         monster.Senses = Data[i]['senses']
         monster.Languages = Data[i]['languages']
         monster.ChallengeRating = Data[i]['challenge_rating']
-        //monster.SpecialAbilities = Data[i]['special_abilities']
-        //monster.Actions = Data[i]['actions']
-        //monster.LegendaryActions = Data[i]['legendary_actions']
+        monster.SpecialAbilities = Data[i]['special_abilities']
+        monster.Actions = Data[i]['actions']
+        monster.LegendaryActions = Data[i]['legendary_actions']
         
-        //console.log(monster)
-       
         monsters.push(monster);
     }
     fs.writeFileSync("./seeds/data/monsters.json", JSON.stringify(monsters,null,4))
