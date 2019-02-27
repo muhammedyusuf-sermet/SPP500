@@ -83,4 +83,5 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         monsters.push(monster);
     }
     fs.writeFileSync("./seeds/data/monsters.json", JSON.stringify(monsters,null,4))
+    console.log("Scraped all monsters.")
 });

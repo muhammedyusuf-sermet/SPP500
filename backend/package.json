@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "connect": "npx ts-node server.ts",
-    "parse": "npx ts-node Parse-Json.ts",
-    "parse-yarn": "yarn run ts-node Parse-Json.ts",
+    "scrape-monsters": "npx ts-node scrapeMonsters.ts",
     "seed:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c seed -n Initialize",
     "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
     "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
