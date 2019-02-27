@@ -20,15 +20,17 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
             Speed: '',
             Senses: '',
             Languages: '',
+            DamageVulnerabilities: '',
+            DamageResistances: '',
+            DamageImmunities: '',
+            ConditionImmunities: '',
             ChallengeRating: 0,
-            SpecialAbilities: [],
-            Actions: [],
-            LegendaryActions: [],
             AbilityScores: {},
             Skills: {},
             SavingThrows: {},
-            DamageResistances: {},
-
+            SpecialAbilities: [],
+            Actions: [],
+            LegendaryActions: []         
         }
 
         monster.Name = Data[i]['name']
