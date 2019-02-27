@@ -6,7 +6,17 @@
         },
         "Name":"Boss Battle",
         "Description":"Only the best will live.",
-        "Monsters" : []
+        "Monsters" : [
+            {
+                "Id" : 1
+            },
+            {
+                "Id" : 2
+            },
+            {
+                "Id" : 3
+            }
+        ]
     },
     {
         "Id": 2,
