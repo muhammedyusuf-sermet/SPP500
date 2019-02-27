@@ -12,9 +12,9 @@ export class MonsterDamageTypeResistance {
     DamageType: DamageType;
     Type: ResistanceType;
 
-    static monsterDamageTypeResistances: MonsterDamageTypeResistance[] = [];
+    static TableRows: MonsterDamageTypeResistance[] = [];
 
     save() {
-        MonsterDamageTypeResistance.monsterDamageTypeResistances.push(this)
+        MonsterDamageTypeResistance.TableRows.push(this)
     }
 }

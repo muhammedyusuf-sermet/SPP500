@@ -25,10 +25,10 @@ export class Monster {
 
     [key: string]: string|number[]|number|(()=>void);
 
-    static monsters: Monster[] = [];
+    static TableRows: Monster[] = [];
 
     static find(a: any) {
-        var result = Monster.monsters.slice(0);
+        var result = Monster.TableRows.slice(0);
         for (let key in a) {
             let value = a[key];
             result = result.filter(function (el: Monster) {
@@ -44,6 +44,6 @@ export class Monster {
     }
 
     save() {
-        Monster.monsters.push(this)
+        Monster.TableRows.push(this)
     }
 }

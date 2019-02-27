@@ -1,5 +1,4 @@
 // import { AbilityScore } from "./AbilityScore";
-var skills : Skill[] = [];
 
 export class Skill {
     Id: number;
@@ -8,8 +7,10 @@ export class Skill {
     Description: string;
     [key: string]: string|number|(()=>void);
 
+    static TableRows: Skill[] = [];
+
     static find(a: any) {
-        var result = skills.slice(0);
+        var result = Skill.TableRows.slice(0);
         for (let key in a) {
             let value = a[key];
             result = result.filter(function (el: Skill) {
@@ -25,7 +26,7 @@ export class Skill {
     }
 
     save() {
-        skills.push(this)
+        Skill.TableRows.push(this)
     }
 }
 

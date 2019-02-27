@@ -1,4 +1,3 @@
-var abilityScores : AbilityScore[] = [];
 
 export class AbilityScore {
     Id: number;
@@ -9,8 +8,10 @@ export class AbilityScore {
 	// SavingThrows: number[];
     [key: string]: string|number|(()=>void);
 
+    static TableRows : AbilityScore[] = [];
+
     static find(a: any) {
-        var result = abilityScores.slice(0);
+        var result = AbilityScore.TableRows.slice(0);
         for (let key in a) {
             let value = a[key];
             result = result.filter(function (el: AbilityScore) {
@@ -26,7 +27,7 @@ export class AbilityScore {
     }
 
     save() {
-        abilityScores.push(this)
+        AbilityScore.TableRows.push(this)
     }
 }
 
