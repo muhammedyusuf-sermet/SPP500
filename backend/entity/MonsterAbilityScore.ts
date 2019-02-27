@@ -7,6 +7,7 @@ export class MonsterAbilityScore extends BaseEntity {
     @OneToOne(() => Monster, monster => monster.AbilityScores, { primary: true })
     Monster: Monster;
     
+    // each of these is the actual stat.
     @Column({
         type: "int",
         default: 1
