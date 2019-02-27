@@ -1,5 +1,6 @@
 [
     {
+        "Id" : 1,
         "Email": "example@exp.com",
         "Username": "buoy",
         "Name": "bob",
@@ -7,6 +8,7 @@
         "Type" : "cannibal"
     },
     {
+        "Id" : 2,
         "Email": "what@is.today",
         "Username": "yesterday",
         "Name": "tomorrow",
