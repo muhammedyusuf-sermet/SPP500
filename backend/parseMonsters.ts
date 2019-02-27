@@ -26,7 +26,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
             ConditionImmunities: '',
             ChallengeRating: 0,
             AbilityScores: {},
-            Skills: {},
+            Skills: [],
             SavingThrows: {},
             SpecialAbilities: [],
             Actions: [],
@@ -44,11 +44,35 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         monster.Speed = Data[i]['speed']
         monster.Senses = Data[i]['senses']
         monster.Languages = Data[i]['languages']
+        monster.DamageVulnerabilities = Data[i]['damage_vulnerabilities']
+        monster.DamageResistances = Data[i]['damage_resistances']
+        monster.DamageImmunities = Data[i]['damage_immunities']
+        monster.ConditionImmunities = Data[i]['condition_immunities']
         monster.ChallengeRating = Data[i]['challenge_rating']
+
+        // AbilityScores properties.
+        if (Data[i].hasOwnProperty('strength')) { monster.AbilityScores.Strength = Data[i]['strength'] }
+        if (Data[i].hasOwnProperty('dexterity')) { monster.AbilityScores.Dexterity = Data[i]['dexterity'] }
+        if (Data[i].hasOwnProperty('constitution')) { monster.AbilityScores.Constitution = Data[i]['constitution'] }
+        if (Data[i].hasOwnProperty('intelligence')) { monster.AbilityScores.Intelligence = Data[i]['intelligence'] }
+        if (Data[i].hasOwnProperty('wisdom')) { monster.AbilityScores.Wisdom = Data[i]['wisdom'] }
+        if (Data[i].hasOwnProperty('charisma')) { monster.AbilityScores.Charisma = Data[i]['charisma'] }
+
+        // Skills properties.
+        // TODO: add skills.
+
+        // SavingThrows properties.
+        if (Data[i].hasOwnProperty('strength_save')) { monster.SavingThrows.StrengthSave = Data[i]['strength_save'] }
+        if (Data[i].hasOwnProperty('dexterity_save')) { monster.SavingThrows.DexteritySave = Data[i]['dexterity_save'] }
+        if (Data[i].hasOwnProperty('constitution_save')) { monster.SavingThrows.ConstitutionSave = Data[i]['constitution_save'] }
+        if (Data[i].hasOwnProperty('intelligence_save')) { monster.SavingThrows.IntelligenceSave = Data[i]['intelligence_save'] }
+        if (Data[i].hasOwnProperty('wisdom_save')) { monster.SavingThrows.WisdomSave = Data[i]['wisdom_save'] }
+        if (Data[i].hasOwnProperty('charisma_save')) { monster.SavingThrows.CharismaSave = Data[i]['charisma_save'] }
+
         monster.SpecialAbilities = Data[i]['special_abilities']
         monster.Actions = Data[i]['actions']
         monster.LegendaryActions = Data[i]['legendary_actions']
-        
+
         monsters.push(monster);
     }
     fs.writeFileSync("./seeds/data/monsters.json", JSON.stringify(monsters,null,4))
