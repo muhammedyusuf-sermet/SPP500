@@ -676,7 +676,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						<Grid item xs={6}>
 							<div>Land Speed</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
@@ -688,37 +688,37 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						<Grid item xs={4}>
 							<div>Strength Stat</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
 							<div>Dexterity Stat</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
 							<div>Constitution Stat</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
 							<div>Intelligence Stat</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
 							<div>Wisdom Stat</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
 							<div>Charisma Stat</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
@@ -910,17 +910,17 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						<Grid item xs={12}>
 							<div>Languages</div>
 							<div className="form-group">
-								<TextField error={false} margin="dense" value={this.state.monster.name} id="name" label="Monster Name" helperText="" fullWidth onChange={this.handleMonsterNameChange}/>
+								<TextField error={false} margin="dense" value={this.state.monster.languages} id="name" label="Monster Name" helperText="" fullWidth onChange={this.handleMonsterNameChange}/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
 							<div className="form-group">
-								<TextField error = {false} id="challengeRating" label="Challenge Rating" value={this.state.monster.challengeRating} onChange={this.handleMonsterChallengeRatingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="challengeRating" label="Challenge Rating" value={this.state.monster.challengeRating} onChange={this.handleMonsterChallengeRatingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
 							<div className="form-group">
-								<TextField error = {false} id="experiencePoints" label="Experience Points" value={this.state.monster.experiencePoints} onChange={this.handleMonsterExperiencePointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="experiencePoints" label="Experience Points" value={this.state.monster.experiencePoints} onChange={this.handleMonsterExperiencePointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 					</Grid>
