@@ -155,10 +155,10 @@ export class MonsterFactory {
 
 		// MonsterAbilityScore
 		var abilityScore = data.AbilityScores
+		var monsterAbilityScore = new MonsterAbilityScore();
+		monsterAbilityScore.Monster = monster;
+		monster.AbilityScores = monsterAbilityScore;
 		if (abilityScore) {
-			var monsterAbilityScore = new MonsterAbilityScore();
-			monsterAbilityScore.Monster = monster;
-			monster.AbilityScores = monsterAbilityScore;
 
 			if (abilityScore.Strength && typeof abilityScore.Strength !== 'number') {
 				messages.push("Strength value for AbilityScores is not valid: " + abilityScore.Strength)
@@ -199,10 +199,10 @@ export class MonsterFactory {
 
 		// MonsterSavingThrow
 		var savingThrow = data.SavingThrows
+		var monsterSavingThrow = new MonsterSavingThrow();
+		monsterSavingThrow.Monster = monster;
+		monster.SavingThrows = monsterSavingThrow;
 		if (savingThrow) {
-			var monsterSavingThrow = new MonsterSavingThrow();
-			monsterSavingThrow.Monster = monster;
-			monster.SavingThrows = monsterSavingThrow;
 
 			if (savingThrow.Strength && typeof savingThrow.Strength !== 'number') {
 				messages.push("Strength value for SavingThrows is not valid: " + savingThrow.Strength)
