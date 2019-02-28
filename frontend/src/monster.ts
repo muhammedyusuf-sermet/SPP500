@@ -132,6 +132,15 @@ export const enum MonsterAlignment {
 	ChaoticGood,
 	ChaoticNeutral,
 	ChaoticEvil,
+	AnyNonGoodAlignment,
+	AnyNonEvilAlignment,
+	AnyNonLawfulAlignment,
+	AnyNonChaoticAlignment,
+	AnyGoodAlignment,
+	AnyEvilAlignment,
+	AnyLawfulAlignment,
+	AnyChaoticAlignment,
+	AnyNeutralAlignment,
 }
 
 export const MonsterAlignmentNames = new Map<number, string>([
@@ -146,6 +155,15 @@ export const MonsterAlignmentNames = new Map<number, string>([
 	[MonsterAlignment.ChaoticGood, "Chaotic Good"],
 	[MonsterAlignment.ChaoticNeutral, "Chaotic Neutral"],
 	[MonsterAlignment.ChaoticEvil, "Chaotic Evil"],
+	[MonsterAlignment.AnyNonGoodAlignment, "Any NonGood Alignment"],
+	[MonsterAlignment.AnyNonEvilAlignment, "Any NonEvil Alignment"],
+	[MonsterAlignment.AnyNonLawfulAlignment, "Any NonLawful Alignment"],
+	[MonsterAlignment.AnyNonChaoticAlignment, "Any NonChaotic Alignment"],
+	[MonsterAlignment.AnyGoodAlignment, "Any Good Alignment"],
+	[MonsterAlignment.AnyEvilAlignment, "Any Evil Alignment"],
+	[MonsterAlignment.AnyLawfulAlignment, "Any Lawful Alignment"],
+	[MonsterAlignment.AnyChaoticAlignment, "Any Chaotic Alignment"],
+	[MonsterAlignment.AnyNeutralAlignment, "Any Neutral Alignment"],
 ])
 
 export interface IMonsterAbilities {

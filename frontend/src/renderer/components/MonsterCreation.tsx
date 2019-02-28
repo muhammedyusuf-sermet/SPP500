@@ -631,56 +631,85 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			}
 			else {
 				console.log("Hello!")
+
+				// Must remove spaces because of postgres issue
+				let monsterType = Monster.MonsterTypeNames.get(this.state.monster.type)
+				let monsterTypeString = monsterType != null ? monsterType.replace(" ", "") : ""
+				let monsterAlignment = Monster.MonsterAlignmentNames.get(this.state.monster.alignment)
+				let monsterAlignmentString = monsterAlignment != null ? monsterAlignment.replace(" ", "") : ""
+				let hitPointDiceModifier = this.state.monster.hitPointDiceAdd != null ? this.state.monster.hitPointDiceAdd : 0
+				let monsterHitPointDistribution = hitPointDiceModifier < 0 ? this.state.monster.hitPointDice + "-" + hitPointDiceModifier : this.state.monster.hitPointDice + "+" + hitPointDiceModifier
+				let monsterSpeed = "Speed: " + this.state.monster.speedLand + "ft."
+				monsterSpeed = this.state.monster.speedSwim != null ? monsterSpeed + " Swimming Speed: " + this.state.monster.speedSwim + " ft." : monsterSpeed
+				let monsterSenses = ""
+				monsterSenses = this.state.monster.sensesBlindsight != null ? monsterSenses + "Blindsight: " + this.state.monster.sensesBlindsight + " ft. " : monsterSenses
+				monsterSenses = this.state.monster.sensesDarkvision != null ? monsterSenses + "Darkvision: " + this.state.monster.sensesDarkvision + " ft. " : monsterSenses
+				monsterSenses = this.state.monster.sensesTremorsense != null ? monsterSenses + "Tremorsense: " + this.state.monster.sensesTremorsense + " ft. " : monsterSenses
+				monsterSenses = this.state.monster.sensesTruesight != null ? monsterSenses + "Truesight: " + this.state.monster.sensesTruesight + " ft. " : monsterSenses
+				monsterSenses = this.state.monster.sensesPassiveInsight != null ? monsterSenses + "Passive Insight: " + this.state.monster.sensesPassiveInsight + ". " : monsterSenses
+				monsterSenses = this.state.monster.sensesPassiveInvestigation != null ? monsterSenses + "Passive Investigation: " + this.state.monster.sensesPassiveInvestigation + ". " : monsterSenses
+				monsterSenses = this.state.monster.sensesPassivePerception ? monsterSenses + "Passive Perception: " + this.state.monster.sensesPassivePerception + ". " : monsterSenses
+				monsterSenses = monsterSenses.length == 0 ? monsterSenses : monsterSenses.substring(0, monsterSenses.length - 1);
+
 				let payloadToSend = {
 					"Name" : this.state.monster.name,
 					"Size" : Monster.MonsterSizeNames.get(this.state.monster.size),
+					"Type" : monsterTypeString,
+					"Race" : Monster.MonsterRaceNames.get(this.state.monster.race),
+					"Environment" : Monster.MonsterEnvironmentNames.get(this.state.monster.environment),
+					"Alignment" : monsterAlignmentString,
+					"ArmorClass" : this.state.monster.armorClass,
+					"HitPoints" : this.state.monster.hitPoints,
+					"HitPointDistribution": monsterHitPointDistribution,
+					"Speed": monsterSpeed,
+					"Senses": monsterSenses,
+					"Languages": this.state.monster.languages,
+					"DamageVulnerabilities": this.state.monster.vulnerability,
+					"DamageResistances": this.state.monster.resistance,
+					"DamageImmunities": this.state.monster.damageImmunity,
+					"ConditionImmunities": this.state.monster.conditionImmunity,
+					"ChallengeRating": this.state.monster.challengeRating,
+					"ExperiencePoints": this.state.monster.experiencePoints,
+					"AbilityScores": {
+						"Strength": this.state.monster.strStat,
+						"Dexterity": this.state.monster.dexStat,
+						"Constitution": this.state.monster.conStat,
+						"Intelligence": this.state.monster.intStat,
+						"Wisdom": this.state.monster.wisStat,
+						"Charisma": this.state.monster.chaStat
+					},
+					"SavingThrows": {
+						"Strength": this.state.monster.strSavingThrow,
+						"Dexterity": this.state.monster.dexSavingThrow,
+						"Constitution": this.state.monster.conSavingThrow,
+						"Intelligence": this.state.monster.intSavingThrow,
+						"Wisdom": this.state.monster.wisSavingThrow,
+						"Charisma": this.state.monster.chaSavingThrow
+					},
+					"Skills": {
+						"Acrobatics": this.state.monster.skillsAcrobatics,
+						"Animal Handling": this.state.monster.skillsAnimalHandling,
+						"Arcana": this.state.monster.skillsArcana,
+						"Athletics": this.state.monster.skillsAthletics,
+						"Deception": this.state.monster.skillsDeception,
+						"History": this.state.monster.skillsHistory,
+						"Insight": this.state.monster.skillsInsight,
+						"Intimidation": this.state.monster.skillsIntimidation,
+						"Investigation": this.state.monster.skillsInvestigation,
+						"Medicine": this.state.monster.skillsMedicine,
+						"Nature": this.state.monster.skillsNature,
+						"Perception": this.state.monster.skillsPerception,
+						"Performance": this.state.monster.skillsPerformance,
+						"Persuasion": this.state.monster.skillsPersuasion,
+						"Religion": this.state.monster.skillsReligion,
+						"Sleight of Hand": this.state.monster.skillsSleightOfHand,
+						"Stealth": this.state.monster.skillsStealth,
+						"Survival": this.state.monster.skillsStealth
+					}
+
 				}
 				console.log(JSON.stringify(payloadToSend))
-				console.log(JSON.stringify(this.state))
 
-				/*
-The payload the backend is expecting /  for payload to send:
-				{
-    "Name": "Test0",
-    "Size": "Tiny",
-    "Type": "Fiend",
-    "Race": "Human",
-    "Alignment": "AnyAlignment",
-    "ArmorClass": 5,
-    "HitPoints": 13,
-    "Damage": "5d12",
-    "Speed": "20 ft.",
-    "Senses": "test sense",
-    "Languages": "test languages",
-    "DamageVulnerabilities": "test",
-    "DamageResistances": "test",
-    "DamageImmunities": "test",
-    "ConditionImmunities": "test",
-    "ChallengeRating": 3,
-    "AbilityScores": { 
-        "Strength": 5,
-        "Dexterity": 5,
-        "Constitution": 5,
-        "Intelligence": 5,
-        "Wisdom": 5,
-        "Charisma": 5
-    },
-    "SavingThrows": {
-        "Strength": 5,
-        "Dexterity": 5,
-        "Constitution": 5,
-        "Intelligence": 5,
-        "Wisdom": 5,
-        "Charisma": 5
-    },
-    "Skills": {
-        "Athletics": 5,
-    	"Nature": 15,
-		"Performance": 3
-		...
-    }
-}
-				*/
 
 				//fetch('/api/form-submit-url', {
 				//method: 'POST',
