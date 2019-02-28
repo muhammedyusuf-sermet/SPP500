@@ -656,13 +656,11 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 							</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hit Points</div>
 							<div className="form-group">
 								<TextField error = {false} id="hitPoints" label="Hit Points" value={this.state.monster.hitPoints} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Base Hit Point Dice</div>
 							<div className="form-group">
 								<TextField error={false} margin="dense" value={this.state.monster.hitPointDice} id="hitPointDice" label="Hit Point Dice" helperText="" fullWidth required onChange={this.handleMonsterHitPointDiceChange}/>
 							</div>
