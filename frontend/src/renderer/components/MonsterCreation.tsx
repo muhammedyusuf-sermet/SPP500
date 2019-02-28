@@ -722,33 +722,28 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 							</div>
 						</Grid>
 						<Grid item xs={4}>
-							<div>Strength Saving Throw</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="strengthSavingThrow" label="Strength Saving Throw Modifier" value={this.state.monster.strSavingThrow} onChange={this.handleMonsterStrSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
-							<div>Dexterity Saving Throw</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="dexteritySavingThrow" label="Dexterity Saving Throw Modifier" value={this.state.monster.dexSavingThrow} onChange={this.handleMonsterDexSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
-							<div>Constitution Saving Throw</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="constitutionSavingThrow" label="Constitution Saving Throw Modifier" value={this.state.monster.conSavingThrow} onChange={this.handleMonsterConSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
-							<div>Intelligence Saving Throw</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="intelligenceSavingThrow" label="Intelligence Saving Throw Modifier" value={this.state.monster.intSavingThrow} onChange={this.handleMonsterIntSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
-							<div>Wisdom Saving Throw</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="wisdomSavingThrow" label="Wisdom Saving Throw Modifier" value={this.state.monster.wisSavingThrow} onChange={this.handleMonsterWisSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
