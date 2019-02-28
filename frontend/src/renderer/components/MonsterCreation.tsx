@@ -14,6 +14,7 @@ import "../css/create_monster.css"
 
 
 const types = Array.from(Monster.MonsterTypeNames.values()).map(v => ({label: v, value: v}))
+const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v, value: v}))
 
 const validateForm = (event: React.FormEvent) => {
 	//console.log("Hello!")
@@ -37,6 +38,25 @@ const MonsterTypeDropdown = (props: IMonsterTypeDropdownProps) => (
 			</MenuItem>
 		))}
 	</TextField>
+)
+
+interface IMonsterSizeDropdownProps {
+	type: Monster.MonsterSize,
+	onChange: (newSize: Monster.MonsterSize) => void
+}
+
+const MonsterSizeDropdown = (props: IMonsterSizeDropdownProps) => (
+	    <TextField id="type" select value={Monster.MonsterSizeNames.get(props.type)} label="Size" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+	        let val = Array.from(Monster.MonsterSizeNames.entries()).find((v) => v[1] === event.target.value)
+	        if (val !== undefined)
+	            props.onChange(val[0])
+	        }}>
+	        {sizes.map(option => (
+	            <MenuItem key={option.value} value={option.value} selected={Monster.MonsterSizeNames.get(props.type) === option.value}>
+	                {option.label}
+	            </MenuItem>
+	        ))}
+	    </TextField>
 )
 
 interface IMonsterCreationState {
@@ -124,6 +144,14 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 		})
 	}
 
+	handleMonsterSizeChange = (newSize: Monster.MonsterSize) => {
+		const monster = this.state.monster
+		const newMonster = { ...monster, size: newSize }
+		this.setState({
+			monster: newMonster
+		})
+	}
+
 	render() {
 		return (
 			<div className="monster-creation-container">
@@ -139,7 +167,10 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 							<MonsterTypeDropdown type={this.state.monster.type} onChange={this.handleMonsterTypeChange} />
 						</Grid>
 						<Grid item xs={6}>
-							<div>Size</div>
+							<MonsterSizeDropdown type={this.state.monster.size} onChange={this.handleMonsterSizeChange} />
+						</Grid>
+						<Grid item xs={6}>
+							<div>Race</div>
 						</Grid>
 						<Grid item xs={6}>
 							<div>Alignment</div>
@@ -160,37 +191,148 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 							<div>Vulnerability</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Armor Class</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Hit Points</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Base Hit Point Dice</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Base Hit Point Modifier</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Land Speed</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Swimming Speed</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Strength Stat</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Dexterity Stat</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Constitution Stat</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Intelligence Stat</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Wisdom Stat</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Charisma Stat</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Strength Saving Throw</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Dexterity Saving Throw</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Constitution Saving Throw</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Intelligence Saving Throw</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Wisdom Saving Throw</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Charisma Saving Throw</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Athletics Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Acrobatics Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Sleight Of Hand Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Stealth Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Arcana Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>History Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Investigation Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Nature Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Religion Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Animal Handling Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Insight Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Medicine Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Perception Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Survival Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Deception Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Intimidation Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Performance Modifier</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Persuasion Modifier</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div>Blindsight</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div>Darkvision</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div>Tremorsense</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div>Truesight</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Passive Perception</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Passive Investigation</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div>Passive Insight</div>
+						</Grid>
+						<Grid item xs={12}>
+							<div>Languages</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Challenge Rating</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Hi</div>
+							<div>Experience Points</div>
 						</Grid>
-						<Grid item xs={6}>
-							<div>Hi</div>
+						<Grid item xs={12}>
+							<div>Abilities</div>
 						</Grid>
-						<Grid item xs={6}>
-							<div>Hi</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div>Hi</div>
+						<Grid item xs={12}>
+							<div>Actions</div>
 						</Grid>
 					</Grid>
 					<div className="form-group">
