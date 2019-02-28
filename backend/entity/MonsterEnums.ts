@@ -48,7 +48,7 @@ export enum MonsterRace {
 export enum Alignment {
     Unaligned = "Unaligned",
     AnyAlignment = "AnyAlignment",
-    LawfulDood = "LawfulDood",
+    LawfulDood = "LawfulGood",
     LawfulNeutral = "LawfulNeutral",
     LawfulEvil = "LawfulEvil",
     NeutralGood = "NeutralGood",
