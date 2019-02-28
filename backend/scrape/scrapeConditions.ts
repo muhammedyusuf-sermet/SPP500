@@ -1,4 +1,3 @@
-import {getConnection} from "typeorm";
 var fs = require('fs');
 
 fs.readFile('5e-SRD-Conditions.json', ParseConditionData)
