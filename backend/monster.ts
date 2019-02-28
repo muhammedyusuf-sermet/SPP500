@@ -1,4 +1,5 @@
-import {Size, MonsterType, MonsterRace, Alignment, Monster} from "./entity/Monster";
+import {Monster} from "./entity/Monster";
+import { Size, MonsterType, MonsterRace, Alignment } from "./entity/MonsterEnums";
 import {Skill} from "./entity/Skill"
 import {MonsterAbilityScore} from "./entity/MonsterAbilityScore";
 import {MonsterSavingThrow} from "./entity/MonsterSavingThrow";

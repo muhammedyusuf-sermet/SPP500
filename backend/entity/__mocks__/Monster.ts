@@ -1,7 +1,7 @@
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
-import { Size, MonsterType, MonsterRace, Alignment } from "../Monster"
+import { Size, MonsterType, MonsterRace, Alignment } from "../MonsterEnums";
 
 export class Monster {
 	Name: string;
