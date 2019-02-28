@@ -2,7 +2,7 @@ import {MigrationInterface, QueryRunner} from "typeorm";
 import { User } from "../entity/User";
 import Data from './data/users.json';
 
-export class ParseUsers0000000002000 implements MigrationInterface {
+export class ParseUsers2000000001000 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         let users: Array<User> = []

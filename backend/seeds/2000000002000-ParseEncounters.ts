@@ -3,7 +3,7 @@ import { Encounter } from "../entity/Encounter";
 import Data from './data/encounters.json';
 import { Monster } from "../entity/Monster";
 
-export class ParseEncounters1551147888000 implements MigrationInterface {
+export class ParseEncounters2000000002000 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         let encounters: Array<Encounter> = []
