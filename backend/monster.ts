@@ -58,7 +58,7 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
-export class MonsterClass {
+export class MonsterFactory {
 	public async Create(request: {payload: any}) {
 		var data = request.payload;
 		const monster = new Monster();

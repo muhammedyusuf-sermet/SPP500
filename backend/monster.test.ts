@@ -1,4 +1,4 @@
-import {MonsterClass} from "./monster";
+import {MonsterFactory} from "./monster";
 
 jest.mock("./entity/AbilityScore");
 jest.mock("./entity/Monster");
@@ -8,7 +8,7 @@ jest.mock("./entity/MonsterSkill");
 jest.mock("./entity/Skill");
 
 describe('monster creation tests', async () => {
-	var monster = new MonsterClass();
+	var monster = new MonsterFactory();
 
 	test('when proper data is given', async () => {
 		const response = await monster.Create({
