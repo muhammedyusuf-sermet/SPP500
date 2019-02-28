@@ -157,6 +157,7 @@ export class MonsterFactory {
 		if (abilityScore) {
 			var monsterAbilityScore = new MonsterAbilityScore();
 			monsterAbilityScore.Monster = monster;
+			monster.AbilityScores = monsterAbilityScore;
 
 			if (abilityScore.Strength && typeof abilityScore.Strength !== 'number') {
 				messages.push("Strength value for AbilityScores is not valid: " + abilityScore.Strength)
@@ -193,7 +194,6 @@ export class MonsterFactory {
 			} else {
 				monsterAbilityScore.Charisma = abilityScore.Charisma;
 			}
-
 		}
 
 		// MonsterSavingThrow
@@ -201,6 +201,7 @@ export class MonsterFactory {
 		if (savingThrow) {
 			var monsterSavingThrow = new MonsterSavingThrow();
 			monsterSavingThrow.Monster = monster;
+			monster.SavingThrows = monsterSavingThrow;
 
 			if (savingThrow.Strength && typeof savingThrow.Strength !== 'number') {
 				messages.push("Strength value for SavingThrows is not valid: " + savingThrow.Strength)
@@ -264,16 +265,15 @@ export class MonsterFactory {
 			}
 		}
 
-
-		monster.AbilityScores = abilityScore;
-		monster.SavingThrows = savingThrow;
 		monster.Skills = skillsArray;
 		
 
 		// save to db
 		if (messages.length == 0) {
+			await monster.AbilityScores.save();
+			await monster.SavingThrows.save();
 			await monster.save();
-			for (let skill of skillsArray) await skill.save();
+			for (let skill of monster.Skills ) await skill.save();
 
 			return {
 				"status": 201,
