@@ -1,10 +1,7 @@
 import React from 'react';
-import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 
@@ -18,11 +15,6 @@ const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v,
 const races = Array.from(Monster.MonsterRaceNames.values()).map(v => ({label: v, value: v}))
 const environments = Array.from(Monster.MonsterEnvironmentNames.values()).map(v => ({label: v, value: v}))
 const alignments = Array.from(Monster.MonsterAlignmentNames.values()).map(v => ({label: v, value: v}))
-
-const validateForm = (event: React.FormEvent) => {
-	//console.log("Hello!")
-	event.preventDefault();
-}
 
 interface IMonsterTypeDropdownProps {
 	type: Monster.MonsterType,
@@ -142,7 +134,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				vulnerability: "",
 				armorClass: 13,
 				hitPoints: 150,
-				hitPointDice: "",
+				hitPointDice: "6d8",
 				hitPointDiceAdd: 3,
 				speedLand: 30,
 				speedSwim: 30,
@@ -613,19 +605,92 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 	*/
 
 	render() {
-		let baseHitPointsError = false
-		let hitPointDiceError = false
-		let armorClassError = false
-		let strStatError = false
-		let dexStatError = false
-		let conStatError = false
-		let intStatError = false
-		let wisStatError = false
-		let chaStatError = false
-		let challengeRatingError = false
-		let experiencePointsError = false
-		let landSpeedError = false
-		let swimmingSpeedError = false
+		let diceRegex = /^\d+d\d+$/
+		let baseHitPointsError = !((this.state.monster.hitPoints != null) && this.state.monster.hitPoints >= 0)
+		let hitPointDiceError = !((this.state.monster.hitPointDice != null) && this.state.monster.hitPointDice.match(diceRegex) != null)
+		let armorClassError = this.state.monster.armorClass < 0
+		let strStatError = this.state.monster.strStat < 0
+		let dexStatError = this.state.monster.dexStat < 0
+		let conStatError = this.state.monster.conStat < 0
+		let intStatError = this.state.monster.intStat < 0
+		let wisStatError = this.state.monster.wisStat < 0
+		let chaStatError = this.state.monster.chaStat < 0
+		let challengeRatingError = this.state.monster.challengeRating < 0
+		let experiencePointsError = this.state.monster.experiencePoints < 0
+		let landSpeedError = this.state.monster.speedLand < 0
+		let swimmingSpeedError = !((this.state.monster.speedSwim != null) && this.state.monster.speedSwim >= 0)
+
+		const validateForm = (event: React.FormEvent) => {
+
+			event.preventDefault();
+
+			if (baseHitPointsError || hitPointDiceError || armorClassError || strStatError
+				|| dexStatError || conStatError || intStatError || wisStatError || chaStatError
+				|| challengeRatingError || experiencePointsError || landSpeedError || swimmingSpeedError) {
+					event.preventDefault();
+			}
+			else {
+				console.log("Hello!")
+				let payloadToSend = {
+					"Name" : this.state.monster.name,
+					"Size" : Monster.MonsterSizeNames.get(this.state.monster.size),
+				}
+				console.log(JSON.stringify(payloadToSend))
+				console.log(JSON.stringify(this.state))
+
+				/*
+The payload the backend is expecting /  for payload to send:
+				{
+    "Name": "Test0",
+    "Size": "Tiny",
+    "Type": "Fiend",
+    "Race": "Human",
+    "Alignment": "AnyAlignment",
+    "ArmorClass": 5,
+    "HitPoints": 13,
+    "Damage": "5d12",
+    "Speed": "20 ft.",
+    "Senses": "test sense",
+    "Languages": "test languages",
+    "DamageVulnerabilities": "test",
+    "DamageResistances": "test",
+    "DamageImmunities": "test",
+    "ConditionImmunities": "test",
+    "ChallengeRating": 3,
+    "AbilityScores": { 
+        "Strength": 5,
+        "Dexterity": 5,
+        "Constitution": 5,
+        "Intelligence": 5,
+        "Wisdom": 5,
+        "Charisma": 5
+    },
+    "SavingThrows": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Constitution": 5,
+        "Intelligence": 5,
+        "Wisdom": 5,
+        "Charisma": 5
+    },
+    "Skills": {
+        "Athletics": 5,
+    	"Nature": 15,
+		"Performance": 3
+		...
+    }
+}
+				*/
+
+				//fetch('/api/form-submit-url', {
+				//method: 'POST',
+				//body: data,
+				//});
+
+				// TODO: Submit the Form
+			}
+		}
+
 		return (
 			<div className="monster-creation-container">
 				<form onSubmit={validateForm}>
@@ -678,7 +743,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						</Grid>
 						<Grid item xs={6}>
 							<div className="form-group">
-								<TextField error = {baseHitPointsError} helperText={baseHitPointsError? "You cannot have a negative base HP." : ""} id="hitPoints" label="Hit Points" value={this.state.monster.hitPoints} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {baseHitPointsError} helperText={baseHitPointsError? "You cannot have a negative base HP." : ""} id="hitPoints" label="Hit Points" value={this.state.monster.hitPoints} onChange={this.handleMonsterHitPointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
@@ -908,77 +973,3 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 		);
 	}
 }
-
-
-/*
-Form Notes:
-Type: (Aberration, Beast, Celestial, Construct, Dragon, Elemental, Fey, Fiend, Giant, Humanoid, Monstrosity, Ooze, Plant, Undead)
-Size: (Tiny, Small, Medium, Large, Huge, Gargantuan)
-Alignment: (Freeform Text)
-Environment: (Arctic, Coastal, Desert, Forest, Grassland, Hill, Mountain, Swamp, Underdark, Underwater, Urban)
-Resistance: (Freeform Text)
-Damage Immunity: (Freeform Text)
-Condition Immunity: (Freeform Text)
-Vulnerability: (Freeform Text)
-Armor Class: 0+
-Hit Points (Averaged Out): 0+
-Hit Points (Die Roll): xdy + z
-Speed (Land): 0+ ft
-Speed (Swim): 0+ ft
-Str Stat: 0+
-Dex Stat: 0+
-Con Stat: 0+
-Int Stat:  0+
-Wis Stat: 0+
-Cha Stat:0+
-Saving Throws — Str: int
-Saving Throws — Dex: int
-Saving Throws — Con: int
-Saving Throws — Int: int
-Saving Throws — Wis: int
-Saving Throws — Cha: int
-Skills:
-— Strength (Athletics): int
-— Dexterity (Acrobatics): int
-— Dexterity (Sleight of Hands): int
-— Dexterity (Stealth): int
-— Intelligence (Arcana): int
-— Intelligence (History): int
-— Intelligence (Investigation): int
-— Intelligence (Nature): int
-— Intelligence (Religion): int
-— Wisdom (Animal Handling): int
-— Wisdom (Insight): int
-— Wisdom (Medicine): int
-— Wisdom (Perception): int
-— Wisdom (Survival): int
-— Charisma (Deception): int
-— Charisma (Intimidation): int
-— Charisma (Performance): int
-— Charisma (Persuasion): int
-Senses:
-— Blindsight: 0+ft
-— Darkvision: 0+ft
-— Tremorsense: 0+ft
-— Truesight: 0+ft
-— Passive Wis (Perception):  int
-— Passive Int (Investigation): int
-— Passive Wis (Insight): int
-Languages:
-Challenge: 0.0+ (float)
-XP: 0+
-Abilities:
-— Name: text
-— Description: text
-Actions:
-— Name: text
-— Description: text
-— Usage Counters: 0+
-— (Optional) Type of Attack: Melee / Ranged / N/A
-— (Optional) To Hit: int
-— (Optional) Reach: int ft
-— (Optional) Target(s): 0+
-— (Optional) Averaged Damage: 0+
-— (Optional) xdy + z damage
-
-*/
