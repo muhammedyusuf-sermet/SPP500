@@ -17,7 +17,8 @@
         "cli": {
             "entitiesDir": "./entity",
             "migrationsDir": "./migrations"
-        }
+        },
+        "logging": "all"
     },
     {
         "name": "seed",
