@@ -78,32 +78,25 @@ export class MonsterFactory {
 			monster.Senses = data.Senses;
 		}
 
-
 		if (data.Languages) {
 			monster.Languages = data.Languages;
 		}
-		
 
 		if (data.DamageVulnerabilities) {
 			monster.DamageVulnerabilities = data.DamageVulnerabilities;
 		}
-		
 
 		if (data.DamageResistances) {
 			monster.DamageResistances = data.DamageResistances;
 		}
-		
 
 		if (data.DamageImmunities) {
 			monster.DamageImmunities = data.DamageImmunities;
 		}
-		
 
 		if (data.ConditionImmunities) {
 			monster.ConditionImmunities = data.ConditionImmunities;
 		}
-		
-
 
 		// check if enum fields are properly provided
 		// if not raise an error
