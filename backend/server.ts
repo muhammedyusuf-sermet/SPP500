@@ -7,6 +7,7 @@ import * as JWTHapi from "hapi-auth-jwt2";
 import {User} from "./entity/User";
 import {Registration} from "./registration";
 import {Login} from "./login";
+import {MonsterFactory} from "./monster";
 
 export const Server = new Hapi.Server({
 	port: 3000,
@@ -45,14 +46,12 @@ export const initServer = async () => {
 		}
 	},
 	{
-		method: 'GET',
-		path: '/secret', 
+		method: 'POST',
+		path: '/monster/create', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
-			return {
-				"status": 201,
-				"message": "This is a secret content."
-			};
+			var monster = new MonsterFactory();
+			return monster.Create(request);
 		}
 	},
 	{
