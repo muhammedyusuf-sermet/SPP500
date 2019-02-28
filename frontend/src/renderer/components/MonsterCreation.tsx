@@ -204,14 +204,14 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						/>
 					</FormControl>
 					<TextField
-			  id="standard-number"
-			  label="Number"
-			  type="number"
-			  InputLabelProps={{
-				shrink: true,
-			  }}
-			  margin="normal"
-			/>
+						id="standard-number"
+						label="Number"
+						type="number"
+						InputLabelProps={{
+							shrink: true,
+						}}
+						margin="normal"
+					/>
 					<Button className="button" variant="contained" color="primary" type="submit"> Create Monster </Button>
 				</form>
 			</div>
@@ -221,7 +221,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 
 
 /*
-Form Notes: 
+Form Notes:
 Type: (Aberration, Beast, Celestial, Construct, Dragon, Elemental, Fey, Fiend, Giant, Humanoid, Monstrosity, Ooze, Plant, Undead)
 Size: (Tiny, Small, Medium, Large, Huge, Gargantuan)
 Alignment: (Freeform Text)
