@@ -199,39 +199,34 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 
 	handleMonsterTypeChange = (newType: Monster.MonsterType) => {
 		const monster = this.state.monster
-		const newMonster = { ...monster, type: newType }
 		this.setState({
-			monster: newMonster
+			monster: { ...monster, type: newType }
 		})
 	}
 
 	handleMonsterSizeChange = (newSize: Monster.MonsterSize) => {
 		const monster = this.state.monster
-		const newMonster = { ...monster, size: newSize }
 		this.setState({
-			monster: newMonster
+			monster: { ...monster, size: newSize }
 		})
 	}
 
 	handleMonsterRaceChange = (newRace: Monster.MonsterRace) => {
 		const monster = this.state.monster
-		const newMonster = { ...monster, race: newRace }
 		this.setState({
-			monster: newMonster
+			monster: { ...monster, race: newRace }
 		})
 	}
 	handleMonsterEnvironmentChange = (newEnvironment: Monster.MonsterEnvironment) => {
 		const monster = this.state.monster
-		const newMonster = { ...monster, environment: newEnvironment }
 		this.setState({
-			monster: newMonster
+			monster: { ...monster, environment: newEnvironment }
 		})
 	}
 	handleMonsterAlignmentChange = (newAlignment: Monster.MonsterAlignment) => {
 		const monster = this.state.monster
-		const newMonster = { ...monster, alignment: newAlignment }
 		this.setState({
-			monster: newMonster
+			monster: { ...monster, alignment: newAlignment }
 		})
 	}
 	// TODO
