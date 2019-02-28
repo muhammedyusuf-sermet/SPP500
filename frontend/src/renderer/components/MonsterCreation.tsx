@@ -668,21 +668,18 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 							</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Base Hit Point Modifier</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="hitPointModifier" label="Base Hit Point Modifier" value={this.state.monster.hitPointDiceAdd} onChange={this.handleMonsterHitPointDiceModifierChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Land Speed</div>
 							<div className="form-group">
-								<TextField error = {false} required id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} required id="landSpeed" label="Land Speed" value={this.state.monster.speedLand} onChange={this.handleMonsterLandSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
-							<div>Swimming Speed</div>
 							<div className="form-group">
-								<TextField error = {false} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+								<TextField error = {false} id="swimmingSpeed" label="Swimming Speed" value={this.state.monster.speedSwim} onChange={this.handleMonsterSwimSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
 							</div>
 						</Grid>
 						<Grid item xs={4}>
