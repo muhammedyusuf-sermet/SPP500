@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import './css/app.css';
 import { HomePage } from './components/Home';
-import { Registration } from './components/Registration';
+import { MonsterCreation } from './components/MonsterCreation';
 
 type AppProps = {}
 
@@ -19,13 +19,13 @@ export class App extends React.Component<{}> {
 					<ul>
 						<li>
 							<Link to="/">Home</Link>
-							<Link to="/registration">Registration</Link>
+							<Link to="/monster_creation">Monster Creation</Link>
 						</li>
 					</ul>
 					<hr />
 
 					<Route exact path="/" component={HomePage} />
-					<Route path="/registration" component={Registration} />
+					<Route path="/monster_creation" component={MonsterCreation} />
 				</div>
 			</Router>
 		);
