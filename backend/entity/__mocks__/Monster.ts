@@ -19,12 +19,12 @@ export class Monster {
 	DamageResistances: string;
 	DamageImmunities: string;
 	ConditionImmunities: string;
-	ChallengeRating: number;
-	AbilityScores: MonsterAbilityScore[];
+    ChallengeRating: number;
+	AbilityScores: MonsterAbilityScore;
 	Skills: MonsterSkill[];
-	SavingThrows: MonsterSavingThrow[];
+	SavingThrows: MonsterSavingThrow;
 
-	[key: string]: string|number|MonsterAbilityScore[]|MonsterSkill[]|MonsterSavingThrow[]|(()=>void);
+	[key: string]: string|number|MonsterAbilityScore|MonsterSkill[]|MonsterSavingThrow|(()=>void);
 
 	static TableRows: Monster[] = [];
 
