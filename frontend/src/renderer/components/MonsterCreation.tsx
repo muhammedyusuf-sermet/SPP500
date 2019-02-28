@@ -15,6 +15,9 @@ import "../css/create_monster.css"
 
 const types = Array.from(Monster.MonsterTypeNames.values()).map(v => ({label: v, value: v}))
 const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v, value: v}))
+const races = Array.from(Monster.MonsterRaceNames.values()).map(v => ({label: v, value: v}))
+const environments = Array.from(Monster.MonsterEnvironmentNames.values()).map(v => ({label: v, value: v}))
+const alignments = Array.from(Monster.MonsterAlignmentNames.values()).map(v => ({label: v, value: v}))
 
 const validateForm = (event: React.FormEvent) => {
 	//console.log("Hello!")
@@ -27,7 +30,7 @@ interface IMonsterTypeDropdownProps {
 }
 
 const MonsterTypeDropdown = (props: IMonsterTypeDropdownProps) => (
-	<TextField id="type" select value={Monster.MonsterTypeNames.get(props.type)} label="Type" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+	<TextField error={false} id="type" select value={Monster.MonsterTypeNames.get(props.type)} label="Type" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
 		let val = Array.from(Monster.MonsterTypeNames.entries()).find((v) => v[1] === event.target.value)
 		if (val !== undefined)
 			props.onChange(val[0])
@@ -46,7 +49,7 @@ interface IMonsterSizeDropdownProps {
 }
 
 const MonsterSizeDropdown = (props: IMonsterSizeDropdownProps) => (
-	    <TextField id="type" select value={Monster.MonsterSizeNames.get(props.type)} label="Size" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+	    <TextField error={false} id="size" select value={Monster.MonsterSizeNames.get(props.type)} label="Size" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
 	        let val = Array.from(Monster.MonsterSizeNames.entries()).find((v) => v[1] === event.target.value)
 	        if (val !== undefined)
 	            props.onChange(val[0])
@@ -57,6 +60,63 @@ const MonsterSizeDropdown = (props: IMonsterSizeDropdownProps) => (
 	            </MenuItem>
 	        ))}
 	    </TextField>
+)
+
+interface IMonsterRaceDropdownProps {
+	    type: Monster.MonsterRace,
+	    onChange: (newRace: Monster.MonsterRace) => void
+	}
+
+const MonsterRaceDropdown = (props: IMonsterRaceDropdownProps) => (
+        <TextField error={false} id="race" select value={Monster.MonsterRaceNames.get(props.type)} label="Race" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+            let val = Array.from(Monster.MonsterRaceNames.entries()).find((v) => v[1] === event.target.value)
+            if (val !== undefined)
+                props.onChange(val[0])
+            }}>
+            {races.map(option => (
+                <MenuItem key={option.value} value={option.value} selected={Monster.MonsterRaceNames.get(props.type) === option.value}>
+                    {option.label}
+                </MenuItem>
+            ))}
+        </TextField>
+)
+
+interface IMonsterEnvironmentDropdownProps {
+	type: Monster.MonsterEnvironment,
+	onChange: (newEnvironment: Monster.MonsterEnvironment) => void
+}
+
+const MonsterEnvironmentDropdown = (props: IMonsterEnvironmentDropdownProps) => (
+        <TextField error={false} id="environment" select value={Monster.MonsterEnvironmentNames.get(props.type)} label="Environment" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+            let val = Array.from(Monster.MonsterEnvironmentNames.entries()).find((v) => v[1] === event.target.value)
+            if (val !== undefined)
+                props.onChange(val[0])
+            }}>
+            {environments.map(option => (
+                <MenuItem key={option.value} value={option.value} selected={Monster.MonsterEnvironmentNames.get(props.type) === option.value}>
+                    {option.label}
+                </MenuItem>
+            ))}
+        </TextField>
+)
+
+interface IMonsterAlignmentDropdownProps {
+    type: Monster.MonsterAlignment,
+    onChange: (newAlignment: Monster.MonsterAlignment) => void
+}
+
+const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) => (
+        <TextField error={false} id="alignment" select value={Monster.MonsterAlignmentNames.get(props.type)} label="Alignment" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+            let val = Array.from(Monster.MonsterAlignmentNames.entries()).find((v) => v[1] === event.target.value)
+            if (val !== undefined)
+                props.onChange(val[0])
+            }}>
+            {alignments.map(option => (
+                <MenuItem key={option.value} value={option.value} selected={Monster.MonsterAlignmentNames.get(props.type) === option.value}>
+                    {option.label}
+                </MenuItem>
+            ))}
+        </TextField>
 )
 
 interface IMonsterCreationState {
@@ -70,6 +130,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			monster: {
 				name: "",
 				type: Monster.MonsterType.Aberration,
+				alignment: Monster.MonsterAlignment.AnyAlignment,
 				size: Monster.MonsterSize.Medium,
 				race: Monster.MonsterRace.AnyRace,
 				environment: Monster.MonsterEnvironment.Arctic,
@@ -79,7 +140,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				vulnerability: "",
 				armorClass: 13,
 				hitPoints: 150,
-				hitPointDice: 2,
+				hitPointDice: "",
 				hitPointDiceAdd: 3,
 				speedLand: 30,
 				speedSwim: 30,
@@ -152,6 +213,393 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 		})
 	}
 
+	handleMonsterRaceChange = (newRace: Monster.MonsterRace) => {
+		const monster = this.state.monster
+		const newMonster = { ...monster, race: newRace }
+		this.setState({
+			monster: newMonster
+		})
+	}
+	handleMonsterEnvironmentChange = (newEnvironment: Monster.MonsterEnvironment) => {
+		const monster = this.state.monster
+		const newMonster = { ...monster, environment: newEnvironment }
+		this.setState({
+			monster: newMonster
+		})
+	}
+	handleMonsterAlignmentChange = (newAlignment: Monster.MonsterAlignment) => {
+		const monster = this.state.monster
+		const newMonster = { ...monster, alignment: newAlignment }
+		this.setState({
+			monster: newMonster
+		})
+	}
+	// TODO
+
+	handleMonsterResistanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterDamageImmunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterConditionImmunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterVulnerabilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterArmorClassChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterHitPointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterHitPointDiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterHitPointDiceModifierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterLandSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterSwimSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterStrStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterDexStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterConStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterIntStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterWisStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterChaStatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterStrSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterDexSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterConSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterIntSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterWisSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterChaSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterAthleticsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterAcrobaticsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterSleightOfHandChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterStealthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterArcanaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterHistoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterInvestigationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterNatureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterReligionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterAnimalHandlingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterInsightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterMedicineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterPerceptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterSurvivalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterDeceptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterIntimidationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterPerformanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterPersuasionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterBlindsightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterDarkvisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterTremorsenseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterTruesightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterPassivePerceptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterPassiveInvestigationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterPassiveInsightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterLanguagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterChallengeRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterExperiencePointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterAbilitiesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
+	handleMonsterActionsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const monster = this.state.monster
+		this.setState({
+			monster: { ...monster, name: event.target.value }
+		})
+	}
+
 	render() {
 		return (
 			<div className="monster-creation-container">
@@ -160,7 +608,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 					<Grid container spacing={24}>
 						<Grid item xs={12}>
 							<div className="form-group">
-								<TextField autoFocus margin="dense" value={this.state.monster.name} id="name" label="Monster Name" helperText="" fullWidth required onChange={this.handleMonsterNameChange}/>
+								<TextField autoFocus error={false} margin="dense" value={this.state.monster.name} id="name" label="Monster Name" helperText="" fullWidth required onChange={this.handleMonsterNameChange}/>
 							</div>
 						</Grid>
 						<Grid item xs={6}>
@@ -170,16 +618,18 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 							<MonsterSizeDropdown type={this.state.monster.size} onChange={this.handleMonsterSizeChange} />
 						</Grid>
 						<Grid item xs={6}>
-							<div>Race</div>
+							<MonsterRaceDropdown type={this.state.monster.race} onChange={this.handleMonsterRaceChange} />
 						</Grid>
 						<Grid item xs={6}>
-							<div>Alignment</div>
+							<MonsterAlignmentDropdown type={this.state.monster.alignment} onChange={this.handleMonsterAlignmentChange} />
 						</Grid>
 						<Grid item xs={6}>
-							<div>Environment</div>
+							<MonsterEnvironmentDropdown type={this.state.monster.environment} onChange={this.handleMonsterEnvironmentChange} />
 						</Grid>
 						<Grid item xs={12}>
-							<div>Resistance</div>
+							<div className="form-group">
+								<TextField autoFocus error={false} margin="dense" value={this.state.monster.resistance} id="resistance" label="Resistances" helperText="" fullWidth required onChange={this.handleMonsterResistanceChange}/>
+							</div>
 						</Grid>
 						<Grid item xs={12}>
 							<div>Damage Immunity</div>

@@ -52,19 +52,33 @@ export const MonsterSizeNames = new Map<number, string>([
 	[MonsterSize.Gargantuan, "Gargantuan"],
 ])
 
-export enum MonsterEnvironment {
-	Arctic = "Arctic",
-	Coastal = "Coastal",
-	Desert = "Desert",
-	Forest = "Forest",
-	Grassland = "Grassland",
-	Hill = "Hill",
-	Mountain = "Mountain",
-	Swamp = "Swamp",
-	Underdark = "Underdark",
-	Underwater = "Underwater",
-	Urban = "Urban",
+export const enum MonsterEnvironment {
+	Arctic,
+	Coastal,
+	Desert,
+	Forest,
+	Grassland,
+	Hill,
+	Mountain,
+	Swamp,
+	Underdark,
+	Underwater,
+	Urban,
 }
+
+export const MonsterEnvironmentNames = new Map<number, string>([
+	[MonsterEnvironment.Arctic, "Arctic"],
+	[MonsterEnvironment.Coastal, "Coastal"],
+	[MonsterEnvironment.Desert, "Desert"],
+	[MonsterEnvironment.Forest, "Forest"],
+	[MonsterEnvironment.Grassland, "Grassland"],
+	[MonsterEnvironment.Hill, "Hill"],
+	[MonsterEnvironment.Mountain, "Mountain"],
+	[MonsterEnvironment.Swamp, "Swamp"],
+	[MonsterEnvironment.Underdark, "Underdark"],
+	[MonsterEnvironment.Underwater, "Underwater"],
+	[MonsterEnvironment.Urban, "Urban"],
+])
 
 export const enum MonsterRace {
 	AnyRace,
@@ -87,7 +101,7 @@ export const enum MonsterRace {
 }
 
 export const MonsterRaceNames = new Map<number, string>([
-	[MonsterRace.AnyRace, "AnyRace"],
+	[MonsterRace.AnyRace, "Any Race"],
 	[MonsterRace.Devil, "Devil"],
 	[MonsterRace.Demon, "Demon"],
 	[MonsterRace.Human, "Human"],
@@ -162,6 +176,7 @@ export interface IMonsterActions {
 export interface IMonster {
 	name: string,
 	type: MonsterType,
+	alignment: MonsterAlignment,
 	size: MonsterSize,
 	race: MonsterRace,
 	environment: MonsterEnvironment,
@@ -171,7 +186,7 @@ export interface IMonster {
 	vulnerability?: string,
 	armorClass: number,
 	hitPoints?: number,
-	hitPointDice?: number,
+	hitPointDice?: string,
 	hitPointDiceAdd?: number,
 	speedLand: number,
 	speedSwim?: number,
