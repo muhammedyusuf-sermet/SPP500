@@ -7,7 +7,7 @@ import * as JWTHapi from "hapi-auth-jwt2";
 import {User} from "./entity/User";
 import {Registration} from "./registration";
 import {Login} from "./login";
-import {MonsterClass} from "./monster";
+import {MonsterFactory} from "./monster";
 
 export const Server = new Hapi.Server({
 	port: 3000,
@@ -50,7 +50,7 @@ export const initServer = async () => {
 		path: '/monster/create', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
-			var monster = new MonsterClass();
+			var monster = new MonsterFactory();
 			return monster.Create(request);
 		}
 	},

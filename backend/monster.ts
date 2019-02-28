@@ -1,4 +1,5 @@
-import {Size, MonsterType, MonsterRace, Alignment, Monster} from "./entity/Monster";
+import {Monster} from "./entity/Monster";
+import { Size, MonsterType, MonsterRace, Alignment } from "./entity/MonsterEnums";
 import {Skill} from "./entity/Skill"
 import {MonsterAbilityScore} from "./entity/MonsterAbilityScore";
 import {MonsterSavingThrow} from "./entity/MonsterSavingThrow";
@@ -58,7 +59,7 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
-export class MonsterClass {
+export class MonsterFactory {
 	public async Create(request: {payload: any}) {
 		var data = request.payload;
 		const monster = new Monster();
@@ -67,49 +68,36 @@ export class MonsterClass {
 
 		// check if fields with no defaults are provided
 		// if not raise an error
-		// name, senses, languages
+		// only name is required
 		if (!data.Name) {
 			messages.push("Name must be provided.");
 		}
 
 		monster.Name = data.Name;
 
-		if (!data.Senses) {
-			messages.push("Senses must be provided.");
+		if (data.Senses) {
+			monster.Senses = data.Senses;
 		}
 
-		monster.Senses = data.Senses;
-
-		if (!data.Languages) {
-			messages.push("Languages must be provided.");
+		if (data.Languages) {
+			monster.Languages = data.Languages;
 		}
-		
-		monster.Languages = data.Languages;
 
-		if (!data.DamageVulnerabilities) {
-			messages.push("DamageVulnerabilities must be provided.");
+		if (data.DamageVulnerabilities) {
+			monster.DamageVulnerabilities = data.DamageVulnerabilities;
 		}
-		
-		monster.DamageVulnerabilities = data.DamageVulnerabilities;
 
-		if (!data.DamageResistances) {
-			messages.push("DamageResistances must be provided.");
+		if (data.DamageResistances) {
+			monster.DamageResistances = data.DamageResistances;
 		}
-		
-		monster.DamageResistances = data.DamageResistances;
 
-		if (!data.DamageImmunities) {
-			messages.push("DamageImmunities must be provided.");
+		if (data.DamageImmunities) {
+			monster.DamageImmunities = data.DamageImmunities;
 		}
-		
-		monster.DamageImmunities = data.DamageImmunities;
 
-		if (!data.ConditionImmunities) {
-			messages.push("ConditionImmunities must be provided.");
+		if (data.ConditionImmunities) {
+			monster.ConditionImmunities = data.ConditionImmunities;
 		}
-		
-		monster.ConditionImmunities = data.ConditionImmunities;
-		
 
 		// check if enum fields are properly provided
 		// if not raise an error
@@ -167,9 +155,10 @@ export class MonsterClass {
 
 		// MonsterAbilityScore
 		var abilityScore = data.AbilityScores
+		var monsterAbilityScore = new MonsterAbilityScore();
+		monsterAbilityScore.Monster = monster;
+		monster.AbilityScores = monsterAbilityScore;
 		if (abilityScore) {
-			var monsterAbilityScore = new MonsterAbilityScore();
-			monsterAbilityScore.Monster = monster;
 
 			if (abilityScore.Strength && typeof abilityScore.Strength !== 'number') {
 				messages.push("Strength value for AbilityScores is not valid: " + abilityScore.Strength)
@@ -206,14 +195,14 @@ export class MonsterClass {
 			} else {
 				monsterAbilityScore.Charisma = abilityScore.Charisma;
 			}
-
 		}
 
 		// MonsterSavingThrow
 		var savingThrow = data.SavingThrows
+		var monsterSavingThrow = new MonsterSavingThrow();
+		monsterSavingThrow.Monster = monster;
+		monster.SavingThrows = monsterSavingThrow;
 		if (savingThrow) {
-			var monsterSavingThrow = new MonsterSavingThrow();
-			monsterSavingThrow.Monster = monster;
 
 			if (savingThrow.Strength && typeof savingThrow.Strength !== 'number') {
 				messages.push("Strength value for SavingThrows is not valid: " + savingThrow.Strength)
@@ -277,16 +266,15 @@ export class MonsterClass {
 			}
 		}
 
-
-		monster.AbilityScores = abilityScore;
-		monster.SavingThrows = savingThrow;
 		monster.Skills = skillsArray;
 		
 
 		// save to db
 		if (messages.length == 0) {
+			await monster.AbilityScores.save();
+			await monster.SavingThrows.save();
 			await monster.save();
-			for (let skill of skillsArray) await skill.save();
+			for (let skill of monster.Skills ) await skill.save();
 
 			return {
 				"status": 201,
