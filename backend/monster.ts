@@ -67,49 +67,43 @@ export class MonsterFactory {
 
 		// check if fields with no defaults are provided
 		// if not raise an error
-		// name, senses, languages
+		// only name is required
 		if (!data.Name) {
 			messages.push("Name must be provided.");
 		}
 
 		monster.Name = data.Name;
 
-		if (!data.Senses) {
-			messages.push("Senses must be provided.");
+		if (data.Senses) {
+			monster.Senses = data.Senses;
 		}
 
-		monster.Senses = data.Senses;
 
-		if (!data.Languages) {
-			messages.push("Languages must be provided.");
+		if (data.Languages) {
+			monster.Languages = data.Languages;
 		}
 		
-		monster.Languages = data.Languages;
 
-		if (!data.DamageVulnerabilities) {
-			messages.push("DamageVulnerabilities must be provided.");
+		if (data.DamageVulnerabilities) {
+			monster.DamageVulnerabilities = data.DamageVulnerabilities;
 		}
 		
-		monster.DamageVulnerabilities = data.DamageVulnerabilities;
 
-		if (!data.DamageResistances) {
-			messages.push("DamageResistances must be provided.");
+		if (data.DamageResistances) {
+			monster.DamageResistances = data.DamageResistances;
 		}
 		
-		monster.DamageResistances = data.DamageResistances;
 
-		if (!data.DamageImmunities) {
-			messages.push("DamageImmunities must be provided.");
+		if (data.DamageImmunities) {
+			monster.DamageImmunities = data.DamageImmunities;
 		}
 		
-		monster.DamageImmunities = data.DamageImmunities;
 
-		if (!data.ConditionImmunities) {
-			messages.push("ConditionImmunities must be provided.");
+		if (data.ConditionImmunities) {
+			monster.ConditionImmunities = data.ConditionImmunities;
 		}
 		
-		monster.ConditionImmunities = data.ConditionImmunities;
-		
+
 
 		// check if enum fields are properly provided
 		// if not raise an error
