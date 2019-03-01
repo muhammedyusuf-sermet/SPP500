@@ -1,11 +1,8 @@
-var session = require('electron').remote.session;
-var ses = session.fromPartition('persist:name');
-
 const Store = require('electron-store');
 const store = new Store();
 
 export function userAuthenticated(cookieToCheck:string) {
-	return true
+	return getCookie("session_token") != undefined
 }
 
 export function setStringCookie(data:string, name:string) {
@@ -13,4 +10,8 @@ export function setStringCookie(data:string, name:string) {
 }
 export function getCookie(name:string) {
 	return store.get(name);
+}
+
+export function removeCookie(name:string) {
+	store.delete(name);
 }
