@@ -16,6 +16,8 @@
         "strictNullChecks": true,
         "noUnusedLocals": true,
         "downlevelIteration": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
         "typeRoots": ["node_modules/@types"]
     },
     "include": [

@@ -115,7 +115,7 @@ export class Monster extends BaseEntity {
     ConditionImmunities: string;
 
     @Column({
-        type: "int",
+        type: "float",
         default: 1
     })
     ChallengeRating: number;

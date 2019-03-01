@@ -1,0 +1,18 @@
+[
+    {
+        "Id" : 1,
+        "Email": "example@exp.com",
+        "Username": "buoy",
+        "Name": "bob",
+        "HashedPassword": "1234 easy street",
+        "Type" : "cannibal"
+    },
+    {
+        "Id" : 2,
+        "Email": "what@is.today",
+        "Username": "yesterday",
+        "Name": "tomorrow",
+        "HashedPassword": "time travel",
+        "Type" : "FUTURE"
+    }
+]

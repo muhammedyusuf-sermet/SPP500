@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 function ToUpperCamelCase (value: string): string{
-    var lowerCamel: string =  value.toLowerCase().replace(/\s+(.)/g, function(match, group1) {
+    var lowerCamel: string =  value.toLowerCase().replace(/[-\s]+(.)/g, function(match, group1) {
         return group1.toUpperCase();
     });
     return lowerCamel.charAt(0).toUpperCase() + lowerCamel.substr(1); 
@@ -41,10 +41,10 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         }
 
         monster.Name = Data[i]['name']
-        monster.Size = Data[i]['size']
+        monster.Size = ToUpperCamelCase(Data[i]['size'])
         monster.Type = ToUpperCamelCase(Data[i]['type'])
-        monster.Race = Data[i]['subtype'] == '' ? 'AnyRace' : Data[i]['subtype']
-        monster.Alignment = ToUpperCamelCase(Data[i]['alignment'])
+        monster.Race = Data[i]['subtype'] == '' ? 'AnyRace' : ToUpperCamelCase(Data[i]['subtype'])
+        monster.Alignment = Data[i]['alignment'] == '' ? 'Unaligned' : ToUpperCamelCase(Data[i]['alignment'])
         monster.ArmorClass = Data[i]['armor_class']
         monster.HitPoints = Data[i]['hit_points']
         monster.Damage = Data[i]['hit_dice']
