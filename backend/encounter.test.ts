@@ -84,10 +84,50 @@ describe('encounter creation tests', async () => {
 		expect(response['messages'][0]).toBe("Name must be provided.");
 	});
 
+	test('when an empty string is provided as the name', async () => {
+		const response = await encounter.Create({
+			payload: {
+				"Name": "",
+				"Description": "Test"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+		expect.assertions(3);
+
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("Name must be provided.");
+	});
+
 	test('when description is not provided', async () => {
 		const response = await encounter.Create({
 			payload: {
 				"Name": "Test"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+		expect.assertions(3);
+
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("Description must be provided.");
+	});
+
+	test('when an empty string is provided as the description', async () => {
+		const response = await encounter.Create({
+			payload: {
+				"Name": "Test",
+				"Description": ""
 			},
 			auth: {
 				credentials: {

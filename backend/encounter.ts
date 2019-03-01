@@ -23,13 +23,13 @@ export class EncounterFactory {
 		
 		var data : Encounter = request.payload;
 		
-		if (!data.Name) {
+		if (!data.Name || data.Name == "") {
 			messages.push("Name must be provided.");
 		} else {
 			encounter.Name = data.Name;
 		}
 
-		if (!data.Description) {
+		if (!data.Description || data.Description == "") {
 			messages.push("Description must be provided.");
 		} else {
 			encounter.Description = data.Description;
