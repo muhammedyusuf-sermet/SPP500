@@ -1,6 +1,9 @@
 import * as React from 'react';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import '../css/login_header.css';
 
@@ -13,7 +16,12 @@ export class LoginHeader extends React.Component<{}> {
 			user: {
 				// Todo: Accept e-mail address as username (i.e. as a way to login)
 				username: "",
-				password: "",
+				password: ""
+			},
+
+			snackbar: {
+				open: false,
+				message: ""
 			}
 		}
 	}
@@ -32,11 +40,21 @@ export class LoginHeader extends React.Component<{}> {
 		})
 	}
 
+	openSnackbar = (messageText: string) => {
+		const snackbar = this.state.snackbar
+		this.setState({ snackbar: {...snackbar, open: true, message: messageText }});
+	};
+
+	closeSnackbar = () => {
+		const snackbar = this.state.snackbar
+		this.setState({ snackbar: {...snackbar, open: false }});
+	};
+
 	render() {
 		const login = (event: React.FormEvent) => {
 			event.preventDefault();
-			console.log(this.state.user.username);
-			requestLogin();
+			this.closeSnackbar();
+			this.requestLogin();
 		}
 
 		return (
@@ -51,12 +69,53 @@ export class LoginHeader extends React.Component<{}> {
 					<Button className="button" variant="contained" color="primary" type="submit">Login</Button>
 				</form>
 				</div>
+					<Snackbar
+						open={this.state.snackbar.open}
+						message={<span id="message-id">{this.state.snackbar.message}</span>}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left'
+						}}
+						action={[
+							<IconButton
+								key="close"
+								aria-label="Close"
+								color="inherit"
+								onClick={this.closeSnackbar}
+							>
+								<CloseIcon/>
+							</IconButton>
+						]}
+					/>
 			</div>
 		);
 	}
 
 
 	requestLogin() {
-		
+		var context = this;
+		var request = require("request");
+		var options = { method: 'POST',
+			url: 'http://3.17.205.229:3000/login',
+			headers:
+			{
+				'Cache-Control': 'no-cache',
+				'Content-Type': 'application/json'
+			},
+			body:
+			{
+				username: this.state.user.username,
+				password: this.state.user.password
+			},
+			json: true
+		};
+
+		request(options, function (error:string, response:string, body:string) {
+			var message = response.body.message;
+			var token = response.body.token;
+			context.openSnackbar(message);
+			
+			if (error) throw new Error(error);
+		});
 	}
 }
