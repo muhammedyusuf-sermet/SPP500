@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 var request = require("request");
 
 import * as Monster from "../../monster";
-import * as Cookie from "../../cookie";
+import { CookieManager } from "../../cookie";
 
 import "../css/create_monster.css"
 import { HomePage } from './Home';
@@ -24,7 +24,7 @@ interface IMonsterTypeDropdownProps {
 	onChange: (newType: Monster.MonsterType) => void
 }
 
-const MonsterTypeDropdown = (props: IMonsterTypeDropdownProps) => (
+export const MonsterTypeDropdown = (props: IMonsterTypeDropdownProps) => (
 	<TextField error={false} id="type" select value={Monster.MonsterTypeNames.get(props.type)} label="Type" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
 		let val = Array.from(Monster.MonsterTypeNames.entries()).find((v) => v[1] === event.target.value)
 		if (val !== undefined)
@@ -43,7 +43,7 @@ interface IMonsterSizeDropdownProps {
 	onChange: (newSize: Monster.MonsterSize) => void
 }
 
-const MonsterSizeDropdown = (props: IMonsterSizeDropdownProps) => (
+export const MonsterSizeDropdown = (props: IMonsterSizeDropdownProps) => (
 	    <TextField error={false} id="size" select value={Monster.MonsterSizeNames.get(props.type)} label="Size" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
 	        let val = Array.from(Monster.MonsterSizeNames.entries()).find((v) => v[1] === event.target.value)
 	        if (val !== undefined)
@@ -62,7 +62,7 @@ interface IMonsterRaceDropdownProps {
 	    onChange: (newRace: Monster.MonsterRace) => void
 	}
 
-const MonsterRaceDropdown = (props: IMonsterRaceDropdownProps) => (
+export const MonsterRaceDropdown = (props: IMonsterRaceDropdownProps) => (
         <TextField error={false} id="race" select value={Monster.MonsterRaceNames.get(props.type)} label="Race" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
             let val = Array.from(Monster.MonsterRaceNames.entries()).find((v) => v[1] === event.target.value)
             if (val !== undefined)
@@ -83,7 +83,7 @@ interface IMonsterEnvironmentDropdownProps {
 	errorMessage: string
 }
 
-const MonsterEnvironmentDropdown = (props: IMonsterEnvironmentDropdownProps) => (
+export const MonsterEnvironmentDropdown = (props: IMonsterEnvironmentDropdownProps) => (
         <TextField error={props.error} id="environment" select value={Monster.MonsterEnvironmentNames.get(props.type)} label="Environment" helperText={props.error ? props.errorMessage : ""} margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
             let val = Array.from(Monster.MonsterEnvironmentNames.entries()).find((v) => v[1] === event.target.value)
             if (val !== undefined)
@@ -102,7 +102,7 @@ interface IMonsterAlignmentDropdownProps {
     onChange: (newAlignment: Monster.MonsterAlignment) => void
 }
 
-const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) => (
+export const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) => (
         <TextField error={false} id="alignment" select value={Monster.MonsterAlignmentNames.get(props.type)} label="Alignment" helperText="" margin="normal" onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
             let val = Array.from(Monster.MonsterAlignmentNames.entries()).find((v) => v[1] === event.target.value)
             if (val !== undefined)
@@ -270,11 +270,6 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 		this.setState({
 			monster: { ...monster, armorClass: this.stringToNumber(event.target.value)}
 		})
-		if (this.stringToNumber(event.target.value) < 0) {
-			document.getElementById('armorClass')
-			console.log(JSON.stringify(document.getElementById('armorClass')))
-			//document.getElementById("armorClass").error = {true}
-		}
 
 	}
 
@@ -610,6 +605,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 	*/
 
 	render() {
+		let cookieManager = new CookieManager()
 		let diceRegex = /^\d+d\d+$/
 		let baseHitPointsError = !((this.state.monster.hitPoints != null) && this.state.monster.hitPoints >= 0)
 		let hitPointDiceError = !((this.state.monster.hitPointDice != null) && this.state.monster.hitPointDice.match(diceRegex) != null)
@@ -713,13 +709,13 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				}
 
 				var options = { method: 'POST',
-					url: 'http://3.17.135.173:3000/monster/create',
+					url: 'http://3.18.65.138:3000/monster/create',
 					headers:
 					{
 						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',
 						'Cache-Control': 'no-cache',
 						'Content-Type': 'application/json' ,
-						'Authorization': Cookie.getCookie("session_token")
+						'Authorization': cookieManager.GetCookie("session_token")
 					},
 					body: payloadToSend,
 					json: true
@@ -738,7 +734,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			}
 		}
 
-		if (!Cookie.userAuthenticated(Cookie.getCookie("session_token"))) {
+		if (!cookieManager.UserAuthenticated(cookieManager.GetCookie("session_token"))) {
 			return (<HomePage/>)
 		}
 		else if (this.state.submitted) {
