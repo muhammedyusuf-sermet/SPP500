@@ -649,12 +649,14 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				monsterSenses = this.state.monster.sensesPassiveInvestigation != null ? monsterSenses + "Passive Investigation: " + this.state.monster.sensesPassiveInvestigation + ". " : monsterSenses
 				monsterSenses = this.state.monster.sensesPassivePerception ? monsterSenses + "Passive Perception: " + this.state.monster.sensesPassivePerception + ". " : monsterSenses
 				monsterSenses = monsterSenses.length == 0 ? monsterSenses : monsterSenses.substring(0, monsterSenses.length - 1);
+				let monsterRace = this.state.monster.race ? Monster.MonsterRaceNames.get(this.state.monster.race) : "";
+				monsterRace = monsterRace == null ? "" : monsterRace.replace(/\s/g, '')
 
 				let payloadToSend = {
 					"Name" : this.state.monster.name,
 					"Size" : Monster.MonsterSizeNames.get(this.state.monster.size),
 					"Type" : monsterTypeString,
-					"Race" : Monster.MonsterRaceNames.get(this.state.monster.race),
+					"Race" : monsterRace,
 					"Environment" : Monster.MonsterEnvironmentNames.get(this.state.monster.environment),
 					"Alignment" : monsterAlignmentString,
 					"ArmorClass" : this.state.monster.armorClass,
