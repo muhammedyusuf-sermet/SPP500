@@ -32,6 +32,7 @@
 		"@types/react-dom": "^16.8.1",
 		"electron": "4.0.1",
 		"electron-builder": "20.38.4",
+		"electron-store": "^2.0.0",
 		"electron-webpack": "^2.6.2",
 		"electron-webpack-ts": "^3.1.1",
 		"enzyme": "^3.8.0",
