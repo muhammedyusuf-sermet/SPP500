@@ -66,6 +66,17 @@ export const initServer = async () => {
 	},
 	{
 		method: 'GET',
+		path: '/verify', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			return {
+				"status": 200,
+				"message": "That is a valid token."
+			};
+		}
+	},
+	{
+		method: 'GET',
 		path: '/test',
 		options: { auth: false },
 		handler: function (request) {
