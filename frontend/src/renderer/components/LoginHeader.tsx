@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import '../css/login_header.css';
 
@@ -13,6 +14,7 @@ export class LoginHeader extends React.Component<{}> {
 	constructor(props: AppProps) {
 		super(props);
 		this.state = {
+			redirectToPlatform: false,
 			user: {
 				// Todo: Accept e-mail address as username (i.e. as a way to login)
 				username: "",
@@ -50,6 +52,10 @@ export class LoginHeader extends React.Component<{}> {
 		this.setState({ snackbar: {...snackbar, open: false }});
 	};
 
+	handleRedirectToPlatform = () => {
+		this.setState({ redirectToPlatform: true});
+	}
+
 	requestLogin() {
 		var context = this;
 		var request = require("request");
@@ -75,9 +81,15 @@ export class LoginHeader extends React.Component<{}> {
 				throw new Error(error);
 			}
 
+			var status = response.body.status;
 			var message = response.body.message;
 			var token = response.body.token;
 			context.openSnackbar(message);
+
+			if (status == 201) { // Success
+				context.handleRedirectToPlatform();
+			}
+			/* Todo: Save the session token - work with Heather to avoid code conflict since she already started the session cookie mechanism */
 		});
 	}
 
@@ -86,6 +98,10 @@ export class LoginHeader extends React.Component<{}> {
 			event.preventDefault();
 			this.closeSnackbar();
 			this.requestLogin();
+		}
+
+		if (this.state.redirectToPlatform) {
+			return (<Redirect to='/platform'/>);
 		}
 
 		return (

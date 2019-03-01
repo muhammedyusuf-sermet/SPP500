@@ -96,8 +96,12 @@ export class Registration extends React.Component<{}> {
 			}
 
 			console.log(response);
+			var status = response.body.status;
 			var messages = response.body.messages;
 			var messagesStr = messages.join(' ');
+			if (status == 201) {
+				messagesStr = "Welcome aboard! You can now login with your username and password.";
+			}
 			context.openSnackbar(messagesStr);
 		});
 	}
