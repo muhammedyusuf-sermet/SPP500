@@ -4,13 +4,31 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 
 import '../css/login_header.css';
 
 type AppProps = {}
 
-export class LoginHeader extends React.Component<{}> {
+interface LoginStateInterface {
+	redirectToPlatform: boolean,
+	user: {
+		username: string,
+		password: string
+	}
+	snackbar: {
+		open: boolean,
+		message: string
+	}
+}
+
+interface requestBodyInterface {
+	status: number,
+	message: string, 
+	token: string
+}
+
+export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 	constructor(props: AppProps) {
 		super(props);
 		this.state = {
@@ -75,18 +93,21 @@ export class LoginHeader extends React.Component<{}> {
 			json: true
 		};
 
-		request(options, function (error:string, response:string, body:string) {
+		request(options, function (error: string, response: string, body: requestBodyInterface) {
 			if (error) {
 				context.openSnackbar("There has been a server error. Please try again later.");
 				throw new Error(error);
 			}
 
-			var status = response.body.status;
-			var message = response.body.message;
-			var token = response.body.token;
+			var token = "";
+			var status = body.status;
+			var message = body.message;
 			context.openSnackbar(message);
 
 			if (status == 201) { // Success
+				token = body.token;
+				/* Todo: use this token to save session, then remove this console print*/
+				console.log(token);
 				context.handleRedirectToPlatform();
 			}
 			/* Todo: Save the session token - work with Heather to avoid code conflict since she already started the session cookie mechanism */

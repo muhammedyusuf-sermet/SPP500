@@ -15,7 +15,7 @@ exports[`Test the Landing/Registration/Login Page renders correctly when the pag
           replace={false}
           to="/registration"
         >
-          Home
+          Registration
         </Link>
       </li>
     </ul>
@@ -28,6 +28,10 @@ exports[`Test the Landing/Registration/Login Page renders correctly when the pag
     <Route
       component={[Function]}
       path="/registration"
+    />
+    <Route
+      component={[Function]}
+      path="/platform"
     />
   </div>
 </BrowserRouter>

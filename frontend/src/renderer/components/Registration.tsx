@@ -11,7 +11,25 @@ import '../css/registration.css';
 
 type AppProps = {}
 
-export class Registration extends React.Component<{}> {
+interface RegisterStateInterface {
+	user: {
+		username: string,
+		password: string,
+		email: string,
+		name: string
+	}
+	snackbar: {
+		open: boolean,
+		message: string
+	}
+}
+
+interface requestBodyInterface {
+	status: number,
+	messages: string[]
+}
+
+export class Registration extends React.Component<{}, RegisterStateInterface> {
 	constructor(props: AppProps) {
 		super(props);
 		this.state = {
@@ -89,15 +107,14 @@ export class Registration extends React.Component<{}> {
 			json: true
 		};
 
-		request(options, function (error:string, response:string, body:string) {
+		request(options, function (error: string, response: string, body: requestBodyInterface) {
 			if (error) {
 				context.openSnackbar("There has been a server error. Please try again later.");
 				throw new Error(error);
 			}
 
-			console.log(response);
-			var status = response.body.status;
-			var messages = response.body.messages;
+			var status = body.status;
+			var messages = body.messages;
 			var messagesStr = messages.join(' ');
 			if (status == 201) {
 				messagesStr = "Welcome aboard! You can now login with your username and password.";
