@@ -50,6 +50,37 @@ export class LoginHeader extends React.Component<{}> {
 		this.setState({ snackbar: {...snackbar, open: false }});
 	};
 
+	requestLogin() {
+		var context = this;
+		var request = require("request");
+		var options = { method: 'POST',
+			url: 'http://3.17.173.229:3000/login',
+			timeout: 2000,
+			headers:
+			{
+				'Cache-Control': 'no-cache',
+				'Content-Type': 'application/json'
+			},
+			body:
+			{
+				username: this.state.user.username,
+				password: this.state.user.password
+			},
+			json: true
+		};
+
+		request(options, function (error:string, response:string, body:string) {
+			if (error) {
+				context.openSnackbar("There has been a server error. Please try again later.");
+				throw new Error(error);
+			}
+
+			var message = response.body.message;
+			var token = response.body.token;
+			context.openSnackbar(message);
+		});
+	}
+
 	render() {
 		const login = (event: React.FormEvent) => {
 			event.preventDefault();
@@ -69,53 +100,26 @@ export class LoginHeader extends React.Component<{}> {
 					<Button className="button" variant="contained" color="primary" type="submit">Login</Button>
 				</form>
 				</div>
-					<Snackbar
-						open={this.state.snackbar.open}
-						message={<span id="message-id">{this.state.snackbar.message}</span>}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'left'
-						}}
-						action={[
-							<IconButton
-								key="close"
-								aria-label="Close"
-								color="inherit"
-								onClick={this.closeSnackbar}
-							>
-								<CloseIcon/>
-							</IconButton>
-						]}
-					/>
+				<Snackbar
+					open={this.state.snackbar.open}
+					autoHideDuration={6000}
+					message={<span id="message-id">{this.state.snackbar.message}</span>}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'left'
+					}}
+					action={[
+						<IconButton
+							key="close"
+							aria-label="Close"
+							color="inherit"
+							onClick={this.closeSnackbar}
+						>
+							<CloseIcon/>
+						</IconButton>
+					]}
+				/>
 			</div>
 		);
-	}
-
-
-	requestLogin() {
-		var context = this;
-		var request = require("request");
-		var options = { method: 'POST',
-			url: 'http://3.17.205.229:3000/login',
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json'
-			},
-			body:
-			{
-				username: this.state.user.username,
-				password: this.state.user.password
-			},
-			json: true
-		};
-
-		request(options, function (error:string, response:string, body:string) {
-			var message = response.body.message;
-			var token = response.body.token;
-			context.openSnackbar(message);
-			
-			if (error) throw new Error(error);
-		});
 	}
 }
