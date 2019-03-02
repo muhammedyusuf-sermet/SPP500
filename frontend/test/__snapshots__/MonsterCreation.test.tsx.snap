@@ -1,0 +1,1406 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monster Creation Happy Path renders correctly when the page is loaded 1`] = `
+<div
+  className="monster-creation-container"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <h1
+      className="page-title"
+    >
+      Create a Monster
+    </h1>
+    <WithStyles(Grid)
+      container={true}
+      spacing={24}
+    >
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            autoFocus={true}
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="name"
+            label="Monster Name"
+            margin="dense"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            value=""
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <Component
+          onChange={[Function]}
+          type={0}
+        />
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <Component
+          onChange={[Function]}
+          type={2}
+        />
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <Component
+          onChange={[Function]}
+          type={0}
+        />
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <Component
+          onChange={[Function]}
+          type={1}
+        />
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <Component
+          error={false}
+          errorMessage=""
+          onChange={[Function]}
+          type={0}
+        />
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="resistance"
+            label="Resistances"
+            margin="dense"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            value=""
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="damageImmunity"
+            label="Damage Immunities"
+            margin="dense"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            value=""
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="conditionImmunity"
+            label="Condition Immunities"
+            margin="dense"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            value=""
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="vulnerability"
+            label="Vulnerabilities"
+            margin="dense"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            value=""
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="armorClass"
+            label="Armor Class"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={13}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="hitPoints"
+            label="Hit Points"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={150}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="hitPointDice"
+            label="Hit Point Dice"
+            margin="dense"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            value="6d8"
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="hitPointModifier"
+            label="Base Hit Point Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={3}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            InputProps={
+              Object {
+                "endAdornment": <WithStyles(WithFormControlContext(InputAdornment))
+                  position="end"
+                >
+                  ft
+                </WithStyles(WithFormControlContext(InputAdornment))>,
+              }
+            }
+            error={false}
+            helperText=""
+            id="landSpeed"
+            label="Land Speed"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={30}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            InputProps={
+              Object {
+                "endAdornment": <WithStyles(WithFormControlContext(InputAdornment))
+                  position="end"
+                >
+                  ft
+                </WithStyles(WithFormControlContext(InputAdornment))>,
+              }
+            }
+            error={false}
+            helperText=""
+            id="swimmingSpeed"
+            label="Swimming Speed"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={30}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="strength"
+            label="Strength Stat"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={10}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="dexterity"
+            label="Dexterity Stat"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={10}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="constitution"
+            label="Constitution Stat"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={10}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="intelligence"
+            label="Intelligence Stat"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={10}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="wisdom"
+            label="Wisdom Stat"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={10}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="charisma"
+            label="Charisma Stat"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={10}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="strengthSavingThrow"
+            label="Strength Saving Throw Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={2}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="dexteritySavingThrow"
+            label="Dexterity Saving Throw Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={2}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="constitutionSavingThrow"
+            label="Constitution Saving Throw Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={2}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="intelligenceSavingThrow"
+            label="Intelligence Saving Throw Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={2}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="wisdomSavingThrow"
+            label="Wisdom Saving Throw Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={2}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="charismaSavingThrow"
+            label="Charisma Saving Throw Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={2}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="athletics"
+            label="Athletics Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="acrobatics"
+            label="Acrobatics Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="sleightOfHand"
+            label="Sleight of Hand Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="stealth"
+            label="Stealth Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="arcana"
+            label="Arcana Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="history"
+            label="History Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="investigation"
+            label="Investigation Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="nature"
+            label="Nature Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="religion"
+            label="Religion Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="animalHandling"
+            label="Animal Handling Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="insight"
+            label="Insight Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="medicine"
+            label="Medicine Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="perception"
+            label="Perception Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="survival"
+            label="Survival Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="deception"
+            label="Deception Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="intimidation"
+            label="Intimidation Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="performance"
+            label="Performance Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="persuasion"
+            label="Persuasion Modifier"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={3}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="blindsight"
+            label="Blindsight"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={3}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="darkvision"
+            label="Darkvision"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={60}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={3}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="tremorsense"
+            label="Tremorsense"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={3}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="truesight"
+            label="Truesight"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={0}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="passivePerception"
+            label="Passive Perception"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={15}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="passiveInvestigation"
+            label="Passive Investigation"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={15}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={4}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            id="passiveInsight"
+            label="Passive Insight"
+            margin="normal"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            type="number"
+            value={15}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            error={false}
+            fullWidth={true}
+            helperText=""
+            id="languages"
+            label="Languages"
+            margin="dense"
+            onChange={[Function]}
+            required={false}
+            select={false}
+            value="Common"
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="challengeRating"
+            label="Challenge Rating"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={0.5}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <div
+          className="form-group"
+        >
+          <TextField
+            InputLabelProps={
+              Object {
+                "shrink": true,
+              }
+            }
+            error={false}
+            helperText=""
+            id="experiencePoints"
+            label="Experience Points"
+            margin="normal"
+            onChange={[Function]}
+            required={true}
+            select={false}
+            type="number"
+            value={200}
+            variant="standard"
+          />
+        </div>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+    <WithStyles(Button)
+      className="button"
+      color="primary"
+      type="submit"
+      variant="contained"
+    >
+       Create Monster 
+    </WithStyles(Button)>
+  </form>
+</div>
+`;
