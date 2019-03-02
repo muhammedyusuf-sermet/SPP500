@@ -115,7 +115,10 @@ export class Registration extends React.Component<{}, RegisterStateInterface> {
 
 			var status = body.status;
 			var messages = body.messages;
-			var messagesStr = messages.join(' ');
+			var messagesStr = "";
+			if (messages) {
+				messagesStr = messages.join(' ');
+			}
 			if (status == 201) {
 				messagesStr = "Welcome aboard! You can now login with your username and password.";
 			}
