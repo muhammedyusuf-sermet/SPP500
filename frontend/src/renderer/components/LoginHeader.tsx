@@ -4,7 +4,8 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import {Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import {CookieManager} from "../../cookie";
 
 import '../css/login_header.css';
 
@@ -74,7 +75,7 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 		this.setState({ redirectToPlatform: true});
 	}
 
-	requestLogin() {
+	requestLogin(cookieManager: CookieManager) {
 		var context = this;
 		var request = require("request");
 		var options = { method: 'POST',
@@ -106,19 +107,23 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 
 			if (status == 201) { // Success
 				token = body.token;
-				/* Todo: use this token to save session, then remove this console print*/
-				console.log(token);
+				cookieManager.SetStringCookie(token, "session_token");
 				context.handleRedirectToPlatform();
 			}
-			/* Todo: Save the session token - work with Heather to avoid code conflict since she already started the session cookie mechanism */
 		});
 	}
 
 	render() {
+		let cookieManager = new CookieManager();
+		if (cookieManager.UserAuthenticated(cookieManager.GetCookie("session_token"))) {
+			// User is already logged in; redirect to the main page
+			this.handleRedirectToPlatform();
+		}
+
 		const login = (event: React.FormEvent) => {
 			event.preventDefault();
 			this.closeSnackbar();
-			this.requestLogin();
+			this.requestLogin(cookieManager);
 		}
 
 		if (this.state.redirectToPlatform) {

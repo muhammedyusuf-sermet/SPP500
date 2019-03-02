@@ -7,7 +7,7 @@ exports[`Test the Landing/Registration/Login Page renders correctly when the pag
   <div
     className="header"
   >
-    <Component />
+    <LoginHeader />
   </div>
   <div
     className="horizontal-block"
@@ -20,7 +20,7 @@ exports[`Test the Landing/Registration/Login Page renders correctly when the pag
     <div
       className="align-right"
     >
-      <Component />
+      <Registration />
     </div>
   </div>
   <div
