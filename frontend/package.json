@@ -16,6 +16,7 @@
 		"@material-ui/icons": "^3.0.2",
 		"@types/enzyme": "^3.1.18",
 		"@types/enzyme-adapter-react-16": "^1.0.4",
+		"@types/nock": "^9.3.1",
 		"@types/prop-types": "^15.5.9",
 		"@types/react-router-dom": "^4.3.1",
 		"boom": "^7.3.0",
@@ -23,6 +24,7 @@
 		"hapi": "^18.1.0",
 		"jest-css-modules": "^1.1.0",
 		"joi": "^14.3.1",
+		"nock": "^10.0.6",
 		"react": "16.8.1",
 		"react-dom": "16.8.1",
 		"source-map-support": "^0.5.10"

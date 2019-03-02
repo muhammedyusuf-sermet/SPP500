@@ -90,7 +90,7 @@ export class Registration extends React.Component<{}, RegisterStateInterface> {
 		var context = this;
 		var request = require("request");
 		var options = { method: 'POST',
-			url: 'http://3.17.173.229:3000/register',
+			url: 'http://3.18.65.138:3000/register',
 			timeout: 2000,
 			headers:
 			{

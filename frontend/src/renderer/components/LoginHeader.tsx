@@ -78,7 +78,7 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 		var context = this;
 		var request = require("request");
 		var options = { method: 'POST',
-			url: 'http://3.17.173.229:3000/login',
+			url: 'http://3.18.65.138:3000/login',
 			timeout: 2000,
 			headers:
 			{
@@ -131,13 +131,14 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 					<img src={require('../../../../doc/art/DM-Tools-Logo.png')} className="logo"></img>
 				</div>
 				<div className="right-block">
-				<form onSubmit={login}>
+				<form id="loginForm" onSubmit={login}>
 					<Input className="input" id="username" placeholder="Username" name="username" autoComplete="username" value={this.state.user.username} onChange={this.handleUsernameChange} autoFocus required/>
 					<Input className="input" id="password" placeholder="Password" name="password" type="password" autoComplete="current-password" value={this.state.user.password} onChange={this.handlePasswordChange} required/>
-					<Button className="button" variant="contained" color="primary" type="submit">Login</Button>
+					<Button className="button" id="loginButton" variant="contained" color="primary" type="submit">Login</Button>
 				</form>
 				</div>
 				<Snackbar
+					id="snackbarLogin"
 					open={this.state.snackbar.open}
 					autoHideDuration={6000}
 					message={<span id="message-id">{this.state.snackbar.message}</span>}
