@@ -1,0 +1,49 @@
+[
+    {
+        "Id": 1,
+        "Creator" : {
+            "Id": 1
+        },
+        "Name":"Boss Battle",
+        "Description":"Only the best will live.",
+        "Monsters" : [
+            {
+                "Id" : 1
+            },
+            {
+                "Id" : 2
+            },
+            {
+                "Id" : 3
+            }
+        ]
+    },
+    {
+        "Id": 2,
+        "Creator" : {
+            "Id": 1
+        },
+        "Name":"Boss Battle2",
+        "Description":"Only the best will live again to fight again.",
+        "Monsters" : []
+    },
+    {
+        "Id": 3,
+        "Creator" : {
+            "Id": 2
+        },
+        "Name":"Creative Battle",
+        "Description":"Colors, crayns, markers, and paper. Yea!",
+        "Monsters" : []
+    },
+    {
+        "Id": 4,
+        "Creator" : {
+            "Id": 2
+        },
+        "Name":"Creative Battle",
+        "Description":"Basic same name whoo. Colors, crayns, markers, and paper. Yea!",
+        "Monsters" : []
+    }
+
+]

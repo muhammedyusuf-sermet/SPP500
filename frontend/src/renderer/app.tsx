@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import './css/app.css';
 import { HomePage } from './components/Home';
-import { Registration } from './components/Registration';
 import { Platform } from './components/Platform';
+import { MonsterCreation } from './components/MonsterCreation';
+import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 
 type AppProps = {}
 
@@ -22,14 +23,16 @@ export class App extends React.Component<{}> {
 					<ul>
 						<li>
 							<Link to="/">Home</Link>
-							<Link to="/registration">Registration</Link>
+							<Link to="/monster_creation">Monster Creation</Link>
+							<Link to="/catalog">View Catalog</Link>
 						</li>
 					</ul>
 					<hr />
 
 					<Route exact path="/" component={HomePage} />
-					<Route path="/registration" component={Registration} />
 					<Route path="/platform" component={Platform} />
+					<Route path="/monster_creation" component={MonsterCreation} />
+					<Route path="/catalog" component={ViewCatalog} />
 				</div>
 			</Router>
 		);

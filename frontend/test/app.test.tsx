@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
-import {App} from '../src/renderer/app';
+import {HomePage} from '../src/renderer/components/Home';
 
 
 describe('Test the Landing/Registration/Login Page', () => {
-	const appInstance = shallow(<App/>);
+	const appInstance = shallow(<HomePage/>);
 
 	it('renders without crashing', () => {
 		expect(appInstance).toBeDefined();
