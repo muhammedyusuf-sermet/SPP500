@@ -3,7 +3,7 @@ import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 import { Encounter } from "./Encounter";
-import { Size, MonsterType, MonsterRace, Alignment } from "./MonsterEnums";
+import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./MonsterEnums";
 
 @Entity()
 export class Monster extends BaseEntity {
@@ -38,6 +38,13 @@ export class Monster extends BaseEntity {
         default: MonsterRace.AnyRace
     })
     Race: MonsterRace;
+
+    @Column({
+        type: "enum",
+        enum: Environment,
+        default: Environment.Grassland
+    })
+    Environment: Environment;
 
     @Column({
         type: "enum",
