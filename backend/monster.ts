@@ -138,8 +138,8 @@ export class MonsterFactory {
 			monster.HitPoints = hitPoints
 		}
 
-		if (data.Damage) {
-			monster.Damage = data.Damage
+		if (data.HitPointDistribution) {
+			monster.HitPointDistribution = data.HitPointDistribution
 		}
 
 		if (data.Speed) {

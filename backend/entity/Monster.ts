@@ -71,7 +71,7 @@ export class Monster extends BaseEntity {
         length: 20,
         default: "2d8"
     })
-    Damage: string;
+    HitPointDistribution: string;
 
     @Column({
         type: "varchar",

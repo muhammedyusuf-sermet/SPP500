@@ -19,7 +19,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         Alignment?: string,
         ArmorClass?: string,
         HitPoints?: string,
-        Damage?: string,
+        HitPointDistribution?: string,
         Speed?: string,
         Senses?: string,
         Languages?: string,
@@ -69,7 +69,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
             Alignment: '',
             ArmorClass: '',
             HitPoints: '',
-            Damage: '',
+            HitPointDistribution: '',
             Speed: '',
             Senses: '',
             Languages: '',
@@ -91,7 +91,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         monster.Alignment = Data[i]['alignment'] == '' ? 'Unaligned' : ToUpperCamelCase(Data[i]['alignment'])
         monster.ArmorClass = Data[i]['armor_class']
         monster.HitPoints = Data[i]['hit_points']
-        monster.Damage = Data[i]['hit_dice']
+        monster.HitPointDistribution = Data[i]['hit_dice']
         monster.Speed = Data[i]['speed']
         monster.Senses = Data[i]['senses']
         monster.Languages = Data[i]['languages']

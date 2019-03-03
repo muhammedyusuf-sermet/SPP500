@@ -26,7 +26,7 @@ describe('monster creation tests', async () => {
 				"Race": "Human",
 				"Alignment": "LawfulEvil",
 				"ArmorClass": 5,
-				"Damage": "2d8",
+				"HitPointDistribution": "2d8",
 				"Speed": "20 ft.",
 				"ChallengeRating": 1,
 				"AbilityScores": {
