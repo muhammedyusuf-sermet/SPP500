@@ -4,6 +4,8 @@ import { Monster } from "../entity/Monster";
 import { MonsterAbilityScore } from "../entity/MonsterAbilityScore";
 import { MonsterSavingThrow } from "../entity/MonsterSavingThrow";
 import { MonsterSkill } from "../entity/MonsterSkill";
+import { Action } from "../entity/Action.js";
+import { MonsterAction } from "../entity/MonsterEnums.js";
 
 export class ParseMonsters2000000001500 implements MigrationInterface {
 
@@ -11,10 +13,34 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
         let monsters: Array<Monster> = []
         
         for (let index in Data){
-            const monster: Monster = Data[index] as unknown as Monster;
-            monster.AbilityScores = Data[index]["AbilityScores"] as unknown as MonsterAbilityScore;
-            monster.SavingThrows = Data[index]["SavingThrows"] as unknown as MonsterSavingThrow;
-            monster.Skills = Data[index]["Skills"] as unknown as MonsterSkill[];
+            const jsonMonster: any = Data[index];
+            const monster: Monster = jsonMonster as unknown as Monster;
+            monster.AbilityScores = jsonMonster["AbilityScores"] as unknown as MonsterAbilityScore;
+            monster.SavingThrows = jsonMonster["SavingThrows"] as unknown as MonsterSavingThrow;
+            monster.Skills = jsonMonster["Skills"] as unknown as MonsterSkill[];
+            monster.Actions = [];
+            let temp: Action[];
+            if(jsonMonster.hasOwnProperty("SpecialAbilities")){
+                temp = jsonMonster["SpecialAbilities"] as unknown as Action[];
+                for(var act of temp){
+                    act.Type = MonsterAction.SpecialAbility;
+                    monster.Actions.push(act);
+                }
+            }
+            if(jsonMonster.hasOwnProperty("Actions")){
+                temp = jsonMonster["Actions"] as unknown as Action[];
+                for(var act of temp){
+                    act.Type = MonsterAction.Action;
+                    monster.Actions.push(act);
+                }
+            }
+            if(jsonMonster.hasOwnProperty("LegendaryActions")){
+                temp = jsonMonster["LegendaryActions"] as unknown as Action[];
+                for(var act of temp){
+                    act.Type = MonsterAction.LegendaryAction;
+                    monster.Actions.push(act);
+                }
+            }
             await queryRunner.manager
                 .createQueryBuilder()
                 .insert()
@@ -41,6 +67,14 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
                     .insert()
                     .into(MonsterSkill)
                     .values(monster.Skills)
+                    .execute();
+            }
+            if (monster.Actions.length > 0){
+                await queryRunner.manager
+                    .createQueryBuilder()
+                    .insert()
+                    .into(Action)
+                    .values(monster.Actions)
                     .execute();
             }
         }
