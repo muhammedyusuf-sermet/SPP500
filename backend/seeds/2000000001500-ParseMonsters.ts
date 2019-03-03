@@ -4,7 +4,6 @@ import { Monster } from "../entity/Monster";
 import { MonsterSkill } from "../entity/MonsterSkill";
 import { MonsterAbilityScore } from "../entity/MonsterAbilityScore";
 import { MonsterSavingThrow } from "../entity/MonsterSavingThrow";
-import { MonsterAction } from "../entity/MonsterEnums";
 import { Action } from "../entity/Action";
 
 export class ParseMonsters2000000001500 implements MigrationInterface {
@@ -15,72 +14,7 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
             monster.Actions = [];
             if (value.Actions != undefined) {
                 for (let act of value.Actions) {
-                    const actv = act as {
-                        name: string,
-                        desc: string,
-                        attack_bonus: number,
-                        damage_dice?: string,
-                        damage_bonus?: number
-                    };
-                    const action:Action = new Action();
-                    action.Type = MonsterAction.Action;
-                    action.Name = actv.name;
-                    action.Description = actv.desc;
-                    action.HitBonus = actv.attack_bonus;
-                    if(actv.damage_dice){
-                        action.Damage = actv.damage_dice;
-                    }
-                    if(actv.damage_bonus) {
-                        action.DamageBonus = actv.damage_bonus;
-                    }
-                    action.Monster = monster;
-                    monster.Actions.push(action);
-                }
-            }
-            if (value.SpecialAbilities != undefined) {
-                for (let act of value.SpecialAbilities) {
-                    const actv = act as {
-                        name: string,
-                        desc: string,
-                        attack_bonus: number,
-                        damage_dice?: string,
-                        damage_bonus?: number
-                    };
-                    const action:Action = new Action();
-                    action.Type = MonsterAction.SpecialAbility;
-                    action.Name = actv.name;
-                    action.Description = actv.desc;
-                    action.HitBonus = actv.attack_bonus;
-                    if(actv.damage_dice){
-                        action.Damage = actv.damage_dice;
-                    }
-                    if(actv.damage_bonus) {
-                        action.DamageBonus = actv.damage_bonus;
-                    }
-                    action.Monster = monster;
-                    monster.Actions.push(action);
-                }
-            }
-            if (value.LegendaryActions != undefined) {
-                for (let act of value.LegendaryActions) {
-                    const actv = act as {
-                        name: string,
-                        desc: string,
-                        attack_bonus: number,
-                        damage_dice?: string,
-                        damage_bonus?: number
-                    };
-                    const action:Action = new Action();
-                    action.Type = MonsterAction.LegendaryAction;
-                    action.Name = actv.name;
-                    action.Description = actv.desc;
-                    action.HitBonus = actv.attack_bonus;
-                    if(actv.damage_dice){
-                        action.Damage = actv.damage_dice;
-                    }
-                    if(actv.damage_bonus) {
-                        action.DamageBonus = actv.damage_bonus;
-                    }
+                    const action:Action = Object.assign(new Action(), act);
                     action.Monster = monster;
                     monster.Actions.push(action);
                 }
