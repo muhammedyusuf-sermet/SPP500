@@ -23,7 +23,7 @@ interface LoginStateInterface {
 	}
 }
 
-interface requestBodyInterface {
+interface LoginResponceInterface {
 	status: number,
 	message: string, 
 	token: string
@@ -94,21 +94,21 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 			json: true
 		};
 
-		request(options, function (error: string, response: string, body: requestBodyInterface) {
+		request(options, function (error: string, response: string, body: LoginResponceInterface) {
 			if (error) {
-				context.openSnackbar("There has been a server error. Please try again later.");
-				throw new Error(error);
+				context.openSnackbar("There has been a server error when logging in. Please try again later.");
 			}
+			else {
+				var token = "";
+				var status = body.status;
+				var message = body.message;
+				context.openSnackbar(message);
 
-			var token = "";
-			var status = body.status;
-			var message = body.message;
-			context.openSnackbar(message);
-
-			if (status == 201) { // Success
-				token = body.token;
-				cookieManager.SetStringCookie(token, "session_token");
-				context.handleRedirectToPlatform();
+				if (status == 201) { // Success
+					token = body.token;
+					cookieManager.SetStringCookie(token, "session_token");
+					context.handleRedirectToPlatform();
+				}
 			}
 		});
 	}
