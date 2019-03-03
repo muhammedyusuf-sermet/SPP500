@@ -1,11 +1,15 @@
-import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
+import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from "typeorm";
 import { MonsterAction } from "./MonsterEnums";
+import { Monster } from "./Monster";
 
 @Entity()
 export class Action extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     Id: number;
+
+    @ManyToOne(() => Monster, monster => monster.Actions)
+    Monster: Monster;
 
     @Index()
     @Column({

@@ -11,7 +11,7 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
         let monsters: Array<Monster> = []
         
         for (let index in Data){
-            const monster: Monster = Data[index] as Monster;
+            const monster: Monster = Data[index] as unknown as Monster;
             monster.AbilityScores = Data[index]["AbilityScores"] as unknown as MonsterAbilityScore;
             monster.SavingThrows = Data[index]["SavingThrows"] as unknown as MonsterSavingThrow;
             monster.Skills = Data[index]["Skills"] as unknown as MonsterSkill[];
@@ -50,7 +50,7 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
         let monsters: Array<Monster> = []
 
         for (let index in Data){
-            monsters.push(Data[index] as Monster);
+            monsters.push(Data[index] as unknown as Monster);
         }
 
         await queryRunner.manager

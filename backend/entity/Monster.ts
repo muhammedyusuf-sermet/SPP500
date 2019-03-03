@@ -4,6 +4,7 @@ import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 import { Encounter } from "./Encounter";
 import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./MonsterEnums";
+import { Action } from "./Action";
 
 @Entity()
 export class Monster extends BaseEntity {
@@ -137,6 +138,9 @@ export class Monster extends BaseEntity {
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     @JoinColumn()
     SavingThrows: MonsterSavingThrow;
+
+    @OneToMany(() => Action, action => action.Monster)
+    Actions: Action[];
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
     Encounters: Encounter[];
