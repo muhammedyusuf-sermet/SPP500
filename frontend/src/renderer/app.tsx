@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import './css/app.css';
 import { HomePage } from './components/Home';
+import { Platform } from './components/Platform';
 import { MonsterCreation } from './components/MonsterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 
@@ -13,6 +14,8 @@ export class App extends React.Component<{}> {
 	constructor(props: AppProps) {
 		super(props);
 	}
+
+	/* Todo: Return home page if user is not logged in, return main platform page otherwise */
 	render() {
 		return (
 			<Router>
@@ -27,6 +30,7 @@ export class App extends React.Component<{}> {
 					<hr />
 
 					<Route exact path="/" component={HomePage} />
+					<Route path="/platform" component={Platform} />
 					<Route path="/monster_creation" component={MonsterCreation} />
 					<Route path="/catalog" component={ViewCatalog} />
 				</div>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {HomePage} from '../src/renderer/components/Home';
 
+jest.mock('../src/cookie');
 
 describe('Test the Landing/Registration/Login Page', () => {
 	const appInstance = shallow(<HomePage/>);
