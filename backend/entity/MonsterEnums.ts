@@ -81,3 +81,9 @@ export enum Environment {
 	Underwater = "Underwater",
 	Urban = "Urban"
 }
+
+export enum MonsterAction {
+    SpecialAbility = "SpecialAbility",
+    Action = "Action",
+    LegendaryAction = "LegendaryAction"
+}

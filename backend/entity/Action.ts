@@ -1,4 +1,5 @@
 import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
+import { MonsterAction } from "./MonsterEnums";
 
 @Entity()
 export class Action extends BaseEntity {
@@ -37,4 +38,12 @@ export class Action extends BaseEntity {
         default: 0
     })
     DamageBonus: number;
+
+    @Column({
+        type: "enum",
+        enum: MonsterAction,
+        default: MonsterAction.Action
+    })
+    Type: MonsterAction;
+
 }
