@@ -1,13 +1,43 @@
 import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, OneToOne, JoinColumn } from "typeorm";
-import { MonsterAbilityScore } from "./MonsterAbilityScore";
+import { MonsterAbilityScore, IMonsterAbilityScoreData } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
-import { MonsterSavingThrow } from "./MonsterSavingThrow";
+import { MonsterSavingThrow, IMonsterSavingThrowData } from "./MonsterSavingThrow";
 import { Encounter } from "./Encounter";
 import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./MonsterEnums";
-import { Action } from "./Action";
+import { Action, IActionData } from "./Action";
+
+export interface IMonsterData {
+    Name: string,
+    Size?: Size;
+    Type?: MonsterType;
+    Race?: MonsterRace;
+    Environment?: Environment;
+    Alignment?: Alignment;
+
+    ArmorClass?: number;
+    HitPoints?: number;
+    HitPointDistribution?: string;
+
+    Speed?: string;
+    Senses?: string;
+    Languages?: string;
+
+    DamageVulnerabilities?: string;
+    DamageResistances?: string;
+    DamageImmunities?: string;
+    ConditionImmunities?: string;
+
+    ChallengeRating?: number;
+    
+    AbilityScores: IMonsterAbilityScoreData;
+    Skills: MonsterSkill[];
+    SavingThrows: IMonsterSavingThrowData;
+    Actions: IActionData[];
+    Encounters: Encounter[];
+}
 
 @Entity()
-export class Monster extends BaseEntity {
+export class Monster extends BaseEntity implements IMonsterData {
 
     @PrimaryGeneratedColumn()
     Id: number;
@@ -133,16 +163,16 @@ export class Monster extends BaseEntity {
     AbilityScores: MonsterAbilityScore;
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
-    Skills: MonsterSkill[];
+    Skills: MonsterSkill[] = [];
 
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     @JoinColumn()
     SavingThrows: MonsterSavingThrow;
 
     @OneToMany(() => Action, action => action.Monster)
-    Actions: Action[];
+    Actions: Action[] = [];
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
-    Encounters: Encounter[];
+    Encounters: Encounter[] = [];
 
 }
