@@ -1,9 +1,18 @@
 import { Entity, Column, Index, PrimaryGeneratedColumn, ManyToOne, OneToMany, BaseEntity } from "typeorm";
-import { AbilityScore } from "./AbilityScore";
-import { MonsterSkill } from "./MonsterSkill";
+import { AbilityScore, IAbilityScoreData } from "./AbilityScore";
+import { MonsterSkill, IMonsterSkillData } from "./MonsterSkill";
+
+export interface ISkillData {
+    AbilityScore: IAbilityScoreData;
+
+    Name: string;
+    Description: string;
+
+    Monsters: IMonsterSkillData[];
+}
 
 @Entity()
-export class Skill extends BaseEntity{
+export class Skill extends BaseEntity implements ISkillData {
 
     @PrimaryGeneratedColumn()
     Id: number;
