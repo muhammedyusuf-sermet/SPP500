@@ -96,15 +96,7 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "test",
-				"Languages": "test languages",
-				"Senses": "test senses",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
 				"Size": "InvalidSize",
-				"Type": "Fiend"
 			},
 		});
 
@@ -123,13 +115,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "test",
-				"Languages": "test languages",
-				"Senses": "test senses",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
 				"Type": "InvalidType"
 			},
 		});
@@ -149,13 +134,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "test",
-				"Languages": "test languages",
-				"Senses": "test senses",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
 				"Race": "InvalidRace"
 			},
 		});
@@ -175,13 +153,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "test",
-				"Languages": "test languages",
-				"Senses": "test senses",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
 				"Alignment": "InvalidAlignment"
 			},
 		});
@@ -201,13 +172,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "test",
-				"Languages": "test languages",
-				"Senses": "test senses",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
 				"Environment": "InvalidEnvironment"
 			},
 		});
@@ -250,19 +214,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
-				"AbilityScores": {
-				},
-				"SavingThrows": {
-				},
 				"Skills": {
 					"C": 3
 				}
@@ -285,19 +236,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
-				"AbilityScores": {
-				},
-				"SavingThrows": {
-				},
 				"Skills": {
 					"A": "testing"
 				}
@@ -320,15 +258,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"AbilityScores": {
 					"Strength": "test"
 				}
@@ -351,15 +280,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"AbilityScores": {
 					"Dexterity": "test"
 				}
@@ -382,15 +302,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"AbilityScores": {
 					"Constitution": "test"
 				}
@@ -413,15 +324,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"AbilityScores": {
 					"Intelligence": "test"
 				}
@@ -444,15 +346,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"AbilityScores": {
 					"Wisdom": "test"
 				}
@@ -475,15 +368,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"AbilityScores": {
 					"Charisma": "test"
 				}
@@ -507,15 +391,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"SavingThrows": {
 					"Strength": "test"
 				}
@@ -538,15 +413,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"SavingThrows": {
 					"Dexterity": "test"
 				}
@@ -569,15 +435,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"SavingThrows": {
 					"Constitution": "test"
 				}
@@ -600,15 +457,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"SavingThrows": {
 					"Intelligence": "test"
 				}
@@ -631,15 +479,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"SavingThrows": {
 					"Wisdom": "test"
 				}
@@ -662,15 +501,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
-				"Languages": "test languages",
-				"HitPoints": 13,
-				"DamageVulnerabilities": "test",
-				"DamageResistances": "test",
-				"DamageImmunities": "test",
-				"ConditionImmunities": "test",
-				"Size": "Tiny",
-				"Type": "Fiend",
 				"SavingThrows": {
 					"Charisma": "test"
 				}
