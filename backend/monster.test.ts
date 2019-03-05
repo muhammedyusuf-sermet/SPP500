@@ -24,6 +24,7 @@ describe('monster creation tests', async () => {
 				"Size": "Tiny",
 				"Type": "Fiend",
 				"Race": "Human",
+				"Environment": "Mountain",
 				"Alignment": "LawfulEvil",
 				"ArmorClass": 5,
 				"Damage": "2d8",
@@ -190,6 +191,32 @@ describe('monster creation tests', async () => {
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1);
 			expect(response['messages'][0]).toBe("Monster alignment is not valid.");
+		} else {
+			expect.assertions(1);
+			expect(response['status']).toBe(400);
+		}
+	});
+
+	test('when an invalid monster environment is given', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "test",
+				"Languages": "test languages",
+				"Senses": "test senses",
+				"HitPoints": 13,
+				"DamageVulnerabilities": "test",
+				"DamageResistances": "test",
+				"DamageImmunities": "test",
+				"ConditionImmunities": "test",
+				"Environment": "InvalidEnvironment"
+			},
+		});
+
+		if (response["messages"]){
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1);
+			expect(response['messages'][0]).toBe("Monster environment is not valid.");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
