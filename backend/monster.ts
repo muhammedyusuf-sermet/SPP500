@@ -1,5 +1,5 @@
 import {Monster} from "./entity/Monster";
-import { Size, MonsterType, MonsterRace, Alignment } from "./entity/MonsterEnums";
+import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./entity/MonsterEnums";
 import {Skill} from "./entity/Skill"
 import {MonsterAbilityScore} from "./entity/MonsterAbilityScore";
 import {MonsterSavingThrow} from "./entity/MonsterSavingThrow";
@@ -124,6 +124,12 @@ export class MonsterFactory {
 			monster.Alignment = data.Alignment;
 		} else if (data.Alignment) {
 			messages.push("Monster alignment is not valid.")
+		}
+
+		if (Environment[data.Environment]) {
+			monster.Environment = data.Environment;
+		} else if (data.Environment) {
+			messages.push("Monster environment is not valid.")
 		}
 
 		// check if fields with defaults are provided
