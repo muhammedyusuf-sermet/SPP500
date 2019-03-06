@@ -3,7 +3,8 @@ import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 import { Encounter } from "./Encounter";
-import { Size, MonsterType, MonsterRace, Alignment } from "./MonsterEnums";
+import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./MonsterEnums";
+import { Action } from "./Action";
 
 @Entity()
 export class Monster extends BaseEntity {
@@ -38,6 +39,13 @@ export class Monster extends BaseEntity {
         default: MonsterRace.AnyRace
     })
     Race: MonsterRace;
+
+    @Column({
+        type: "enum",
+        enum: Environment,
+        default: Environment.Grassland
+    })
+    Environment: Environment;
 
     @Column({
         type: "enum",
@@ -130,6 +138,9 @@ export class Monster extends BaseEntity {
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     @JoinColumn()
     SavingThrows: MonsterSavingThrow;
+
+    @OneToMany(() => Action, action => action.Monster)
+    Actions: Action[];
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
     Encounters: Encounter[];

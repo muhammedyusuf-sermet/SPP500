@@ -1,3 +1,5 @@
+import { MonsterAction } from "../entity/MonsterEnums";
+
 var fs = require('fs');
 
 function ToUpperCamelCase (value: string): string{
@@ -9,12 +11,56 @@ function ToUpperCamelCase (value: string): string{
 
 fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
 
-    var monsters: Array<JSON> = []
+    interface IMonster {
+        Name: string,
+        Size?: string,
+        Type?: string,
+        Race?: string,       
+        Alignment?: string,
+        ArmorClass?: string,
+        HitPoints?: string,
+        Damage?: string,
+        Speed?: string,
+        Senses?: string,
+        Languages?: string,
+        DamageVulnerabilities?: string,
+        DamageResistances?: string,
+        DamageImmunities?: string,
+        ConditionImmunities?: string,
+        ChallengeRating?: number,
+        AbilityScores: {
+            Strength?: string,
+            Dexterity?: string,
+            Constitution?: string,
+            Intelligence?: string,
+            Wisdom?: string,
+            Charisma?: string
+        },
+        Skills?: [],
+        SavingThrows: {
+            Strength?: string,
+            Dexterity?: string,
+            Constitution?: string,
+            Intelligence?: string,
+            Wisdom?: string,
+            Charisma?: string
+        },
+        Actions: {
+            Name: string,
+            Description?: string,
+            HitBonus?: number,
+            Damage?: string,
+            DamageBonus?: number,
+            Type: MonsterAction
+        }[]
+    };
+
+    var monsters: Array<IMonster> = []
     let Data: any = JSON.parse(data)
-    
+
     for (let i in Data)
     {
-        let monster: any =
+        let monster: IMonster =
         {
             Name: '',
             Size: '',
@@ -35,9 +81,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
             AbilityScores: {},
             Skills: [],
             SavingThrows: {},
-            SpecialAbilities: [],
-            Actions: [],
-            LegendaryActions: []         
+            Actions: []
         }
 
         monster.Name = Data[i]['name']
@@ -76,9 +120,43 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         if (Data[i].hasOwnProperty('wisdom_save')) { monster.SavingThrows.Wisdom = Data[i]['wisdom_save'] }
         if (Data[i].hasOwnProperty('charisma_save')) { monster.SavingThrows.Charisma = Data[i]['charisma_save'] }
 
-        monster.SpecialAbilities = Data[i]['special_abilities']
-        monster.Actions = Data[i]['actions']
-        monster.LegendaryActions = Data[i]['legendary_actions']
+        monster.Actions = [];
+        if(Data[i]['special_abilities']){
+            Data[i]['special_abilities'].forEach((value: any) => {
+                monster.Actions.push({ 
+                    Name: value.name,
+                    Description: value.desc,
+                    HitBonus: value.attack_bonus,
+                    Damage: value.damage_dice,
+                    DamageBonus: value.damage_bonus,
+                    Type: MonsterAction.SpecialAbility
+                });
+            });
+        }
+        if(Data[i]['actions']){
+            Data[i]['actions'].forEach((value: any) => {
+                monster.Actions.push({ 
+                    Name: value.name,
+                    Description: value.desc,
+                    HitBonus: value.attack_bonus,
+                    Damage: value.damage_dice,
+                    DamageBonus: value.damage_bonus,
+                    Type: MonsterAction.Action
+                });
+            });
+        }
+        if(Data[i]['legendary_actions']){
+            Data[i]['legendary_actions'].forEach((value: any) => {
+                monster.Actions.push({ 
+                    Name: value.name,
+                    Description: value.desc,
+                    HitBonus: value.attack_bonus,
+                    Damage: value.damage_dice,
+                    DamageBonus: value.damage_bonus,
+                    Type: MonsterAction.LegendaryAction
+                });
+            });
+        }
 
         monsters.push(monster);
     }
