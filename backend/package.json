@@ -1,10 +1,10 @@
 {
-  "name": "DM-Tools-Backend",
+  "name": "dm-tools-backend",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "connect": "npx ts-node server.ts",
-    "scrape-monsters": "ts-node scrapeMonsters.ts",
+    "scrape-monsters": "ts-node ./scrape/scrapeMonsters.ts",
     "seed:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c seed -n Initialize",
     "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
     "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",

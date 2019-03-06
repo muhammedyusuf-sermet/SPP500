@@ -11,6 +11,14 @@ function createMainWindow() {
 	const window = new BrowserWindow();
 
 	if (isDevelopment)
+		BrowserWindow.addDevToolsExtension(
+			path.join(
+				__dirname,
+				'../../../dev-frontend-extensions/facebook-react-dev-tools/3.6.0_0'
+			)
+		);
+
+	if (isDevelopment)
 		window.webContents.openDevTools();
 
 	if (isDevelopment) {
