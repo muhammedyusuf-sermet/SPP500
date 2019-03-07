@@ -1,36 +1,28 @@
 import * as React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input, Button } from 'bloomer';
 
-import '../css/registration.css';
+import 'bulma/css/bulma.css';
 
-type AppProps = {}
-
-interface RegisterStateInterface {
+interface IRegisterState {
 	user: {
 		username: string,
 		password: string,
 		email: string,
 		name: string
 	}
-	snackbar: {
+	modal: {
 		open: boolean,
 		message: string
 	}
 }
 
-interface requestBodyInterface {
+interface IRegisterResponce {
 	status: number,
 	messages: string[]
 }
 
-export class Registration extends React.Component<{}, RegisterStateInterface> {
-	constructor(props: AppProps) {
+export class Registration extends React.Component<any, IRegisterState> {
+	constructor(props: any) {
 		super(props);
 		this.state = {
 			user: {
@@ -40,7 +32,7 @@ export class Registration extends React.Component<{}, RegisterStateInterface> {
 				name: ""
 			},
 
-			snackbar: {
+			modal: {
 				open: false,
 				message: ""
 			}
@@ -76,14 +68,14 @@ export class Registration extends React.Component<{}, RegisterStateInterface> {
 	}
 
 	/*Todo: Create a new helper component for Snackbars - reuse it*/
-	openSnackbar = (messageText: string) => {
-		const snackbar = this.state.snackbar
-		this.setState({ snackbar: {...snackbar, open: true, message: messageText }});
+	openModal = (messageText: string) => {
+		const snackbar = this.state.modal
+		this.setState({ modal: {...snackbar, open: true, message: messageText }});
 	};
 
-	closeSnackbar = () => {
-		const snackbar = this.state.snackbar
-		this.setState({ snackbar: {...snackbar, open: false }});
+	closeModal = () => {
+		const snackbar = this.state.modal
+		this.setState({ modal: {...snackbar, open: false }});
 	};
 
 	requestRegister() {
@@ -107,116 +99,96 @@ export class Registration extends React.Component<{}, RegisterStateInterface> {
 			json: true
 		};
 
-		request(options, function (error: string, response: string, body: requestBodyInterface) {
+		request(options, function (error: string, response: string, body: IRegisterResponce) {
 			if (error) {
-				context.openSnackbar("There has been a server error. Please try again later.");
+				context.openModal("There has been a server error. Please try again later.");
 				throw new Error(error);
 			}
 
-			var status = body.status;
-			var messages = body.messages;
-			var messagesStr = "";
-			if (messages) {
-				messagesStr = messages.join(' ');
-			}
-			if (status == 201) {
-				messagesStr = "Welcome aboard! You can now login with your username and password.";
-			}
-			context.openSnackbar(messagesStr);
+			let { status, messages } = body;
+			var finalMessage = "";
+			if (messages)
+				finalMessage = messages.join(' ');
+
+			if (status == 201)
+				finalMessage = "Welcome aboard! You can now login with your username and password.";
+
+			context.openModal(finalMessage);
 		});
 	}
 
 	render() {
 		const register = (event: React.FormEvent) => {
 			event.preventDefault();
-			this.closeSnackbar();
+			this.closeModal();
 			this.requestRegister();
 		}
 
 		return (
-			<div className="registration-container">
+			<React.Fragment>
 				<form onSubmit={register}>
-					<React.Fragment>
-						<Typography variant="h6" gutterBottom>
-							Register Now!
-						</Typography>
-						<Grid container spacing={24}>
-							<Grid item xs={12}>
-								<TextField
-									required
-									id="name"
-									name="name"
-									label="First and Last name"
-									fullWidth
-									autoComplete="name"
-									value={this.state.user.name}
-									onChange={this.handleNameChange}
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									required
-									id="email"
-									name="email"
-									label="E-mail Address"
-									type="email"
-									fullWidth
-									autoComplete="email"
-									value={this.state.user.email}
-									onChange={this.handleEmailChange}
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<TextField
-									required
-									id="username"
-									name="username"
-									label="Username"
-									fullWidth
-									autoComplete="username"
-									value={this.state.user.username}
-									onChange={this.handleUsernameChange}
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<TextField 
-									required
-									id="password"
-									name="password"
-									label="Password"
-									type="password"
-									fullWidth
-									value={this.state.user.password}
-									onChange={this.handlePasswordChange}
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								{/*Needed for spacing purposes - No functionality*/}
-							</Grid>
-						</Grid>
-						<Button className="button" variant="contained" color="primary" type="submit">Register</Button>
-					</React.Fragment>
+					<Title>Register Now!</Title>
+					<Field>
+						<Control>
+							<Input
+								id='name'
+								type='text'
+								placeholder='First and Last name'
+								autoComplete='name'
+								value={this.state.user.name}
+								onChange={this.handleNameChange}
+								required />
+						</Control>
+					</Field>
+					<Field>
+						<Control>
+							<Input
+								id='email'
+								type='email'
+								placeholder='E-mail Address'
+								autoComplete='email'
+								value={this.state.user.email}
+								onChange={this.handleEmailChange}
+								required />
+						</Control>
+					</Field>
+					<Field isGrouped='centered' isHorizontal>
+						<Control isExpanded>
+							<Input
+								id='username'
+								type='username'
+								placeholder='Username'
+								autoComplete='username'
+								value={this.state.user.username}
+								onChange={this.handleUsernameChange}
+								required />
+						</Control>
+						<Control isExpanded>
+							<Input
+								id='password'
+								type='password'
+								placeholder='Password'
+								autoComplete='password'
+								value={this.state.user.password}
+								onChange={this.handlePasswordChange}
+								required />
+						</Control>
+					</Field>
+					<Field>
+						<Button isColor='primary' type="submit" isLoading={false}>Register</Button>
+					</Field>
 				</form>
-				<Snackbar
-					open={this.state.snackbar.open}
-					autoHideDuration={6000}
-					message={<span id="message-id">{this.state.snackbar.message}</span>}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left'
-					}}
-					action={[
-						<IconButton
-							key="close"
-							aria-label="Close"
-							color="inherit"
-							onClick={this.closeSnackbar}
-						>
-							<CloseIcon/>
-						</IconButton>
-					]}
-				/>
-			</div>
+				<Modal id='registerModal' isActive={this.state.modal.open}>
+					<ModalBackground onClick={()=>{
+						this.closeModal();
+					}}/>
+					<ModalContent>
+						<Box>
+							<span id="message-id">{this.state.modal.message}</span>
+						</Box>
+					</ModalContent>
+				</Modal>
+			</React.Fragment>
 		);
 	}
 }
