@@ -5,11 +5,6 @@ exports[`Test the Landing/Registration/Login Page renders correctly when the pag
   className="container-fluid"
 >
   <div
-    className="header"
-  >
-    <LoginHeader />
-  </div>
-  <div
     className="horizontal-block"
   >
     <div
