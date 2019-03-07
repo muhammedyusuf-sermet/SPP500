@@ -130,10 +130,25 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 				<form id="loginForm" onSubmit={login} className='navbar-item'>
 					<Field isGrouped isHorizontal>
 						<Control isExpanded>
-							<Input type='text' placeholder='Username' autoComplete="username" value={this.state.user.username} onChange={this.handleUsernameChange} autoFocus required />
+							<Input
+								id='username'
+								type='text'
+								placeholder='Username'
+								autoComplete='username'
+								value={this.state.user.username}
+								onChange={this.handleUsernameChange}
+								autoFocus
+								required />
 						</Control>
 						<Control isExpanded>
-							<Input type='password' placeholder='Password' autoComplete='current-password' value={this.state.user.password} onChange={this.handlePasswordChange} required />
+							<Input
+								id='password'
+								type='password'
+								placeholder='Password'
+								autoComplete='current-password'
+								value={this.state.user.password}
+								onChange={this.handlePasswordChange}
+								required />
 						</Control>
 						<Control>
 							<Button isColor='dark' type="submit" isLoading={false}>Login</Button>
