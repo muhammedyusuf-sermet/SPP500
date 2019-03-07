@@ -1,8 +1,19 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Encounter } from "./Encounter";
+import { Encounter, IEncounterData } from "./Encounter";
+
+export interface IUserData {
+	Email: string;
+
+	Username: string;
+	Name: string;
+	HashedPassword: string;
+	Type: string;
+	
+    CreatedEncounters: IEncounterData[];
+}
 
 @Entity()
-export class User extends BaseEntity {
+export class User extends BaseEntity implements IUserData {
 
 	@PrimaryGeneratedColumn()
 	Id: number;

@@ -1,8 +1,17 @@
 import { Entity, Column, BaseEntity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Monster } from "./Monster";
 
+export interface IMonsterSavingThrowData {
+    Strength?: number;
+    Dexterity?: number;
+    Constitution?: number;
+    Intelligence?: number;
+    Wisdom?: number;
+    Charisma?: number;
+}
+
 @Entity()
-export class MonsterSavingThrow extends BaseEntity {
+export class MonsterSavingThrow extends BaseEntity implements IMonsterSavingThrowData {
 
     @PrimaryGeneratedColumn()
 	Id: number;

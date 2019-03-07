@@ -2,8 +2,17 @@ import { Entity, Column, Index, PrimaryGeneratedColumn, BaseEntity, ManyToOne } 
 import { MonsterAction } from "./MonsterEnums";
 import { Monster } from "./Monster";
 
+export interface IActionData {
+    Name: string,
+    Description: string,
+    HitBonus?: number,
+    Damage?: string,
+    DamageBonus?: number,
+    Type?: MonsterAction
+}
+
 @Entity()
-export class Action extends BaseEntity {
+export class Action extends BaseEntity implements IActionData {
 
     @PrimaryGeneratedColumn()
     Id: number;
