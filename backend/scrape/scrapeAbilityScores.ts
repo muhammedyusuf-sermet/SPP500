@@ -1,26 +1,48 @@
+
 var fs = require('fs');
 
-fs.readFile('5e-SRD-Ability-Scores.json', ParseAbilityScoreData)
+fs.readFile('5e-SRD-Ability-Scores.json',(err: any, data: any) => {
 
-function ParseAbilityScoreData (err: any, data: any): void{
+    interface IAbilityScore {
+        Name: string,
+        Abbreviation: string,
+        Description: string,     
+        Skills: {
+            Name: string
+        }[]
+    };
 
-    let AbilityScores: Array<any> = [] // 5e-SRD-Ability-Scores.json
+    var abilityScores: Array<IAbilityScore> = []
     let Data: any = JSON.parse(data)
-    
+
     for (let i in Data)
     {
-        let abilityScore: any = 
+        let abilityScore: IAbilityScore =
         {
             Name: '',
             Abbreviation: '',
             Description: '',
+            Skills: []
         }
 
         abilityScore.Name = Data[i]['full_name']
         abilityScore.Abbreviation = Data[i]['name']
-        abilityScore.Description = Data[i]['desc'][0]
+
+        var desc: string = ''
+        Data[i]['desc'].forEach((value: any) => {
+                desc += (desc.substr(desc.length - 1) == '.' ? " " + value : value);
+            });
+        abilityScore.Description = desc
+       
+        Data[i]['skills'].forEach((value: any) => {
+                abilityScore.Skills.push({ 
+                        Name: value.name
+            });
+        });
         
-        AbilityScores.push(abilityScore);
+        abilityScores.push(abilityScore);
     }
-    console.log(AbilityScores)
-}
+
+    fs.writeFileSync("../seeds/data/abilityScores.json", JSON.stringify(abilityScores,null,4))
+    console.log("Scraped all ability scores.")
+});
