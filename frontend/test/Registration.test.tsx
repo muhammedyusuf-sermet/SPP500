@@ -16,9 +16,9 @@ describe('Register Component', () => {
 		expect(registerInstance).toBeDefined();
 	});
 
-	it('renders a registration-container classed component', () => {
+	/*it('renders a registration-container classed component', () => {
 		expect(registerInstance.find('.registration-container')).toExist();
-	});
+	});*/
 
 	describe('should respond to change event and change the state of the Register Component', () => {
 		it('all input fields work', () => {
