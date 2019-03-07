@@ -1,16 +1,16 @@
 export class CookieManager {
 
-	static data:any = {};
+	static Data:any = {};
 
 	public static UserToken(cookieToCheck:string) {
-		return CookieManager.data[cookieToCheck];
+		return CookieManager.Data[cookieToCheck];
 	}
 
 	public static SetStringCookie(name:string, data:string) {
-		CookieManager.data[name] = data;
+		CookieManager.Data[name] = data;
 	}
 
 	public static RemoveCookie(name:string) {
-		CookieManager.data[name] = undefined;
+		CookieManager.Data[name] = undefined;
 	}
 }
