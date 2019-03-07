@@ -1,40 +1,35 @@
 import * as React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+//import './css/app.css';
 
-import './css/app.css';
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
 import { MonsterCreation } from './components/MonsterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 
-type AppProps = {}
+import "bulma/css/bulma.css";
+import { NavBar } from './components/NavBar';
 
-export class App extends React.Component<{}> {
-	constructor(props: AppProps) {
+interface IAppProps { }
+
+export class App extends React.Component<IAppProps> {
+	constructor(props: IAppProps) {
 		super(props);
 	}
 
 	/* Todo: Return home page if user is not logged in, return main platform page otherwise */
 	render() {
 		return (
-			<Router>
-				<div>
-					<ul>
-						<li>
-							<Link to="/">Home</Link>
-							<Link to="/monster_creation">Monster Creation</Link>
-							<Link to="/catalog">View Catalog</Link>
-						</li>
-					</ul>
-					<hr />
-
+			<React.Fragment>
+				<NavBar />
+				<Switch>
 					<Route exact path="/" component={HomePage} />
 					<Route path="/platform" component={Platform} />
 					<Route path="/monster_creation" component={MonsterCreation} />
 					<Route path="/catalog" component={ViewCatalog} />
-				</div>
-			</Router>
+				</Switch>
+			</React.Fragment>
 		);
 	}
 }
