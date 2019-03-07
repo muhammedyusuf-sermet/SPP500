@@ -116,7 +116,7 @@ export const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) 
         </TextField>
 )
 
-interface IMonsterCreationState {
+export interface IMonsterCreationState {
 	monster: Monster.IMonster,
 	submitted: boolean
 }
