@@ -8,9 +8,10 @@ var request = require("request");
 
 import * as Monster from "../../monster";
 import { CookieManager } from "../../cookie";
+
+import "../css/create_monster.css"
 import { HomePage } from './Home';
 
-import 'bulma/css/bulma.css';
 
 const types = Array.from(Monster.MonsterTypeNames.values()).map(v => ({label: v, value: v}))
 const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v, value: v}))
@@ -604,7 +605,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 	*/
 
 	render() {
-		
+		let cookieManager = new CookieManager()
 		let diceRegex = /^\d+d\d+$/
 		let baseHitPointsError = !((this.state.monster.hitPoints != null) && this.state.monster.hitPoints >= 0)
 		let hitPointDiceError = !((this.state.monster.hitPointDice != null) && this.state.monster.hitPointDice.match(diceRegex) != null)
@@ -716,7 +717,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',
 						'Cache-Control': 'no-cache',
 						'Content-Type': 'application/json' ,
-						'Authorization': CookieManager.UserToken("session_token")
+						'Authorization': cookieManager.GetCookie("session_token")
 					},
 					body: payloadToSend,
 					json: true
@@ -735,7 +736,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			}
 		}
 
-		if (!CookieManager.UserToken("session_token")) {
+		if (!cookieManager.UserAuthenticated(cookieManager.GetCookie("session_token"))) {
 			return (<HomePage/>)
 		}
 		else if (this.state.submitted) {
