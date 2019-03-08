@@ -3,6 +3,7 @@
 exports[`Test the Landing/Registration/Login Page renders correctly when the page is loaded 1`] = `
 <div
   className="container-fluid"
+  id="HomePage"
 >
   <div
     className="horizontal-block"
