@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Navbar, NavbarBrand, NavbarMenu, NavbarStart, NavbarEnd, NavbarBurger } from 'bloomer';
 import { LoginHeader } from './LoginHeader';
+import { AuthContext, IAuthProviderState } from './AuthContext';
 
 import "bulma/css/bulma.css";
 
@@ -40,10 +41,20 @@ export class NavBar extends React.Component<any, INavBarState> {
 					<NavbarBurger isActive={this.state.isActive} onClick={this.onClickNav} />
 				</NavbarBrand>
 				<NavbarMenu isActive={this.state.isActive} >
-					<NavbarStart className='is-light' onClick={this.closeNav}>
-						<Link className='navbar-item' to="/monster_creation">Create Monster</Link>
-						<Link className='navbar-item' to="/catalog">View Catalog</Link>
-					</NavbarStart>
+					<AuthContext.Consumer>
+						{ (auth: IAuthProviderState) =>
+							(auth.isAuth) ? (
+								<NavbarStart className='is-light' onClick={this.closeNav}>
+									<Link className='navbar-item' to="/monster_creation">Create Monster</Link>
+									<Link className='navbar-item' to="/catalog">View Catalog</Link>
+								</NavbarStart>
+							) : (
+								<NavbarStart className='is-light' onClick={this.closeNav}>
+									<Link className='navbar-item' to="/catalog">View Catalog</Link>
+								</NavbarStart>
+							)
+						}
+					</AuthContext.Consumer>
 					<NavbarEnd>
 						<LoginHeader />
 					</NavbarEnd>
