@@ -8,9 +8,10 @@ export class Platform extends React.Component<{}> {
 			return (<Redirect to='/'/>);
 
 		return (
-			<div className="platform-container">
+			<React.Fragment>
+				<div className="PlatformComponent"/>
 				<p>You are logged in, welcome to the D&D Tools!</p>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

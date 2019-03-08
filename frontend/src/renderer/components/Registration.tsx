@@ -3,7 +3,7 @@ import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input
 
 import 'bulma/css/bulma.css';
 
-interface IRegisterState {
+export interface IRegisterState {
 	user: {
 		username: string,
 		password: string,
@@ -69,17 +69,17 @@ export class Registration extends React.Component<any, IRegisterState> {
 
 	/*Todo: Create a new helper component for Snackbars - reuse it*/
 	openModal = (messageText: string) => {
-		const snackbar = this.state.modal
-		this.setState({ modal: {...snackbar, open: true, message: messageText }});
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: true, message: messageText }});
 	};
 
 	closeModal = () => {
-		const snackbar = this.state.modal
-		this.setState({ modal: {...snackbar, open: false }});
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: false }});
 	};
 
-	requestRegister() {
-		var context = this;
+	requestRegister = (event: React.FormEvent) => {
+		event.preventDefault();
 		var request = require("request");
 		var options = { method: 'POST',
 			url: 'http://3.18.65.138:3000/register',
@@ -98,35 +98,28 @@ export class Registration extends React.Component<any, IRegisterState> {
 			},
 			json: true
 		};
-
-		request(options, function (error: string, response: string, body: IRegisterResponce) {
+		request(options, (error: string, response: string, body: IRegisterResponce) => {
 			if (error) {
-				context.openModal("There has been a server error. Please try again later.");
+				this.openModal("There has been a server error. Please try again later.");
 				throw new Error(error);
 			}
 
 			let { status, messages } = body;
 			var finalMessage = "";
 			if (messages)
-				finalMessage = messages.join(' ');
+				finalMessage = messages[0];
 
 			if (status == 201)
 				finalMessage = "Welcome aboard! You can now login with your username and password.";
 
-			context.openModal(finalMessage);
+			this.openModal(finalMessage);
 		});
 	}
 
 	render() {
-		const register = (event: React.FormEvent) => {
-			event.preventDefault();
-			this.closeModal();
-			this.requestRegister();
-		}
-
 		return (
 			<React.Fragment>
-				<form onSubmit={register}>
+				<form onSubmit={this.requestRegister}>
 					<Title>Register Now!</Title>
 					<Field>
 						<Control>
@@ -179,12 +172,12 @@ export class Registration extends React.Component<any, IRegisterState> {
 					</Field>
 				</form>
 				<Modal id='registerModal' isActive={this.state.modal.open}>
-					<ModalBackground onClick={()=>{
+					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
 					}}/>
 					<ModalContent>
 						<Box>
-							<span id="message-id">{this.state.modal.message}</span>
+							<span id="ModalMessage">{this.state.modal.message}</span>
 						</Box>
 					</ModalContent>
 				</Modal>

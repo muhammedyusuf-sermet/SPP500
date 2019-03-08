@@ -6,7 +6,7 @@ import 'bulma/css/bulma.css';
 import { Input, Button, Modal, ModalContent, Control, Field, Box, ModalBackground } from 'bloomer';
 import { NavbarItem } from 'bloomer/lib/components/Navbar/NavbarItem';
 
-interface ILoginState {
+export interface ILoginState {
 	user: {
 		username: string,
 		password: string
@@ -87,10 +87,9 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 				context.openModal("There has been a server error when logging in. Please try again later.");
 			} else {
 				let { token, status, message } = body
-
 				if (status == 201)
 					CookieManager.SetStringCookie("session_token", token);
-					context.openModal(message);
+				context.openModal(message);
 			}
 		});
 	}
@@ -121,7 +120,7 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 				<NavbarItem>
 					<Field>
 						<Control>
-							<Button  isColor ='dark' onClick={logout} isLoading={false}>Logout</Button>
+							<Button id='logout' isColor ='dark' onClick={logout} isLoading={false}>Logout</Button>
 						</Control>
 					</Field>
 				</NavbarItem>
@@ -161,12 +160,12 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 			<React.Fragment>
 				{loginControl}
 				<Modal id='loginModal' isActive={this.state.modal.open}>
-					<ModalBackground onClick={()=>{
+					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
 					}}/>
 					<ModalContent>
 						<Box>
-							<p>{this.state.modal.message}</p>
+							<span id="ModalMessage">{this.state.modal.message}</span>
 						</Box>
 					</ModalContent>
 				</Modal>

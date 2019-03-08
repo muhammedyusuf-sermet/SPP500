@@ -7,7 +7,7 @@ import '../css/app.css';
 
 export const HomePage: React.StatelessComponent<{}> = () => {
 	return (
-		<div className="container-fluid">
+		<div id='HomePage' className="container-fluid">
 			<div className="horizontal-block">
 				<div className="align-left"><LandingPage/></div>
 				<div className="align-right"><Registration/></div>
