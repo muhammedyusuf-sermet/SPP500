@@ -10,6 +10,7 @@ import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 
 import "bulma/css/bulma.css";
 import { NavBar } from './components/NavBar';
+import { AuthContext, IAuthProviderState } from './components/AuthContext';
 
 interface IAppProps { }
 
@@ -23,12 +24,24 @@ export class App extends React.Component<IAppProps> {
 		return (
 			<React.Fragment>
 				<NavBar />
-				<Switch>
-					<Route exact path="/" component={HomePage} />
-					<Route path="/platform" component={Platform} />
-					<Route path="/monster_creation" component={MonsterCreation} />
-					<Route path="/catalog" component={ViewCatalog} />
-				</Switch>
+				<AuthContext.Consumer>
+					{ (auth: IAuthProviderState) =>
+						(auth.isAuth) ? (
+							<Switch>
+								<Route exact path="/" component={Platform} />
+								<Route path="/monster_creation" component={MonsterCreation} />
+								<Route path="/catalog" component={ViewCatalog} />
+								<Route path="" component={Platform} />
+							</Switch>
+						) : (
+							<Switch>
+								<Route exact path="/" component={HomePage} />
+								<Route path="/catalog" component={ViewCatalog} />
+								<Route path="" component={HomePage} />
+							</Switch>
+						)
+					}
+				</AuthContext.Consumer>
 			</React.Fragment>
 		);
 	}
