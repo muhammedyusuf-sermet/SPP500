@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {Redirect} from 'react-router-dom';
 import {CookieManager} from "../../cookie";
+import { API_URL } from '../../config';
 
 import '../css/login_header.css';
 
@@ -79,7 +80,7 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 		var context = this;
 		var request = require("request");
 		var options = { method: 'POST',
-			url: 'http://3.18.65.138:3000/login',
+			url: API_URL + '/login',
 			timeout: 2000,
 			headers:
 			{
@@ -96,6 +97,7 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 
 		request(options, function (error: string, response: string, body: LoginResponceInterface) {
 			if (error) {
+				console.log(error)
 				context.openSnackbar("There has been a server error when logging in. Please try again later.");
 			}
 			else {
