@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-//import '../css/login_header.css';
 import 'bulma/css/bulma.css';
 import { Input, Button, Modal, ModalContent, Control, Field, Box, ModalBackground } from 'bloomer';
 import { NavbarItem } from 'bloomer/lib/components/Navbar/NavbarItem';

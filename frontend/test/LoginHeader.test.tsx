@@ -4,12 +4,6 @@ import { mount, ReactWrapper } from 'enzyme';
 import { LoginHeader, ILoginState } from "../src/renderer/components/LoginHeader";
 import { context } from "./testHelpers";
 
-//import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
-//import { IAuthProviderState } from "../src/renderer/components/AuthContext";
-
-//import { CookieManager } from "../src/cookie";
-
-//jest.mock('../src/cookie');
 jest.mock('../src/renderer/components/AuthContext');
 
 describe('Login Component', () => {
