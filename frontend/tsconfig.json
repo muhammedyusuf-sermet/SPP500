@@ -5,6 +5,16 @@
 		"allowUnreachableCode": false,
 		"allowJs": false,
 		"strict": true,
-		"jsx": "react"
+		"noImplicitAny": true,
+		"declaration": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"stripInternal": true,
+		"pretty": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"downlevelIteration": true,
+		"jsx": "react",
+		"typeRoots": ["node_modules/@types"]
 	}
 }

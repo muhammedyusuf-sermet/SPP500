@@ -1,46 +1,31 @@
 import * as React from 'react';
-import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import {Redirect} from 'react-router-dom';
-import {CookieManager} from "../../cookie";
 
-import '../css/login_header.css';
+import 'bulma/css/bulma.css';
+import { Input, Button, Modal, ModalContent, Control, Field, Box, ModalBackground } from 'bloomer';
+import { NavbarItem } from 'bloomer/lib/components/Navbar/NavbarItem';
+import { IAuthProviderState, AuthContext } from './AuthContext';
 
-type AppProps = {}
-
-interface LoginStateInterface {
-	redirectToPlatform: boolean,
+export interface ILoginState {
 	user: {
 		username: string,
 		password: string
 	}
-	snackbar: {
+	modal: {
 		open: boolean,
 		message: string
 	}
 }
 
-interface LoginResponceInterface {
-	status: number,
-	message: string, 
-	token: string
-}
-
-export class LoginHeader extends React.Component<{}, LoginStateInterface> {
-	constructor(props: AppProps) {
+export class LoginHeader extends React.Component<any, ILoginState> {
+	constructor(props: any) {
 		super(props);
 		this.state = {
-			redirectToPlatform: false,
 			user: {
 				// Todo: Accept e-mail address as username (i.e. as a way to login)
 				username: "",
 				password: ""
 			},
-
-			snackbar: {
+			modal: {
 				open: false,
 				message: ""
 			}
@@ -61,108 +46,103 @@ export class LoginHeader extends React.Component<{}, LoginStateInterface> {
 		})
 	}
 
-	openSnackbar = (messageText: string) => {
-		const snackbar = this.state.snackbar
-		this.setState({ snackbar: {...snackbar, open: true, message: messageText }});
+	openModal = (messageText: string) => {
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: true, message: messageText }});
 	};
 
-	closeSnackbar = () => {
-		const snackbar = this.state.snackbar
-		this.setState({ snackbar: {...snackbar, open: false }});
+	closeModal = () => {
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: false }});
 	};
 
-	handleRedirectToPlatform = () => {
-		this.setState({ redirectToPlatform: true});
-	}
+	loginControl = (auth: IAuthProviderState) => {
+		const login = (event: React.FormEvent) => {
+			event.preventDefault();
+			this.closeModal();
+			auth.login(
+				this.state.user,
+				(message: string) => {
+					this.openModal(message);
+				});
+		}
 
-	requestLogin(cookieManager: CookieManager) {
-		var context = this;
-		var request = require("request");
-		var options = { method: 'POST',
-			url: 'http://3.18.65.138:3000/login',
-			timeout: 2000,
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json'
-			},
-			body:
-			{
-				username: this.state.user.username,
-				password: this.state.user.password
-			},
-			json: true
-		};
-
-		request(options, function (error: string, response: string, body: LoginResponceInterface) {
-			if (error) {
-				context.openSnackbar("There has been a server error when logging in. Please try again later.");
-			}
-			else {
-				var token = "";
-				var status = body.status;
-				var message = body.message;
-				context.openSnackbar(message);
-
-				if (status == 201) { // Success
-					token = body.token;
-					cookieManager.SetStringCookie(token, "session_token");
-					context.handleRedirectToPlatform();
-				}
-			}
-		});
+		const logout = (event: React.FormEvent) => {
+			event.preventDefault();
+			this.closeModal();
+			auth.logout(
+				(message: string) => {
+					this.setState({
+						user: {
+							// Todo: Reset e-mail address as username (i.e. as a way to login)
+							username: "",
+							password: ""
+						}
+					})
+					this.openModal(message);
+				});
+		}
+		if (auth.isAuth){
+			return (
+				<NavbarItem>
+					<Field>
+						<Control>
+							<Button id='logout' isColor ='dark' onClick={logout} isLoading={false}>Logout</Button>
+						</Control>
+					</Field>
+				</NavbarItem>
+			);
+		} else {
+			return (
+				<form id="loginForm" onSubmit={login} className='navbar-item'>
+					<Field isGrouped isHorizontal>
+						<Control isExpanded>
+							<Input
+								id='username'
+								type='text'
+								placeholder='Username'
+								autoComplete='username'
+								value={this.state.user.username}
+								onChange={this.handleUsernameChange}
+								autoFocus
+								required />
+						</Control>
+						<Control isExpanded>
+							<Input
+								id='password'
+								type='password'
+								placeholder='Password'
+								autoComplete='current-password'
+								value={this.state.user.password}
+								onChange={this.handlePasswordChange}
+								required />
+						</Control>
+						<Control>
+							<Button isColor='dark' type="submit" isLoading={false}>Login</Button>
+						</Control>
+					</Field>
+				</form>
+			);
+		}
 	}
 
 	render() {
-		let cookieManager = new CookieManager();
-		if (cookieManager.UserAuthenticated(cookieManager.GetCookie("session_token"))) {
-			// User is already logged in; redirect to the main page
-			this.handleRedirectToPlatform();
-		}
-
-		const login = (event: React.FormEvent) => {
-			event.preventDefault();
-			this.closeSnackbar();
-			this.requestLogin(cookieManager);
-		}
-
-		if (this.state.redirectToPlatform) {
-			return (<Redirect to='/platform'/>);
-		}
-
 		return (
-			<div className="login-header-container">
-				<div className="left-block">
-					<img src={require('../../../../doc/art/DM-Tools-Logo.png')} className="logo"></img>
-				</div>
-				<div className="right-block">
-				<form id="loginForm" onSubmit={login}>
-					<Input className="input" id="username" placeholder="Username" name="username" autoComplete="username" value={this.state.user.username} onChange={this.handleUsernameChange} autoFocus required/>
-					<Input className="input" id="password" placeholder="Password" name="password" type="password" autoComplete="current-password" value={this.state.user.password} onChange={this.handlePasswordChange} required/>
-					<Button className="button" id="loginButton" variant="contained" color="primary" type="submit">Login</Button>
-				</form>
-				</div>
-				<Snackbar
-					id="snackbarLogin"
-					open={this.state.snackbar.open}
-					autoHideDuration={6000}
-					message={<span id="message-id">{this.state.snackbar.message}</span>}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left'
-					}}
-					action={[
-						<IconButton
-							key="close"
-							aria-label="Close"
-							color="inherit"
-							onClick={this.closeSnackbar}
-						>
-							<CloseIcon/>
-						</IconButton>
-					]}
-				/>
-			</div>
+			<React.Fragment>
+				<AuthContext.Consumer>
+					{this.loginControl}
+				</AuthContext.Consumer>
+				<Modal id='loginModal' isActive={this.state.modal.open}>
+					<ModalBackground id='modalBackground' onClick={()=>{
+						this.closeModal();
+					}}/>
+					<ModalContent>
+						<Box>
+							<span id="ModalMessage">{this.state.modal.message}</span>
+						</Box>
+					</ModalContent>
+				</Modal>
+			</React.Fragment>
 		);
 	}
 }

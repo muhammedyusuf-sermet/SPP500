@@ -10,8 +10,6 @@ import * as Monster from "../../monster";
 import { CookieManager } from "../../cookie";
 
 import "../css/create_monster.css"
-import { HomePage } from './Home';
-
 
 const types = Array.from(Monster.MonsterTypeNames.values()).map(v => ({label: v, value: v}))
 const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v, value: v}))
@@ -116,7 +114,7 @@ export const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) 
         </TextField>
 )
 
-interface IMonsterCreationState {
+export interface IMonsterCreationState {
 	monster: Monster.IMonster,
 	submitted: boolean
 }
@@ -605,7 +603,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 	*/
 
 	render() {
-		let cookieManager = new CookieManager()
+		//let cookieManager = new CookieManager()
 		let diceRegex = /^\d+d\d+$/
 		let baseHitPointsError = !((this.state.monster.hitPoints != null) && this.state.monster.hitPoints >= 0)
 		let hitPointDiceError = !((this.state.monster.hitPointDice != null) && this.state.monster.hitPointDice.match(diceRegex) != null)
@@ -717,7 +715,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',
 						'Cache-Control': 'no-cache',
 						'Content-Type': 'application/json' ,
-						'Authorization': cookieManager.GetCookie("session_token")
+						'Authorization': CookieManager.UserToken("session_token")
 					},
 					body: payloadToSend,
 					json: true
@@ -736,294 +734,285 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			}
 		}
 
-		if (!cookieManager.UserAuthenticated(cookieManager.GetCookie("session_token"))) {
-			return (<HomePage/>)
-		}
-		else if (this.state.submitted) {
-			return (<HomePage/>)
-			// TODO: update to view monster later
-		}
-		else {
-			return (
-				<div className="monster-creation-container">
-					<form onSubmit={validateForm}>
-						<h1 className="page-title">Create a Monster</h1>
-						<Grid container spacing={24}>
-							<Grid item xs={12}>
-								<div className="form-group">
-									<TextField autoFocus error={false} margin="dense" value={this.state.monster.name} id="name" label="Monster Name" helperText="" fullWidth required onChange={this.handleMonsterNameChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<MonsterTypeDropdown type={this.state.monster.type} onChange={this.handleMonsterTypeChange} />
-							</Grid>
-							<Grid item xs={6}>
-								<MonsterSizeDropdown type={this.state.monster.size} onChange={this.handleMonsterSizeChange} />
-							</Grid>
-							<Grid item xs={6}>
-								<MonsterRaceDropdown type={this.state.monster.race} onChange={this.handleMonsterRaceChange} />
-							</Grid>
-							<Grid item xs={6}>
-								<MonsterAlignmentDropdown type={this.state.monster.alignment} onChange={this.handleMonsterAlignmentChange} />
-							</Grid>
-							<Grid item xs={6}>
-								<MonsterEnvironmentDropdown type={this.state.monster.environment} onChange={this.handleMonsterEnvironmentChange} error={false} errorMessage=""/>
-							</Grid>
-							<Grid item xs={12}>
-								<div className="form-group">
-									<TextField error={false} margin="dense" value={this.state.monster.resistance} id="resistance" label="Resistances" helperText="" fullWidth onChange={this.handleMonsterResistanceChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={12}>
-								<div className="form-group">
-									<TextField error={false} margin="dense" value={this.state.monster.damageImmunity} id="damageImmunity" label="Damage Immunities" helperText="" fullWidth onChange={this.handleMonsterDamageImmunityChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={12}>
-								<div className="form-group">
-									<TextField error={false} margin="dense" value={this.state.monster.conditionImmunity} id="conditionImmunity" label="Condition Immunities" helperText="" fullWidth onChange={this.handleMonsterConditionImmunityChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={12}>
-								<div className="form-group">
-									<TextField error={false} margin="dense" value={this.state.monster.vulnerability} id="vulnerability" label="Vulnerabilities" helperText="" fullWidth onChange={this.handleMonsterVulnerabilityChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {armorClassError} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} helperText={armorClassError ? "Your armor class must be above 0" : ""} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} required margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {baseHitPointsError} helperText={baseHitPointsError? "You cannot have a negative base HP." : ""} id="hitPoints" label="Hit Points" value={this.state.monster.hitPoints} onChange={this.handleMonsterHitPointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error={hitPointDiceError} helperText={hitPointDiceError? "You must provide your hitpoint dice in the xdy format (i.e. 4d6)" : ""} margin="dense" value={this.state.monster.hitPointDice} id="hitPointDice" label="Hit Point Dice" fullWidth required onChange={this.handleMonsterHitPointDiceChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {false} id="hitPointModifier" label="Base Hit Point Modifier" value={this.state.monster.hitPointDiceAdd} onChange={this.handleMonsterHitPointDiceModifierChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {landSpeedError} helperText={landSpeedError? "You cannot have a negative land speed." : ""} required id="landSpeed" label="Land Speed" value={this.state.monster.speedLand} onChange={this.handleMonsterLandSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {swimmingSpeedError} helperText={swimmingSpeedError? "You cannot have a negative swimming speed." : ""}id="swimmingSpeed" label="Swimming Speed" value={this.state.monster.speedSwim} onChange={this.handleMonsterSwimSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {strStatError} helperText={strStatError? "You cannot have a negative strength stat." : ""} required id="strength" label="Strength Stat" value={this.state.monster.strStat} onChange={this.handleMonsterStrStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {dexStatError} helperText={dexStatError? "You cannot have a negative dexterity stat." : ""} required id="dexterity" label="Dexterity Stat" value={this.state.monster.dexStat} onChange={this.handleMonsterDexStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {conStatError} helperText={conStatError? "You cannot have a negative constitution stat." : ""} required id="constitution" label="Constitution Stat" value={this.state.monster.conStat} onChange={this.handleMonsterConStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {intStatError} helperText={intStatError? "You cannot have a negative intelligence stat." : ""} required id="intelligence" label="Intelligence Stat" value={this.state.monster.intStat} onChange={this.handleMonsterIntStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {wisStatError} helperText={wisStatError? "You cannot have a negative wisdom stat." : ""} required id="wisdom" label="Wisdom Stat" value={this.state.monster.wisStat} onChange={this.handleMonsterWisStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {chaStatError} helperText={chaStatError? "You cannot have a negative charisma stat." : ""} required id="charisma" label="Charisma Stat" value={this.state.monster.chaStat} onChange={this.handleMonsterChaStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="strengthSavingThrow" label="Strength Saving Throw Modifier" value={this.state.monster.strSavingThrow} onChange={this.handleMonsterStrSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="dexteritySavingThrow" label="Dexterity Saving Throw Modifier" value={this.state.monster.dexSavingThrow} onChange={this.handleMonsterDexSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="constitutionSavingThrow" label="Constitution Saving Throw Modifier" value={this.state.monster.conSavingThrow} onChange={this.handleMonsterConSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="intelligenceSavingThrow" label="Intelligence Saving Throw Modifier" value={this.state.monster.intSavingThrow} onChange={this.handleMonsterIntSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="wisdomSavingThrow" label="Wisdom Saving Throw Modifier" value={this.state.monster.wisSavingThrow} onChange={this.handleMonsterWisSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="charismaSavingThrow" label="Charisma Saving Throw Modifier" value={this.state.monster.chaSavingThrow} onChange={this.handleMonsterChaSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="athletics" label="Athletics Modifier" value={this.state.monster.skillsAthletics} onChange={this.handleMonsterAthleticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="acrobatics" label="Acrobatics Modifier" value={this.state.monster.skillsAcrobatics} onChange={this.handleMonsterAcrobaticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="sleightOfHand" label="Sleight of Hand Modifier" value={this.state.monster.skillsSleightOfHand} onChange={this.handleMonsterSleightOfHandChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="stealth" label="Stealth Modifier" value={this.state.monster.skillsStealth} onChange={this.handleMonsterStealthChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="arcana" label="Arcana Modifier" value={this.state.monster.skillsArcana} onChange={this.handleMonsterArcanaChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="history" label="History Modifier" value={this.state.monster.skillsHistory} onChange={this.handleMonsterHistoryChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="investigation" label="Investigation Modifier" value={this.state.monster.skillsInvestigation} onChange={this.handleMonsterInvestigationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="nature" label="Nature Modifier" value={this.state.monster.skillsNature} onChange={this.handleMonsterNatureChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="religion" label="Religion Modifier" value={this.state.monster.skillsReligion} onChange={this.handleMonsterReligionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="animalHandling" label="Animal Handling Modifier" value={this.state.monster.skillsAnimalHandling} onChange={this.handleMonsterAnimalHandlingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="insight" label="Insight Modifier" value={this.state.monster.skillsInsight} onChange={this.handleMonsterInsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="medicine" label="Medicine Modifier" value={this.state.monster.skillsMedicine} onChange={this.handleMonsterMedicineChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="perception" label="Perception Modifier" value={this.state.monster.skillsPerception} onChange={this.handleMonsterPerceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="survival" label="Survival Modifier" value={this.state.monster.skillsSurvival} onChange={this.handleMonsterSurvivalChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="deception" label="Deception Modifier" value={this.state.monster.skillsDeception} onChange={this.handleMonsterDeceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="intimidation" label="Intimidation Modifier" value={this.state.monster.skillsIntimidation} onChange={this.handleMonsterIntimidationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="performance" label="Performance Modifier" value={this.state.monster.skillsPerformance} onChange={this.handleMonsterPerformanceChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="persuasion" label="Persuasion Modifier" value={this.state.monster.skillsPersuasion} onChange={this.handleMonsterPersuasionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={3}>
-								<div className="form-group">
-									<TextField error = {false} id="blindsight" label="Blindsight" value={this.state.monster.sensesBlindsight} onChange={this.handleMonsterBlindsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={3}>
-								<div className="form-group">
-									<TextField error = {false} id="darkvision" label="Darkvision" value={this.state.monster.sensesDarkvision} onChange={this.handleMonsterDarkvisionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={3}>
-								<div className="form-group">
-									<TextField error = {false} id="tremorsense" label="Tremorsense" value={this.state.monster.sensesTremorsense} onChange={this.handleMonsterTremorsenseChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={3}>
-								<div className="form-group">
-									<TextField error = {false} id="truesight" label="Truesight" value={this.state.monster.sensesTruesight} onChange={this.handleMonsterTruesightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="passivePerception" label="Passive Perception" value={this.state.monster.sensesPassivePerception} onChange={this.handleMonsterPassivePerceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="passiveInvestigation" label="Passive Investigation" value={this.state.monster.sensesPassiveInvestigation} onChange={this.handleMonsterPassiveInvestigationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={4}>
-								<div className="form-group">
-									<TextField error = {false} id="passiveInsight" label="Passive Insight" value={this.state.monster.sensesPassiveInsight} onChange={this.handleMonsterPassiveInsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={12}>
-								<div className="form-group">
-									<TextField error={false} margin="dense" value={this.state.monster.languages} id="languages" label="Languages" helperText="" fullWidth onChange={this.handleMonsterLanguagesChange}/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {challengeRatingError} helperText={challengeRatingError? "You cannot have a negative challenge rating." : ""} required id="challengeRating" label="Challenge Rating" value={this.state.monster.challengeRating} onChange={this.handleMonsterChallengeRatingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
-							<Grid item xs={6}>
-								<div className="form-group">
-									<TextField error = {experiencePointsError} helperText={experiencePointsError? "You cannot have negative experience points." : ""} required id="experiencePoints" label="Experience Points" value={this.state.monster.experiencePoints} onChange={this.handleMonsterExperiencePointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-								</div>
-							</Grid>
+		return (
+			<div className="monster-creation-container">
+				<form onSubmit={validateForm}>
+					<h1 className="page-title">Create a Monster</h1>
+					<Grid container spacing={24}>
+						<Grid item xs={12}>
+							<div className="form-group">
+								<TextField autoFocus error={false} margin="dense" value={this.state.monster.name} id="name" label="Monster Name" helperText="" fullWidth required onChange={this.handleMonsterNameChange}/>
+							</div>
 						</Grid>
-						<Button className="button" variant="contained" color="primary" type="submit"> Create Monster </Button>
-					</form>
-				</div>
+						<Grid item xs={6}>
+							<MonsterTypeDropdown type={this.state.monster.type} onChange={this.handleMonsterTypeChange} />
+						</Grid>
+						<Grid item xs={6}>
+							<MonsterSizeDropdown type={this.state.monster.size} onChange={this.handleMonsterSizeChange} />
+						</Grid>
+						<Grid item xs={6}>
+							<MonsterRaceDropdown type={this.state.monster.race} onChange={this.handleMonsterRaceChange} />
+						</Grid>
+						<Grid item xs={6}>
+							<MonsterAlignmentDropdown type={this.state.monster.alignment} onChange={this.handleMonsterAlignmentChange} />
+						</Grid>
+						<Grid item xs={6}>
+							<MonsterEnvironmentDropdown type={this.state.monster.environment} onChange={this.handleMonsterEnvironmentChange} error={false} errorMessage=""/>
+						</Grid>
+						<Grid item xs={12}>
+							<div className="form-group">
+								<TextField error={false} margin="dense" value={this.state.monster.resistance} id="resistance" label="Resistances" helperText="" fullWidth onChange={this.handleMonsterResistanceChange}/>
+							</div>
+						</Grid>
+						<Grid item xs={12}>
+							<div className="form-group">
+								<TextField error={false} margin="dense" value={this.state.monster.damageImmunity} id="damageImmunity" label="Damage Immunities" helperText="" fullWidth onChange={this.handleMonsterDamageImmunityChange}/>
+							</div>
+						</Grid>
+						<Grid item xs={12}>
+							<div className="form-group">
+								<TextField error={false} margin="dense" value={this.state.monster.conditionImmunity} id="conditionImmunity" label="Condition Immunities" helperText="" fullWidth onChange={this.handleMonsterConditionImmunityChange}/>
+							</div>
+						</Grid>
+						<Grid item xs={12}>
+							<div className="form-group">
+								<TextField error={false} margin="dense" value={this.state.monster.vulnerability} id="vulnerability" label="Vulnerabilities" helperText="" fullWidth onChange={this.handleMonsterVulnerabilityChange}/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {armorClassError} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} helperText={armorClassError ? "Your armor class must be above 0" : ""} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} required margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {baseHitPointsError} helperText={baseHitPointsError? "You cannot have a negative base HP." : ""} id="hitPoints" label="Hit Points" value={this.state.monster.hitPoints} onChange={this.handleMonsterHitPointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error={hitPointDiceError} helperText={hitPointDiceError? "You must provide your hitpoint dice in the xdy format (i.e. 4d6)" : ""} margin="dense" value={this.state.monster.hitPointDice} id="hitPointDice" label="Hit Point Dice" fullWidth required onChange={this.handleMonsterHitPointDiceChange}/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {false} id="hitPointModifier" label="Base Hit Point Modifier" value={this.state.monster.hitPointDiceAdd} onChange={this.handleMonsterHitPointDiceModifierChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {landSpeedError} helperText={landSpeedError? "You cannot have a negative land speed." : ""} required id="landSpeed" label="Land Speed" value={this.state.monster.speedLand} onChange={this.handleMonsterLandSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {swimmingSpeedError} helperText={swimmingSpeedError? "You cannot have a negative swimming speed." : ""}id="swimmingSpeed" label="Swimming Speed" value={this.state.monster.speedSwim} onChange={this.handleMonsterSwimSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {strStatError} helperText={strStatError? "You cannot have a negative strength stat." : ""} required id="strength" label="Strength Stat" value={this.state.monster.strStat} onChange={this.handleMonsterStrStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {dexStatError} helperText={dexStatError? "You cannot have a negative dexterity stat." : ""} required id="dexterity" label="Dexterity Stat" value={this.state.monster.dexStat} onChange={this.handleMonsterDexStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {conStatError} helperText={conStatError? "You cannot have a negative constitution stat." : ""} required id="constitution" label="Constitution Stat" value={this.state.monster.conStat} onChange={this.handleMonsterConStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {intStatError} helperText={intStatError? "You cannot have a negative intelligence stat." : ""} required id="intelligence" label="Intelligence Stat" value={this.state.monster.intStat} onChange={this.handleMonsterIntStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {wisStatError} helperText={wisStatError? "You cannot have a negative wisdom stat." : ""} required id="wisdom" label="Wisdom Stat" value={this.state.monster.wisStat} onChange={this.handleMonsterWisStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {chaStatError} helperText={chaStatError? "You cannot have a negative charisma stat." : ""} required id="charisma" label="Charisma Stat" value={this.state.monster.chaStat} onChange={this.handleMonsterChaStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="strengthSavingThrow" label="Strength Saving Throw Modifier" value={this.state.monster.strSavingThrow} onChange={this.handleMonsterStrSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="dexteritySavingThrow" label="Dexterity Saving Throw Modifier" value={this.state.monster.dexSavingThrow} onChange={this.handleMonsterDexSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="constitutionSavingThrow" label="Constitution Saving Throw Modifier" value={this.state.monster.conSavingThrow} onChange={this.handleMonsterConSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="intelligenceSavingThrow" label="Intelligence Saving Throw Modifier" value={this.state.monster.intSavingThrow} onChange={this.handleMonsterIntSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="wisdomSavingThrow" label="Wisdom Saving Throw Modifier" value={this.state.monster.wisSavingThrow} onChange={this.handleMonsterWisSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="charismaSavingThrow" label="Charisma Saving Throw Modifier" value={this.state.monster.chaSavingThrow} onChange={this.handleMonsterChaSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="athletics" label="Athletics Modifier" value={this.state.monster.skillsAthletics} onChange={this.handleMonsterAthleticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="acrobatics" label="Acrobatics Modifier" value={this.state.monster.skillsAcrobatics} onChange={this.handleMonsterAcrobaticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="sleightOfHand" label="Sleight of Hand Modifier" value={this.state.monster.skillsSleightOfHand} onChange={this.handleMonsterSleightOfHandChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="stealth" label="Stealth Modifier" value={this.state.monster.skillsStealth} onChange={this.handleMonsterStealthChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="arcana" label="Arcana Modifier" value={this.state.monster.skillsArcana} onChange={this.handleMonsterArcanaChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="history" label="History Modifier" value={this.state.monster.skillsHistory} onChange={this.handleMonsterHistoryChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="investigation" label="Investigation Modifier" value={this.state.monster.skillsInvestigation} onChange={this.handleMonsterInvestigationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="nature" label="Nature Modifier" value={this.state.monster.skillsNature} onChange={this.handleMonsterNatureChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="religion" label="Religion Modifier" value={this.state.monster.skillsReligion} onChange={this.handleMonsterReligionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="animalHandling" label="Animal Handling Modifier" value={this.state.monster.skillsAnimalHandling} onChange={this.handleMonsterAnimalHandlingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="insight" label="Insight Modifier" value={this.state.monster.skillsInsight} onChange={this.handleMonsterInsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="medicine" label="Medicine Modifier" value={this.state.monster.skillsMedicine} onChange={this.handleMonsterMedicineChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="perception" label="Perception Modifier" value={this.state.monster.skillsPerception} onChange={this.handleMonsterPerceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="survival" label="Survival Modifier" value={this.state.monster.skillsSurvival} onChange={this.handleMonsterSurvivalChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="deception" label="Deception Modifier" value={this.state.monster.skillsDeception} onChange={this.handleMonsterDeceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="intimidation" label="Intimidation Modifier" value={this.state.monster.skillsIntimidation} onChange={this.handleMonsterIntimidationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="performance" label="Performance Modifier" value={this.state.monster.skillsPerformance} onChange={this.handleMonsterPerformanceChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="persuasion" label="Persuasion Modifier" value={this.state.monster.skillsPersuasion} onChange={this.handleMonsterPersuasionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div className="form-group">
+								<TextField error = {false} id="blindsight" label="Blindsight" value={this.state.monster.sensesBlindsight} onChange={this.handleMonsterBlindsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div className="form-group">
+								<TextField error = {false} id="darkvision" label="Darkvision" value={this.state.monster.sensesDarkvision} onChange={this.handleMonsterDarkvisionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div className="form-group">
+								<TextField error = {false} id="tremorsense" label="Tremorsense" value={this.state.monster.sensesTremorsense} onChange={this.handleMonsterTremorsenseChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={3}>
+							<div className="form-group">
+								<TextField error = {false} id="truesight" label="Truesight" value={this.state.monster.sensesTruesight} onChange={this.handleMonsterTruesightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="passivePerception" label="Passive Perception" value={this.state.monster.sensesPassivePerception} onChange={this.handleMonsterPassivePerceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="passiveInvestigation" label="Passive Investigation" value={this.state.monster.sensesPassiveInvestigation} onChange={this.handleMonsterPassiveInvestigationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={4}>
+							<div className="form-group">
+								<TextField error = {false} id="passiveInsight" label="Passive Insight" value={this.state.monster.sensesPassiveInsight} onChange={this.handleMonsterPassiveInsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={12}>
+							<div className="form-group">
+								<TextField error={false} margin="dense" value={this.state.monster.languages} id="languages" label="Languages" helperText="" fullWidth onChange={this.handleMonsterLanguagesChange}/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {challengeRatingError} helperText={challengeRatingError? "You cannot have a negative challenge rating." : ""} required id="challengeRating" label="Challenge Rating" value={this.state.monster.challengeRating} onChange={this.handleMonsterChallengeRatingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+						<Grid item xs={6}>
+							<div className="form-group">
+								<TextField error = {experiencePointsError} helperText={experiencePointsError? "You cannot have negative experience points." : ""} required id="experiencePoints" label="Experience Points" value={this.state.monster.experiencePoints} onChange={this.handleMonsterExperiencePointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
+							</div>
+						</Grid>
+					</Grid>
+					<Button className="button" variant="contained" color="primary" type="submit"> Create Monster </Button>
+				</form>
+			</div>
 			);
-		}
 	}
 }

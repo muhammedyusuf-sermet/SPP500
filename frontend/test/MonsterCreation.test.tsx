@@ -1,22 +1,25 @@
 import * as React from "react"
-import {shallow, ShallowWrapper} from 'enzyme';
-import { MonsterCreation, MonsterAlignmentDropdown, MonsterEnvironmentDropdown, MonsterRaceDropdown, MonsterSizeDropdown, MonsterTypeDropdown } from "../src/renderer/components/MonsterCreation";
-//import { HomePage } from "../src/renderer/components/Home"
-//import { CookieManager } from "../src/cookie";
-jest.mock('../src/cookie');
+import { shallow, ShallowWrapper } from 'enzyme';
+import { MonsterCreation, MonsterAlignmentDropdown, MonsterEnvironmentDropdown, MonsterRaceDropdown, MonsterSizeDropdown, MonsterTypeDropdown, IMonsterCreationState } from "../src/renderer/components/MonsterCreation";
+
 import * as Monster from "../src/monster";
 import * as nock from 'nock';
-
+import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
+import { CookieManager } from "../src/cookie";
 ////// Happy Path //////
-
+jest.mock('../src/cookie');
 
 describe('Monster Creation', () => {
 
-	let monsterCreationInstance: ShallowWrapper<MonsterCreation>;
+	let monsterCreationInstance: ShallowWrapper<any, IMonsterCreationState, MonsterCreation>;
 
 	describe('Happy Path', () => {
 
 		beforeEach(() => {
+			// set the user as logged in.
+			CookieManagerMock.SetStringCookie("session_token", "testToken");
+			// bind the normal user token function to the mock.
+			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
 			monsterCreationInstance = shallow (<MonsterCreation/>);
 		})
 
@@ -29,7 +32,6 @@ describe('Monster Creation', () => {
 		});
 
 		it('should be able to update state', () => {
-
 			monsterCreationInstance.find('#name').simulate('change', { target: { value: 'Hello' } })
 			monsterCreationInstance.find(MonsterTypeDropdown).dive().find('#type').simulate('change', { target: { value: Monster.MonsterType.Celestial } })
 			monsterCreationInstance.find(MonsterSizeDropdown).dive().find('#size').simulate('change', { target: { value: Monster.MonsterSize.Gargantuan } })
@@ -207,351 +209,36 @@ describe('Monster Creation', () => {
 					}
 
 				})
-			.reply(200, {
-				results: [{ message: 'Success' }],
+			.reply(201, {
+				body: [{ status:201, message: 'success' }],
 			});
 			monsterCreationInstance.find('form').simulate('submit', { preventDefault () {} });
 		});
 
 		it('should change only types when type is changed', () => {
 			monsterCreationInstance.find(MonsterTypeDropdown).dive().find('#type').simulate('change', { target: { value: "Celestial" } })
-			expect(monsterCreationInstance.state()).toEqual({
-					submitted: false,
-					monster: {
-						name: "",
-						type: Monster.MonsterType.Celestial,
-						alignment: Monster.MonsterAlignment.AnyAlignment,
-						size: Monster.MonsterSize.Medium,
-						race: Monster.MonsterRace.AnyRace,
-						environment: Monster.MonsterEnvironment.Arctic,
-						resistance: "",
-						damageImmunity: "",
-						conditionImmunity: "",
-						vulnerability: "",
-						armorClass: 13,
-						hitPoints: 150,
-						hitPointDice: "6d8",
-						hitPointDiceAdd: 3,
-						speedLand: 30,
-						speedSwim: 30,
-						strStat: 10,
-						dexStat: 10,
-						conStat: 10,
-						intStat: 10,
-						wisStat: 10,
-						chaStat: 10,
-						strSavingThrow: 2,
-						dexSavingThrow: 2,
-						conSavingThrow: 2,
-						intSavingThrow: 2,
-						wisSavingThrow: 2,
-						chaSavingThrow: 2,
-						skillsAthletics: 0,
-						skillsAcrobatics: 0,
-						skillsSleightOfHand: 0,
-						skillsStealth: 0,
-						skillsArcana: 0,
-						skillsHistory: 0,
-						skillsInvestigation: 0,
-						skillsNature: 0,
-						skillsReligion: 0,
-						skillsAnimalHandling: 0,
-						skillsInsight: 0,
-						skillsMedicine: 0,
-						skillsPerception: 0,
-						skillsSurvival: 0,
-						skillsDeception: 0,
-						skillsIntimidation: 0,
-						skillsPerformance: 0,
-						skillsPersuasion: 0,
-						sensesBlindsight: 0,
-						sensesDarkvision: 60,
-						sensesTremorsense: 0,
-						sensesTruesight: 0,
-						sensesPassivePerception: 15,
-						sensesPassiveInvestigation: 15,
-						sensesPassiveInsight: 15,
-						languages: "Common",
-						challengeRating: 0.5,
-						experiencePoints: 200,
-						abilities: [],
-						actions: [],
-					}
-				})
-			})
+			expect(monsterCreationInstance.state().monster.type).toEqual(Monster.MonsterType.Celestial);
+		})
 
-			it('should change only alignment when alignment is changed', () => {
-				monsterCreationInstance.find(MonsterAlignmentDropdown).dive().find('#alignment').simulate('change', { target: { value: "Lawful Good" } })
-				expect(monsterCreationInstance.state()).toEqual({
-						submitted: false,
-						monster: {
-							name: "",
-							type: Monster.MonsterType.Aberration,
-							alignment: Monster.MonsterAlignment.LawfulGood,
-							size: Monster.MonsterSize.Medium,
-							race: Monster.MonsterRace.AnyRace,
-							environment: Monster.MonsterEnvironment.Arctic,
-							resistance: "",
-							damageImmunity: "",
-							conditionImmunity: "",
-							vulnerability: "",
-							armorClass: 13,
-							hitPoints: 150,
-							hitPointDice: "6d8",
-							hitPointDiceAdd: 3,
-							speedLand: 30,
-							speedSwim: 30,
-							strStat: 10,
-							dexStat: 10,
-							conStat: 10,
-							intStat: 10,
-							wisStat: 10,
-							chaStat: 10,
-							strSavingThrow: 2,
-							dexSavingThrow: 2,
-							conSavingThrow: 2,
-							intSavingThrow: 2,
-							wisSavingThrow: 2,
-							chaSavingThrow: 2,
-							skillsAthletics: 0,
-							skillsAcrobatics: 0,
-							skillsSleightOfHand: 0,
-							skillsStealth: 0,
-							skillsArcana: 0,
-							skillsHistory: 0,
-							skillsInvestigation: 0,
-							skillsNature: 0,
-							skillsReligion: 0,
-							skillsAnimalHandling: 0,
-							skillsInsight: 0,
-							skillsMedicine: 0,
-							skillsPerception: 0,
-							skillsSurvival: 0,
-							skillsDeception: 0,
-							skillsIntimidation: 0,
-							skillsPerformance: 0,
-							skillsPersuasion: 0,
-							sensesBlindsight: 0,
-							sensesDarkvision: 60,
-							sensesTremorsense: 0,
-							sensesTruesight: 0,
-							sensesPassivePerception: 15,
-							sensesPassiveInvestigation: 15,
-							sensesPassiveInsight: 15,
-							languages: "Common",
-							challengeRating: 0.5,
-							experiencePoints: 200,
-							abilities: [],
-							actions: [],
-						}
-					})
-				})
+		it('should change only alignment when alignment is changed', () => {
+			monsterCreationInstance.find(MonsterAlignmentDropdown).dive().find('#alignment').simulate('change', { target: { value: "Lawful Good" } })
+			expect(monsterCreationInstance.state().monster.alignment).toEqual(Monster.MonsterAlignment.LawfulGood);
+		})
 
-				it('should change only size when size is changed', () => {
-					monsterCreationInstance.find(MonsterSizeDropdown).dive().find('#size').simulate('change', { target: { value: "Tiny" } })
-					expect(monsterCreationInstance.state()).toEqual({
-							submitted: false,
-							monster: {
-								name: "",
-								type: Monster.MonsterType.Aberration,
-								alignment: Monster.MonsterAlignment.AnyAlignment,
-								size: Monster.MonsterSize.Tiny,
-								race: Monster.MonsterRace.AnyRace,
-								environment: Monster.MonsterEnvironment.Arctic,
-								resistance: "",
-								damageImmunity: "",
-								conditionImmunity: "",
-								vulnerability: "",
-								armorClass: 13,
-								hitPoints: 150,
-								hitPointDice: "6d8",
-								hitPointDiceAdd: 3,
-								speedLand: 30,
-								speedSwim: 30,
-								strStat: 10,
-								dexStat: 10,
-								conStat: 10,
-								intStat: 10,
-								wisStat: 10,
-								chaStat: 10,
-								strSavingThrow: 2,
-								dexSavingThrow: 2,
-								conSavingThrow: 2,
-								intSavingThrow: 2,
-								wisSavingThrow: 2,
-								chaSavingThrow: 2,
-								skillsAthletics: 0,
-								skillsAcrobatics: 0,
-								skillsSleightOfHand: 0,
-								skillsStealth: 0,
-								skillsArcana: 0,
-								skillsHistory: 0,
-								skillsInvestigation: 0,
-								skillsNature: 0,
-								skillsReligion: 0,
-								skillsAnimalHandling: 0,
-								skillsInsight: 0,
-								skillsMedicine: 0,
-								skillsPerception: 0,
-								skillsSurvival: 0,
-								skillsDeception: 0,
-								skillsIntimidation: 0,
-								skillsPerformance: 0,
-								skillsPersuasion: 0,
-								sensesBlindsight: 0,
-								sensesDarkvision: 60,
-								sensesTremorsense: 0,
-								sensesTruesight: 0,
-								sensesPassivePerception: 15,
-								sensesPassiveInvestigation: 15,
-								sensesPassiveInsight: 15,
-								languages: "Common",
-								challengeRating: 0.5,
-								experiencePoints: 200,
-								abilities: [],
-								actions: [],
-							}
-						})
-					})
+		it('should change only size when size is changed', () => {
+			monsterCreationInstance.find(MonsterSizeDropdown).dive().find('#size').simulate('change', { target: { value: "Tiny" } })
+			expect(monsterCreationInstance.state().monster.size).toEqual(Monster.MonsterSize.Tiny);
+		})
 
-					it('should change only races when race is changed', () => {
-						monsterCreationInstance.find(MonsterRaceDropdown).dive().find('#race').simulate('change', { target: { value: "Orc" } })
-						expect(monsterCreationInstance.state()).toEqual({
-								submitted: false,
-								monster: {
-									name: "",
-									type: Monster.MonsterType.Aberration,
-									alignment: Monster.MonsterAlignment.AnyAlignment,
-									size: Monster.MonsterSize.Medium,
-									race: Monster.MonsterRace.Orc,
-									environment: Monster.MonsterEnvironment.Arctic,
-									resistance: "",
-									damageImmunity: "",
-									conditionImmunity: "",
-									vulnerability: "",
-									armorClass: 13,
-									hitPoints: 150,
-									hitPointDice: "6d8",
-									hitPointDiceAdd: 3,
-									speedLand: 30,
-									speedSwim: 30,
-									strStat: 10,
-									dexStat: 10,
-									conStat: 10,
-									intStat: 10,
-									wisStat: 10,
-									chaStat: 10,
-									strSavingThrow: 2,
-									dexSavingThrow: 2,
-									conSavingThrow: 2,
-									intSavingThrow: 2,
-									wisSavingThrow: 2,
-									chaSavingThrow: 2,
-									skillsAthletics: 0,
-									skillsAcrobatics: 0,
-									skillsSleightOfHand: 0,
-									skillsStealth: 0,
-									skillsArcana: 0,
-									skillsHistory: 0,
-									skillsInvestigation: 0,
-									skillsNature: 0,
-									skillsReligion: 0,
-									skillsAnimalHandling: 0,
-									skillsInsight: 0,
-									skillsMedicine: 0,
-									skillsPerception: 0,
-									skillsSurvival: 0,
-									skillsDeception: 0,
-									skillsIntimidation: 0,
-									skillsPerformance: 0,
-									skillsPersuasion: 0,
-									sensesBlindsight: 0,
-									sensesDarkvision: 60,
-									sensesTremorsense: 0,
-									sensesTruesight: 0,
-									sensesPassivePerception: 15,
-									sensesPassiveInvestigation: 15,
-									sensesPassiveInsight: 15,
-									languages: "Common",
-									challengeRating: 0.5,
-									experiencePoints: 200,
-									abilities: [],
-									actions: [],
-								}
-							})
-						})
+		it('should change only races when race is changed', () => {
+			monsterCreationInstance.find(MonsterRaceDropdown).dive().find('#race').simulate('change', { target: { value: "Orc" } })
+			expect(monsterCreationInstance.state().monster.race).toEqual(Monster.MonsterRace.Orc);
+		})
 
-						it('should change only environments when environment is changed', () => {
-							monsterCreationInstance.find(MonsterEnvironmentDropdown).dive().find('#environment').simulate('change', { target: { value: "Swamp" } })
-							expect(monsterCreationInstance.state()).toEqual({
-									submitted: false,
-									monster: {
-										name: "",
-										type: Monster.MonsterType.Aberration,
-										alignment: Monster.MonsterAlignment.AnyAlignment,
-										size: Monster.MonsterSize.Medium,
-										race: Monster.MonsterRace.AnyRace,
-										environment: Monster.MonsterEnvironment.Swamp,
-										resistance: "",
-										damageImmunity: "",
-										conditionImmunity: "",
-										vulnerability: "",
-										armorClass: 13,
-										hitPoints: 150,
-										hitPointDice: "6d8",
-										hitPointDiceAdd: 3,
-										speedLand: 30,
-										speedSwim: 30,
-										strStat: 10,
-										dexStat: 10,
-										conStat: 10,
-										intStat: 10,
-										wisStat: 10,
-										chaStat: 10,
-										strSavingThrow: 2,
-										dexSavingThrow: 2,
-										conSavingThrow: 2,
-										intSavingThrow: 2,
-										wisSavingThrow: 2,
-										chaSavingThrow: 2,
-										skillsAthletics: 0,
-										skillsAcrobatics: 0,
-										skillsSleightOfHand: 0,
-										skillsStealth: 0,
-										skillsArcana: 0,
-										skillsHistory: 0,
-										skillsInvestigation: 0,
-										skillsNature: 0,
-										skillsReligion: 0,
-										skillsAnimalHandling: 0,
-										skillsInsight: 0,
-										skillsMedicine: 0,
-										skillsPerception: 0,
-										skillsSurvival: 0,
-										skillsDeception: 0,
-										skillsIntimidation: 0,
-										skillsPerformance: 0,
-										skillsPersuasion: 0,
-										sensesBlindsight: 0,
-										sensesDarkvision: 60,
-										sensesTremorsense: 0,
-										sensesTruesight: 0,
-										sensesPassivePerception: 15,
-										sensesPassiveInvestigation: 15,
-										sensesPassiveInsight: 15,
-										languages: "Common",
-										challengeRating: 0.5,
-										experiencePoints: 200,
-										abilities: [],
-										actions: [],
-									}
-								})
-							})
-		/*monsterCreationInstance.find(MonsterSizeDropdown).dive().find('#size').simulate('change', { target: { value: Monster.MonsterSize.Gargantuan } })
-			monsterCreationInstance.find(MonsterRaceDropdown).dive().find('#race').simulate('change', { target: { value: Monster.MonsterRace.Devil } })
-			monsterCreationInstance.find(MonsterEnvironmentDropdown).dive().find('#environment').simulate('change', { target: { value: Monster.MonsterEnvironment.Underdark } })
-			monsterCreationInstance.find(MonsterAlignmentDropdown).dive().find('#alignment').simulate('change', { target: { value: Monster.MonsterAlignment.AnyGoodAlignment } })
-			*/
+		it('should change only environments when environment is changed', () => {
+			monsterCreationInstance.find(MonsterEnvironmentDropdown).dive().find('#environment').simulate('change', { target: { value: "Swamp" } })
+			expect(monsterCreationInstance.state().monster.environment).toEqual(Monster.MonsterEnvironment.Swamp);
+		})
 	})
 	// input.simulate('change', { target: { value: 'Hello' } })
 

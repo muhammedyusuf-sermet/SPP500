@@ -1,8 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import {App} from './app';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './components/AuthContext';
 
 ReactDOM.render(
-	<App/>,
+	<AuthProvider>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</AuthProvider>,
 	document.getElementById('app')
 );
