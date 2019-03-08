@@ -8,6 +8,7 @@ var request = require("request");
 
 import * as Monster from "../../monster";
 import { CookieManager } from "../../cookie";
+import { API_URL } from '../../config';
 
 import "../css/create_monster.css"
 import { HomePage } from './Home';
@@ -711,7 +712,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				}
 
 				var options = { method: 'POST',
-					url: 'http://3.18.65.138:3000/monster/create',
+					url: API_URL + '/monster/create',
 					headers:
 					{
 						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',

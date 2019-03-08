@@ -2,6 +2,7 @@ import * as React from "react"
 import * as nock from 'nock';
 import {shallow, ShallowWrapper} from 'enzyme';
 import { Registration } from "../src/renderer/components/Registration";
+import { API_URL } from "../src/config";
 
 jest.mock('../src/cookie');
 
@@ -54,8 +55,8 @@ describe('Register Component', () => {
 			passwordBox.simulate('change', {target: {name: 'password', value: 'test_password'}});
 			emailBox.simulate('change', {target: {name: 'username', value: 'test_email'}});
 			nameBox.simulate('change', {target: {name: 'password', value: 'test_name'}});
-			
-			nock('http://3.18.65.138:3000')
+
+			nock(API_URL)
 				.post('/register', {
 						"username": "test_username",
 						"password": "test_password",

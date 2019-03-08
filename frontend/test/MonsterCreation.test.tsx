@@ -6,6 +6,7 @@ import { MonsterCreation, MonsterAlignmentDropdown, MonsterEnvironmentDropdown, 
 jest.mock('../src/cookie');
 import * as Monster from "../src/monster";
 import * as nock from 'nock';
+import {API_URL} from '../src/config'
 
 ////// Happy Path //////
 
@@ -149,7 +150,7 @@ describe('Monster Creation', () => {
 						actions: [],
 					}
 			})
-			nock('http://3.17.173.229:3000')
+			nock(API_URL)
 			.post('/monster/create', {
 					"Name": "Hello",
 					"Size": "Gargantuan",

@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 import '../css/registration.css';
+import { API_URL } from '../../config';
 
 type AppProps = {}
 
@@ -90,7 +91,7 @@ export class Registration extends React.Component<{}, RegisterStateInterface> {
 		var context = this;
 		var request = require("request");
 		var options = { method: 'POST',
-			url: 'http://3.18.65.138:3000/register',
+			url: API_URL + '/register',
 			timeout: 2000,
 			headers:
 			{
