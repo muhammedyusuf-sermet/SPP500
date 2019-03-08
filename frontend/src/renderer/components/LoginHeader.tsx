@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {CookieManager} from "../../cookie";
 
 //import '../css/login_header.css';
 import 'bulma/css/bulma.css';
 import { Input, Button, Modal, ModalContent, Control, Field, Box, ModalBackground } from 'bloomer';
 import { NavbarItem } from 'bloomer/lib/components/Navbar/NavbarItem';
+import { IAuthProviderState, AuthContext } from './AuthContext';
 
 export interface ILoginState {
 	user: {
@@ -15,12 +15,6 @@ export interface ILoginState {
 		open: boolean,
 		message: string
 	}
-}
-
-interface ILoginResponce {
-	status: number,
-	message: string,
-	token: string
 }
 
 export class LoginHeader extends React.Component<any, ILoginState> {
@@ -63,60 +57,34 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 		this.setState({ modal: {...modal, open: false }});
 	};
 
-	requestLogin() {
-		const context = this;
-		const request = require("request");
-		const options = { method: 'POST',
-			url: 'http://3.18.65.138:3000/login',
-			timeout: 2000,
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json'
-			},
-			body:
-			{
-				username: this.state.user.username,
-				password: this.state.user.password
-			},
-			json: true
-		};
-
-		request(options, function (error: string, response: string, body: ILoginResponce) {
-			if (error) {
-				context.openModal("There has been a server error when logging in. Please try again later.");
-			} else {
-				let { token, status, message } = body
-				if (status == 201)
-					CookieManager.SetStringCookie("session_token", token);
-				context.openModal(message);
-			}
-		});
-	}
-
-	render() {
+	loginControl = (auth: IAuthProviderState) => {
 		const login = (event: React.FormEvent) => {
 			event.preventDefault();
 			this.closeModal();
-			this.requestLogin();
+			auth.login(
+				this.state.user,
+				(message: string) => {
+					this.openModal(message);
+				});
 		}
 
 		const logout = (event: React.FormEvent) => {
 			event.preventDefault();
-			CookieManager.RemoveCookie("session_token");
-			this.setState({
-				user: {
-					// Todo: Reset e-mail address as username (i.e. as a way to login)
-					username: "",
-					password: ""
-				}
-			})
-			this.openModal("Logged out successfully.");
+			this.closeModal();
+			auth.logout(
+				(message: string) => {
+					this.setState({
+						user: {
+							// Todo: Reset e-mail address as username (i.e. as a way to login)
+							username: "",
+							password: ""
+						}
+					})
+					this.openModal(message);
+				});
 		}
-
-		let loginControl;
-		if (CookieManager.UserToken("session_token")){
-			loginControl =
+		if (auth.isAuth){
+			return (
 				<NavbarItem>
 					<Field>
 						<Control>
@@ -124,8 +92,9 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 						</Control>
 					</Field>
 				</NavbarItem>
+			);
 		} else {
-			loginControl =
+			return (
 				<form id="loginForm" onSubmit={login} className='navbar-item'>
 					<Field isGrouped isHorizontal>
 						<Control isExpanded>
@@ -154,11 +123,16 @@ export class LoginHeader extends React.Component<any, ILoginState> {
 						</Control>
 					</Field>
 				</form>
+			);
 		}
+	}
 
+	render() {
 		return (
 			<React.Fragment>
-				{loginControl}
+				<AuthContext.Consumer>
+					{this.loginControl}
+				</AuthContext.Consumer>
 				<Modal id='loginModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
