@@ -634,12 +634,12 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			else {
 				// Must remove spaces because of postgres issue
 				let monsterType = Monster.MonsterTypeNames.get(this.state.monster.type)
-				let monsterTypeString = monsterType != null ? monsterType.replace(" ", "") : ""
+				let monsterTypeString = monsterType != null ? monsterType.split(" ").join("") : ""
 				let monsterAlignment = Monster.MonsterAlignmentNames.get(this.state.monster.alignment)
-				let monsterAlignmentString = monsterAlignment != null ? monsterAlignment.replace(" ", "") : ""
+				let monsterAlignmentString = monsterAlignment != null ? monsterAlignment.split(" ").join("") : ""
 				let hitPointDiceModifier = this.state.monster.hitPointDiceAdd != null ? this.state.monster.hitPointDiceAdd : 0
-				let monsterHitPointDistribution = hitPointDiceModifier < 0 ? this.state.monster.hitPointDice + "-" + hitPointDiceModifier : this.state.monster.hitPointDice + "+" + hitPointDiceModifier
-				let monsterSpeed = "Speed: " + this.state.monster.speedLand + "ft."
+				let monsterHitPointDistribution = hitPointDiceModifier < 0 ? this.state.monster.hitPointDice + "" + hitPointDiceModifier : this.state.monster.hitPointDice + "+" + hitPointDiceModifier
+				let monsterSpeed = this.state.monster.speedLand + "ft."
 				monsterSpeed = this.state.monster.speedSwim != null ? monsterSpeed + " Swimming Speed: " + this.state.monster.speedSwim + " ft." : monsterSpeed
 				let monsterSenses = ""
 				monsterSenses = this.state.monster.sensesBlindsight != null ? monsterSenses + "Blindsight: " + this.state.monster.sensesBlindsight + " ft. " : monsterSenses
@@ -706,7 +706,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						"Religion": this.state.monster.skillsReligion,
 						"Sleight of Hand": this.state.monster.skillsSleightOfHand,
 						"Stealth": this.state.monster.skillsStealth,
-						"Survival": this.state.monster.skillsStealth
+						"Survival": this.state.monster.skillsSurvival
 					}
 
 				}
@@ -723,6 +723,8 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 					body: payloadToSend,
 					json: true
 					};
+
+				console.log(options)
 
 				request(options, (error:string, response:string, body:string) => {
 					this.setState(
