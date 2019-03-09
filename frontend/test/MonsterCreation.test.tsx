@@ -93,7 +93,7 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			expect(monsterCreationInstance.state()).toEqual({
 					submitted: false,
-					model: {
+					modal: {
 						open: false,
 						message: ""
 					},
