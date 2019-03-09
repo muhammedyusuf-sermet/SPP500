@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CookieManager } from '../../cookie';
+import {API_URL} from "../../config"
 
 export const AuthContext = React.createContext<IAuthProviderState>({
 	isAuth: undefined,
@@ -32,7 +33,7 @@ export class AuthProvider extends React.Component<any, IAuthProviderState>{
 	login = (user: {username: string, password: string}, callback?: (message: string) => void) => {
 		const request = require("request");
 		const options = { method: 'POST',
-			url: 'http://3.18.65.138:3000/login',
+			url: API_URL + '/login',
 			timeout: 2000,
 			headers:
 			{

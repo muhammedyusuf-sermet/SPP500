@@ -70,7 +70,7 @@ describe('Register Component', () => {
 		beforeEach(() => {
 			nock.disableNetConnect();
 			//let scope: nock.Scope;
-			nock('http://3.18.65.138:3000')
+			nock(API_URL)
 			.post('/register', {
 					username: "test_username",
 					password: "test_password",
