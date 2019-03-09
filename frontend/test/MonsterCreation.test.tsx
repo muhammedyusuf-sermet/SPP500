@@ -93,6 +93,10 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			expect(monsterCreationInstance.state()).toEqual({
 					submitted: false,
+					modal: {
+						open: false,
+						message: ""
+					},
 					monster: {
 						name: "Hello",
 						type: Monster.MonsterType.Celestial,

@@ -3,6 +3,7 @@ EXPOSE 3000
 RUN npm install --global yarn
 COPY package.json yarn.lock /backend/
 WORKDIR /backend
+ENV JWTSECRET=notverysecret
 RUN yarn install --production --force
 COPY . ./
 COPY ormconfig.docker.json ./ormconfig.json
