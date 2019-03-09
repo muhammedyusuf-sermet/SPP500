@@ -749,10 +749,8 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 					json: true
 					};
 
-				//console.log(options)
-
-				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {					
-					if (!error && body.statusCode === 201) { // success 
+				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {
+					if (!error && body.statusCode === 201) { // success
 						this.closeModal()
 						this.setState(
 							{
