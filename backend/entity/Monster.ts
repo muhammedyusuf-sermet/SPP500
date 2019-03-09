@@ -163,16 +163,16 @@ export class Monster extends BaseEntity implements IMonsterData {
     AbilityScores: MonsterAbilityScore;
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
-    Skills: MonsterSkill[] = [];
+    Skills: MonsterSkill[];
 
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     @JoinColumn()
     SavingThrows: MonsterSavingThrow;
 
     @OneToMany(() => Action, action => action.Monster)
-    Actions: Action[] = [];
+    Actions: Action[];
 
     @ManyToMany(() => Encounter, encounter => encounter.Monsters)
-    Encounters: Encounter[] = [];
+    Encounters: Encounter[];
 
 }
