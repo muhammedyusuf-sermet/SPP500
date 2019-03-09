@@ -1,11 +1,18 @@
 import { API_URL } from "./config";
-
-const Store = require('electron-store');
-const store = new Store();
+import Store from 'electron-store';
 
 export class CookieManager {
+	private constructor(){
+	}
 
-	public UserAuthenticated(cookieToCheck:string) {
+	private static store = new Store<string>();
+
+	public static UserToken(cookieToCheck:string):string {
+		// undefined if user is not logged in.
+		var cookieVal = CookieManager.store.get(cookieToCheck);
+
+		if (cookieVal === undefined)
+			return cookieVal
 
 		var request = require("request");
 		var options = { method: 'POST',
@@ -15,7 +22,7 @@ export class CookieManager {
 			{
 				'Cache-Control': 'no-cache',
 				'Content-Type': 'application/json',
-				'Authorization': cookieToCheck
+				'Authorization': cookieVal
 			},
 			body: {},
 			json: true
@@ -23,24 +30,20 @@ export class CookieManager {
 
 		request(options, function (error: string, response: string, body: {status: number, message: string}) {
 			if (error) {
-				return false
+				return undefined
 			}
 			else {
-				return (body.status === 201) // Success
+				return (body.status === 201) ? "Valid cookie" : undefined // Success
 			}
 		});
-
-		return cookieToCheck !== undefined
+		return CookieManager.store.get(cookieToCheck);
 	}
 
-	public SetStringCookie(data:string, name:string) {
-		store.set(name, data);
-	}
-	public GetCookie(name:string) {
-		return store.get(name);
+	public static SetStringCookie(name:string, data:string) {
+		CookieManager.store.set(name, data);
 	}
 
-	public RemoveCookie(name:string) {
-		store.delete(name);
+	public static RemoveCookie(name:string) {
+		CookieManager.store.delete(name);
 	}
 }
