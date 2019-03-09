@@ -168,19 +168,18 @@ describe('encounter creation tests', async () => {
 });
 
 /*
-When proper data is given
-save the encounter
+Encounter editing tests
 
-When no monster is provided
-save the encounter
+When name is provided to change
+change the instance on db and return success
 
-When name is not provided
-raise an error with the status code of 400
+When description is provided to change
+change the instance on db and return success
 
-When description is not provided
-raise an error with the status code of 400
+When a new set of valid monsters is provided to change
+change the instance on db and return success
 
-When an invalid monster is provided
-raise an error with the status code of 400
+When some monsters are invalid within a given set of monsters
+do not change the instance raise an error
 
 */
