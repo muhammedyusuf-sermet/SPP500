@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input, Button } from 'bloomer';
 
+import '../css/registration.css';
+import { API_URL } from '../../config';
 import 'bulma/css/bulma.css';
 
 export interface IRegisterState {
@@ -82,7 +84,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 		event.preventDefault();
 		var request = require("request");
 		var options = { method: 'POST',
-			url: 'http://3.18.65.138:3000/register',
+			url: API_URL + '/register',
 			timeout: 2000,
 			headers:
 			{

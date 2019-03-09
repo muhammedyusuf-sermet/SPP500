@@ -4,6 +4,8 @@ import { MonsterCreation, MonsterAlignmentDropdown, MonsterEnvironmentDropdown, 
 
 import * as Monster from "../src/monster";
 import * as nock from 'nock';
+import {API_URL} from '../src/config'
+
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 ////// Happy Path //////
@@ -33,11 +35,11 @@ describe('Monster Creation', () => {
 
 		it('should be able to update state', () => {
 			monsterCreationInstance.find('#name').simulate('change', { target: { value: 'Hello' } })
-			monsterCreationInstance.find(MonsterTypeDropdown).dive().find('#type').simulate('change', { target: { value: Monster.MonsterType.Celestial } })
-			monsterCreationInstance.find(MonsterSizeDropdown).dive().find('#size').simulate('change', { target: { value: Monster.MonsterSize.Gargantuan } })
-			monsterCreationInstance.find(MonsterRaceDropdown).dive().find('#race').simulate('change', { target: { value: Monster.MonsterRace.Devil } })
-			monsterCreationInstance.find(MonsterEnvironmentDropdown).dive().find('#environment').simulate('change', { target: { value: Monster.MonsterEnvironment.Underdark } })
-			monsterCreationInstance.find(MonsterAlignmentDropdown).dive().find('#alignment').simulate('change', { target: { value: Monster.MonsterAlignment.AnyGoodAlignment } })
+			monsterCreationInstance.find(MonsterTypeDropdown).dive().find('#type').simulate('change', { target: { value: "Celestial" } })
+			monsterCreationInstance.find(MonsterSizeDropdown).dive().find('#size').simulate('change', { target: { value: "Gargantuan" } })
+			monsterCreationInstance.find(MonsterRaceDropdown).dive().find('#race').simulate('change', { target: { value: "Devil" } })
+			monsterCreationInstance.find(MonsterEnvironmentDropdown).dive().find('#environment').simulate('change', { target: { value: "Underdark" } })
+			monsterCreationInstance.find(MonsterAlignmentDropdown).dive().find('#alignment').simulate('change', { target: { value: "Any Good Alignment" } })
 			monsterCreationInstance.find('#resistance').simulate('change', { target: { value: 'Everything' } })
 			monsterCreationInstance.find('#damageImmunity').simulate('change', { target: { value: 'None at all' } })
 			monsterCreationInstance.find('#conditionImmunity').simulate('change', { target: { value: 'Nada' } })
@@ -88,8 +90,13 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('#languages').simulate('change', { target: { value: 'Common and Draconic' } })
 			monsterCreationInstance.find('#challengeRating').simulate('change', { target: { value: 2.5 } })
 			monsterCreationInstance.find('#experiencePoints').simulate('change', { target: { value: 190 } })
-			expect(monsterCreationInstance.state() == {
+			//console.log(monsterCreationInstance.state())
+			expect(monsterCreationInstance.state()).toEqual({
 					submitted: false,
+					modal: {
+						open: false,
+						message: ""
+					},
 					monster: {
 						name: "Hello",
 						type: Monster.MonsterType.Celestial,
@@ -120,7 +127,7 @@ describe('Monster Creation', () => {
 						wisSavingThrow: 8,
 						chaSavingThrow: 9,
 						skillsAthletics: 9,
-						skillsAcrobatics: 19,
+						skillsAcrobatics: 10,
 						skillsSleightOfHand: 9,
 						skillsStealth: 8,
 						skillsArcana: 7,
@@ -151,22 +158,22 @@ describe('Monster Creation', () => {
 						actions: [],
 					}
 			})
-			nock('http://3.17.173.229:3000')
+			nock(API_URL)
 			.post('/monster/create', {
 					"Name": "Hello",
 					"Size": "Gargantuan",
 					"Type": "Celestial",
 					"Race": "Devil",
 					"Environment": "Underdark",
-					"Alignment": "Any Good Alignment",
+					"Alignment": "AnyGoodAlignment",
 					"ArmorClass": 15,
 					"HitPoints": 40,
 					"HitPointDistribution": "9d5-5",
-					"Speed": "25ft. Swimming Speed: 25 ft.",
-					"Senses" : "Blindsight: 30 ft. Darkvision: 10 ft. Tremorsense: 15 ft. Truesight: 60 ft. Passive Insight: 13. Passive Investigation: 14. Passive Perception: 16.",
+					"Speed": "25ft. Swimming Speed: 15 ft.",
+					"Senses" : "Blindsight: 30 ft. Darkvision: 10 ft. Tremorsense: 15 ft. Truesight: 60 ft. Passive Insight: 16. Passive Investigation: 14. Passive Perception: 13.",
 					"Languages": "Common and Draconic",
 					"DamageVulnerabilities": "Nothing",
-					"DamageResistancesesistance": "Everything",
+					"DamageResistances": "Everything",
 					"DamageImmunities": "None at all",
 					"ConditionImmunities": "Nada",
 					"ChallengeRating": 2.5,
@@ -188,7 +195,7 @@ describe('Monster Creation', () => {
 						"Charisma": 9,
 					},
 					"Skills": {
-						"Acrobatics": 19,
+						"Acrobatics": 10,
 						"Animal Handling": 9,
 						"Arcana": 7,
 						"Athletics": 9,
@@ -203,7 +210,7 @@ describe('Monster Creation', () => {
 						"Performance": 7,
 						"Persuasion": 4,
 						"Religion": 8,
-						"Sleight Of Hand": 9,
+						"Sleight of Hand": 9,
 						"Stealth": 8,
 						"Survival": 11,
 					}

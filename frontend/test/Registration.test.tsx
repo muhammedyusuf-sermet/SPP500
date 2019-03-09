@@ -2,6 +2,7 @@ import * as React from "react"
 import * as nock from 'nock';
 import {shallow, ShallowWrapper} from 'enzyme';
 import { Registration, IRegisterState } from "../src/renderer/components/Registration";
+import { API_URL } from "../src/config";
 
 jest.mock('../src/cookie');
 
@@ -69,7 +70,7 @@ describe('Register Component', () => {
 		beforeEach(() => {
 			nock.disableNetConnect();
 			//let scope: nock.Scope;
-			nock('http://3.18.65.138:3000')
+			nock(API_URL)
 			.post('/register', {
 					username: "test_username",
 					password: "test_password",
@@ -103,7 +104,17 @@ describe('Register Component', () => {
 			emailBox.simulate('change', {target: {name: 'username', value: 'test_email'}});
 			nameBox.simulate('change', {target: {name: 'password', value: 'test_name'}});
 
-			registerForm.simulate('submit', { preventDefault: () => {}});
+			nock(API_URL)
+				.post('/register', {
+						"username": "test_username",
+						"password": "test_password",
+						"email"   : "test_email",
+						"name"    : "test_name"
+					})
+				.reply(201, {
+					body: [{ status: 201, messages: 'success' }],
+				});
+			registerForm.simulate('submit', {preventDefault: () => {}});
 		});
 	});
 });

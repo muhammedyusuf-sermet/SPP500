@@ -8,8 +8,11 @@ var request = require("request");
 
 import * as Monster from "../../monster";
 import { CookieManager } from "../../cookie";
+import { API_URL } from '../../config';
 
 import "../css/create_monster.css"
+import {Redirect} from "react-router-dom"
+import { Modal, ModalContent, Box, ModalBackground } from 'bloomer';
 
 const types = Array.from(Monster.MonsterTypeNames.values()).map(v => ({label: v, value: v}))
 const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v, value: v}))
@@ -116,7 +119,18 @@ export const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) 
 
 export interface IMonsterCreationState {
 	monster: Monster.IMonster,
-	submitted: boolean
+	submitted: boolean,
+	modal: {
+		open: boolean,
+		message: string
+	}
+}
+
+
+interface IMonsterCreationResponse {
+	statusCode: number,
+	messages: string[],
+	error: string,
 }
 
 export class MonsterCreation extends React.Component<{}, IMonsterCreationState> {
@@ -124,6 +138,10 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 		super(props)
 		this.state = {
 			submitted: false,
+			modal: {
+				open: false,
+				message: ""
+			},
 			monster: {
 				name: "",
 				type: Monster.MonsterType.Aberration,
@@ -186,6 +204,16 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			}
 		}
 	}
+
+	openModal = (messageText: string) => {
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: true, message: messageText }});
+	};
+
+	closeModal = () => {
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: false }});
+	};
 
 	stringToNumber = (toConvert : string) => {
 		return parseInt(toConvert) != NaN ? parseInt(toConvert) : 0
@@ -631,12 +659,12 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			else {
 				// Must remove spaces because of postgres issue
 				let monsterType = Monster.MonsterTypeNames.get(this.state.monster.type)
-				let monsterTypeString = monsterType != null ? monsterType.replace(" ", "") : ""
+				let monsterTypeString = monsterType != null ? monsterType.split(" ").join("") : ""
 				let monsterAlignment = Monster.MonsterAlignmentNames.get(this.state.monster.alignment)
-				let monsterAlignmentString = monsterAlignment != null ? monsterAlignment.replace(" ", "") : ""
+				let monsterAlignmentString = monsterAlignment != null ? monsterAlignment.split(" ").join("") : ""
 				let hitPointDiceModifier = this.state.monster.hitPointDiceAdd != null ? this.state.monster.hitPointDiceAdd : 0
-				let monsterHitPointDistribution = hitPointDiceModifier < 0 ? this.state.monster.hitPointDice + "-" + hitPointDiceModifier : this.state.monster.hitPointDice + "+" + hitPointDiceModifier
-				let monsterSpeed = "Speed: " + this.state.monster.speedLand + "ft."
+				let monsterHitPointDistribution = hitPointDiceModifier < 0 ? this.state.monster.hitPointDice + "" + hitPointDiceModifier : this.state.monster.hitPointDice + "+" + hitPointDiceModifier
+				let monsterSpeed = this.state.monster.speedLand + "ft."
 				monsterSpeed = this.state.monster.speedSwim != null ? monsterSpeed + " Swimming Speed: " + this.state.monster.speedSwim + " ft." : monsterSpeed
 				let monsterSenses = ""
 				monsterSenses = this.state.monster.sensesBlindsight != null ? monsterSenses + "Blindsight: " + this.state.monster.sensesBlindsight + " ft. " : monsterSenses
@@ -647,7 +675,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				monsterSenses = this.state.monster.sensesPassiveInvestigation != null ? monsterSenses + "Passive Investigation: " + this.state.monster.sensesPassiveInvestigation + ". " : monsterSenses
 				monsterSenses = this.state.monster.sensesPassivePerception ? monsterSenses + "Passive Perception: " + this.state.monster.sensesPassivePerception + ". " : monsterSenses
 				monsterSenses = monsterSenses.length == 0 ? monsterSenses : monsterSenses.substring(0, monsterSenses.length - 1);
-				let monsterRace = this.state.monster.race ? Monster.MonsterRaceNames.get(this.state.monster.race) : "";
+				let monsterRace = this.state.monster.race != null ? Monster.MonsterRaceNames.get(this.state.monster.race) : "";
 				monsterRace = monsterRace == null ? "" : monsterRace.replace(/\s/g, '')
 
 				let payloadToSend = {
@@ -686,7 +714,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						"Charisma": this.state.monster.chaSavingThrow
 					},
 					"Skills": {
-						"Acrobatics": this.state.monster.skillsAcrobatics,
+						/*"Acrobatics": this.state.monster.skillsAcrobatics,
 						"Animal Handling": this.state.monster.skillsAnimalHandling,
 						"Arcana": this.state.monster.skillsArcana,
 						"Athletics": this.state.monster.skillsAthletics,
@@ -703,38 +731,55 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						"Religion": this.state.monster.skillsReligion,
 						"Sleight of Hand": this.state.monster.skillsSleightOfHand,
 						"Stealth": this.state.monster.skillsStealth,
-						"Survival": this.state.monster.skillsStealth
+						"Survival": this.state.monster.skillsSurvival*/
 					}
 
 				}
 
 				var options = { method: 'POST',
-					url: 'http://3.18.65.138:3000/monster/create',
+					url: API_URL + '/monster/create',
 					headers:
 					{
 						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',
 						'Cache-Control': 'no-cache',
 						'Content-Type': 'application/json' ,
-						'Authorization': CookieManager.UserToken("session_token")
+						'Authorization': CookieManager.UserToken('session_token')
 					},
 					body: payloadToSend,
 					json: true
 					};
 
-				request(options, (error:string, response:string, body:string) => {
-					this.setState(
-						{
-							submitted: true
-						}
-					)
-					console.log(response)
-					if (error) throw new Error(error);
+				//console.log(payloadToSend)
+
+				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {
+					if (!error && body.statusCode === 201) { // success
+						this.closeModal();
+						this.openModal("Monster successfully created.");
+						this.setState(
+							{
+								submitted: true
+							}
+						);
+					} else {
+						this.closeModal();
+						//if (body.messages){
+							// TODO: change backend so it sends better error messages.
+							// TODO: parse the error messages so they show better.
+							// TODO: maybe the messages from the server shouldn't be
+							// a list of strings but a JSON object so things are
+							// grouped together. Easier to parse?
+							//this.openModal(body.messages.toString());
+						//}else{
+							this.openModal("There was an error submitting your request. Please try again later.")
+						//}
+					}
 				})
 
 			}
 		}
 
 		return (
+			this.state.submitted ? <Redirect to="/"/> :
 			<div className="monster-creation-container">
 				<form onSubmit={validateForm}>
 					<h1 className="page-title">Create a Monster</h1>
@@ -1012,6 +1057,16 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 					</Grid>
 					<Button className="button" variant="contained" color="primary" type="submit"> Create Monster </Button>
 				</form>
+				<Modal id='monsterCreationModal' isActive={this.state.modal.open}>
+					<ModalBackground id='modalBackground' onClick={()=>{
+						this.closeModal();
+					}}/>
+					<ModalContent>
+						<Box>
+							<span id="ModalMessage">{this.state.modal.message}</span>
+						</Box>
+					</ModalContent>
+				</Modal>
 			</div>
 			);
 	}
