@@ -11,6 +11,8 @@ import { CookieManager } from "../../cookie";
 import { API_URL } from '../../config';
 
 import "../css/create_monster.css"
+import {Redirect} from "react-router-dom"
+import { Modal, ModalContent, Box, ModalBackground } from 'bloomer';
 
 const types = Array.from(Monster.MonsterTypeNames.values()).map(v => ({label: v, value: v}))
 const sizes = Array.from(Monster.MonsterSizeNames.values()).map(v => ({label: v, value: v}))
@@ -117,7 +119,18 @@ export const MonsterAlignmentDropdown = (props: IMonsterAlignmentDropdownProps) 
 
 export interface IMonsterCreationState {
 	monster: Monster.IMonster,
-	submitted: boolean
+	submitted: boolean,
+	modal: {
+		open: boolean,
+		message: string
+	}
+}
+
+
+interface IMonsterCreationResponse {
+	statusCode: number,
+	message: string,
+	error: string,
 }
 
 export class MonsterCreation extends React.Component<{}, IMonsterCreationState> {
@@ -125,6 +138,10 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 		super(props)
 		this.state = {
 			submitted: false,
+			modal: {
+				open: false,
+				message: ""
+			},
 			monster: {
 				name: "",
 				type: Monster.MonsterType.Aberration,
@@ -187,6 +204,16 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 			}
 		}
 	}
+
+	openModal = (messageText: string) => {
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: true, message: messageText }});
+	};
+
+	closeModal = () => {
+		const modal = this.state.modal
+		this.setState({ modal: {...modal, open: false }});
+	};
 
 	stringToNumber = (toConvert : string) => {
 		return parseInt(toConvert) != NaN ? parseInt(toConvert) : 0
@@ -716,7 +743,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',
 						'Cache-Control': 'no-cache',
 						'Content-Type': 'application/json' ,
-						'Authorization': CookieManager.UserToken("session_token")
+						'Authorization': CookieManager.UserToken('session_token')
 					},
 					body: payloadToSend,
 					json: true
@@ -724,20 +751,26 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 
 				//console.log(options)
 
-				request(options, (error:string, response:string, body:string) => {
-					this.setState(
-						{
-							submitted: true
-						}
-					)
-					//console.log(response)
-					if (error) throw new Error(error);
+				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {					
+					if (!error && body.statusCode === 201) { // success 
+						this.closeModal()
+						this.setState(
+							{
+								submitted: true
+							}
+						)
+					}
+					else {
+						this.closeModal()
+						this.openModal("There was an error submitting your request. Please try again later.")
+					}
 				})
 
 			}
 		}
 
 		return (
+			this.state.submitted ? <Redirect to="/"/> :
 			<div className="monster-creation-container">
 				<form onSubmit={validateForm}>
 					<h1 className="page-title">Create a Monster</h1>
@@ -1015,6 +1048,16 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 					</Grid>
 					<Button className="button" variant="contained" color="primary" type="submit"> Create Monster </Button>
 				</form>
+				<Modal id='monsterCreationModal' isActive={this.state.modal.open}>
+					<ModalBackground id='modalBackground' onClick={()=>{
+						this.closeModal();
+					}}/>
+					<ModalContent>
+						<Box>
+							<span id="ModalMessage">{this.state.modal.message}</span>
+						</Box>
+					</ModalContent>
+				</Modal>
 			</div>
 			);
 	}
