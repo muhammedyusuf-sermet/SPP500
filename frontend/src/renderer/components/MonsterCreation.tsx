@@ -675,7 +675,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				monsterSenses = this.state.monster.sensesPassiveInvestigation != null ? monsterSenses + "Passive Investigation: " + this.state.monster.sensesPassiveInvestigation + ". " : monsterSenses
 				monsterSenses = this.state.monster.sensesPassivePerception ? monsterSenses + "Passive Perception: " + this.state.monster.sensesPassivePerception + ". " : monsterSenses
 				monsterSenses = monsterSenses.length == 0 ? monsterSenses : monsterSenses.substring(0, monsterSenses.length - 1);
-				let monsterRace = this.state.monster.race ? Monster.MonsterRaceNames.get(this.state.monster.race) : "";
+				let monsterRace = this.state.monster.race != null ? Monster.MonsterRaceNames.get(this.state.monster.race) : "";
 				monsterRace = monsterRace == null ? "" : monsterRace.replace(/\s/g, '')
 
 				let payloadToSend = {
@@ -714,7 +714,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						"Charisma": this.state.monster.chaSavingThrow
 					},
 					"Skills": {
-						"Acrobatics": this.state.monster.skillsAcrobatics,
+						/*"Acrobatics": this.state.monster.skillsAcrobatics,
 						"Animal Handling": this.state.monster.skillsAnimalHandling,
 						"Arcana": this.state.monster.skillsArcana,
 						"Athletics": this.state.monster.skillsAthletics,
@@ -731,7 +731,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						"Religion": this.state.monster.skillsReligion,
 						"Sleight of Hand": this.state.monster.skillsSleightOfHand,
 						"Stealth": this.state.monster.skillsStealth,
-						"Survival": this.state.monster.skillsSurvival
+						"Survival": this.state.monster.skillsSurvival*/
 					}
 
 				}
@@ -748,6 +748,8 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 					body: payloadToSend,
 					json: true
 					};
+
+				console.log(payloadToSend)
 
 				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {
 					if (!error && body.statusCode === 201) { // success
