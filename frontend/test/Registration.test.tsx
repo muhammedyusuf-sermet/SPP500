@@ -1,13 +1,13 @@
 import * as React from "react"
 import * as nock from 'nock';
 import {shallow, ShallowWrapper} from 'enzyme';
-import { Registration } from "../src/renderer/components/Registration";
+import { Registration, IRegisterState } from "../src/renderer/components/Registration";
 import { API_URL } from "../src/config";
 
 jest.mock('../src/cookie');
 
 describe('Register Component', () => {
-	let registerInstance: ShallowWrapper<Registration>;
+	let registerInstance: ShallowWrapper<any, IRegisterState, Registration>;
 
 	beforeEach(() => {
 		registerInstance = shallow(<Registration/>);
@@ -15,10 +15,6 @@ describe('Register Component', () => {
 
 	it('renders without crashing', () => {
 		expect(registerInstance).toBeDefined();
-	});
-
-	it('renders a registration-container classed component', () => {
-		expect(registerInstance.find('.registration-container')).toExist();
 	});
 
 	describe('should respond to change event and change the state of the Register Component', () => {
@@ -42,7 +38,59 @@ describe('Register Component', () => {
 		});
 	});
 
+	describe('should show and hide modal', () => {
+		it('show modal', () => {
+			registerInstance.instance().closeModal();
+			expect(registerInstance.find('#registerModal').prop('isActive')).toEqual(false);
+			registerInstance.instance().openModal('TestMessage');
+			expect(registerInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+			expect(registerInstance.find('#registerModal').prop('isActive')).toEqual(true);
+		})
+
+		it('close modal', () => {
+			registerInstance.instance().openModal('TestMessage');
+			expect(registerInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+			expect(registerInstance.find('#registerModal').prop('isActive')).toEqual(true);
+			registerInstance.instance().closeModal();
+			expect(registerInstance.find('#registerModal').prop('isActive')).toEqual(false);
+		})
+
+		it('close modal by click', () => {
+			registerInstance.instance().openModal('TestMessage');
+			expect(registerInstance.find('#ModalMessage').text().length).toBeGreaterThan(0);
+			expect(registerInstance.find('#registerModal').prop('isActive')).toEqual(true);
+			let background = registerInstance.find('#modalBackground')
+			background.simulate('click');
+			expect(registerInstance.find('#registerModal').prop('isActive')).toEqual(false);
+		})
+	});
+
 	describe('makes a server request to register the user', () => {
+
+		beforeEach(() => {
+			nock.disableNetConnect();
+			//let scope: nock.Scope;
+			nock('http://3.18.65.138:3000')
+			.post('/register', {
+					username: "test_username",
+					password: "test_password",
+					email   : "test_email",
+					name    : "test_name"
+				})
+			.reply(201,
+				{ status: 201, messages: 'success' },
+			);
+		});
+
+		afterEach(() => {
+			/*
+			This works to detect when the nock is not used.
+			However the register function is async so getting
+				an expect to do anything useful was impossible.
+			if(scope)
+				expect(scope.pendingMocks()).toEqual([]);
+			*/
+		})
 
 		it('successfully register with correct credentials', () => {
 			var usernameBox = registerInstance.find('#username');
@@ -66,7 +114,7 @@ describe('Register Component', () => {
 				.reply(201, {
 					body: [{ status: 201, messages: 'success' }],
 				});
-			registerForm.simulate('submit', {preventDefault() {}});
+			registerForm.simulate('submit', {preventDefault: () => {}});
 		});
 	});
 });

@@ -1,20 +1,21 @@
-const Store = require('electron-store');
-const store = new Store();
+import Store from 'electron-store';
 
 export class CookieManager {
-
-	public UserAuthenticated(cookieToCheck:string) {
-		return this.GetCookie("session_token") != undefined
+	private constructor(){
 	}
 
-	public SetStringCookie(data:string, name:string) {
-		store.set(name, data);
-	}
-	public GetCookie(name:string) {
-		return store.get(name);
+	private static store = new Store<string>();
+
+	public static UserToken(cookieToCheck:string):string {
+		// undefined if user is not logged in.
+		return CookieManager.store.get(cookieToCheck);
 	}
 
-	public RemoveCookie(name:string) {
-		store.delete(name);
+	public static SetStringCookie(name:string, data:string) {
+		CookieManager.store.set(name, data);
+	}
+
+	public static RemoveCookie(name:string) {
+		CookieManager.store.delete(name);
 	}
 }

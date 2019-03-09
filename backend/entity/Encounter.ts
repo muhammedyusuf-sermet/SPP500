@@ -1,9 +1,17 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BaseEntity, JoinTable, ManyToOne } from "typeorm";
-import { Monster } from "./Monster";
-import { User } from "./User";
+import { Monster, IMonsterData } from "./Monster";
+import { User, IUserData } from "./User";
+
+export interface IEncounterData {
+    Creator: IUserData;
+    Name: string;
+    Description: string;
+
+    Monsters: IMonsterData[];
+}
 
 @Entity()
-export class Encounter extends BaseEntity {
+export class Encounter extends BaseEntity implements IEncounterData {
 
     @PrimaryGeneratedColumn()
     Id: number;
