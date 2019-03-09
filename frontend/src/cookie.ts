@@ -15,7 +15,7 @@ export class CookieManager {
 			return cookieVal
 
 		var request = require("request");
-		var options = { method: 'POST',
+		var options = { method: 'GET',
 			url: API_URL + '/verify',
 			timeout: 2000,
 			headers:
