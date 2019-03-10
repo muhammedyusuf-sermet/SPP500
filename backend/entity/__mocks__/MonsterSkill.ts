@@ -8,6 +8,10 @@ export class MonsterSkill {
 
 	static TableRows: MonsterSkill[] = [];
 
+	static save(monsterSkills: MonsterSkill[]){
+		this.TableRows.push(...monsterSkills);
+	}
+
 	save() {
 		MonsterSkill.TableRows.push(this)
 	}
