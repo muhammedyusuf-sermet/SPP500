@@ -128,7 +128,7 @@ export interface IMonsterCreationState {
 
 
 interface IMonsterCreationResponse {
-	statusCode: number,
+	status: number,
 	messages: string[],
 	error: string,
 }
@@ -787,7 +787,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 
 				//console.log(payloadToSend)
 
-				request(options, (error:string, response:string, body: any) => {
+				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {
 					if (!error && body.status === 201) { // success
 						this.closeModal();
 						this.openModal("Monster successfully created.");
