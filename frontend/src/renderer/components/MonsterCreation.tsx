@@ -787,8 +787,8 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 
 				//console.log(payloadToSend)
 
-				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {
-					if (!error && body.statusCode === 201) { // success
+				request(options, (error:string, response:string, body: any) => {
+					if (!error && body.status === 201) { // success
 						this.closeModal();
 						this.openModal("Monster successfully created.");
 						this.setState(
@@ -798,16 +798,16 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						);
 					} else {
 						this.closeModal();
-						//if (body.messages){
+						if (body.messages){
 							// TODO: change backend so it sends better error messages.
 							// TODO: parse the error messages so they show better.
 							// TODO: maybe the messages from the server shouldn't be
 							// a list of strings but a JSON object so things are
 							// grouped together. Easier to parse?
-							//this.openModal(body.messages.toString());
-						//}else{
+							this.openModal(body.messages.toString());
+						}else{
 							this.openModal("There was an error submitting your request. Please try again later.")
-						//}
+						}
 					}
 				})
 
