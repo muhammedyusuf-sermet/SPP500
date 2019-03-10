@@ -519,4 +519,14 @@ describe('monster creation tests', async () => {
 		
 	});
 
+	/*
+	Monster action tests
+
+	When valid monster actions are given
+	return success
+
+	When invalid monster actions are given
+	return an error
+	*/
+
 });
