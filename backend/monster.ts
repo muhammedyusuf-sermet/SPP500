@@ -74,7 +74,7 @@ export class MonsterFactory {
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
 		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
 		Speed: Joi.string().max(100),
-		Senses: Joi.string().max(100),
+		Senses: Joi.string().max(250),
 		Languages: Joi.string().max(100),
 		DamageVulnerabilities: Joi.string().allow('').max(200),
 		DamageResistances: Joi.string().allow('').max(200),
