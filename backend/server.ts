@@ -65,6 +65,15 @@ export const initServer = async () => {
 		}
 	},
 	{
+		method: 'POST',
+		path: '/encounter/edit', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var encounter = new EncounterFactory();
+			return encounter.Edit(request);
+		}
+	},
+	{
 		method: 'GET',
 		path: '/verify', 
 		options: { auth: 'jwt' },
