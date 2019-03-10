@@ -184,3 +184,18 @@ When an invalid monster is provided
 raise an error with the status code of 400
 
 */
+
+
+/*
+Delete encounter tests
+
+When owner of an encounter requests delete
+delete the encounter, return success
+
+When another user requests an encounter to be deleted when they are not the owner
+do not delete the encounter, return error
+
+When an invalid encounter is given
+return an error
+
+*/
