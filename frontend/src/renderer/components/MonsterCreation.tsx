@@ -713,27 +713,63 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 						"Wisdom": this.state.monster.wisSavingThrow,
 						"Charisma": this.state.monster.chaSavingThrow
 					},
-					"Skills": {
-						/*"Acrobatics": this.state.monster.skillsAcrobatics,
-						"Animal Handling": this.state.monster.skillsAnimalHandling,
-						"Arcana": this.state.monster.skillsArcana,
-						"Athletics": this.state.monster.skillsAthletics,
-						"Deception": this.state.monster.skillsDeception,
-						"History": this.state.monster.skillsHistory,
-						"Insight": this.state.monster.skillsInsight,
-						"Intimidation": this.state.monster.skillsIntimidation,
-						"Investigation": this.state.monster.skillsInvestigation,
-						"Medicine": this.state.monster.skillsMedicine,
-						"Nature": this.state.monster.skillsNature,
-						"Perception": this.state.monster.skillsPerception,
-						"Performance": this.state.monster.skillsPerformance,
-						"Persuasion": this.state.monster.skillsPersuasion,
-						"Religion": this.state.monster.skillsReligion,
-						"Sleight of Hand": this.state.monster.skillsSleightOfHand,
-						"Stealth": this.state.monster.skillsStealth,
-						"Survival": this.state.monster.skillsSurvival*/
-					}
-
+					"Skills": [
+						/*{
+							"Name": "Acrobatics",
+							"Bonus": this.state.monster.skillsAcrobatics
+						}, {
+							"Name": "Animal Handling",
+							"Bonus": this.state.monster.skillsAnimalHandling
+						}, {
+							"Name": "Arcana",
+							"Bonus": this.state.monster.skillsArcana
+						}, {
+							"Name": "Athletics",
+							"Bonus": this.state.monster.skillsAthletics
+						}, {
+							"Name": "Deception",
+							"Bonus": this.state.monster.skillsDeception
+						}, {
+							"Name": "History",
+							"Bonus": this.state.monster.skillsHistory
+						}, {
+							"Name": "Insight",
+							"Bonus": this.state.monster.skillsInsight
+						}, {
+							"Name": "Intimidation",
+							"Bonus": this.state.monster.skillsIntimidation
+						}, {
+							"Name": "Investigation",
+							"Bonus": this.state.monster.skillsInvestigation
+						}, {
+							"Name": "Medicine",
+							"Bonus": this.state.monster.skillsMedicine
+						}, {
+							"Name": "Nature",
+							"Bonus": this.state.monster.skillsNature
+						}, {
+							"Name": "Perception",
+							"Bonus": this.state.monster.skillsPerception
+						}, {
+							"Name": "Performance",
+							"Bonus": this.state.monster.skillsPerformance
+						}, {
+							"Name": "Persuasion",
+							"Bonus": this.state.monster.skillsPersuasion
+						}, {
+							"Name": "Religion",
+							"Bonus": this.state.monster.skillsReligion
+						}, {
+							"Name": "Sleight of Hand",
+							"Bonus": this.state.monster.skillsSleightOfHand
+						}, {
+							"Name": "Stealth",
+							"Bonus": this.state.monster.skillsStealth
+						}, {
+							"Name": "Survival",
+							"Bonus": this.state.monster.skillsSurvival
+						}*/
+					]
 				}
 
 				var options = { method: 'POST',
