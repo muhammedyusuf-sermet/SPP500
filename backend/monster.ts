@@ -59,7 +59,124 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
+import Joi, { ValidationError } from 'joi';
+
 export class MonsterFactory {
+	private payloadSchema = Joi.object({
+		Name: Joi.string().required().max(50),
+		Size: Joi.string().valid(Joi.ref('$SizeOptions')).optional(),
+		Type: Joi.string().valid(Joi.ref('$TypeOptions')).optional(),
+		Race: Joi.string().valid(Joi.ref('$RaceOptions')).optional(),
+		Alignment: Joi.string().valid(Joi.ref('$AlignmentOptions')).optional(),
+		Environment: Joi.string().valid(Joi.ref('$EnvironmentOptions')).optional(),
+		ArmorClass: Joi.number().integer().greater(0).optional(),
+		HitPoints: Joi.number().integer().greater(0).optional(),
+		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
+		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *$/, 'distribution').optional(),
+		Speed: Joi.string().max(100).optional(),
+		Senses: Joi.string().max(100).optional(),
+		Languages: Joi.string().max(100).optional(),
+		DamageVulnerabilities: Joi.string().max(200).optional(),
+		DamageResistances: Joi.string().max(200).optional(),
+		DamageImmunities: Joi.string().max(200).optional(),
+		ConditionImmunities: Joi.string().max(200).optional(),
+		ChallengeRating: Joi.number().greater(0).optional(),
+		ExperiencePoints: Joi.number().greater(0).optional(),
+		AbilityScores: Joi.object({
+			Strength: Joi.number().integer().greater(0).optional(),
+    		Dexterity: Joi.number().integer().greater(0).optional(),
+    		Constitution: Joi.number().integer().greater(0).optional(),
+    		Intelligence: Joi.number().integer().greater(0).optional(),
+    		Wisdom: Joi.number().integer().greater(0).optional(),
+    		Charisma: Joi.number().integer().greater(0).optional()
+		}).optional(),
+		SavingThrows: Joi.object({
+			Strength: Joi.number().integer().optional(),
+    		Dexterity: Joi.number().integer().optional(),
+    		Constitution: Joi.number().integer().optional(),
+    		Intelligence: Joi.number().integer().optional(),
+    		Wisdom: Joi.number().integer().optional(),
+    		Charisma: Joi.number().integer().optional()
+		}).optional(),
+		Skills: Joi.array().items(Joi.object({
+			Name: Joi.string().valid(Joi.ref('$SkillOptions')).required(),
+			Bonus: Joi.number().integer().greater(0).required()
+		})).optional()
+	});
+
+	/*Skills: Joi.object({
+		Acrobatics: Joi.number().integer().greater(0).optional(),
+		AnimalHandling: Joi.number().integer().greater(0).optional(),
+		Arcana: Joi.number().integer().greater(0).optional(),
+		Athletics: Joi.number().integer().greater(0).optional(),
+		Deception: Joi.number().integer().greater(0).optional(),
+		History: Joi.number().integer().greater(0).optional(),
+		Insight: Joi.number().integer().greater(0).optional(),
+		Intimidation: Joi.number().integer().greater(0).optional(),
+		Investigation: Joi.number().integer().greater(0).optional(),
+		Medicine: Joi.number().integer().greater(0).optional(),
+		Nature: Joi.number().integer().greater(0).optional(),
+		Perception: Joi.number().integer().greater(0).optional(),
+		Performance: Joi.number().integer().greater(0).optional(),
+		Persuasion: Joi.number().integer().greater(0).optional(),
+		Religion: Joi.number().integer().greater(0).optional(),
+		SleightOfHand: Joi.number().integer().greater(0).optional(),
+		Stealth: Joi.number().integer().greater(0).optional(),
+		Survival: Joi.number().integer().greater(0).optional()
+	}).optional()*/
+
+	public async EasyCreate(request: {payload:any}) {
+		const monster = Object.assign(new Monster(), request.payload);
+		console.log(monster);
+		const empty = new Monster();
+		empty.Size = Size.Gargantuan;
+		const allSkills: Skill[] = await Skill.find({ select: ["Name"] });
+		allSkills.map(skill => skill.Name);
+		console.log(allSkills);
+		console.log(empty);
+		const options: Joi.ValidationOptions = {
+			abortEarly: false,
+			convert: true,
+			allowUnknown: false,
+			context: {
+				SizeOptions: Object.keys(Size),
+				TypeOptions: Object.keys(MonsterType),
+				RaceOptions: Object.keys(MonsterRace),
+				AlignmentOptions: Object.keys(Alignment),
+				EnvironmentOptions: Object.keys(Environment),
+				SkillOptions: allSkills
+			}
+		}
+		return await Joi.validate(
+			request.payload, 
+			this.payloadSchema,
+			options,
+			(error: ValidationError, value: any) => {
+				if(error){
+					console.log("ERROR:");
+					console.log(error.details);
+					console.log("VALUE:");
+					console.log(value);
+					return {
+						"status": 400,
+						"messages": error.details.map(errorValue => {
+							errorValue.message
+						}).reduce((value: void, accum: void) => {
+							return accum as unknown as string +', '+ value as string;
+						})
+					};
+				}else{
+					return {
+						"status": 201,
+						"message": "success"
+					};
+				}
+			}
+		);
+		console.log("DONE");
+		return { status: 201 };
+	}
+
 	public async Create(request: {payload: any}) {
 		var data = request.payload;
 		const monster = new Monster();
