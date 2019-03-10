@@ -6,6 +6,7 @@ jest.mock("./entity/MonsterAbilityScore");
 jest.mock("./entity/MonsterSavingThrow");
 jest.mock("./entity/MonsterSkill");
 jest.mock("./entity/Skill");
+jest.mock("./entity/Action");
 
 describe('monster creation tests', async () => {
 	var monster = new MonsterFactory();
@@ -426,30 +427,128 @@ describe('monster creation tests', async () => {
 		
 	});
 
-	// test('when name is not provided for an action', async () => {
-	// 	const response = await monster.Create({
-	// 		payload: {
-	// 			"Name": "Test",
-	// 			"Actions": [
-	// 				{
-	// 					"Description": "Something"
-	// 			    }
-	// 			]
-	// 		},
-	// 	});
+	test('when name is not provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Description": "Something"
+				    }
+				]
+			},
+		});
 		
-	// 	if (response["messages"]){
-	// 		expect.assertions(3);
-	// 		expect(response['status']).toBe(400);
-	// 		expect(response['messages'].length).toBe(1);
-	// 		expect(response['messages'][0]).toBe("Charisma value for SavingThrows is not valid: test");
-	// 	} else {
-	// 		expect.assertions(1);
-	// 		expect(response['status']).toBe(400);
-	// 	}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Name must be provided for each action.");
 		
-	// });
+	});
 
+	test('when name is not provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Description must be provided for each action.");
+		
+	});
+
+	test('when invalid HitBonus is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"HitBonus": "test"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("HitBonus is invalid: test");
+		
+	});
+
+	test('when invalid DamageBonus is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"DamageBonus": "test"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("DamageBonus is invalid: test");
+		
+	});
+
+	test('when invalid Type is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"Type": "test"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Type is invalid for action: test");
+		
+	});
+
+	test('when proper payload is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"Type": "LegendaryAction",
+						"Damage": "3d6"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
+		
+	});
 	/*
 	Monster action tests
 
