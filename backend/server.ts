@@ -65,6 +65,15 @@ export const initServer = async () => {
 		}
 	},
 	{
+		method: 'POST',
+		path: '/encounter/delete', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var encounter = new EncounterFactory();
+			return encounter.Delete(request);
+		}
+	},
+	{
 		method: 'GET',
 		path: '/verify', 
 		options: { auth: 'jwt' },
