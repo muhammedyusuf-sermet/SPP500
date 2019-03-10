@@ -100,7 +100,7 @@ export class MonsterFactory {
 		}).default({}),
 		Skills: Joi.array().items(Joi.object({
 			Name: Joi.string().valid(Joi.ref('$SkillOptions')).required(),
-			Bonus: Joi.number().integer().greater(0).required()
+			Bonus: Joi.number().integer().greater(0).allow(0).required()
 		})).default([])
 	});
 	public async Create(request: {payload:any}) {
