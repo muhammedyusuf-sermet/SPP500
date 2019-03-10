@@ -8,7 +8,6 @@ jest.mock("./entity/Encounter");
 jest.mock("./entity/User");
 
 describe('encounter creation tests', async () => {
-	// var encounter = new EncounterFactory();
 	beforeAll( async () => {
 		const monster = new Monster();
 		monster.Name = "John Doe";
