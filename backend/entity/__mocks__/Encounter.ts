@@ -36,6 +36,13 @@ export class Encounter {
         return this.find(a)[0]
     }
 
+    remove() {
+        var index = Encounter.TableRows.indexOf(this);
+        if (index !== -1) {
+            Encounter.TableRows.splice(index, 1);
+        } 
+    }
+
     save() {
         Encounter.TableRows.push(this)
     }
