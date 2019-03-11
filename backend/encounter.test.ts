@@ -2,7 +2,6 @@ import {EncounterFactory} from "./encounter";
 import {Monster} from "./entity/Monster"
 import {Encounter} from "./entity/Encounter"
 import {User} from "./entity/User"
-import {Encounter} from "./entity/Encounter"
 
 jest.mock("./entity/Monster");
 jest.mock("./entity/Encounter");
