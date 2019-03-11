@@ -195,11 +195,10 @@ describe('monster creation tests', async () => {
 			},
 		});
 
-		expect.assertions(4);
+		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("\"Skill Name\" must be one of A,B");
-		expect(response['messages'][1]).toBe("Invalid Skill Names values: C");		
 	});
 
 	test('when a valid Skill is given for MonsterSkills but the Bonus field is invalid', async () => {
@@ -217,7 +216,6 @@ describe('monster creation tests', async () => {
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("\"Skill Bonus\" must be a number");
-		expect(response['messages'][1]).toBe("Invalid Skill Bonus values: testing");
 	});
 
 	test('when an invalid Strength is given for AbilityScores', async () => {
