@@ -1,6 +1,7 @@
 import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
+import { Action } from "./Action";
 import { Size, MonsterType, MonsterRace, Alignment } from "../MonsterEnums";
 
 export class Monster {
@@ -23,8 +24,9 @@ export class Monster {
 	AbilityScores: MonsterAbilityScore;
 	Skills: MonsterSkill[];
 	SavingThrows: MonsterSavingThrow;
+	Actions: Action[];
 
-	[key: string]: string|number|MonsterAbilityScore|MonsterSkill[]|MonsterSavingThrow|(()=>void);
+	[key: string]: string|number|MonsterAbilityScore|MonsterSkill[]|MonsterSavingThrow|Action[]|(()=>void);
 
 	static TableRows: Monster[] = [];
 
