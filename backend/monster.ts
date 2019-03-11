@@ -59,7 +59,7 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
-import Joi, { ValidationError } from 'joi';
+import Joi, { ValidationError, ValidationErrorItem } from 'joi';
 
 export class MonsterFactory {
 	private payloadSchema = Joi.object({
@@ -99,8 +99,8 @@ export class MonsterFactory {
     		Charisma: Joi.number().integer()
 		}).default({}),
 		Skills: Joi.array().items(Joi.object({
-			Name: Joi.string().valid(Joi.ref('$SkillOptions')).required(),
-			Bonus: Joi.number().integer().greater(0).allow(0).required()
+			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
+			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
 		})).default([])
 	});
 	public async Create(request: {payload:any}) {
@@ -131,30 +131,43 @@ export class MonsterFactory {
 			options,
 			async (errors: ValidationError, value: any) => {
 				if(errors){
-					const messages: string[] = [];
-					errors.details.forEach(error => {
-						let validOptionsArray: string[][] = []
-						if(error.context){
-							if(error.context.valids){
-								for(let valid of error.context.valids){
-									let validOptions: any = options.context;
-									for(let key of valid.path){
-										validOptions = validOptions[key];
-									}
-									validOptionsArray.push(validOptions);
+					const skillNameInvalid: Set<string> = new Set<string>();
+					const skillBonusInvalid: Set<string> = new Set<string>();
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						let message: string = ''
+						if (error.type == 'any.allowOnly' && error.context && options) {
+							for (let valid of error.context.valids){
+								if (Joi.isRef(valid)){
+									const reference = valid as Joi.Reference
+									message += reference(null, options) + ',';
+								} else {
+									message += valid + ','
 								}
 							}
 						}
-						console.log(validOptionsArray);
-						error.message = error.message.split('[')[0];
-						validOptionsArray.forEach(optionsArray => {
-							error.message += optionsArray.toString()+',';
-						});
-						messages.push(error.message)
+						message = error.message.split('[')[0] + message.substr(0,message.length-1);
+						if(message.substr(1,10) == 'Skill Name'){
+							if(error.context)
+								skillNameInvalid.add(error.context.value);
+							else
+								skillNameInvalid.add('unknown value');
+						} else if(message.substr(1,11) == 'Skill Bonus'){
+							if(error.context)
+								skillBonusInvalid.add(error.context.value);
+							else
+								skillBonusInvalid.add('unknown value');
+						}
+						messages.add(message);
 					})
+					if(skillNameInvalid.size > 0)
+						messages.add('Invalid Skill Name values: ' + Array.from(skillNameInvalid.values()))
+					if(skillBonusInvalid.size > 0)
+						messages.add('Invalid Skill Bonus values: ' + Array.from(skillBonusInvalid.values()))
+					
 					return {
 						"status": 400,
-						"messages": messages
+						"messages": Array.from(messages.values())
 					};
 				}else{
 					const monster: Monster = Object.assign(new Monster(), value);
