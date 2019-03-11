@@ -191,7 +191,7 @@ export class MonsterFactory {
 					MonsterSkill.save(monster.Skills);
 					return {
 						"status": 201,
-						"message": "success"
+						"messages": ["success"]
 					};
 				}
 			}
