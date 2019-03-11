@@ -24,15 +24,19 @@ export class Action {
             });
         }
 
-        return result
+        return result;
     }
 
     static findOne(a: any) {
-        return this.find(a)[0]
+        return this.find(a)[0];
+    }
+
+    static save(actions: Action[]) {
+        Action.TableRows.push(...actions);
     }
 
     save() {
-        Action.TableRows.push(this)
+        Action.TableRows.push(this);
     }
 
 }

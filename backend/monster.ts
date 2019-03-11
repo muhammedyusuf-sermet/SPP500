@@ -60,287 +60,148 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
+import Joi, { ValidationError, ValidationErrorItem } from 'joi';
+
 export class MonsterFactory {
-	public async Create(request: {payload: any}) {
-		var data = request.payload;
-		const monster = new Monster();
-		
-		var messages = [];
+	private payloadSchema = Joi.object({
+		Name: Joi.string().required().max(50),
+		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
+		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
+		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
+		Alignment: Joi.string().valid(Joi.ref('$AlignmentOptions')),
+		Environment: Joi.string().valid(Joi.ref('$EnvironmentOptions')),
+		ArmorClass: Joi.number().integer().greater(0),
+		HitPoints: Joi.number().integer().greater(0),
+		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
+		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
+		Speed: Joi.string().max(100),
+		Senses: Joi.string().max(250),
+		Languages: Joi.string().max(100),
+		DamageVulnerabilities: Joi.string().allow('').max(200),
+		DamageResistances: Joi.string().allow('').max(200),
+		DamageImmunities: Joi.string().allow('').max(200),
+		ConditionImmunities: Joi.string().allow('').max(200),
+		ChallengeRating: Joi.number().greater(0),
+		ExperiencePoints: Joi.number().greater(0),
+		AbilityScores: Joi.object({
+			Strength: Joi.number().integer().greater(0),
+    		Dexterity: Joi.number().integer().greater(0),
+    		Constitution: Joi.number().integer().greater(0),
+    		Intelligence: Joi.number().integer().greater(0),
+    		Wisdom: Joi.number().integer().greater(0),
+    		Charisma: Joi.number().integer().greater(0)
+		}).default({}),
+		SavingThrows: Joi.object({
+			Strength: Joi.number().integer(),
+    		Dexterity: Joi.number().integer(),
+    		Constitution: Joi.number().integer(),
+    		Intelligence: Joi.number().integer(),
+    		Wisdom: Joi.number().integer(),
+    		Charisma: Joi.number().integer()
+		}).default({}),
+		Skills: Joi.array().items(Joi.object({
+			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
+			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
+		})).default([]),
+		Actions: Joi.array().items(Joi.object({
+			Name: Joi.string().required().max(50),
+			Description: Joi.string().required().max(250),
+			HitBonus: Joi.number().integer().greater(0).allow(0),
+			Damage: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'range'),
+			DamageBonus: Joi.number().integer().greater(0).allow(0),
+			Type: Joi.string().valid(Joi.ref('$ActionOptions'))
+		}).label('Action Items')).default([])
+	});
+	public async Create(request: {payload:any}) {
+		const allSkills: Skill[] = await Skill.find({ select: ["Id", "Name"] });
+		const skillNames: string[] = [];
+		const skillLookup: { [Name: string]: Skill }= {};
+		allSkills.forEach((value) => {
+			skillNames.push(value.Name);
+			skillLookup[value.Name] = value;
+		})
 
-		// check if fields with no defaults are provided
-		// if not raise an error
-		// only name is required
-		if (!data.Name) {
-			messages.push("Name must be provided.");
-		}
-
-		monster.Name = data.Name;
-
-		if (data.Senses) {
-			monster.Senses = data.Senses;
-		}
-
-		if (data.Languages) {
-			monster.Languages = data.Languages;
-		}
-
-		if (data.DamageVulnerabilities) {
-			monster.DamageVulnerabilities = data.DamageVulnerabilities;
-		}
-
-		if (data.DamageResistances) {
-			monster.DamageResistances = data.DamageResistances;
-		}
-
-		if (data.DamageImmunities) {
-			monster.DamageImmunities = data.DamageImmunities;
-		}
-
-		if (data.ConditionImmunities) {
-			monster.ConditionImmunities = data.ConditionImmunities;
-		}
-
-		// check if enum fields are properly provided
-		// if not raise an error
-		// size, type, race, alignment
-		if (Size[data.Size]) {
-			monster.Size = data.Size;	
-		} else if (data.Size) {
-			messages.push("Monster size is not valid.")
-		}
-
-		if (MonsterType[data.Type]) {
-			monster.Type = data.Type;
-		} else if (data.Type) {
-			messages.push("Monster type is not valid.")
-		}
-		
-		if (MonsterRace[data.Race]) {
-			monster.Race = data.Race;
-		} else if (data.Race) {
-			messages.push("Monster race is not valid.")
-		}
-
-		if (Alignment[data.Alignment]) {
-			monster.Alignment = data.Alignment;
-		} else if (data.Alignment) {
-			messages.push("Monster alignment is not valid.")
-		}
-
-		if (Environment[data.Environment]) {
-			monster.Environment = data.Environment;
-		} else if (data.Environment) {
-			messages.push("Monster environment is not valid.")
-		}
-
-		// check if fields with defaults are provided
-		// if not do not assign them
-		var armorClass = Number(data.ArmorClass)
-		if (armorClass) {
-			monster.ArmorClass = armorClass
-		}
-
-		var hitPoints = Number(data.HitPoints)
-		if (hitPoints) {
-			monster.HitPoints = hitPoints
-		}
-
-		if (data.HitPointDistribution) {
-			monster.HitPointDistribution = data.HitPointDistribution
-		}
-
-		if (data.Speed) {
-			monster.Speed = data.Speed
-		}
-
-		var challengeRating = Number(data.ChallengeRating)
-		if (challengeRating) {
-			monster.ChallengeRating = challengeRating
-		}
-		
-		// var abilityScoresArray = [];
-
-		// MonsterAbilityScore
-		var abilityScore = data.AbilityScores
-		var monsterAbilityScore = new MonsterAbilityScore();
-		monsterAbilityScore.Monster = monster;
-		monster.AbilityScores = monsterAbilityScore;
-		if (abilityScore) {
-
-			if (abilityScore.Strength && typeof abilityScore.Strength !== 'number') {
-				messages.push("Strength value for AbilityScores is not valid: " + abilityScore.Strength)
-			} else {
-				monsterAbilityScore.Strength = abilityScore.Strength;
-			}
-
-			if (abilityScore.Dexterity && typeof abilityScore.Dexterity !== 'number') {
-				messages.push("Dexterity value for AbilityScores is not valid: " + abilityScore.Dexterity)
-			} else {
-				monsterAbilityScore.Dexterity = abilityScore.Dexterity;
-			}
-
-			if (abilityScore.Constitution && typeof abilityScore.Constitution !== 'number') {
-				messages.push("Constitution value for AbilityScores is not valid: " + abilityScore.Constitution)
-			} else {
-				monsterAbilityScore.Constitution = abilityScore.Constitution;
-			}
-
-			if (abilityScore.Intelligence && typeof abilityScore.Intelligence !== 'number') {
-				messages.push("Intelligence value for AbilityScores is not valid: " + abilityScore.Intelligence)
-			} else {
-				monsterAbilityScore.Intelligence = abilityScore.Intelligence;
-			}
-			
-			if (abilityScore.Wisdom && typeof abilityScore.Wisdom !== 'number') {
-				messages.push("Wisdom value for AbilityScores is not valid: " + abilityScore.Wisdom)
-			} else {
-				monsterAbilityScore.Wisdom = abilityScore.Wisdom;
-			}
-
-			if (abilityScore.Charisma && typeof abilityScore.Charisma !== 'number') {
-				messages.push("Charisma value for AbilityScores is not valid: " + abilityScore.Charisma)
-			} else {
-				monsterAbilityScore.Charisma = abilityScore.Charisma;
+		const options: Joi.ValidationOptions = {
+			abortEarly: false,
+			convert: true,
+			allowUnknown: false,
+			context: {
+				SizeOptions: Object.keys(Size),
+				TypeOptions: Object.keys(MonsterType),
+				RaceOptions: Object.keys(MonsterRace),
+				AlignmentOptions: Object.keys(Alignment),
+				EnvironmentOptions: Object.keys(Environment),
+				ActionOptions: Object.keys(MonsterAction),
+				SkillOptions: skillNames
 			}
 		}
-
-		// MonsterSavingThrow
-		var savingThrow = data.SavingThrows
-		var monsterSavingThrow = new MonsterSavingThrow();
-		monsterSavingThrow.Monster = monster;
-		monster.SavingThrows = monsterSavingThrow;
-		if (savingThrow) {
-
-			if (savingThrow.Strength && typeof savingThrow.Strength !== 'number') {
-				messages.push("Strength value for SavingThrows is not valid: " + savingThrow.Strength)
-			} else {
-				monsterSavingThrow.Strength = savingThrow.Strength;
-			}
-
-			if (savingThrow.Dexterity && typeof savingThrow.Dexterity !== 'number') {
-				messages.push("Dexterity value for SavingThrows is not valid: " + savingThrow.Dexterity)
-			} else {
-				monsterSavingThrow.Dexterity = savingThrow.Dexterity;
-			}
-
-			if (savingThrow.Constitution && typeof savingThrow.Constitution !== 'number') {
-				messages.push("Constitution value for SavingThrows is not valid: " + savingThrow.Constitution)
-			} else {
-				monsterSavingThrow.Constitution = savingThrow.Constitution;
-			}
-
-			if (savingThrow.Intelligence && typeof savingThrow.Intelligence !== 'number') {
-				messages.push("Intelligence value for SavingThrows is not valid: " + savingThrow.Intelligence)
-			} else {
-				monsterSavingThrow.Intelligence = savingThrow.Intelligence;
-			}
-			
-			if (savingThrow.Wisdom && typeof savingThrow.Wisdom !== 'number') {
-				messages.push("Wisdom value for SavingThrows is not valid: " + savingThrow.Wisdom)
-			} else {
-				monsterSavingThrow.Wisdom = savingThrow.Wisdom;
-			}
-
-			if (savingThrow.Charisma && typeof savingThrow.Charisma !== 'number') {
-				messages.push("Charisma value for SavingThrows is not valid: " + savingThrow.Charisma)
-			} else {
-				monsterSavingThrow.Charisma = savingThrow.Charisma;
-			}
-		}
-
-		var skillsArray = [];
-		// MonsterSkill
-		var monsterSkills = data.Skills
-		if (monsterSkills) {
-			for (const key in monsterSkills) {
-				var skill = await Skill.findOne({ Name: key });
-
-				if (skill) {
-					var monsterSkill = new MonsterSkill();
-					monsterSkill.Monster = monster;
-					monsterSkill.Skill = skill;
-					var bonus = Number(monsterSkills[key]);
-					if (bonus || monsterSkills[key] == null) {
-						monsterSkill.Bonus = bonus;
-						skillsArray.push(monsterSkill);
-					} else {
-						messages.push("MonsterSkill value has to be either null or a number.")
+		return await Joi.validate(
+			request.payload,
+			this.payloadSchema,
+			options,
+			async (errors: ValidationError, value: any) => {
+				if(errors){
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						let message: string = ''
+						if (error.type == 'any.allowOnly' && error.context && options) {
+							for (let valid of error.context.valids){
+								if (Joi.isRef(valid)){
+									const reference = valid as Joi.Reference
+									message += reference(null, options) + ',';
+								} /* add this else back in if we ever have .valid([something]) instead of references.
+								else {
+									message += valid + ','
+								}*/
+							}
+						}
+						message = error.message.split('[')[0] + message.substr(0,message.length-1);
+						messages.add(message);
+					})
+					return {
+						"status": 400,
+						"messages": Array.from(messages.values())
+					};
+				}else{
+					const monster: Monster = Object.assign(new Monster(), value);
+					// save ability score
+					const abilityScore: MonsterAbilityScore = Object.assign(new MonsterAbilityScore(), monster.AbilityScores);
+					abilityScore.Monster = monster;
+					monster.AbilityScores = abilityScore;
+					await abilityScore.save();
+					// save saving throws
+					const savingThrow: MonsterSavingThrow = Object.assign(new MonsterSavingThrow(), monster.SavingThrows);
+					savingThrow.Monster = monster;
+					monster.SavingThrows = savingThrow;
+					await savingThrow.save();
+					// save monster
+					await monster.save();
+					// link skills to monster
+					monster.Skills = [];
+					for (let index in value.Skills) {
+						const monsterSkill: MonsterSkill = new MonsterSkill();
+						monsterSkill.Bonus = value.Skills[index].Bonus;
+						monsterSkill.Skill = skillLookup[value.Skills[index].Name];
+						monsterSkill.Monster = monster;
+						monster.Skills.push(monsterSkill);
 					}
-					
-				} else {
-					messages.push("Skill is invalid: " + key);
+					// save skills
+					await MonsterSkill.save(monster.Skills);
+					// link actions to monster
+					monster.Actions = [];
+					for (let index in value.Actions) {
+						const action: Action = Object.assign(new Action(),value.Actions[index]);
+						action.Monster = monster;
+						monster.Actions.push(action);
+					}
+					// save actions
+					await Action.save(monster.Actions);
+					return {
+						"status": 201,
+						"messages": ["success"]
+					};
 				}
 			}
-		}
-
-		monster.Skills = skillsArray;
-		
-
-		// Actions
-		var actions = data.Actions;
-		var actionsArray = [];
-		if (actions) {
-			for (var action of actions) {
-				var actionObject = new Action();
-				actionObject.Monster = monster;
-				actionsArray.push(actionObject)
-				if (!action.Name) {
-					messages.push("Name must be provided for each action.")
-				} else {
-					actionObject.Name = action.Name;
-				}
-
-				if (!action.Description) {
-					messages.push("Description must be provided for each action.")
-				} else {
-					actionObject.Description = action.Description;
-				}
-
-				if (action.HitBonus && typeof action.HitBonus !== 'number') {
-					messages.push("HitBonus is invalid: " + action.HitBonus)
-				} else {
-					actionObject.HitBonus = action.HitBonus;
-				}
-
-				if (action.Damage) {
-					actionObject.Damage = action.Damage;
-				}
-
-				if (action.DamageBonus && typeof action.DamageBonus !== 'number') {
-					messages.push("DamageBonus is invalid: " + action.DamageBonus)
-				} else {
-					actionObject.DamageBonus = action.DamageBonus;
-				}
-
-				if (action.Type && !MonsterAction[action.Type] ) {
-					messages.push("Type is invalid for action: " + action.Type)
-				} else {
-					actionObject.Type = action.Type;
-				}
-			}
-		}
-		
-		monster.Actions = actionsArray;
-		
-
-		// save to db
-		if (messages.length == 0) {
-			await monster.AbilityScores.save();
-			await monster.SavingThrows.save();
-			await monster.save();
-			for (let skill of monster.Skills ) await skill.save();
-			for (let action of monster.Actions ) await action.save();
-
-			return {
-				"status": 201,
-				"messages": ["success"]
-			}
-		} else {
-			return {
-				"status": 400,
-				"messages": messages
-			}
-		}
-		
+		);
 	}
 }

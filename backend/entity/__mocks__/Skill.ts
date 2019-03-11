@@ -10,6 +10,9 @@ export class Skill {
 	static TableRows: Skill[] = [];
 
 	static find(a: any) {
+		if (a.select) {
+			return this.TableRows;
+		}
 		var result = Skill.TableRows.slice(0);
 		for (let key in a) {
 			let value = a[key];

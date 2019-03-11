@@ -112,7 +112,7 @@ export class Monster extends BaseEntity implements IMonsterData {
 
     @Column({
         type: "varchar",
-        length: 100,
+        length: 250,
         nullable: true
     })
     Senses: string;

@@ -194,31 +194,66 @@ describe('Monster Creation', () => {
 						"Wisdom": 8,
 						"Charisma": 9,
 					},
-					"Skills": {
-						"Acrobatics": 10,
-						"Animal Handling": 9,
-						"Arcana": 7,
-						"Athletics": 9,
-						"Deception": 10,
-						"History": 7,
-						"Insight": 10,
-						"Intimidation": 9,
-						"Investigation": 6,
-						"Medicine": 12,
-						"Nature": 7,
-						"Perception": 15,
-						"Performance": 7,
-						"Persuasion": 4,
-						"Religion": 8,
-						"Sleight of Hand": 9,
-						"Stealth": 8,
-						"Survival": 11,
-					}
+					"Skills": [
+						/*{
+							"Name":"Acrobatics",
+							"Bonus": 10,
+						},{
+							"Name":"Animal Handling",
+							"Bonus": 9,
+						},{
+							"Name":"Arcana",
+							"Bonus": 7,
+						},{
+							"Name":"Athletics",
+							"Bonus": 9,
+						},{
+							"Name":"Deception",
+							"Bonus": 10,
+						},{
+							"Name":"History",
+							"Bonus": 7,
+						},{
+							"Name":"Insight",
+							"Bonus": 10,
+						},{
+							"Name":"Intimidation",
+							"Bonus": 9,
+						},{
+							"Name":"Investigation",
+							"Bonus": 6,
+						},{
+							"Name":"Medicine",
+							"Bonus": 12,
+						},{
+							"Name":"Nature",
+							"Bonus": 7,
+						},{
+							"Name":"Perception",
+							"Bonus": 15,
+						},{
+							"Name":"Performance",
+							"Bonus": 7,
+						},{
+							"Name":"Persuasion",
+							"Bonus": 4,
+						},{
+							"Name":"Religion",
+							"Bonus": 8,
+						},{
+							"Name":"Sleight of Hand",
+							"Bonus": 9,
+						},{
+							"Name":"Stealth",
+							"Bonus": 8,
+						},{
+							"Name":"Survival",
+							"Bonus": 11,
+						}*/
+					]
 
 				})
-			.reply(201, {
-				body: [{ status:201, message: 'success' }],
-			});
+			.reply(201, { status:201, message: 'success' });
 			monsterCreationInstance.find('form').simulate('submit', { preventDefault () {} });
 		});
 
