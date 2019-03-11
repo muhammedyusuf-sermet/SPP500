@@ -141,8 +141,6 @@ export class MonsterFactory {
 			options,
 			async (errors: ValidationError, value: any) => {
 				if(errors){
-					const skillNameInvalid: Set<string> = new Set<string>();
-					const skillBonusInvalid: Set<string> = new Set<string>();
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
 						let message: string = ''
@@ -158,18 +156,8 @@ export class MonsterFactory {
 							}
 						}
 						message = error.message.split('[')[0] + message.substr(0,message.length-1);
-						if(message.substr(1,10) == 'Skill Name'){
-							skillNameInvalid.add(error.context!.value);
-						} else if(message.substr(1,11) == 'Skill Bonus'){
-							skillBonusInvalid.add(error.context!.value);
-						}
 						messages.add(message);
 					})
-					if(skillNameInvalid.size > 0)
-						messages.add('Invalid Skill Name values: ' + Array.from(skillNameInvalid.values()))
-					if(skillBonusInvalid.size > 0)
-						messages.add('Invalid Skill Bonus values: ' + Array.from(skillBonusInvalid.values()))
-					
 					return {
 						"status": 400,
 						"messages": Array.from(messages.values())
