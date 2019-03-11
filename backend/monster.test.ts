@@ -230,7 +230,7 @@ describe('monster creation tests', async () => {
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(2);
 			expect(response['messages'][0]).toBe("\"Skill Name\" must be one of A,B");
-			expect(response['messages'][1]).toBe("Invalid Skill Name values: C");
+			expect(response['messages'][1]).toBe("Invalid Skill Names values: C");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
