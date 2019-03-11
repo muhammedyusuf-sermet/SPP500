@@ -67,4 +67,102 @@ export class EncounterFactory {
 		}
 
 	}
+
+	public async Edit(request: {payload: any, auth: any}) {
+    var messages = [];
+
+		const authInfo = request.auth;
+		const payload = request.payload;
+    
+		var encounter = await Encounter.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
+
+		if (encounter) {
+			var data = request.payload;
+
+			if (data.Name == "") {
+				messages.push("Name should not be an empty string.");
+			} else {
+				encounter.Name = data.Name;
+			}
+
+			if (data.Description == "") {
+				messages.push("Description should not be an empty string.");
+			} else {
+				encounter.Description = data.Description;
+			}
+
+			var monstersArray : Monster[] = [];
+			var monsters = data.Monsters;
+
+			if (monsters) {
+				for (let monsterObject of monsters) {
+					var monster = await Monster.findOne({ Id: monsterObject.Id });
+
+					if (monster) {
+						monstersArray.push(monster);
+					} else {
+						messages.push("Monster is invalid: " + monsterObject.Id);
+					}
+				}
+			}
+
+			encounter.Monsters = monstersArray;
+
+		} else {
+			// check if the encounter is valid
+			encounter = await Encounter.findOne({ Id: payload.Id});
+
+			if (encounter) {
+				messages.push("Requester is not the creator of this encounter.")	
+			} else {
+				messages.push("There is no such encounter saved.")
+			}
+    }
+		
+		if (messages.length == 0 && encounter) {
+			await encounter.save();
+
+			return {
+        "status": 201,
+				"messages": ["success"]
+			}
+    } else {
+      return {
+				"status": 400,
+				"messages": messages
+			}
+		}
+  }
+  
+	public async Delete(request: {payload: any, auth: any}) {
+		var messages = [];
+
+		const authInfo = request.auth;
+		const payload = request.payload;
+ 		var encounter = await Encounter.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
+
+ 		if (!encounter) {
+ 			encounter = await Encounter.findOne({ Id: payload.Id});
+
+ 			if (encounter) {
+				messages.push("Requester is not the creator of this encounter.")	
+			} else {
+				messages.push("There is no such encounter saved.")
+			}
+ 		}
+
+ 		if (messages.length == 0 && encounter) {
+			await encounter.remove();
+
+ 			return {
+				"status": 201,
+				"messages": ["success"]
+			}
+ 		} else {
+			return {
+				"status": 400,
+				"messages": messages
+			}
+		}
+	}
 }

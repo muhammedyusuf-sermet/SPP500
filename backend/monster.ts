@@ -1,9 +1,10 @@
 import {Monster} from "./entity/Monster";
-import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./entity/MonsterEnums";
+import { Size, MonsterType, MonsterRace, Alignment, Environment, MonsterAction } from "./entity/MonsterEnums";
 import {Skill} from "./entity/Skill"
 import {MonsterAbilityScore} from "./entity/MonsterAbilityScore";
 import {MonsterSavingThrow} from "./entity/MonsterSavingThrow";
 import {MonsterSkill} from "./entity/MonsterSkill";
+import {Action} from "./entity/Action";
 
 /*
 Parameters:
@@ -196,5 +197,76 @@ export class MonsterFactory {
 				}
 			}
 		);
+		}
+
+		monster.Skills = skillsArray;
+		
+
+		// Actions
+		var actions = data.Actions;
+		var actionsArray = [];
+		if (actions) {
+			for (var action of actions) {
+				var actionObject = new Action();
+				actionObject.Monster = monster;
+				actionsArray.push(actionObject)
+				if (!action.Name) {
+					messages.push("Name must be provided for each action.")
+				} else {
+					actionObject.Name = action.Name;
+				}
+
+				if (!action.Description) {
+					messages.push("Description must be provided for each action.")
+				} else {
+					actionObject.Description = action.Description;
+				}
+
+				if (action.HitBonus && typeof action.HitBonus !== 'number') {
+					messages.push("HitBonus is invalid: " + action.HitBonus)
+				} else {
+					actionObject.HitBonus = action.HitBonus;
+				}
+
+				if (action.Damage) {
+					actionObject.Damage = action.Damage;
+				}
+
+				if (action.DamageBonus && typeof action.DamageBonus !== 'number') {
+					messages.push("DamageBonus is invalid: " + action.DamageBonus)
+				} else {
+					actionObject.DamageBonus = action.DamageBonus;
+				}
+
+				if (action.Type && !MonsterAction[action.Type] ) {
+					messages.push("Type is invalid for action: " + action.Type)
+				} else {
+					actionObject.Type = action.Type;
+				}
+			}
+		}
+		
+		monster.Actions = actionsArray;
+		
+
+		// save to db
+		if (messages.length == 0) {
+			await monster.AbilityScores.save();
+			await monster.SavingThrows.save();
+			await monster.save();
+			for (let skill of monster.Skills ) await skill.save();
+			for (let action of monster.Actions ) await action.save();
+
+			return {
+				"status": 201,
+				"messages": ["success"]
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages
+			}
+		}
+		
 	}
 }

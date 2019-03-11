@@ -6,6 +6,7 @@ jest.mock("./entity/MonsterAbilityScore");
 jest.mock("./entity/MonsterSavingThrow");
 jest.mock("./entity/MonsterSkill");
 jest.mock("./entity/Skill");
+jest.mock("./entity/Action");
 
 describe('monster creation tests', async () => {
 	var monster = new MonsterFactory();
@@ -50,10 +51,10 @@ describe('monster creation tests', async () => {
 			},
 		});
 
-		expect.assertions(2);
-
+		expect.assertions(3);
 		expect(response['status']).toBe(201);
-		expect(response['message']).toBe("success");
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
 	});
 
 	test('when only name is given', async () => {
@@ -63,10 +64,10 @@ describe('monster creation tests', async () => {
 			},
 		});
 
-		expect.assertions(2);
-
+		expect.assertions(3);
 		expect(response['status']).toBe(201);
-		expect(response['message']).toBe("success");
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
 	});
 
 	test('when name is not given', async () => {
@@ -93,6 +94,12 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Name must be provided.");
+
 	});
 
 
@@ -113,6 +120,11 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Monster size is not valid.");
+
 	});
 
 	test('when an invalid monster type is given', async () => {
@@ -132,6 +144,11 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Monster type is not valid.");
+
 	});
 
 	test('when an invalid monster race is given', async () => {
@@ -151,6 +168,11 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Monster race is not valid.");
+
 	});
 
 	test('when an invalid monster alignment is given', async () => {
@@ -170,6 +192,11 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Monster alignment is not valid.");
+	
 	});
 
 	test('when an invalid monster environment is given', async () => {
@@ -189,6 +216,11 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Monster environment is not valid.");
+
 	});
 
 	test('when no AbilityScores, Skills and SavingThrows is given', async () => {
@@ -207,10 +239,10 @@ describe('monster creation tests', async () => {
 			},
 		});
 
-		expect.assertions(2);
-
+		expect.assertions(3);
 		expect(response['status']).toBe(201);
-		expect(response['message']).toBe("success");
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
 		
 	});
 
@@ -235,6 +267,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Skill is invalid: C");
 		
 	});
 
@@ -259,6 +295,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("MonsterSkill value has to be either null or a number.");
 		
 	});
 
@@ -281,6 +321,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Strength value for AbilityScores is not valid: test");
 		
 	});
 
@@ -303,6 +347,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Dexterity value for AbilityScores is not valid: test");
 		
 	});
 
@@ -325,6 +373,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Constitution value for AbilityScores is not valid: test");
 		
 	});
 
@@ -348,6 +400,11 @@ describe('monster creation tests', async () => {
 			expect(response['status']).toBe(400);
 		}
 		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Intelligence value for AbilityScores is not valid: test");
+	
 	});
 
 	test('when an invalid Wisdom is given for AbilityScores', async () => {
@@ -369,6 +426,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Wisdom value for AbilityScores is not valid: test");
 		
 	});
 
@@ -391,6 +452,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Charisma value for AbilityScores is not valid: test");
 		
 	});
 
@@ -414,6 +479,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Strength value for SavingThrows is not valid: test");
 		
 	});
 
@@ -436,6 +505,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Dexterity value for SavingThrows is not valid: test");
 		
 	});
 
@@ -458,6 +531,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Constitution value for SavingThrows is not valid: test");
 		
 	});
 
@@ -480,6 +557,10 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Intelligence value for SavingThrows is not valid: test");
 		
 	});
 
@@ -503,6 +584,12 @@ describe('monster creation tests', async () => {
 			expect(response['status']).toBe(400);
 		}
 		
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Wisdom value for SavingThrows is not valid: test");
+	
 	});
 
 	test('when an invalid Charisma is given for SavingThrows', async () => {
@@ -524,7 +611,144 @@ describe('monster creation tests', async () => {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
 		}
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Charisma value for SavingThrows is not valid: test");
+		
 		
 	});
+
+	test('when name is not provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Description": "Something"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Name must be provided for each action.");
+		
+	});
+
+	test('when name is not provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Description must be provided for each action.");
+		
+	});
+
+	test('when invalid HitBonus is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"HitBonus": "test"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("HitBonus is invalid: test");
+		
+	});
+
+	test('when invalid DamageBonus is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"DamageBonus": "test"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("DamageBonus is invalid: test");
+		
+	});
+
+	test('when invalid Type is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"Type": "test"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Type is invalid for action: test");
+		
+	});
+
+	test('when proper payload is provided for an action', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					{
+						"Name": "Something",
+						"Description": "Something",
+						"Type": "LegendaryAction",
+						"Damage": "3d6"
+				    }
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
+		
+	});
+	/*
+	Monster action tests
+
+	When valid monster actions are given
+	return success
+
+	When invalid monster actions are given
+	return an error
+	*/
 
 });
