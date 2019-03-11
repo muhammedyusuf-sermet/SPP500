@@ -411,6 +411,44 @@ describe('monster creation tests', async () => {
 		expect(response['messages'][0]).toBe("\"Charisma\" must be a number");
 	});
 
+	test('when Actions is an object', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": {
+					"0": {
+						"Name": "Test",
+						"Description": "Something"
+				    }
+				}
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("\"Actions\" must be an array");
+	});
+
+	test('when Actions is an array containing arrays', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Actions": [
+					[
+						"Name", "Test",
+						"Description", "Something"
+					]
+				]
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("\"Action Items\" must be an object");
+	});
+
 	test('when name is not provided for an action', async () => {
 		const response = await monster.Create({
 			payload: {
@@ -426,7 +464,7 @@ describe('monster creation tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
-		expect(response['messages'][0]).toBe("Name must be provided for each action.");
+		expect(response['messages'][0]).toBe("\"Name\" is required");
 	});
 
 	test('when name is not provided for an action', async () => {
@@ -444,7 +482,7 @@ describe('monster creation tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
-		expect(response['messages'][0]).toBe("Description must be provided for each action.");
+		expect(response['messages'][0]).toBe("\"Description\" is required");
 	});
 
 	test('when invalid HitBonus is provided for an action', async () => {
@@ -464,7 +502,7 @@ describe('monster creation tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
-		expect(response['messages'][0]).toBe("HitBonus is invalid: test");
+		expect(response['messages'][0]).toBe("\"HitBonus\" must be a number");
 	});
 
 	test('when invalid DamageBonus is provided for an action', async () => {
@@ -484,7 +522,7 @@ describe('monster creation tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
-		expect(response['messages'][0]).toBe("DamageBonus is invalid: test");
+		expect(response['messages'][0]).toBe("\"DamageBonus\" must be a number");
 	});
 
 	test('when invalid Type is provided for an action', async () => {
@@ -504,7 +542,7 @@ describe('monster creation tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
-		expect(response['messages'][0]).toBe("Type is invalid for action: test");
+		expect(response['messages'][0]).toBe("\"Type\" must be one of SpecialAbility,Action,LegendaryAction");
 	});
 
 	test('when proper payload is provided for an action', async () => {

@@ -110,7 +110,7 @@ export class MonsterFactory {
 			Damage: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'range'),
 			DamageBonus: Joi.number().integer().greater(0).allow(0),
 			Type: Joi.string().valid(Joi.ref('$ActionOptions'))
-		})).default([])
+		}).label('Action Items')).default([])
 	});
 	public async Create(request: {payload:any}) {
 		const allSkills: Skill[] = await Skill.find({ select: ["Id", "Name"] });
