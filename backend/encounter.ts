@@ -67,4 +67,38 @@ export class EncounterFactory {
 		}
 
 	}
+
+	public async Delete(request: {payload: any, auth: any}) {
+		var messages = [];
+
+		const authInfo = request.auth;
+		const payload = request.payload;
+
+ 		var encounter = await Encounter.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
+
+ 		if (!encounter) {
+ 			encounter = await Encounter.findOne({ Id: payload.Id});
+
+ 			if (encounter) {
+				messages.push("Requester is not the creator of this encounter.")	
+			} else {
+				messages.push("There is no such encounter saved.")
+			}
+ 		}
+
+ 		if (messages.length == 0 && encounter) {
+			await encounter.remove();
+
+ 			return {
+				"status": 201,
+				"messages": ["success"]
+			}
+
+ 		} else {
+			return {
+				"status": 400,
+				"messages": messages
+			}
+		}
+	}
 }

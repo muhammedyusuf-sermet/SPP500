@@ -1,5 +1,6 @@
 import {EncounterFactory} from "./encounter";
 import {Monster} from "./entity/Monster"
+import {Encounter} from "./entity/Encounter"
 import {User} from "./entity/User"
 
 jest.mock("./entity/Monster");
@@ -7,7 +8,6 @@ jest.mock("./entity/Encounter");
 jest.mock("./entity/User");
 
 describe('encounter creation tests', async () => {
-	// var encounter = new EncounterFactory();
 	beforeAll( async () => {
 		const monster = new Monster();
 		monster.Name = "John Doe";
@@ -182,5 +182,97 @@ raise an error with the status code of 400
 
 When an invalid monster is provided
 raise an error with the status code of 400
+
+*/
+
+describe('encounter delete tests', async () => {
+	beforeAll( async () => {
+ 		const user = new User();
+		user.Name = "John Doe";
+		user.Id = 1;
+		await user.save();
+
+		const user2 = new User();
+		user2.Name = "John Doe";
+		user2.Id = 2;
+		await user2.save();
+
+ 		const encounter = new Encounter();
+		encounter.Id = 1;
+		encounter.Name = "Test Name";
+		encounter.Description = "Test Description";
+		encounter.Creator = user;
+		await encounter.save();
+	});
+
+ 	var encounterFactory = new EncounterFactory();
+
+ 	test('When another user requests an encounter to delete when they are not the owner', async () => {
+		const response = await encounterFactory.Delete({
+			payload: {
+				"Id": 1
+			},
+			auth: {
+				credentials: {
+					id: 2
+				}
+			}
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("Requester is not the creator of this encounter.");
+	});
+
+ 	test('When owner of an encounter requests delete', async () => {
+		const response = await encounterFactory.Delete({
+			payload: {
+				"Id": 1
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("success");
+	});
+
+	test('When an invalid encounter is given', async () => {
+		const response = await encounterFactory.Delete({
+			payload: {
+				"Id": 2
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("There is no such encounter saved.");
+	});
+});
+
+
+/*
+Delete encounter tests
+
+When owner of an encounter requests delete
+delete the encounter, return success
+
+When another user requests an encounter to be deleted when they are not the owner
+do not delete the encounter, return error
+
+When an invalid encounter is given
+return an error
 
 */
