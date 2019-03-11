@@ -141,22 +141,17 @@ export class MonsterFactory {
 								if (Joi.isRef(valid)){
 									const reference = valid as Joi.Reference
 									message += reference(null, options) + ',';
-								} else {
+								} /* add this else back in if we ever have .valid([something]) instead of references.
+								else {
 									message += valid + ','
-								}
+								}*/
 							}
 						}
 						message = error.message.split('[')[0] + message.substr(0,message.length-1);
 						if(message.substr(1,10) == 'Skill Name'){
-							if(error.context)
-								skillNameInvalid.add(error.context.value);
-							else
-								skillNameInvalid.add('unknown value');
+							skillNameInvalid.add(error.context!.value);
 						} else if(message.substr(1,11) == 'Skill Bonus'){
-							if(error.context)
-								skillBonusInvalid.add(error.context.value);
-							else
-								skillBonusInvalid.add('unknown value');
+							skillBonusInvalid.add(error.context!.value);
 						}
 						messages.add(message);
 					})

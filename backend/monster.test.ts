@@ -108,7 +108,7 @@ describe('monster creation tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Size\" must be one of Tiny,Small,Medium,Large,Huge,Gargantuan,");
+			expect(response['messages'][0]).toBe("\"Size\" must be one of Tiny,Small,Medium,Large,Huge,Gargantuan");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
@@ -127,7 +127,7 @@ describe('monster creation tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Type\" must be one of Beast,Dragon,Monstrosity,Humanoid,Fiend,Undead,Giant,Elemental,SwarmOfTinyBeasts,Construct,Celestial,Aberration,Fey,Plant,Ooze,");
+			expect(response['messages'][0]).toBe("\"Type\" must be one of Beast,Dragon,Monstrosity,Humanoid,Fiend,Undead,Giant,Elemental,SwarmOfTinyBeasts,Construct,Celestial,Aberration,Fey,Plant,Ooze");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
@@ -146,7 +146,7 @@ describe('monster creation tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Race\" must be one of AnyRace,Devil,Demon,Human,Shapechanger,Goblinoid,Titan,Gnoll,Gnome,Dwarf,Elf,Orc,Kobold,Lizardfolk,Merfolk,Sahuagin,Grimlock,");
+			expect(response['messages'][0]).toBe("\"Race\" must be one of AnyRace,Devil,Demon,Human,Shapechanger,Goblinoid,Titan,Gnoll,Gnome,Dwarf,Elf,Orc,Kobold,Lizardfolk,Merfolk,Sahuagin,Grimlock");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
@@ -165,7 +165,7 @@ describe('monster creation tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Alignment\" must be one of Unaligned,AnyAlignment,AnyNonGoodAlignment,AnyNonEvilAlignment,AnyNonLawfulAlignment,AnyNonChaoticAlignment,AnyGoodAlignment,AnyEvilAlignment,AnyLawfulAlignment,AnyChaoticAlignment,AnyNeutralAlignment,LawfulGood,LawfulNeutral,LawfulEvil,NeutralGood,Neutral,NeutralEvil,ChaoticGood,ChaoticNeutral,ChaoticEvil,");
+			expect(response['messages'][0]).toBe("\"Alignment\" must be one of Unaligned,AnyAlignment,AnyNonGoodAlignment,AnyNonEvilAlignment,AnyNonLawfulAlignment,AnyNonChaoticAlignment,AnyGoodAlignment,AnyEvilAlignment,AnyLawfulAlignment,AnyChaoticAlignment,AnyNeutralAlignment,LawfulGood,LawfulNeutral,LawfulEvil,NeutralGood,Neutral,NeutralEvil,ChaoticGood,ChaoticNeutral,ChaoticEvil");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
@@ -184,7 +184,7 @@ describe('monster creation tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Environment\" must be one of Arctic,Coastal,Desert,Forest,Grassland,Hill,Mountain,Swamp,Underdark,Underwater,Urban,");
+			expect(response['messages'][0]).toBe("\"Environment\" must be one of Arctic,Coastal,Desert,Forest,Grassland,Hill,Mountain,Swamp,Underdark,Underwater,Urban");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
@@ -226,10 +226,11 @@ describe('monster creation tests', async () => {
 		});
 
 		if (response["messages"]){
-			expect.assertions(3);
+			expect.assertions(4);
 			expect(response['status']).toBe(400);
-			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Name\" must be one of A,B,");
+			expect(response['messages'].length).toBe(2);
+			expect(response['messages'][0]).toBe("\"Skill Name\" must be one of A,B");
+			expect(response['messages'][1]).toBe("Invalid Skill Name values: C");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
@@ -249,10 +250,11 @@ describe('monster creation tests', async () => {
 		});
 
 		if (response["messages"]){
-			expect.assertions(3);
+			expect.assertions(4);
 			expect(response['status']).toBe(400);
-			expect(response['messages'].length).toBe(1);
-			expect(response['messages'][0]).toBe("\"Bonus\" must be a number");
+			expect(response['messages'].length).toBe(2);
+			expect(response['messages'][0]).toBe("\"Skill Bonus\" must be a number");
+			expect(response['messages'][1]).toBe("Invalid Skill Bonus values: testing");
 		} else {
 			expect.assertions(1);
 			expect(response['status']).toBe(400);
