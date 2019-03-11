@@ -102,6 +102,14 @@ export class MonsterFactory {
 		Skills: Joi.array().items(Joi.object({
 			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
 			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
+		})).default([]),
+		Actions: Joi.array().items(Joi.object({
+			Name: Joi.string().required().max(50),
+			Description: Joi.string().required().max(250),
+			HitBonus: Joi.number().integer().greater(0).allow(0),
+			Damage: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'range'),
+			DamageBonus: Joi.number().integer().greater(0).allow(0),
+			Type: Joi.string().valid(Joi.ref('$ActionOptions'))
 		})).default([])
 	});
 	public async Create(request: {payload:any}) {
@@ -123,11 +131,12 @@ export class MonsterFactory {
 				RaceOptions: Object.keys(MonsterRace),
 				AlignmentOptions: Object.keys(Alignment),
 				EnvironmentOptions: Object.keys(Environment),
+				ActionOptions: Object.keys(MonsterAction),
 				SkillOptions: skillNames
 			}
 		}
 		return await Joi.validate(
-			request.payload, 
+			request.payload,
 			this.payloadSchema,
 			options,
 			async (errors: ValidationError, value: any) => {
