@@ -178,7 +178,7 @@ export class MonsterFactory {
 					await monster.save();
 					// link skills to monster
 					monster.Skills = [];
-					for (let index in value.Skills){
+					for (let index in value.Skills) {
 						const monsterSkill: MonsterSkill = new MonsterSkill();
 						monsterSkill.Bonus = value.Skills[index].Bonus;
 						monsterSkill.Skill = skillLookup[value.Skills[index].Name];
@@ -186,7 +186,16 @@ export class MonsterFactory {
 						monster.Skills.push(monsterSkill);
 					}
 					// save skills
-					MonsterSkill.save(monster.Skills);
+					await MonsterSkill.save(monster.Skills);
+					// link actions to monster
+					monster.Actions = [];
+					for (let index in value.Actions) {
+						const action: Action = Object.assign(new Action(),value.Actions[index]);
+						action.Monster = monster;
+						monster.Actions.push(action);
+					}
+					// save actions
+					await Action.save(monster.Actions);
 					return {
 						"status": 201,
 						"messages": ["success"]
@@ -194,76 +203,5 @@ export class MonsterFactory {
 				}
 			}
 		);
-		}
-
-		monster.Skills = skillsArray;
-		
-
-		// Actions
-		var actions = data.Actions;
-		var actionsArray = [];
-		if (actions) {
-			for (var action of actions) {
-				var actionObject = new Action();
-				actionObject.Monster = monster;
-				actionsArray.push(actionObject)
-				if (!action.Name) {
-					messages.push("Name must be provided for each action.")
-				} else {
-					actionObject.Name = action.Name;
-				}
-
-				if (!action.Description) {
-					messages.push("Description must be provided for each action.")
-				} else {
-					actionObject.Description = action.Description;
-				}
-
-				if (action.HitBonus && typeof action.HitBonus !== 'number') {
-					messages.push("HitBonus is invalid: " + action.HitBonus)
-				} else {
-					actionObject.HitBonus = action.HitBonus;
-				}
-
-				if (action.Damage) {
-					actionObject.Damage = action.Damage;
-				}
-
-				if (action.DamageBonus && typeof action.DamageBonus !== 'number') {
-					messages.push("DamageBonus is invalid: " + action.DamageBonus)
-				} else {
-					actionObject.DamageBonus = action.DamageBonus;
-				}
-
-				if (action.Type && !MonsterAction[action.Type] ) {
-					messages.push("Type is invalid for action: " + action.Type)
-				} else {
-					actionObject.Type = action.Type;
-				}
-			}
-		}
-		
-		monster.Actions = actionsArray;
-		
-
-		// save to db
-		if (messages.length == 0) {
-			await monster.AbilityScores.save();
-			await monster.SavingThrows.save();
-			await monster.save();
-			for (let skill of monster.Skills ) await skill.save();
-			for (let action of monster.Actions ) await action.save();
-
-			return {
-				"status": 201,
-				"messages": ["success"]
-			}
-		} else {
-			return {
-				"status": 400,
-				"messages": messages
-			}
-		}
-		
 	}
 }
