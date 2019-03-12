@@ -116,18 +116,17 @@ export interface IMonsterActions {
 export interface IMonsterState {
 	[index:string]: any;
 	Name: string,
-	Size?: Size;
-	Type?: MonsterType;
-	Race?: MonsterRace;
-	Environment?: Environment;
-	Alignment?: Alignment;
+	Size?: Size | string;
+	Type?: MonsterType | string;
+	Race?: MonsterRace | string;
+	Environment?: Environment | string;
+	Alignment?: Alignment | string;
 
 	ArmorClass?: number;
 	HitPoints?: number;
 	HitPointDistribution?: string;
 
 	Speed?: string;
-	Senses?: string;
 	Languages?: string;
 
 	DamageVulnerabilities?: string;
@@ -138,6 +137,8 @@ export interface IMonsterState {
 	ChallengeRating?: number;
 
 	AbilityScores: IMonsterAbilityScoreState;
+	// the string part is for the payload.
+	Senses: IMonsterSenseState[] | string;
 	Skills: IMonsterSkillState[];
 	SavingThrows: IMonsterSavingThrowState;
 	Actions: IActionState[];
@@ -164,6 +165,11 @@ export interface IMonsterSavingThrowState {
 }
 
 export interface IMonsterSkillState {
+	Name: string;
+	Bonus: number;
+}
+
+export interface IMonsterSenseState {
 	Name: string;
 	Bonus: number;
 }
