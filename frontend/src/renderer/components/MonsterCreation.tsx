@@ -6,7 +6,7 @@ import Joi from 'joi';
 
 import "../css/create_monster.css"
 import {Redirect} from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Label, Dropdown, Button, DropdownTrigger, DropdownMenu, DropdownItem, DropdownContent } from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Label, Dropdown, Button, DropdownTrigger, DropdownMenu, DropdownItem, DropdownContent, Tile, Field, Control, Input, Title, Subtitle, Help } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterSkillState, IMonsterSenseState } from '../../monster';
 
 const types = Object.values(MonsterType);
@@ -71,9 +71,9 @@ export interface IMonsterCreationProps {
 
 export interface IMonsterCreationState {
 	monster: IMonsterState,
-	HitPointDistributionBase?: number;
 	SpeedLand?: number,
 	SpeedSwim?: number,
+	ExperiencePoints?: number,
 	submitted: boolean,
 	modal: {
 		open: boolean,
@@ -147,33 +147,33 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		})
 	}
 
-	handleMonsterTypeChange = (newType: MonsterType) => {
+	handleMonsterTypeChange = (newType: string) => {
 		const monster = this.state.monster
 		this.setState({
 			monster: { ...monster, Type: newType }
 		})
 	}
 
-	handleMonsterSizeChange = (newSize: Size) => {
+	handleMonsterSizeChange = (newSize: string) => {
 		const monster = this.state.monster
 		this.setState({
 			monster: { ...monster, Size: newSize }
 		})
 	}
 
-	handleMonsterRaceChange = (newRace: MonsterRace) => {
+	handleMonsterRaceChange = (newRace: string) => {
 		const monster = this.state.monster
 		this.setState({
 			monster: { ...monster, Race: newRace }
 		})
 	}
-	handleMonsterEnvironmentChange = (newEnvironment: Environment) => {
+	handleMonsterEnvironmentChange = (newEnvironment: string) => {
 		const monster = this.state.monster
 		this.setState({
 			monster: { ...monster, Environment: newEnvironment }
 		})
 	}
-	handleMonsterAlignmentChange = (newAlignment: Alignment) => {
+	handleMonsterAlignmentChange = (newAlignment: string) => {
 		const monster = this.state.monster
 		this.setState({
 			monster: { ...monster, Alignment: newAlignment }
@@ -223,16 +223,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		})
 	}
 
-	handleMonsterHitPointDiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	handleMonsterHitPointDistributionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const monster = this.state.monster
 		this.setState({
 			monster: { ...monster, HitPointDistribution: event.target.value }
-		})
-	}
-
-	handleMonsterHitPointDiceModifierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			HitPointDistributionBase: this.stringToNumber(event.target.value)
 		})
 	}
 
@@ -342,17 +336,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	*/
 
 	render() {
-		let diceRegex = /^\d+d\d+$/
-		let baseHitPointsError = !((this.state.monster.hitPoints != null) && this.state.monster.hitPoints >= 0)
-		let hitPointDiceError = !((this.state.monster.hitPointDice != null) && this.state.monster.hitPointDice.match(diceRegex) != null)
-		let armorClassError = this.state.monster.armorClass < 0
-		let strStatError = this.state.monster.strStat < 0
-		let dexStatError = this.state.monster.dexStat < 0
-		let conStatError = this.state.monster.conStat < 0
-		let intStatError = this.state.monster.intStat < 0
-		let wisStatError = this.state.monster.wisStat < 0
-		let chaStatError = this.state.monster.chaStat < 0
-		let challengeRatingError = this.state.monster.challengeRating < 0
 		let experiencePointsError = this.state.monster.experiencePoints < 0
 		let landSpeedError = this.state.monster.speedLand < 0
 		let swimmingSpeedError = !((this.state.monster.speedSwim != null) && this.state.monster.speedSwim >= 0)
@@ -528,138 +511,315 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			this.state.submitted ? <Redirect to="/"/> :
 			<div className="monster-creation-container">
 				<form onSubmit={validateForm}>
-					<h1 className="page-title">Create a Monster</h1>
+					<Title className="page-title">Create a Monster</Title>
+					<Field>
+						<Control>
+							<Input
+								id='Name'
+								type='text'
+								placeholder='Monster Name'
+								autoComplete='Name'
+								value={this.state.monster.Name}
+								onChange={this.handleMonsterNameChange}
+								required />
+						</Control>
+					</Field>
+					<Box>
+						<Subtitle>Type Configurations</Subtitle>
+						<Field isGrouped='centered' isHorizontal>
+							<Control isExpanded>
+								<MonsterDropdown name={'Type'} options={types} onChange={this.handleMonsterTypeChange} />
+							</Control>
+							<Control isExpanded>
+								<MonsterDropdown name={'Size'} options={sizes} onChange={this.handleMonsterSizeChange} />
+							</Control>
+							<Control isExpanded>
+								<MonsterDropdown name={'Race'} options={races} onChange={this.handleMonsterRaceChange} />
+							</Control>
+						</Field>
+						<Field isGrouped='centered' isHorizontal>
+							<Control isExpanded>
+								<MonsterDropdown name={'Alignment'} options={alignments} onChange={this.handleMonsterAlignmentChange} />
+							</Control>
+							<Control isExpanded>
+								<MonsterDropdown name={'Environment'} options={environments} onChange={this.handleMonsterEnvironmentChange} />
+							</Control>
+						</Field>
+					</Box>
+					<Box>
+						<Subtitle>Vulnerability, Resistance, and Immunity</Subtitle>
+						<Field>
+							<Control>
+								<Input
+									id='DamageVulnerabilities'
+									type='text'
+									placeholder='Damage Vulnerabilities'
+									autoComplete='DamageVulnerabilities'
+									value={this.state.monster.DamageVulnerabilities}
+									onChange={this.handleMonsterVulnerabilityChange} />
+							</Control>
+						</Field>
+						<Field>
+							<Control>
+								<Input
+									id='DamageResistances'
+									type='text'
+									placeholder='Damage Resistances'
+									autoComplete='DamageResistances'
+									value={this.state.monster.DamageResistances}
+									onChange={this.handleMonsterResistanceChange} />
+							</Control>
+						</Field>
+						<Field>
+							<Control>
+								<Input
+									id='DamageImmunities'
+									type='text'
+									placeholder='Damage Immunities'
+									autoComplete='DamageImmunities'
+									value={this.state.monster.DamageImmunities}
+									onChange={this.handleMonsterDamageImmunityChange} />
+							</Control>
+						</Field>
+						<Field>
+							<Control>
+								<Input
+									id='ConditionImmunities'
+									type='text'
+									placeholder='Condition Immunities'
+									autoComplete='ConditionImmunities'
+									value={this.state.monster.ConditionImmunities}
+									onChange={this.handleMonsterResistanceChange} />
+							</Control>
+						</Field>
+					</Box>
+					<Box>
+						<Subtitle>Armor Class and Hit Points</Subtitle>
+						<Field>
+							<Control>
+								<Input
+									id='ArmorClass'
+									type='number'
+									placeholder='Armor Class'
+									autoComplete='ArmorClass'
+									value={this.state.monster.ArmorClass}
+									onChange={this.handleMonsterArmorClassChange} />
+							</Control>
+						</Field>
+						<Field isGrouped='centered' isHorizontal>
+							<Control isExpanded>
+								<Input
+									id='HitPoints'
+									type='number'
+									placeholder='Hit Points'
+									autoComplete='HitPoints'
+									value={this.state.monster.HitPoints}
+									onChange={this.handleMonsterHitPointsChange} />
+							</Control>
+							<Control isExpanded>
+								<Input
+									id='HitPointDistribution'
+									type='string'
+									placeholder='Hit Points Distribution'
+									autoComplete='HitPointDistribution'
+									value={this.state.monster.HitPointDistribution}
+									onChange={this.handleMonsterHitPointDistributionChange} />
+							</Control>
+							<Help>Hit Points Distribution should be of the form "#d# + base". # are numbers</Help>
+						</Field>
+					</Box>
+					<Box>
+						<Subtitle>Movement Speed</Subtitle>
+						<Field isGrouped='centered' isHorizontal>
+							<Control isExpanded>
+								<Input
+									id='SpeedLand'
+									type='number'
+									placeholder='Land Speed'
+									autoComplete='SpeedLand'
+									value={this.state.SpeedLand}
+									onChange={this.handleMonsterLandSpeedChange} />
+							</Control>
+							<Control isExpanded>
+								<Input
+									id='SpeedSwim'
+									type='number'
+									placeholder='Swimming Speed'
+									autoComplete='SpeedSwim'
+									value={this.state.SpeedSwim}
+									onChange={this.handleMonsterSwimSpeedChange} />
+							</Control>
+						</Field>
+					</Box>
+					<Tile isAncestor>
+						<Tile isSize={6} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									<Subtitle>Ability Scores</Subtitle>
+									<Field>
+										<Control>
+											<Input
+												id='Strength'
+												type='number'
+												placeholder='Strength'
+												autoComplete='Strength'
+												value={this.state.monster.AbilityScores.Strength}
+												onChange={this.AbilityScoreChange.get('Strength')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Dexterity'
+												type='number'
+												placeholder='Dexterity'
+												autoComplete='Dexterity'
+												value={this.state.monster.AbilityScores.Dexterity}
+												onChange={this.AbilityScoreChange.get('Dexterity')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Constitution'
+												type='number'
+												placeholder='Constitution'
+												autoComplete='Constitution'
+												value={this.state.monster.AbilityScores.Constitution}
+												onChange={this.AbilityScoreChange.get('Constitution')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Intelligence'
+												type='number'
+												placeholder='Intelligence'
+												autoComplete='Intelligence'
+												value={this.state.monster.AbilityScores.Intelligence}
+												onChange={this.AbilityScoreChange.get('Intelligence')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Wisdom'
+												type='number'
+												placeholder='Wisdom'
+												autoComplete='Wisdom'
+												value={this.state.monster.AbilityScores.Wisdom}
+												onChange={this.AbilityScoreChange.get('Wisdom')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Charisma'
+												type='number'
+												placeholder='Charisma'
+												autoComplete='Charisma'
+												value={this.state.monster.AbilityScores.Charisma}
+												onChange={this.AbilityScoreChange.get('Charisma')} />
+										</Control>
+									</Field>
+								</Box>
+							} />
+						</Tile>
+						<Tile isSize={6} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									<Subtitle>Saving Throws</Subtitle>
+									<Field>
+										<Control>
+											<Input
+												id='Strength'
+												type='number'
+												placeholder='Strength'
+												autoComplete='Strength'
+												value={this.state.monster.SavingThrows.Strength}
+												onChange={this.SavingThrowChange.get('Strength')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Dexterity'
+												type='number'
+												placeholder='Dexterity'
+												autoComplete='Dexterity'
+												value={this.state.monster.SavingThrows.Dexterity}
+												onChange={this.SavingThrowChange.get('Dexterity')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Constitution'
+												type='number'
+												placeholder='Constitution'
+												autoComplete='Constitution'
+												value={this.state.monster.SavingThrows.Constitution}
+												onChange={this.SavingThrowChange.get('Constitution')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Intelligence'
+												type='number'
+												placeholder='Intelligence'
+												autoComplete='Intelligence'
+												value={this.state.monster.SavingThrows.Intelligence}
+												onChange={this.SavingThrowChange.get('Intelligence')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Wisdom'
+												type='number'
+												placeholder='Wisdom'
+												autoComplete='Wisdom'
+												value={this.state.monster.SavingThrows.Wisdom}
+												onChange={this.SavingThrowChange.get('Wisdom')} />
+										</Control>
+									</Field>
+									<Field>
+										<Control>
+											<Input
+												id='Charisma'
+												type='number'
+												placeholder='Charisma'
+												autoComplete='Charisma'
+												value={this.state.monster.SavingThrows.Charisma}
+												onChange={this.SavingThrowChange.get('Charisma')} />
+										</Control>
+									</Field>
+								</Box>
+							} />
+						</Tile>
+					</Tile>
+					<Tile isAncestor>
+						<Subtitle>Skill Bonuses</Subtitle>
+						<Tile isSize={4} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									<Field>
+										<Control>
+											<Input
+												id='Strength'
+												type='number'
+												placeholder='Strength'
+												autoComplete='Strength'
+												value={this.state.monster.Skills[0].Bonus}
+												onChange={this.SavingThrowChange.get('Strength')} />
+										</Control>
+									</Field>
+								</Box>
+								} />
+						</Tile>
+					</Tile>
 					<Grid container spacing={24}>
-						<Grid item xs={12}>
-							<div className="form-group">
-								<TextField autoFocus error={false} margin="dense" value={this.state.monster.name} id="name" label="Monster Name" helperText="" fullWidth required onChange={this.handleMonsterNameChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<MonsterTypeDropdown type={this.state.monster.type} onChange={this.handleMonsterTypeChange} />
-						</Grid>
-						<Grid item xs={6}>
-							<MonsterSizeDropdown type={this.state.monster.size} onChange={this.handleMonsterSizeChange} />
-						</Grid>
-						<Grid item xs={6}>
-							<MonsterRaceDropdown type={this.state.monster.race} onChange={this.handleMonsterRaceChange} />
-						</Grid>
-						<Grid item xs={6}>
-							<MonsterAlignmentDropdown type={this.state.monster.alignment} onChange={this.handleMonsterAlignmentChange} />
-						</Grid>
-						<Grid item xs={6}>
-							<MonsterEnvironmentDropdown type={this.state.monster.environment} onChange={this.handleMonsterEnvironmentChange} error={false} errorMessage=""/>
-						</Grid>
-						<Grid item xs={12}>
-							<div className="form-group">
-								<TextField error={false} margin="dense" value={this.state.monster.resistance} id="resistance" label="Resistances" helperText="" fullWidth onChange={this.handleMonsterResistanceChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={12}>
-							<div className="form-group">
-								<TextField error={false} margin="dense" value={this.state.monster.damageImmunity} id="damageImmunity" label="Damage Immunities" helperText="" fullWidth onChange={this.handleMonsterDamageImmunityChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={12}>
-							<div className="form-group">
-								<TextField error={false} margin="dense" value={this.state.monster.conditionImmunity} id="conditionImmunity" label="Condition Immunities" helperText="" fullWidth onChange={this.handleMonsterConditionImmunityChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={12}>
-							<div className="form-group">
-								<TextField error={false} margin="dense" value={this.state.monster.vulnerability} id="vulnerability" label="Vulnerabilities" helperText="" fullWidth onChange={this.handleMonsterVulnerabilityChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {armorClassError} id="armorClass" label="Armor Class" value={this.state.monster.armorClass} helperText={armorClassError ? "Your armor class must be above 0" : ""} onChange={this.handleMonsterArmorClassChange} type="number" InputLabelProps={{ shrink: true }} required margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {baseHitPointsError} helperText={baseHitPointsError? "You cannot have a negative base HP." : ""} id="hitPoints" label="Hit Points" value={this.state.monster.hitPoints} onChange={this.handleMonsterHitPointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error={hitPointDiceError} helperText={hitPointDiceError? "You must provide your hitpoint dice in the xdy format (i.e. 4d6)" : ""} margin="dense" value={this.state.monster.hitPointDice} id="hitPointDice" label="Hit Point Dice" fullWidth required onChange={this.handleMonsterHitPointDiceChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {false} id="hitPointModifier" label="Base Hit Point Modifier" value={this.state.monster.hitPointDiceAdd} onChange={this.handleMonsterHitPointDiceModifierChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {landSpeedError} helperText={landSpeedError? "You cannot have a negative land speed." : ""} required id="landSpeed" label="Land Speed" value={this.state.monster.speedLand} onChange={this.handleMonsterLandSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {swimmingSpeedError} helperText={swimmingSpeedError? "You cannot have a negative swimming speed." : ""}id="swimmingSpeed" label="Swimming Speed" value={this.state.monster.speedSwim} onChange={this.handleMonsterSwimSpeedChange} type="number" InputLabelProps={{ shrink: true }} margin="normal" InputProps={{ endAdornment: <InputAdornment position="end">ft</InputAdornment>, }}/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {strStatError} helperText={strStatError? "You cannot have a negative strength stat." : ""} required id="strength" label="Strength Stat" value={this.state.monster.strStat} onChange={this.handleMonsterStrStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {dexStatError} helperText={dexStatError? "You cannot have a negative dexterity stat." : ""} required id="dexterity" label="Dexterity Stat" value={this.state.monster.dexStat} onChange={this.handleMonsterDexStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {conStatError} helperText={conStatError? "You cannot have a negative constitution stat." : ""} required id="constitution" label="Constitution Stat" value={this.state.monster.conStat} onChange={this.handleMonsterConStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {intStatError} helperText={intStatError? "You cannot have a negative intelligence stat." : ""} required id="intelligence" label="Intelligence Stat" value={this.state.monster.intStat} onChange={this.handleMonsterIntStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {wisStatError} helperText={wisStatError? "You cannot have a negative wisdom stat." : ""} required id="wisdom" label="Wisdom Stat" value={this.state.monster.wisStat} onChange={this.handleMonsterWisStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {chaStatError} helperText={chaStatError? "You cannot have a negative charisma stat." : ""} required id="charisma" label="Charisma Stat" value={this.state.monster.chaStat} onChange={this.handleMonsterChaStatChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="strengthSavingThrow" label="Strength Saving Throw Modifier" value={this.state.monster.strSavingThrow} onChange={this.handleMonsterStrSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="dexteritySavingThrow" label="Dexterity Saving Throw Modifier" value={this.state.monster.dexSavingThrow} onChange={this.handleMonsterDexSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="constitutionSavingThrow" label="Constitution Saving Throw Modifier" value={this.state.monster.conSavingThrow} onChange={this.handleMonsterConSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="intelligenceSavingThrow" label="Intelligence Saving Throw Modifier" value={this.state.monster.intSavingThrow} onChange={this.handleMonsterIntSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="wisdomSavingThrow" label="Wisdom Saving Throw Modifier" value={this.state.monster.wisSavingThrow} onChange={this.handleMonsterWisSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="charismaSavingThrow" label="Charisma Saving Throw Modifier" value={this.state.monster.chaSavingThrow} onChange={this.handleMonsterChaSavingThrowChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
 						<Grid item xs={4}>
 							<div className="form-group">
 								<TextField error = {false} id="athletics" label="Athletics Modifier" value={this.state.monster.skillsAthletics} onChange={this.handleMonsterAthleticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
