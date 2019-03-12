@@ -99,10 +99,14 @@ export class MonsterFactory {
     		Wisdom: Joi.number().integer(),
     		Charisma: Joi.number().integer()
 		}).default({}),
-		Skills: Joi.array().items(Joi.object({
+		Skills: Joi.object().pattern(
+			Joi.string().valid(Joi.ref('$SkillOptions')), 
+			Joi.number().integer().greater(0).allow(0)
+		).default({}),
+		/*Skills: Joi.array().items(Joi.object({
 			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
 			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
-		})).default([]),
+		})).default([]),*/
 		Actions: Joi.array().items(Joi.object({
 			Name: Joi.string().required().max(50),
 			Description: Joi.string().required().max(250),
