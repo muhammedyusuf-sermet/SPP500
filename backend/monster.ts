@@ -63,6 +63,12 @@ Sample curl request,
 import Joi, { ValidationError, ValidationErrorItem } from 'joi';
 
 export class MonsterFactory {
+	private skillNameSchema = Joi.object({
+		Skills: Joi.object().pattern(
+			Joi.symbol().valid(Joi.ref('$SkillOptions')),
+			Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+		).default({})
+	});
 	private payloadSchema = Joi.object({
 		Name: Joi.string().required().max(50),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
@@ -99,11 +105,15 @@ export class MonsterFactory {
     		Wisdom: Joi.number().integer(),
     		Charisma: Joi.number().integer()
 		}).default({}),
+		/* This is the correct way to do this,
+			waiting for responce on github.
+			https://github.com/hapijs/joi/issues/1748
 		Skills: Joi.object().pattern(
-			Joi.string().valid(Joi.ref('$SkillOptions')), 
-			Joi.number().integer().greater(0).allow(0)
-		).default({}),
-		/*Skills: Joi.array().items(Joi.object({
+			Joi.symbol().valid(Joi.ref('$SkillOptions')),
+			Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+		).default({})*/
+		/* This is how to send skills as an array of objects.
+		Skills: Joi.array().items(Joi.object({
 			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
 			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
 		})).default([]),*/
@@ -124,7 +134,6 @@ export class MonsterFactory {
 			skillNames.push(value.Name);
 			skillLookup[value.Name] = value;
 		})
-
 		const options: Joi.ValidationOptions = {
 			abortEarly: false,
 			convert: true,
@@ -139,16 +148,32 @@ export class MonsterFactory {
 				SkillOptions: skillNames
 			}
 		}
+		// Temp fix waiting for GitHub responce 
+		// https://github.com/hapijs/joi/issues/1748
+		// This fix recompiles the schema every time a monster is created
+		//  this will impact performance by some amount, unknown.
+		let message = skillNames.join(',');
+		this.skillNameSchema = Joi.object({
+			Skills: Joi.object().pattern(
+				Joi.symbol().valid(skillNames),
+				Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+			).error((errors) => {
+				for (let error of errors){
+					error.message = "\"Skill Name\" must be one of " + message
+				}
+				return errors
+			}).default({})
+		});
 		return await Joi.validate(
 			request.payload,
-			this.payloadSchema,
+			this.payloadSchema.concat(this.skillNameSchema),
 			options,
 			async (errors: ValidationError, value: any) => {
 				if(errors){
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
 						let message: string = ''
-						if (error.type == 'any.allowOnly' && error.context && options) {
+						if ((error.type == 'any.allowOnly') && error.context && options) {
 							for (let valid of error.context.valids){
 								if (Joi.isRef(valid)){
 									const reference = valid as Joi.Reference
@@ -182,10 +207,10 @@ export class MonsterFactory {
 					await monster.save();
 					// link skills to monster
 					monster.Skills = [];
-					for (let index in value.Skills) {
+					for (let skillName in value.Skills) {
 						const monsterSkill: MonsterSkill = new MonsterSkill();
-						monsterSkill.Bonus = value.Skills[index].Bonus;
-						monsterSkill.Skill = skillLookup[value.Skills[index].Name];
+						monsterSkill.Bonus = value.Skills[skillName];
+						monsterSkill.Skill = skillLookup[skillName];
 						monsterSkill.Monster = monster;
 						monster.Skills.push(monsterSkill);
 					}
