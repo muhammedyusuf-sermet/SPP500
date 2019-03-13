@@ -155,11 +155,12 @@ export class MonsterFactory {
 		let message = skillNames.join(',');
 		this.skillNameSchema = Joi.object({
 			Skills: Joi.object().pattern(
-				Joi.symbol().valid(skillNames),
+				Joi.string().valid(skillNames),
 				Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
 			).error((errors) => {
 				for (let error of errors){
-					error.message = "\"Skill Name\" must be one of " + message
+					if(error.type == 'object.allowUnknown' || error.type == 'any.allowOnly')
+						error.message = "\"Skill Name\" must be one of " + message
 				}
 				return errors
 			}).default({})

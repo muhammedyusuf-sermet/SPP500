@@ -216,6 +216,22 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
+				"Skills": {
+					"A": 3
+				}
+			},
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
+	});
+	
+	test('when a valid Skill is given for MonsterSkills but Skills is an array', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
 				"Skills": [{
 					"A": 3
 				}]
@@ -223,9 +239,9 @@ describe('monster creation tests', async () => {
 		});
 
 		expect.assertions(3);
-		//expect(response['status']).toBe(201);
-		//expect(response['messages'].length).toBe(1);
-		expect(response['messages'][0]).toBe("success");
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("\"Skills\" must be an object");
 	});
 
 	test('when an invalid Strength is given for AbilityScores', async () => {
