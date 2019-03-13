@@ -114,7 +114,6 @@ export interface IMonsterActions {
 }
 
 export interface IMonsterState {
-	[index:string]: any;
 	Name: string,
 	Size?: Size | string;
 	Type?: MonsterType | string;
@@ -138,10 +137,20 @@ export interface IMonsterState {
 
 	AbilityScores: IMonsterAbilityScoreState;
 	// the string part is for the payload.
-	Senses: IMonsterSenseState[] | string;
-	Skills: IMonsterSkillState[];
+	// TODO: remove the string option,
+	//  do this when the sever respects SenseMap as a payload.
+	Senses: SenseMap | string;
+	Skills: SkillMap;
 	SavingThrows: IMonsterSavingThrowState;
-	Actions: IActionState[];
+	//Actions: IActionState[];
+}
+
+export interface SkillMap {
+	[skillName: string]: number
+}
+
+export interface SenseMap {
+	[senseName: string]: number
 }
 
 export interface IMonsterAbilityScoreState {
@@ -162,16 +171,6 @@ export interface IMonsterSavingThrowState {
 	Intelligence?: number;
 	Wisdom?: number;
 	Charisma?: number;
-}
-
-export interface IMonsterSkillState {
-	Name: string;
-	Bonus: number;
-}
-
-export interface IMonsterSenseState {
-	Name: string;
-	Bonus: number;
 }
 
 export interface IActionState {
