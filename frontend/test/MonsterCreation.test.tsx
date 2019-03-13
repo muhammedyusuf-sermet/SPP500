@@ -1,27 +1,32 @@
-import * as React from "react";
+import * as React from 'react';
 import * as nock from 'nock';
-import { shallow, ShallowWrapper } from 'enzyme';
-import { MonsterCreation, MonsterDropdown, IMonsterCreationState, IMonsterCreationProps } from "../src/renderer/components/MonsterCreation";
+import { mount, ReactWrapper } from 'enzyme';
+import { MonsterCreation, IMonsterCreationState, IMonsterCreationProps } from "../src/renderer/components/MonsterCreation";
 
 import {API_URL} from '../src/config'
 import { MonsterType, Alignment, Size, MonsterRace, Environment } from "../src/monster";
-import { CookieManager } from '../src/__mocks__/cookie';
+import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
+import { CookieManager } from "../src/cookie";
 
-jest.mock('../src/cookie.ts');
+jest.mock('../src/cookie');
 
 ////// Happy Path //////
 
 
 describe('Monster Creation', () => {
 
-	let monsterCreationInstance: ShallowWrapper<IMonsterCreationProps, IMonsterCreationState, MonsterCreation>;
+	let monsterCreationInstance: ReactWrapper<IMonsterCreationProps, IMonsterCreationState, MonsterCreation>;
 
 	describe('Happy Path', () => {
 
 		beforeEach(() => {
-			CookieManager.SetStringCookie('session_token', 'hello');
 			nock.disableNetConnect();
-			monsterCreationInstance = shallow(<MonsterCreation />);
+			CookieManagerMock.SetStringCookie("session_token", "testToken");
+			// bind the normal user token function to the mock.
+			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
+			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
+			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
+			monsterCreationInstance = mount<MonsterCreation, IMonsterCreationProps, IMonsterCreationState>(<MonsterCreation />);
 		})
 
 		it('renders without crashing', () => {
@@ -33,62 +38,126 @@ describe('Monster Creation', () => {
 		});*/
 
 		it('should be able to update state', () => {
-			monsterCreationInstance.find('#name').simulate('change', { target: { value: 'Hello' } })
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Type"]').dive().find('#Type.Celestial').simulate('click', { target: { value: "Celestial" } })
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Size"]').dive().find('#Size.Gargantuan').simulate('click', { target: { value: "Gargantuan" } })
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Race"]').dive().find('#Race.Devil').simulate('click', { target: { value: "Devil" } })
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Environment"]').dive().find('#Environment.Underdark').simulate('click', { target: { value: "Underdark" } })
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Alignment"]').dive().find('#Alignment.AnyGoodAlignment').simulate('click', { target: { value: "AnyGoodAlignment" } })
-			monsterCreationInstance.find('#DamageVulnerabilities').simulate('change', { target: { value: 'Everything' } })
-			monsterCreationInstance.find('#DamageResistance').simulate('change', { target: { value: 'None at all' } })
-			monsterCreationInstance.find('#DamageImmunity').simulate('change', { target: { value: 'Nada' } })
-			monsterCreationInstance.find('#ConditionImmunity').simulate('change', { target: { value: 'Nothing' } })
-			monsterCreationInstance.find('#ArmorClass').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('#HitPoints').simulate('change', { target: { value: 40 } })
-			monsterCreationInstance.find('#HitPointDistribution').simulate('change', { target: { value: '9d5 - 5' } })
-			monsterCreationInstance.find('#SpeedLand').simulate('change', { target: { value: 25 } })
-			monsterCreationInstance.find('#SpeedSwim').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('#AbilityStrength').simulate('change', { target: { value: 17 } })
-			monsterCreationInstance.find('#AbilityDexterity').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('#AbilityConstitution').simulate('change', { target: { value: 13 } })
-			monsterCreationInstance.find('#AbilityIntelligence').simulate('change', { target: { value: 12 } })
-			monsterCreationInstance.find('#AbilityWisdom').simulate('change', { target: { value: 16 } })
-			monsterCreationInstance.find('#AbilityCharisma').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('#SavingStrength').simulate('change', { target: { value: -3 } })
-			monsterCreationInstance.find('#SavingDexterity').simulate('change', { target: { value: 0 } })
-			monsterCreationInstance.find('#SavingConstitution').simulate('change', { target: { value: -1 } })
-			monsterCreationInstance.find('#SavingIntelligence').simulate('change', { target: { value: -2 } })
-			monsterCreationInstance.find('#SavingWisdom').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('#SavingCharisma').simulate('change', { target: { value: 9 } })
-			monsterCreationInstance.find('#Athletics').simulate('change', { target: { value: 9 } })
-			monsterCreationInstance.find('#Acrobatics').simulate('change', { target: { value: 10 } })
-			monsterCreationInstance.find('#SleightOfHand').simulate('change', { target: { value: 9 } })
-			monsterCreationInstance.find('#Stealth').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('#Arcana').simulate('change', { target: { value: 7 } })
-			monsterCreationInstance.find('#History').simulate('change', { target: { value: 7 } })
-			monsterCreationInstance.find('#Investigation').simulate('change', { target: { value: 6 } })
-			monsterCreationInstance.find('#Nature').simulate('change', { target: { value: 7 } })
-			monsterCreationInstance.find('#Religion').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('#AnimalHandling').simulate('change', { target: { value: 9 } })
-			monsterCreationInstance.find('#Insight').simulate('change', { target: { value: 10 } })
-			monsterCreationInstance.find('#Medicine').simulate('change', { target: { value: 12 } })
-			monsterCreationInstance.find('#Perception').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('#Survival').simulate('change', { target: { value: 11 } })
-			monsterCreationInstance.find('#Deception').simulate('change', { target: { value: 10 } })
-			monsterCreationInstance.find('#Intimidation').simulate('change', { target: { value: 9 } })
-			monsterCreationInstance.find('#Performance').simulate('change', { target: { value: 7 } })
-			monsterCreationInstance.find('#Persuasion').simulate('change', { target: { value: 4 } })
-			monsterCreationInstance.find('#Blindsight').simulate('change', { target: { value: 30 } })
-			monsterCreationInstance.find('#Darkvision').simulate('change', { target: { value: 10} })
-			monsterCreationInstance.find('#Tremorsense').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('#Truesight').simulate('change', { target: { value: 60 } })
-			monsterCreationInstance.find('#PassivePerception').simulate('change', { target: { value: 13 } })
-			monsterCreationInstance.find('#PassiveInvestigation').simulate('change', { target: { value: 14 } })
-			monsterCreationInstance.find('#PassiveInsight').simulate('change', { target: { value: 16 } })
-			monsterCreationInstance.find('#Languages').simulate('change', { target: { value: 'Common and Draconic' } })
-			monsterCreationInstance.find('#ChallengeRating').simulate('change', { target: { value: 2.5 } })
-			monsterCreationInstance.find('#ExperiencePoints').simulate('change', { target: { value: 190 } })
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('select#Type').simulate('change', { target: { value: "Celestial" } })
+			monsterCreationInstance.find('select#Size').simulate('change', { target: { value: "Gargantuan" } })
+			monsterCreationInstance.find('select#Race').simulate('change', { target: { value: "Devil" } })
+			monsterCreationInstance.find('select#Environment').simulate('change', { target: { value: "Underdark" } })
+			monsterCreationInstance.find('select#Alignment').simulate('change', { target: { value: "AnyGoodAlignment" } })
+			monsterCreationInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: 'Everything' } })
+			monsterCreationInstance.find('Input#DamageResistances').simulate('change', { target: { value: 'None at all' } })
+			monsterCreationInstance.find('Input#DamageImmunities').simulate('change', { target: { value: 'Nada' } })
+			monsterCreationInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
+			monsterCreationInstance.find('Input#ArmorClass').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#HitPoints').simulate('change', { target: { value: 40 } })
+			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5 - 5' } })
+			monsterCreationInstance.find('Input#SpeedLand').simulate('change', { target: { value: 25 } })
+			monsterCreationInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#AbilityStrength').simulate('change', { target: { value: 17 } })
+			monsterCreationInstance.find('Input#AbilityDexterity').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#AbilityConstitution').simulate('change', { target: { value: 13 } })
+			monsterCreationInstance.find('Input#AbilityIntelligence').simulate('change', { target: { value: 12 } })
+			monsterCreationInstance.find('Input#AbilityWisdom').simulate('change', { target: { value: 16 } })
+			monsterCreationInstance.find('Input#AbilityCharisma').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#SavingStrength').simulate('change', { target: { value: -3 } })
+			monsterCreationInstance.find('Input#SavingDexterity').simulate('change', { target: { value: 0 } })
+			monsterCreationInstance.find('Input#SavingConstitution').simulate('change', { target: { value: -1 } })
+			monsterCreationInstance.find('Input#SavingIntelligence').simulate('change', { target: { value: -2 } })
+			monsterCreationInstance.find('Input#SavingWisdom').simulate('change', { target: { value: 8 } })
+			monsterCreationInstance.find('Input#SavingCharisma').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input#Athletics').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input#Acrobatics').simulate('change', { target: { value: 10 } })
+			monsterCreationInstance.find('Input#SleightOfHand').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input#Stealth').simulate('change', { target: { value: 8 } })
+			monsterCreationInstance.find('Input#Arcana').simulate('change', { target: { value: 7 } })
+			monsterCreationInstance.find('Input#History').simulate('change', { target: { value: 7 } })
+			monsterCreationInstance.find('Input#Investigation').simulate('change', { target: { value: 6 } })
+			monsterCreationInstance.find('Input#Nature').simulate('change', { target: { value: 7 } })
+			monsterCreationInstance.find('Input#Religion').simulate('change', { target: { value: 8 } })
+			monsterCreationInstance.find('Input#AnimalHandling').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input#Insight').simulate('change', { target: { value: 10 } })
+			monsterCreationInstance.find('Input#Medicine').simulate('change', { target: { value: 12 } })
+			monsterCreationInstance.find('Input#Perception').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#Survival').simulate('change', { target: { value: 11 } })
+			monsterCreationInstance.find('Input#Deception').simulate('change', { target: { value: 10 } })
+			monsterCreationInstance.find('Input#Intimidation').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input#Performance').simulate('change', { target: { value: 7 } })
+			monsterCreationInstance.find('Input#Persuasion').simulate('change', { target: { value: 4 } })
+			monsterCreationInstance.find('Input#Blindsight').simulate('change', { target: { value: 30 } })
+			monsterCreationInstance.find('Input#Darkvision').simulate('change', { target: { value: 10} })
+			monsterCreationInstance.find('Input#Tremorsense').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#Truesight').simulate('change', { target: { value: 60 } })
+			monsterCreationInstance.find('Input#PassivePerception').simulate('change', { target: { value: 13 } })
+			monsterCreationInstance.find('Input#PassiveInvestigation').simulate('change', { target: { value: 14 } })
+			monsterCreationInstance.find('Input#PassiveInsight').simulate('change', { target: { value: 16 } })
+			monsterCreationInstance.find('Input#Languages').simulate('change', { target: { value: 'Common and Draconic' } })
+			monsterCreationInstance.find('Input#ChallengeRating').simulate('change', { target: { value: 2.5 } })
+			monsterCreationInstance.find('Input#ExperiencePoints').simulate('change', { target: { value: 190 } })
 			//console.log(monsterCreationInstance.state())
+			const expectedMonster = {
+				Name: "Hello",
+				Type: MonsterType.Celestial,
+				Alignment: Alignment.AnyGoodAlignment,
+				Size: Size.Gargantuan,
+				Race: MonsterRace.Devil,
+				Environment: Environment.Underdark,
+				DamageVulnerabilities: "Everything",
+				DamageResistances: "None at all",
+				DamageImmunities: "Nada",
+				ConditionImmunities: "Nothing",
+				ArmorClass: 15,
+				HitPoints: 40,
+				HitPointDistribution: "9d5 - 5",
+				AbilityScores: {
+					Strength: 17,
+					Dexterity: 15,
+					Constitution: 13,
+					Intelligence: 12,
+					Wisdom: 16,
+					Charisma: 15
+				},
+				SavingThrows: {
+					Strength: -3,
+					Dexterity: 0,
+					Constitution: -1,
+					Intelligence: -2,
+					Wisdom: 8,
+					Charisma: 9
+				},
+				Skills: {
+					Athletics: 9,
+					Acrobatics: 10,
+					SleightOfHand: 9,
+					Stealth: 8,
+					Arcana: 7,
+					History: 7,
+					Investigation: 6,
+					Nature: 7,
+					Religion: 8,
+					AnimalHandling: 9,
+					Insight: 10,
+					Medicine: 12,
+					Perception: 15,
+					Survival: 11,
+					Deception: 10,
+					Intimidation: 9,
+					Performance: 7,
+					Persuasion: 4,
+				},
+				Senses: {
+					Blindsight: 30,
+					Darkvision: 10,
+					Tremorsense: 15,
+					Truesight: 60,
+					PassivePerception: 13,
+					PassiveInvestigation: 14,
+					PassiveInsight: 16,
+				},
+				Languages: "Common and Draconic",
+				ChallengeRating: 2.5,
+				//abilities: [],
+				//actions: [],
+			};
 			expect(monsterCreationInstance.state()).toEqual({
 					submitted: false,
 					modal: {
@@ -97,71 +166,8 @@ describe('Monster Creation', () => {
 					},
 					SpeedLand: 25,
 					SpeedSwim: 15,
-					experiencePoints: 190,
-					monster: {
-						Name: "Hello",
-						Type: MonsterType.Celestial,
-						Alignment: Alignment.AnyGoodAlignment,
-						Size: Size.Gargantuan,
-						Race: MonsterRace.Devil,
-						Environment: Environment.Underdark,
-						DamageVulnerabilities: "Everything",
-						DamageResistances: "None at all",
-						DamageImmunities: "Nada",
-						ConditionImmunities: "Nothing",
-						ArmorClass: 15,
-						HitPoints: 40,
-						HitPointDistribution: "9d5 - 5",
-						AbilityScores: {
-							Strength: 17,
-							Dexterity: 15,
-							Constitution: 13,
-							Intelligence: 12,
-							Wisdom: 16,
-							Charisma: 15
-						},
-						SavingThrows: {
-							Strength: -3,
-							Dexterity: 0,
-							Constitution: -1,
-							Intelligence: -2,
-							Wisdom: 8,
-							Charisma: 9
-						},
-						Skills: {
-							Athletics: 9,
-							Acrobatics: 10,
-							SleightOfHand: 9,
-							Stealth: 8,
-							Arcana: 7,
-							History: 7,
-							Investigation: 6,
-							Nature: 7,
-							Religion: 8,
-							AnimalHandling: 9,
-							Insight: 10,
-							Medicine: 12,
-							Perception: 15,
-							Survival: 11,
-							Deception: 10,
-							Intimidation: 9,
-							Performance: 7,
-							Persuasion: 4,
-						},
-						Senses: {
-							Blindsight: 30,
-							Darkvision: 10,
-							Tremorsense: 15,
-							Truesight: 60,
-							PassivePerception: 13,
-							PassiveInvestigation: 14,
-							PassiveInsight: 16,
-						},
-						Languages: "Common and Draconic",
-						ChallengeRating: 2.5,
-						//abilities: [],
-						//actions: [],
-					}
+					ExperiencePoints: 190,
+					monster: expectedMonster
 			})
 			nock(API_URL)
 			.post('/monster/create', {
@@ -221,32 +227,32 @@ describe('Monster Creation', () => {
 				//abilities: [],
 				//actions: [],
 			})
-			.reply(201, { status:201, message: 'success' });
+			.reply(201, { status: 201, message: 'success' });
 			monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
 		});
 
 		it('should change only types when type is changed', () => {
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Type"]').dive().find('#Type.Undead').simulate('click', { target: { value: "Undead" } })
+			monsterCreationInstance.find('select#Type').simulate('change', { target: { value: "Undead" } })
 			expect(monsterCreationInstance.state().monster.Type).toEqual(MonsterType.Undead);
 		})
 
 		it('should change only alignment when alignment is changed', () => {
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Alignment"]').dive().find('#Alignment.AnyNonEvilAlignment').simulate('click', { target: { value: "AnyNonEvilAlignment" } })
+			monsterCreationInstance.find('select#Alignment').simulate('change', { target: { value: "AnyNonEvilAlignment" } })
 			expect(monsterCreationInstance.state().monster.Alignment).toEqual(Alignment.AnyNonEvilAlignment);
 		})
 
 		it('should change only size when size is changed', () => {
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Size"]').dive().find('#Size.Large').simulate('click', { target: { value: "Large" } })
+			monsterCreationInstance.find('select#Size').simulate('change', { target: { value: "Large" } })
 			expect(monsterCreationInstance.state().monster.Size).toEqual(Size.Large);
 		})
 
 		it('should change only races when race is changed', () => {
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Race"]').dive().find('#Race.Goblinoid').simulate('click', { target: { value: "Goblinoid" } })
+			monsterCreationInstance.find('select#Race').simulate('change', { target: { value: "Goblinoid" } })
 			expect(monsterCreationInstance.state().monster.Race).toEqual(MonsterRace.Goblinoid);
 		})
 
 		it('should change only environments when environment is changed', () => {
-			monsterCreationInstance.find(MonsterDropdown).find('[name="Environment"]').dive().find('#Environment.Coastal').simulate('click', { target: { value: "Coastal" } })
+			monsterCreationInstance.find('select#Environment').simulate('change', { target: { value: "Coastal" } })
 			expect(monsterCreationInstance.state().monster.Environment).toEqual(Environment.Coastal);
 		})
 	})
