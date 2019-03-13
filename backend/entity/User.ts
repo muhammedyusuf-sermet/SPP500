@@ -10,8 +10,8 @@ export interface IUserData {
 	HashedPassword: string;
 	Type: string;
 	
-    CreatedEncounters: IEncounterData[];
-    CreatedCampaigns: ICampaignData[];
+	CreatedEncounters: IEncounterData[];
+	CreatedCampaigns: ICampaignData[];
 }
 
 @Entity()
@@ -42,9 +42,9 @@ export class User extends BaseEntity implements IUserData {
 	Type: string;
 	
 	@OneToMany(() => Encounter, encounter => encounter.Creator)
-    CreatedEncounters: Encounter[];
+	CreatedEncounters: Encounter[];
 
-    @OneToMany(() => Campaign, campaign => campaign.Creator)
-    CreatedCampaigns: Campaign[];
+	@OneToMany(() => Campaign, campaign => campaign.Creator)
+	CreatedCampaigns: Campaign[];
 
 }
