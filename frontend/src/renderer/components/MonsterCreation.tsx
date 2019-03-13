@@ -1,13 +1,15 @@
 import * as React from 'react';
-var request = require("request");
+import request, { Response } from 'request';
+
 
 import { API_URL } from '../../config';
-import Joi from 'joi';
+import Joi, { ValidationError, ValidationErrorItem, string } from 'joi';
 
 import "../css/create_monster.css"
 import {Redirect} from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Label, Dropdown, Button, DropdownTrigger, DropdownMenu, DropdownItem, DropdownContent, Tile, Field, Control, Input, Title, Subtitle, Help } from 'bloomer';
-import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterSkillState, IMonsterSenseState } from '../../monster';
+import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, SenseMap } from '../../monster';
+import { CookieManager } from '../../cookie';
 
 const types = Object.values(MonsterType);
 const sizes = Object.keys(Size);
@@ -15,17 +17,17 @@ const races = Object.keys(MonsterRace);
 const environments = Object.keys(Environment);
 const alignments = Object.keys(Alignment);
 
-interface IMonsterDropdownProps {
+export interface IMonsterDropdownProps {
 	name: string,
 	options: string[]
 	onChange: (selectOption: string) => void
 }
 
-interface IMonsterDropdownState {
+export interface IMonsterDropdownState {
 	selected: string
 }
 
-class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMonsterDropdownState> {
+export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMonsterDropdownState> {
 	constructor(props: IMonsterDropdownProps) {
 		super(props);
 		this.state = {
@@ -52,10 +54,11 @@ class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMonsterDro
 						<DropdownContent>
 							{this.props.options.map(option =>
 							<DropdownItem
+								id={this.props.name+'.'+option}
 								value={option}
 								onClick={this.handleChange}
 								isActive={option == this.state.selected}>
-								{option}
+								{option.replace(/([A-Z])/g, ' $1').trim()}
 							</DropdownItem>)}
 						</DropdownContent>
 					</DropdownMenu>
@@ -66,7 +69,7 @@ class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMonsterDro
 }
 
 export interface IMonsterCreationProps {
-	defaultMonster: IMonsterState
+	defaultMonster?: IMonsterState
 }
 
 export interface IMonsterCreationState {
@@ -87,6 +90,73 @@ interface IMonsterCreationResponse {
 }
 
 export class MonsterCreation extends React.Component<IMonsterCreationProps, IMonsterCreationState> {
+	// TODO move skillNames, senseNames, abilityScoreNames, savingThrowNames to the monster file.
+	private skillNames = [
+		"Acrobatics", "AnimalHandling", "Arcana", "Athletics", "Deception", "History", "Insight",
+		"Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance",
+		"Persuasion", "Religion", "SleightOfHand", "Stealth", "Survival" ];
+	private senseNames = [
+		"Blindsight", "Darkvision", "Tremorsense", "Truesight",
+		"PassivePerception", "PassiveInvestigation", "PassiveInsight" ];
+	private abilityScoreNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
+	private savingThrowNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
+	private payloadSchema = Joi.object({
+		Name: Joi.string().required().max(50),
+		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
+		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
+		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
+		Alignment: Joi.string().valid(Joi.ref('$AlignmentOptions')),
+		Environment: Joi.string().valid(Joi.ref('$EnvironmentOptions')),
+		ArmorClass: Joi.number().integer().greater(0),
+		HitPoints: Joi.number().integer().greater(0),
+		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
+		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
+		Speed: Joi.string().max(100),
+		// TODO: change senses to a dictionary and send just like skills, when the backend changes.
+		Senses: Joi.string().max(250),
+		Languages: Joi.string().max(100),
+		DamageVulnerabilities: Joi.string().allow('').max(200),
+		DamageResistances: Joi.string().allow('').max(200),
+		DamageImmunities: Joi.string().allow('').max(200),
+		ConditionImmunities: Joi.string().allow('').max(200),
+		ChallengeRating: Joi.number().greater(0),
+		ExperiencePoints: Joi.number().greater(0),
+		AbilityScores: Joi.object({
+			Strength: Joi.number().integer().greater(0),
+			Dexterity: Joi.number().integer().greater(0),
+			Constitution: Joi.number().integer().greater(0),
+			Intelligence: Joi.number().integer().greater(0),
+			Wisdom: Joi.number().integer().greater(0),
+			Charisma: Joi.number().integer().greater(0)
+		}).default({}),
+		SavingThrows: Joi.object({
+			Strength: Joi.number().integer(),
+			Dexterity: Joi.number().integer(),
+			Constitution: Joi.number().integer(),
+			Intelligence: Joi.number().integer(),
+			Wisdom: Joi.number().integer(),
+			Charisma: Joi.number().integer()
+		}).default({}),
+		/* This is how to send skills as a dictionary. */
+		Skills: Joi.object().pattern(
+			Joi.symbol().valid(this.skillNames),
+			Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+		).default({}),
+		/* This is how to send skills as an array of objects.
+		Skills: Joi.array().items(Joi.object({
+			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
+			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
+		})).default([]),*/
+		Actions: Joi.array().items(Joi.object({
+			Name: Joi.string().required().max(50),
+			Description: Joi.string().required().max(250),
+			HitBonus: Joi.number().integer().greater(0).allow(0),
+			Damage: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'range'),
+			DamageBonus: Joi.number().integer().greater(0).allow(0),
+			Type: Joi.string().valid(Joi.ref('$ActionOptions'))
+		}).label('Action Items')).default([])
+	});
+
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -95,32 +165,33 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				open: false,
 				message: ""
 			},
-			monster: props.defaultMonster
+			monster: props.defaultMonster == undefined ? {
+				Name: '',
+				AbilityScores: {},
+				SavingThrows: {},
+				Senses: {},
+				Skills: {},
+			} : props.defaultMonster
 		};
-		this.Skills = new Map();
-		this.Senses = new Map();
-		const skillNames = [
-			"Acrobatics", "AnimalHandling", "Arcana", "Athletics", "Deception",
-			"History", "Insight", "Intimidation", "Investigation", "Medicine",
-			"Nature", "Perception", "Performance", "Persuasion", "Religion",
-			"SleightOfHand", "Stealth", "Survival" ];
-		for(let skillName of skillNames)
+		if(this.state.monster.Senses instanceof string){
+			let stringSenses = this.state.monster.Senses as string;
+			let eachSense = stringSenses.split('.');
+			this.state.monster.Senses = {}
+			for (let sense of eachSense) {
+				const senseName = sense.split(':')[0].trim()
+				const senseValue = this.stringToNumber(sense.split(':')[1].replace(/[^0-9]/g,''));
+				this.state.monster.Senses[senseName] = senseValue;
+			}
+		}
+		for(let skillName of this.skillNames)
 			this.SkillChange.set(skillName, this.handleMonsterSkillChange(skillName));
-		const senseNames = [
-			"Blindsight", "Darkvision", "Tremorsense", "Truesight",
-			"PassivePerception", "PassiveInvestigation", "PassiveInsight" ];
-		for(let senseName of senseNames)
+		for(let senseName of this.senseNames)
 			this.SensesChange.set(senseName, this.handleMonsterSenseChange(senseName));
-		const abilityScoreNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
-		for(let abilityScoreName of abilityScoreNames)
+		for(let abilityScoreName of this.abilityScoreNames)
 			this.AbilityScoreChange.set(abilityScoreName, this.handleMonsterAbilityScoreChange(abilityScoreName));
-		const savingThrowNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
-		for(let savingThrowName of savingThrowNames)
+		for(let savingThrowName of this.savingThrowNames)
 			this.AbilityScoreChange.set(savingThrowName, this.handleMonsterAbilityScoreChange(savingThrowName));
 	}
-
-	Skills: Map<string, IMonsterSkillState>;
-	Senses: Map<string, IMonsterSenseState>;
 
 	openModal = (messageText: string) => {
 		const modal = this.state.modal
@@ -277,11 +348,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	SkillChange: Map<string, ((event: React.ChangeEvent<HTMLInputElement>) => void)> = new Map();
 	handleMonsterSkillChange = (name: string) =>
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			this.Skills.set(name, { Name: name, Bonus: this.stringToNumber(event.target.value) });
 			this.setState({
 				monster: {
 					...this.state.monster,
-					Skills: Array.from(this.Skills.values())
+					Skills: {
+						...this.state.monster.Skills,
+						[name]: this.stringToNumber(event.target.value)
+					}
 				}
 			})
 		};
@@ -289,11 +362,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	SensesChange: Map<string, ((event: React.ChangeEvent<HTMLInputElement>) => void)> = new Map();
 	handleMonsterSenseChange = (name: string) =>
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			this.Senses.set(name, { Name: name, Bonus: this.stringToNumber(event.target.value) });
 			this.setState({
 				monster: {
 					...this.state.monster,
-					Senses: Array.from(this.Senses.values())
+					Senses: {
+						...(this.state.monster.Senses as SenseMap),
+						[name]: this.stringToNumber(event.target.value)
+					}
 				}
 			})
 		};
@@ -313,9 +388,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	}
 
 	handleMonsterExperiencePointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
 		this.setState({
-			monster: { ...monster, experiencePoints: this.stringToNumber(event.target.value) }
+			ExperiencePoints: this.stringToNumber(event.target.value)
 		})
 	}
 
@@ -335,182 +409,116 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	}
 	*/
 
-	render() {
-		let experiencePointsError = this.state.monster.experiencePoints < 0
-		let landSpeedError = this.state.monster.speedLand < 0
-		let swimmingSpeedError = !((this.state.monster.speedSwim != null) && this.state.monster.speedSwim >= 0)
+	private validateForm = (event: React.FormEvent) => {
+		event.preventDefault();
 
-		const validateForm = (event: React.FormEvent) => {
-
-			event.preventDefault();
-
-			if (baseHitPointsError || hitPointDiceError || armorClassError || strStatError
-				|| dexStatError || conStatError || intStatError || wisStatError || chaStatError
-				|| challengeRatingError || experiencePointsError || landSpeedError || swimmingSpeedError) {
-					event.preventDefault();
-			}
-			else {
-				// Must remove spaces because of postgres issue
-				let monsterType = Monster.MonsterTypeNames.get(this.state.monster.type)
-				let monsterTypeString = monsterType != null ? monsterType.split(" ").join("") : ""
-				let monsterAlignment = Monster.MonsterAlignmentNames.get(this.state.monster.alignment)
-				let monsterAlignmentString = monsterAlignment != null ? monsterAlignment.split(" ").join("") : ""
-				let hitPointDiceModifier = this.state.monster.hitPointDiceAdd != null ? this.state.monster.hitPointDiceAdd : 0
-				let monsterHitPointDistribution = hitPointDiceModifier < 0 ? this.state.monster.hitPointDice + "" + hitPointDiceModifier : this.state.monster.hitPointDice + "+" + hitPointDiceModifier
-				let monsterSpeed = this.state.monster.speedLand + "ft."
-				monsterSpeed = this.state.monster.speedSwim != null ? monsterSpeed + " Swimming Speed: " + this.state.monster.speedSwim + " ft." : monsterSpeed
-				let monsterSenses = ""
-				monsterSenses = this.state.monster.sensesBlindsight != null ? monsterSenses + "Blindsight: " + this.state.monster.sensesBlindsight + " ft. " : monsterSenses
-				monsterSenses = this.state.monster.sensesDarkvision != null ? monsterSenses + "Darkvision: " + this.state.monster.sensesDarkvision + " ft. " : monsterSenses
-				monsterSenses = this.state.monster.sensesTremorsense != null ? monsterSenses + "Tremorsense: " + this.state.monster.sensesTremorsense + " ft. " : monsterSenses
-				monsterSenses = this.state.monster.sensesTruesight != null ? monsterSenses + "Truesight: " + this.state.monster.sensesTruesight + " ft. " : monsterSenses
-				monsterSenses = this.state.monster.sensesPassiveInsight != null ? monsterSenses + "Passive Insight: " + this.state.monster.sensesPassiveInsight + ". " : monsterSenses
-				monsterSenses = this.state.monster.sensesPassiveInvestigation != null ? monsterSenses + "Passive Investigation: " + this.state.monster.sensesPassiveInvestigation + ". " : monsterSenses
-				monsterSenses = this.state.monster.sensesPassivePerception ? monsterSenses + "Passive Perception: " + this.state.monster.sensesPassivePerception + ". " : monsterSenses
-				monsterSenses = monsterSenses.length == 0 ? monsterSenses : monsterSenses.substring(0, monsterSenses.length - 1);
-				let monsterRace = this.state.monster.race != null ? Monster.MonsterRaceNames.get(this.state.monster.race) : "";
-				monsterRace = monsterRace == null ? "" : monsterRace.replace(/\s/g, '')
-
-				let payloadToSend = {
-					"Name" : this.state.monster.name,
-					"Size" : Monster.MonsterSizeNames.get(this.state.monster.size),
-					"Type" : monsterTypeString,
-					"Race" : monsterRace,
-					"Environment" : Monster.MonsterEnvironmentNames.get(this.state.monster.environment),
-					"Alignment" : monsterAlignmentString,
-					"ArmorClass" : this.state.monster.armorClass,
-					"HitPoints" : this.state.monster.hitPoints,
-					"HitPointDistribution": monsterHitPointDistribution,
-					"Speed": monsterSpeed,
-					"Senses": monsterSenses,
-					"Languages": this.state.monster.languages,
-					"DamageVulnerabilities": this.state.monster.vulnerability,
-					"DamageResistances": this.state.monster.resistance,
-					"DamageImmunities": this.state.monster.damageImmunity,
-					"ConditionImmunities": this.state.monster.conditionImmunity,
-					"ChallengeRating": this.state.monster.challengeRating,
-					"ExperiencePoints": this.state.monster.experiencePoints,
-					"AbilityScores": {
-						"Strength": this.state.monster.strStat,
-						"Dexterity": this.state.monster.dexStat,
-						"Constitution": this.state.monster.conStat,
-						"Intelligence": this.state.monster.intStat,
-						"Wisdom": this.state.monster.wisStat,
-						"Charisma": this.state.monster.chaStat
-					},
-					"SavingThrows": {
-						"Strength": this.state.monster.strSavingThrow,
-						"Dexterity": this.state.monster.dexSavingThrow,
-						"Constitution": this.state.monster.conSavingThrow,
-						"Intelligence": this.state.monster.intSavingThrow,
-						"Wisdom": this.state.monster.wisSavingThrow,
-						"Charisma": this.state.monster.chaSavingThrow
-					},
-					"Skills": [
-						/*{
-							"Name": "Acrobatics",
-							"Bonus": this.state.monster.skillsAcrobatics
-						}, {
-							"Name": "Animal Handling",
-							"Bonus": this.state.monster.skillsAnimalHandling
-						}, {
-							"Name": "Arcana",
-							"Bonus": this.state.monster.skillsArcana
-						}, {
-							"Name": "Athletics",
-							"Bonus": this.state.monster.skillsAthletics
-						}, {
-							"Name": "Deception",
-							"Bonus": this.state.monster.skillsDeception
-						}, {
-							"Name": "History",
-							"Bonus": this.state.monster.skillsHistory
-						}, {
-							"Name": "Insight",
-							"Bonus": this.state.monster.skillsInsight
-						}, {
-							"Name": "Intimidation",
-							"Bonus": this.state.monster.skillsIntimidation
-						}, {
-							"Name": "Investigation",
-							"Bonus": this.state.monster.skillsInvestigation
-						}, {
-							"Name": "Medicine",
-							"Bonus": this.state.monster.skillsMedicine
-						}, {
-							"Name": "Nature",
-							"Bonus": this.state.monster.skillsNature
-						}, {
-							"Name": "Perception",
-							"Bonus": this.state.monster.skillsPerception
-						}, {
-							"Name": "Performance",
-							"Bonus": this.state.monster.skillsPerformance
-						}, {
-							"Name": "Persuasion",
-							"Bonus": this.state.monster.skillsPersuasion
-						}, {
-							"Name": "Religion",
-							"Bonus": this.state.monster.skillsReligion
-						}, {
-							"Name": "Sleight of Hand",
-							"Bonus": this.state.monster.skillsSleightOfHand
-						}, {
-							"Name": "Stealth",
-							"Bonus": this.state.monster.skillsStealth
-						}, {
-							"Name": "Survival",
-							"Bonus": this.state.monster.skillsSurvival
-						}*/
-					]
+			// need to convert speed to single string
+			let monsterSpeed = this.state.SpeedLand + "ft."
+			monsterSpeed = this.state.SpeedSwim != null ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
+			// TODO remove this when the payload accepts senses as a dictionary.
+			let monsterSenses = ""
+			for (let sense in this.state.monster.Senses as SenseMap) {
+				let units = '';
+				if (sense.startsWith('Passive')) {
+					units = '.';
+				} else {
+					units = ' ft.';
 				}
-
-				var options = { method: 'POST',
-					url: API_URL + '/monster/create',
-					headers:
-					{
-						'Postman-Token': '018e4453-e95a-4e44-a86e-aa221fd77525',
-						'Cache-Control': 'no-cache',
-						'Content-Type': 'application/json' ,
-						'Authorization': CookieManager.UserToken('session_token')
-					},
-					body: payloadToSend,
-					json: true
-					};
-
-				//console.log(payloadToSend)
-
-				request(options, (error:string, response:string, body: IMonsterCreationResponse) => {
-					if (!error && body.status === 201) { // success
-						this.closeModal();
-						this.openModal("Monster successfully created.");
-						this.setState(
-							{
-								submitted: true
-							}
-						);
-					} else {
-						this.closeModal();
-						if (body.messages){
-							// TODO: change backend so it sends better error messages.
-							// TODO: parse the error messages so they show better.
-							// TODO: maybe the messages from the server shouldn't be
-							// a list of strings but a JSON object so things are
-							// grouped together. Easier to parse?
-							this.openModal(body.messages.toString());
-						}else{
-							this.openModal("There was an error submitting your request. Please try again later.")
-						}
-					}
-				})
-
+				if ((this.state.monster.Senses as SenseMap)[sense]>0)
+					monsterSenses += ' ' + sense + ': ' + (this.state.monster.Senses as SenseMap)[sense]+ units;
 			}
+			monsterSenses = monsterSenses.trim();
+			const monsterPayload: IMonsterState = {
+				...this.state.monster,
+				Speed: monsterSpeed,
+				Senses: monsterSenses
+			}
+
+			const validateOptions: Joi.ValidationOptions = {
+				abortEarly: false,
+				convert: true,
+				allowUnknown: false,
+				context: {
+					SizeOptions: Object.keys(Size),
+					TypeOptions: Object.keys(MonsterType),
+					RaceOptions: Object.keys(MonsterRace),
+					AlignmentOptions: Object.keys(Alignment),
+					EnvironmentOptions: Object.keys(Environment)
+				}
+			}
+
+			let errors = Joi.validate(
+				monsterPayload,
+				this.payloadSchema,
+				validateOptions,
+				(errors: ValidationError, validationValue: any) => {
+					if(errors){
+						const messages: Set<string> = new Set<string>();
+						errors.details.forEach((error: ValidationErrorItem) => {
+							let message: string = ''
+							if ((error.type == 'any.allowOnly') && error.context && validateOptions) {
+								for (let valid of error.context.valids){
+									if (Joi.isRef(valid)){
+										const reference = valid as Joi.Reference
+										message += reference(null, validateOptions) + ',';
+									} else {
+										message += valid + ','
+									}
+								}
+							}
+							message = error.message.split('[')[0] + message.substr(0,message.length-1);
+							messages.add(message);
+						})
+						return Array.from(messages.values());
+					}else{
+						var options = { method: 'POST',
+							url: API_URL + '/monster/create',
+							headers:
+							{
+								'Cache-Control': 'no-cache',
+								'Content-Type': 'application/json' ,
+								'Authorization': CookieManager.UserToken('session_token')
+							},
+							body: validationValue,
+							json: true
+						};
+
+						request(options, (error:string, responce: Response, body: IMonsterCreationResponse) => {
+							if (!error && body.status === 201) { // success
+								this.openModal("Monster successfully created.");
+								this.setState(
+									{
+										submitted: true
+									}
+								);
+							} else {
+								this.closeModal();
+								if (body.messages){
+									// TODO: change backend so it sends better error messages.
+									// TODO: parse the error messages so they show better.
+									// TODO: maybe the messages from the server shouldn't be
+									// a list of strings but a JSON object so things are
+									// grouped together. Easier to parse?
+									this.openModal(body.messages.toString());
+								}else{
+									this.openModal("There was an error submitting your request. Please try again later.")
+								}
+							}
+						})
+						return undefined;
+					}
+				}
+			);
+			if(errors)
+				// These errors are from validation and may be irrelevent or out of date.
+				this.openModal(errors.toString());
 		}
 
+	render() {
 		return (
-			this.state.submitted ? <Redirect to="/"/> :
+			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
 			<div className="monster-creation-container">
-				<form onSubmit={validateForm}>
+				<form onSubmit={this.validateForm}>
 					<Title className="page-title">Create a Monster</Title>
 					<Field>
 						<Control>
@@ -528,21 +536,21 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Subtitle>Type Configurations</Subtitle>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
-								<MonsterDropdown name={'Type'} options={types} onChange={this.handleMonsterTypeChange} />
+								<MonsterDropdown name='Type' options={types} onChange={this.handleMonsterTypeChange} />
 							</Control>
 							<Control isExpanded>
-								<MonsterDropdown name={'Size'} options={sizes} onChange={this.handleMonsterSizeChange} />
+								<MonsterDropdown name='Size' options={sizes} onChange={this.handleMonsterSizeChange} />
 							</Control>
 							<Control isExpanded>
-								<MonsterDropdown name={'Race'} options={races} onChange={this.handleMonsterRaceChange} />
+								<MonsterDropdown name='Race' options={races} onChange={this.handleMonsterRaceChange} />
 							</Control>
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
-								<MonsterDropdown name={'Alignment'} options={alignments} onChange={this.handleMonsterAlignmentChange} />
+								<MonsterDropdown name='Alignment' options={alignments} onChange={this.handleMonsterAlignmentChange} />
 							</Control>
 							<Control isExpanded>
-								<MonsterDropdown name={'Environment'} options={environments} onChange={this.handleMonsterEnvironmentChange} />
+								<MonsterDropdown name='Environment' options={environments} onChange={this.handleMonsterEnvironmentChange} />
 							</Control>
 						</Field>
 					</Box>
@@ -804,164 +812,160 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box>
-									<Field>
-										<Control>
-											<Input
-												id='Strength'
-												type='number'
-												placeholder='Strength'
-												autoComplete='Strength'
-												value={this.state.monster.Skills[0].Bonus}
-												onChange={this.SavingThrowChange.get('Strength')} />
-										</Control>
-									</Field>
+									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))-1).map(skillName => {
+										<Field>
+											<Control>
+												<Input
+													id={skillName}
+													type='number'
+													placeholder={skillName}
+													autoComplete={skillName}
+													value={this.state.monster.Skills[skillName]}
+													onChange={this.SkillChange.get(skillName)} />
+											</Control>
+										</Field>
+									})}
+								</Box>
+								} />
+						</Tile>
+						<Tile isSize={4} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))-1).map(skillName => {
+										<Field>
+											<Control>
+												<Input
+													id={skillName}
+													type='number'
+													placeholder={skillName}
+													autoComplete={skillName}
+													value={this.state.monster.Skills[skillName]}
+													onChange={this.SkillChange.get(skillName)} />
+											</Control>
+										</Field>
+									})}
+								</Box>
+								} />
+						</Tile>
+						<Tile isSize={4} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									{this.skillNames.slice(Math.round(this.skillNames.length*(2/3))).map(skillName => {
+										<Field>
+											<Control>
+												<Input
+													id={skillName}
+													type='number'
+													placeholder={skillName}
+													autoComplete={skillName}
+													value={this.state.monster.Skills[skillName]}
+													onChange={this.SkillChange.get(skillName)} />
+											</Control>
+										</Field>
+									})}
 								</Box>
 								} />
 						</Tile>
 					</Tile>
-					<Grid container spacing={24}>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="athletics" label="Athletics Modifier" value={this.state.monster.skillsAthletics} onChange={this.handleMonsterAthleticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="acrobatics" label="Acrobatics Modifier" value={this.state.monster.skillsAcrobatics} onChange={this.handleMonsterAcrobaticsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="sleightOfHand" label="Sleight of Hand Modifier" value={this.state.monster.skillsSleightOfHand} onChange={this.handleMonsterSleightOfHandChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="stealth" label="Stealth Modifier" value={this.state.monster.skillsStealth} onChange={this.handleMonsterStealthChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="arcana" label="Arcana Modifier" value={this.state.monster.skillsArcana} onChange={this.handleMonsterArcanaChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="history" label="History Modifier" value={this.state.monster.skillsHistory} onChange={this.handleMonsterHistoryChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="investigation" label="Investigation Modifier" value={this.state.monster.skillsInvestigation} onChange={this.handleMonsterInvestigationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="nature" label="Nature Modifier" value={this.state.monster.skillsNature} onChange={this.handleMonsterNatureChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="religion" label="Religion Modifier" value={this.state.monster.skillsReligion} onChange={this.handleMonsterReligionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="animalHandling" label="Animal Handling Modifier" value={this.state.monster.skillsAnimalHandling} onChange={this.handleMonsterAnimalHandlingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="insight" label="Insight Modifier" value={this.state.monster.skillsInsight} onChange={this.handleMonsterInsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="medicine" label="Medicine Modifier" value={this.state.monster.skillsMedicine} onChange={this.handleMonsterMedicineChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="perception" label="Perception Modifier" value={this.state.monster.skillsPerception} onChange={this.handleMonsterPerceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="survival" label="Survival Modifier" value={this.state.monster.skillsSurvival} onChange={this.handleMonsterSurvivalChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="deception" label="Deception Modifier" value={this.state.monster.skillsDeception} onChange={this.handleMonsterDeceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="intimidation" label="Intimidation Modifier" value={this.state.monster.skillsIntimidation} onChange={this.handleMonsterIntimidationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="performance" label="Performance Modifier" value={this.state.monster.skillsPerformance} onChange={this.handleMonsterPerformanceChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="persuasion" label="Persuasion Modifier" value={this.state.monster.skillsPersuasion} onChange={this.handleMonsterPersuasionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={3}>
-							<div className="form-group">
-								<TextField error = {false} id="blindsight" label="Blindsight" value={this.state.monster.sensesBlindsight} onChange={this.handleMonsterBlindsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={3}>
-							<div className="form-group">
-								<TextField error = {false} id="darkvision" label="Darkvision" value={this.state.monster.sensesDarkvision} onChange={this.handleMonsterDarkvisionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={3}>
-							<div className="form-group">
-								<TextField error = {false} id="tremorsense" label="Tremorsense" value={this.state.monster.sensesTremorsense} onChange={this.handleMonsterTremorsenseChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={3}>
-							<div className="form-group">
-								<TextField error = {false} id="truesight" label="Truesight" value={this.state.monster.sensesTruesight} onChange={this.handleMonsterTruesightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="passivePerception" label="Passive Perception" value={this.state.monster.sensesPassivePerception} onChange={this.handleMonsterPassivePerceptionChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="passiveInvestigation" label="Passive Investigation" value={this.state.monster.sensesPassiveInvestigation} onChange={this.handleMonsterPassiveInvestigationChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={4}>
-							<div className="form-group">
-								<TextField error = {false} id="passiveInsight" label="Passive Insight" value={this.state.monster.sensesPassiveInsight} onChange={this.handleMonsterPassiveInsightChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={12}>
-							<div className="form-group">
-								<TextField error={false} margin="dense" value={this.state.monster.languages} id="languages" label="Languages" helperText="" fullWidth onChange={this.handleMonsterLanguagesChange}/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {challengeRatingError} helperText={challengeRatingError? "You cannot have a negative challenge rating." : ""} required id="challengeRating" label="Challenge Rating" value={this.state.monster.challengeRating} onChange={this.handleMonsterChallengeRatingChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-						<Grid item xs={6}>
-							<div className="form-group">
-								<TextField error = {experiencePointsError} helperText={experiencePointsError? "You cannot have negative experience points." : ""} required id="experiencePoints" label="Experience Points" value={this.state.monster.experiencePoints} onChange={this.handleMonsterExperiencePointsChange} type="number" InputLabelProps={{ shrink: true }} margin="normal"/>
-							</div>
-						</Grid>
-					</Grid>
-					<Button className="button" variant="contained" color="primary" type="submit"> Create Monster </Button>
+					<Tile isAncestor>
+						<Subtitle>Sense Bonuses</Subtitle>
+						<Tile isSize={4} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))-1).map(senseName => {
+										<Field>
+											<Control>
+												<Input
+													id={senseName}
+													type='number'
+													placeholder={senseName}
+													autoComplete={senseName}
+													value={(this.state.monster.Senses as SenseMap)[senseName]}
+													onChange={this.SensesChange.get(senseName)} />
+											</Control>
+										</Field>
+									})}
+								</Box>
+								} />
+						</Tile>
+						<Tile isSize={4} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))-1).map(senseName => {
+										<Field>
+											<Control>
+												<Input
+													id={senseName}
+													type='number'
+													placeholder={senseName}
+													autoComplete={senseName}
+													value={(this.state.monster.Senses as SenseMap)[senseName]}
+													onChange={this.SensesChange.get(senseName)} />
+											</Control>
+										</Field>
+									})}
+								</Box>
+								} />
+						</Tile>
+						<Tile isSize={4} isParent>
+							<Tile isChild render={ (props: any) =>
+								<Box>
+									{this.senseNames.slice(Math.round(this.senseNames.length*(2/3))).map(senseName => {
+										<Field>
+											<Control>
+												<Input
+													id={senseName}
+													type='number'
+													placeholder={senseName}
+													autoComplete={senseName}
+													value={(this.state.monster.Senses as SenseMap)[senseName]}
+													onChange={this.SensesChange.get(senseName)} />
+											</Control>
+										</Field>
+									})}
+								</Box>
+								} />
+						</Tile>
+					</Tile>
+					<Box>
+						<Subtitle>Final Touches</Subtitle>
+						<Field>
+							<Control>
+								<Input
+									id='Languages'
+									type='text'
+									placeholder='Languages'
+									autoComplete='Languages'
+									value={this.state.monster.Languages}
+									onChange={this.handleMonsterLanguagesChange} />
+							</Control>
+						</Field>
+						<Field>
+							<Control>
+								<Input
+									id='ChallengeRating'
+									type='number'
+									placeholder='Challenge Rating'
+									autoComplete='ChallengeRating'
+									value={this.state.monster.ChallengeRating}
+									onChange={this.handleMonsterChallengeRatingChange} />
+							</Control>
+						</Field>
+						<Field>
+							<Control>
+								<Input
+									id='ExperiencePoints'
+									type='number'
+									placeholder='Experience Points'
+									autoComplete='ExperiencePoints'
+									value={this.state.ExperiencePoints}
+									onChange={this.handleMonsterExperiencePointsChange} />
+							</Control>
+						</Field>
+					</Box>
+					<Field>
+						<Button isColor='primary' type="submit" isLoading={false}>Create Monster</Button>
+					</Field>
 				</form>
 				<Modal id='monsterCreationModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
