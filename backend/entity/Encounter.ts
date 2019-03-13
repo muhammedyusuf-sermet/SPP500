@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BaseEntity, JoinTable, ManyToOne } from "typeorm";
 import { Monster, IMonsterData } from "./Monster";
+import { Campaign, ICampaignData } from "./Campaign";
 import { User, IUserData } from "./User";
 
 export interface IEncounterData {
@@ -8,6 +9,7 @@ export interface IEncounterData {
     Description: string;
 
     Monsters: IMonsterData[];
+    Campaigns: ICampaignData[];
 }
 
 @Entity()
@@ -34,4 +36,7 @@ export class Encounter extends BaseEntity implements IEncounterData {
     @ManyToMany(() => Monster, monster => monster.Encounters)
     @JoinTable()
     Monsters: Monster[];
+
+    @ManyToMany(() => Campaign, campaign => campaign.Encounters)
+    Campaigns: Campaign[];
 }
