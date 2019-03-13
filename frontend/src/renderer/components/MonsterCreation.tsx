@@ -2,7 +2,9 @@ import * as React from 'react';
 import request from 'request';
 
 import { API_URL } from '../../config';
-import Joi, { ValidationError, ValidationErrorItem, string } from 'joi';
+// LEAVE THIS AS REQUIRE OR suffur from "TypeError: joi_1.default.string is not a function"
+const Joi = require('joi');
+import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } from 'joi';
 
 import 'bulma/css/bulma.css';
 
@@ -36,48 +38,26 @@ export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMon
 		};
 	}
 
-	handleChange = (event: React.MouseEvent<HTMLInputElement>) => {
-		this.setState({selected: event.currentTarget.value});
-		this.props.onChange(event.currentTarget.value);
+	handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		this.setState({selected: event.target.value});
+		this.props.onChange(event.target.value);
 	}
 
 	render() {
 		return (
-			<Select onChange={this.handleChange} className="is-fullwidth">
+			<Select id={this.props.name} onChange={this.handleChange} value={this.state.selected} className="is-fullwidth">
 				{this.props.options.map(option =>
-						<option
-							key={this.props.name+'.'+option}
-							id={this.props.name+'.'+option}
-							value={option}>
-							{option.replace(/([A-Z])/g, ' $1').trim()}
-						</option>)}
+					<option
+						key={this.props.name+'.'+option}
+						id={this.props.name+'.'+option}
+						value={option}>
+						{option.replace(/([A-Z])/g, ' $1').trim()}
+					</option>)}
 			</Select>
 		);
 	}
 }
-/*
-<Dropdown>
-				<Label>{this.props.name}</Label>
-				<DropdownTrigger>
-					<Button isOutlined aria-haspopup="true" aria-controls="dropdown-menu">
-						<span>{this.state.selected}</span>
-					</Button>
-				</DropdownTrigger>
-				<DropdownMenu>
-					<DropdownContent>
-						{this.props.options.map(option =>
-						<DropdownItem
-							key={this.props.name+'.'+option}
-							id={this.props.name+'.'+option}
-							value={option}
-							onClick={this.handleChange}
-							isActive={option == this.state.selected}>
-							{option.replace(/([A-Z])/g, ' $1').trim()}
-						</DropdownItem>)}
-						</DropdownContent>
-						</DropdownMenu>
-					</Dropdown>
-*/
+
 export interface IMonsterCreationProps {
 	defaultMonster?: IMonsterState
 }
@@ -183,7 +163,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				Skills: {},
 			} : props.defaultMonster
 		};
-		if(this.state.monster.Senses instanceof string){
+		if(this.state.monster.Senses instanceof String){
 			let stringSenses = this.state.monster.Senses as string;
 			let eachSense = stringSenses.split('.');
 			this.state.monster.Senses = {}
@@ -200,7 +180,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		for(let abilityScoreName of this.abilityScoreNames)
 			this.AbilityScoreChange.set(abilityScoreName, this.handleMonsterAbilityScoreChange(abilityScoreName));
 		for(let savingThrowName of this.savingThrowNames)
-			this.AbilityScoreChange.set(savingThrowName, this.handleMonsterAbilityScoreChange(savingThrowName));
+			this.SavingThrowChange.set(savingThrowName, this.handleMonsterSavingThrowChange(savingThrowName));
 	}
 
 	openModal = (messageText: string) => {
@@ -271,14 +251,14 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	handleMonsterDamageImmunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const monster = this.state.monster
 		this.setState({
-			monster: { ...monster, DamageImmunity: event.target.value }
+			monster: { ...monster, DamageImmunities: event.target.value }
 		})
 	}
 
 	handleMonsterConditionImmunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const monster = this.state.monster
 		this.setState({
-			monster: { ...monster, ConditionImmunity: event.target.value }
+			monster: { ...monster, ConditionImmunities: event.target.value }
 		})
 	}
 
@@ -386,14 +366,14 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	handleMonsterLanguagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const monster = this.state.monster
 		this.setState({
-			monster: { ...monster, languages: event.target.value }
+			monster: { ...monster, Languages: event.target.value }
 		})
 	}
 
 	handleMonsterChallengeRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const monster = this.state.monster
 		this.setState({
-			monster: { ...monster, challengeRating: this.stringToFloat(event.target.value) }
+			monster: { ...monster, ChallengeRating: this.stringToFloat(event.target.value) }
 		})
 	}
 
@@ -444,7 +424,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				Senses: monsterSenses
 			}
 
-			const validateOptions: Joi.ValidationOptions = {
+			const validateOptions: ValidationOptions = {
 				abortEarly: false,
 				convert: true,
 				allowUnknown: false,
@@ -469,7 +449,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							if ((error.type == 'any.allowOnly') && error.context && validateOptions) {
 								for (let valid of error.context.valids){
 									if (Joi.isRef(valid)){
-										const reference = valid as Joi.Reference
+										const reference = valid as Reference
 										message += reference(null, validateOptions) + ',';
 									} else {
 										message += valid + ','
@@ -607,7 +587,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									placeholder='Condition Immunities'
 									autoComplete='ConditionImmunities'
 									value={this.state.monster.ConditionImmunities}
-									onChange={this.handleMonsterResistanceChange} />
+									onChange={this.handleMonsterConditionImmunityChange} />
 							</Control>
 						</Field>
 					</Box>
@@ -822,7 +802,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box className='tile is-vertical'>
-									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))-1).map(skillName =>
+									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))).map(skillName =>
 										<Field key={skillName}>
 											<FieldLabel>{skillName}</FieldLabel>
 											<Control>
@@ -842,7 +822,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Tile isSize={4} isParent>
 							<Tile className='box' isChild render={ (props: any) =>
 								<Box>
-									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))-1).map(skillName =>
+									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))).map(skillName =>
 										<Field key={skillName}>
 											<Control>
 												<Input
@@ -883,7 +863,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box>
-									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))-1).map(senseName =>
+									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))).map(senseName =>
 										<Field key={senseName}>
 											<Control>
 												<Input
@@ -902,7 +882,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box>
-									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))-1).map(senseName =>
+									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))).map(senseName =>
 										<Field key={senseName}>
 											<Control>
 												<Input
