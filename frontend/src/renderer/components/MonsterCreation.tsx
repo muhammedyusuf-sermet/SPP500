@@ -1,15 +1,16 @@
 import * as React from 'react';
-import request, { Response } from 'request';
-
+import request from 'request';
 
 import { API_URL } from '../../config';
 import Joi, { ValidationError, ValidationErrorItem, string } from 'joi';
 
-import "../css/create_monster.css"
+import 'bulma/css/bulma.css';
+
 import {Redirect} from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Label, Dropdown, Button, DropdownTrigger, DropdownMenu, DropdownItem, DropdownContent, Tile, Field, Control, Input, Title, Subtitle, Help } from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, Help, FieldLabel } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, SenseMap } from '../../monster';
 import { CookieManager } from '../../cookie';
+import { Select } from 'bloomer/lib/elements/Form/Select';
 
 const types = Object.values(MonsterType);
 const sizes = Object.keys(Size);
@@ -42,32 +43,41 @@ export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMon
 
 	render() {
 		return (
-			<React.Fragment>
-				<Label>{this.props.name}</Label>
-				<Dropdown>
-					<DropdownTrigger>
-						<Button isOutlined aria-haspopup="true" aria-controls="dropdown-menu">
-							<span>{this.state.selected}</span>
-						</Button>
-					</DropdownTrigger>
-					<DropdownMenu>
-						<DropdownContent>
-							{this.props.options.map(option =>
-							<DropdownItem
-								id={this.props.name+'.'+option}
-								value={option}
-								onClick={this.handleChange}
-								isActive={option == this.state.selected}>
-								{option.replace(/([A-Z])/g, ' $1').trim()}
-							</DropdownItem>)}
-						</DropdownContent>
-					</DropdownMenu>
-				</Dropdown>
-			</React.Fragment>
+			<Select onChange={this.handleChange} className="is-fullwidth">
+				{this.props.options.map(option =>
+						<option
+							key={this.props.name+'.'+option}
+							id={this.props.name+'.'+option}
+							value={option}>
+							{option.replace(/([A-Z])/g, ' $1').trim()}
+						</option>)}
+			</Select>
 		);
 	}
 }
-
+/*
+<Dropdown>
+				<Label>{this.props.name}</Label>
+				<DropdownTrigger>
+					<Button isOutlined aria-haspopup="true" aria-controls="dropdown-menu">
+						<span>{this.state.selected}</span>
+					</Button>
+				</DropdownTrigger>
+				<DropdownMenu>
+					<DropdownContent>
+						{this.props.options.map(option =>
+						<DropdownItem
+							key={this.props.name+'.'+option}
+							id={this.props.name+'.'+option}
+							value={option}
+							onClick={this.handleChange}
+							isActive={option == this.state.selected}>
+							{option.replace(/([A-Z])/g, ' $1').trim()}
+						</DropdownItem>)}
+						</DropdownContent>
+						</DropdownMenu>
+					</Dropdown>
+*/
 export interface IMonsterCreationProps {
 	defaultMonster?: IMonsterState
 }
@@ -483,7 +493,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							json: true
 						};
 
-						request(options, (error:string, responce: Response, body: IMonsterCreationResponse) => {
+						request(options, (error:string, responce: any, body: IMonsterCreationResponse) => {
 							if (!error && body.status === 201) { // success
 								this.openModal("Monster successfully created.");
 								this.setState(
@@ -659,15 +669,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							</Control>
 						</Field>
 					</Box>
-					<Tile isAncestor>
-						<Tile isSize={6} isParent>
+					<Tile isSize={12} isAncestor>
+						<Tile isSize={6} isParent >
 							<Tile isChild render={ (props: any) =>
-								<Box>
+								<Box className='Tile'>
 									<Subtitle>Ability Scores</Subtitle>
 									<Field>
 										<Control>
 											<Input
-												id='Strength'
+												id='AbilityStrength'
 												type='number'
 												placeholder='Strength'
 												autoComplete='Strength'
@@ -678,7 +688,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Dexterity'
+												id='AbilityDexterity'
 												type='number'
 												placeholder='Dexterity'
 												autoComplete='Dexterity'
@@ -689,7 +699,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Constitution'
+												id='AbilityConstitution'
 												type='number'
 												placeholder='Constitution'
 												autoComplete='Constitution'
@@ -700,7 +710,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Intelligence'
+												id='AbilityIntelligence'
 												type='number'
 												placeholder='Intelligence'
 												autoComplete='Intelligence'
@@ -711,7 +721,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Wisdom'
+												id='AbilityWisdom'
 												type='number'
 												placeholder='Wisdom'
 												autoComplete='Wisdom'
@@ -722,7 +732,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Charisma'
+												id='AbilityCharisma'
 												type='number'
 												placeholder='Charisma'
 												autoComplete='Charisma'
@@ -735,12 +745,12 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						</Tile>
 						<Tile isSize={6} isParent>
 							<Tile isChild render={ (props: any) =>
-								<Box>
+								<Box className='Tile'>
 									<Subtitle>Saving Throws</Subtitle>
 									<Field>
 										<Control>
 											<Input
-												id='Strength'
+												id='SavingStrength'
 												type='number'
 												placeholder='Strength'
 												autoComplete='Strength'
@@ -751,7 +761,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Dexterity'
+												id='SavingDexterity'
 												type='number'
 												placeholder='Dexterity'
 												autoComplete='Dexterity'
@@ -762,7 +772,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Constitution'
+												id='SavingConstitution'
 												type='number'
 												placeholder='Constitution'
 												autoComplete='Constitution'
@@ -773,7 +783,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Intelligence'
+												id='SavingIntelligence'
 												type='number'
 												placeholder='Intelligence'
 												autoComplete='Intelligence'
@@ -784,7 +794,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Wisdom'
+												id='SavingWisdom'
 												type='number'
 												placeholder='Wisdom'
 												autoComplete='Wisdom'
@@ -795,7 +805,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									<Field>
 										<Control>
 											<Input
-												id='Charisma'
+												id='SavingCharisma'
 												type='number'
 												placeholder='Charisma'
 												autoComplete='Charisma'
@@ -811,9 +821,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Subtitle>Skill Bonuses</Subtitle>
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
-								<Box>
-									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))-1).map(skillName => {
-										<Field>
+								<Box className='tile is-vertical'>
+									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))-1).map(skillName =>
+										<Field key={skillName}>
+											<FieldLabel>{skillName}</FieldLabel>
 											<Control>
 												<Input
 													id={skillName}
@@ -824,15 +835,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 													onChange={this.SkillChange.get(skillName)} />
 											</Control>
 										</Field>
-									})}
+									)}
 								</Box>
 								} />
 						</Tile>
 						<Tile isSize={4} isParent>
-							<Tile isChild render={ (props: any) =>
+							<Tile className='box' isChild render={ (props: any) =>
 								<Box>
-									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))-1).map(skillName => {
-										<Field>
+									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))-1).map(skillName =>
+										<Field key={skillName}>
 											<Control>
 												<Input
 													id={skillName}
@@ -843,15 +854,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 													onChange={this.SkillChange.get(skillName)} />
 											</Control>
 										</Field>
-									})}
+									)}
 								</Box>
 								} />
 						</Tile>
 						<Tile isSize={4} isParent>
-							<Tile isChild render={ (props: any) =>
+							<Tile className='box' isChild render={ (props: any) =>
 								<Box>
-									{this.skillNames.slice(Math.round(this.skillNames.length*(2/3))).map(skillName => {
-										<Field>
+									{this.skillNames.slice(Math.round(this.skillNames.length*(2/3))).map(skillName =>
+										<Field key={skillName}>
 											<Control>
 												<Input
 													id={skillName}
@@ -862,7 +873,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 													onChange={this.SkillChange.get(skillName)} />
 											</Control>
 										</Field>
-									})}
+									)}
 								</Box>
 								} />
 						</Tile>
@@ -872,8 +883,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box>
-									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))-1).map(senseName => {
-										<Field>
+									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))-1).map(senseName =>
+										<Field key={senseName}>
 											<Control>
 												<Input
 													id={senseName}
@@ -884,15 +895,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 													onChange={this.SensesChange.get(senseName)} />
 											</Control>
 										</Field>
-									})}
+									)}
 								</Box>
 								} />
 						</Tile>
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box>
-									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))-1).map(senseName => {
-										<Field>
+									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))-1).map(senseName =>
+										<Field key={senseName}>
 											<Control>
 												<Input
 													id={senseName}
@@ -903,15 +914,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 													onChange={this.SensesChange.get(senseName)} />
 											</Control>
 										</Field>
-									})}
+									)}
 								</Box>
 								} />
 						</Tile>
 						<Tile isSize={4} isParent>
 							<Tile isChild render={ (props: any) =>
 								<Box>
-									{this.senseNames.slice(Math.round(this.senseNames.length*(2/3))).map(senseName => {
-										<Field>
+									{this.senseNames.slice(Math.round(this.senseNames.length*(2/3))).map(senseName =>
+										<Field key={senseName}>
 											<Control>
 												<Input
 													id={senseName}
@@ -922,7 +933,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 													onChange={this.SensesChange.get(senseName)} />
 											</Control>
 										</Field>
-									})}
+									)}
 								</Box>
 								} />
 						</Tile>
