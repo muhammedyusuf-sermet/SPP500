@@ -23,13 +23,13 @@ export class Action extends BaseEntity implements IActionData {
     @Index()
     @Column({
         type: "varchar",
-        length: 50
+        length: 100
     })
     Name: string;
 
     @Column({
         type: "varchar",
-        length: 250
+        length: 2000
     })
     Description: string;
     

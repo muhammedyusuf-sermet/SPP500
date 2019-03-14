@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Encounter, IEncounterData } from "./Encounter";
+import { Campaign, ICampaignData } from "./Campaign";
 
 export interface IUserData {
 	Email: string;
@@ -9,7 +10,8 @@ export interface IUserData {
 	HashedPassword: string;
 	Type: string;
 	
-    CreatedEncounters: IEncounterData[];
+	CreatedEncounters: IEncounterData[];
+	CreatedCampaigns: ICampaignData[];
 }
 
 @Entity()
@@ -40,6 +42,9 @@ export class User extends BaseEntity implements IUserData {
 	Type: string;
 	
 	@OneToMany(() => Encounter, encounter => encounter.Creator)
-    CreatedEncounters: Encounter[];
+	CreatedEncounters: Encounter[];
+
+	@OneToMany(() => Campaign, campaign => campaign.Creator)
+	CreatedCampaigns: Campaign[];
 
 }
