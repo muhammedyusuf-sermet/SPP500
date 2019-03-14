@@ -138,7 +138,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	render() {
 		return (
-			this.state.redirectToHome ? <Redirect to="/"/> :
+			(this.state.redirectToHome && !this.state.modal.open) ? <Redirect to="/"/> :
 			<div>
 				<form id="createEncounterForm" onSubmit={this.createEncounter}>
 					<Field>
