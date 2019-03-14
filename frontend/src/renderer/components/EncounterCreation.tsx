@@ -15,13 +15,12 @@ const monsters = [	{"Id": "1", "Name": "Monster 1"},
 
 interface IEncounterResponse {
 	status: number,
-	messages: string,
-	token: string
+	messages: string[]
 }
 
-interface IEncounterCreationState {
+export interface IEncounterCreationState {
 	redirectToHome: boolean,
-	checkedMonsters: Map,
+	checkedMonsters: Map<string, boolean>,
 	encounter: {
 		name: string,
 		description: string,
@@ -114,8 +113,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		};
 		request(options, (error: string, response: string, body: IEncounterResponse) => {
 			if (error) {
-				if(callback)
-					this.openModal("There has been a server error when saving the encounter. Please try again later.");
+				this.openModal("There has been a server error when saving the encounter. Please try again later.");
 			} else {
 				let { status, messages } = body
 				if (status == 201){
@@ -146,7 +144,9 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 					<Field>
 						<Label>Encounter Name</Label>
 						<Control>
-							<Input 	type="text"
+							<Input
+									id="encounter_name"
+									type="text"
 									placeholder='Please enter the name of the encounter.'
 									onChange={this.handleNameChange} />
 						</Control>
@@ -155,7 +155,9 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 					<Field>
 					    <Label>Description</Label>
 					    <Control>
-					        <TextArea 	placeholder={'Please write the encounter description here.'}
+					        <TextArea
+					        			id="encounter_description"
+					        			placeholder={'Please write the encounter description here.'}
 					        			onChange={this.handleDescriptionChange} />
 					    </Control>
 					</Field>
@@ -178,7 +180,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 					        <Button isColor='primary' type="submit">Submit</Button>
 					    </Control>
 					    <Control>
-					        <Button isLink onClick={this.cancel}>Cancel</Button>
+					        <Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
 					    </Control>
 					</Field>
 				</form>

@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Encounter Creation Happy Path renders correctly when the page is loaded 1`] = `
+<div>
+  <form
+    id="createEncounterForm"
+    onSubmit={[Function]}
+  >
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Label)>
+        Encounter Name
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Input)
+          id="encounter_name"
+          onChange={[Function]}
+          placeholder="Please enter the name of the encounter."
+          type="text"
+        />
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Label)>
+        Description
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(TextArea)
+          id="encounter_description"
+          onChange={[Function]}
+          placeholder="Please write the encounter description here."
+        />
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Checkbox)
+          key="1"
+          name="1"
+          onChange={[Function]}
+        >
+          Monster 1
+        </withHelpersModifiers(Checkbox)>
+        <withHelpersModifiers(Checkbox)
+          key="2"
+          name="2"
+          onChange={[Function]}
+        >
+          Monster 2
+        </withHelpersModifiers(Checkbox)>
+        <withHelpersModifiers(Checkbox)
+          key="3"
+          name="3"
+          onChange={[Function]}
+        >
+          Monster 3
+        </withHelpersModifiers(Checkbox)>
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+    <withHelpersModifiers(Field)
+      isGrouped={true}
+    >
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Button)
+          isColor="primary"
+          type="submit"
+        >
+          Submit
+        </withHelpersModifiers(Button)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Button)
+          id="cancel"
+          isLink={true}
+          onClick={[Function]}
+        >
+          Cancel
+        </withHelpersModifiers(Button)>
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+  </form>
+  <withHelpersModifiers(Modal)
+    id="encounterCreationModal"
+    isActive={false}
+  >
+    <withHelpersModifiers(ModalBackground)
+      id="modalBackground"
+      onClick={[Function]}
+    />
+    <withHelpersModifiers(ModalContent)>
+      <withHelpersModifiers(Box)>
+        <span
+          id="ModalMessage"
+        />
+      </withHelpersModifiers(Box)>
+    </withHelpersModifiers(ModalContent)>
+  </withHelpersModifiers(Modal)>
+</div>
+`;
