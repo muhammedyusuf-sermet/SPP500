@@ -16,4 +16,3 @@ export const HomePage: React.StatelessComponent<{}> = () => {
 		</div>
 	);
 }
-

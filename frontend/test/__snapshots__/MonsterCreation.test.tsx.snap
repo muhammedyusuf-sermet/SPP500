@@ -1402,5 +1402,21 @@ exports[`Monster Creation Happy Path renders correctly when the page is loaded 1
        Create Monster 
     </WithStyles(Button)>
   </form>
+  <withHelpersModifiers(Modal)
+    id="monsterCreationModal"
+    isActive={false}
+  >
+    <withHelpersModifiers(ModalBackground)
+      id="modalBackground"
+      onClick={[Function]}
+    />
+    <withHelpersModifiers(ModalContent)>
+      <withHelpersModifiers(Box)>
+        <span
+          id="ModalMessage"
+        />
+      </withHelpersModifiers(Box)>
+    </withHelpersModifiers(ModalContent)>
+  </withHelpersModifiers(Modal)>
 </div>
 `;
