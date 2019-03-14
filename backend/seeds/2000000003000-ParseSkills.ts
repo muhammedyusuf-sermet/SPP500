@@ -23,7 +23,7 @@ export class ParseSkills2000000003000 implements MigrationInterface {
         let skills: Array<Skill> = []
 
         for (let index in Data){
-            skills.push(Data[index] as Skill);
+            skills.push(Data[index] as unknown as Skill);
         }
 
         await queryRunner.manager
