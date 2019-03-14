@@ -45,6 +45,7 @@ export class NavBar extends React.Component<any, INavBarState> {
 						{ (auth: IAuthProviderState) =>
 							(auth.isAuth) ? (
 								<NavbarStart className='is-light' onClick={this.closeNav}>
+									<Link className='navbar-item' to="/encounter_creation">Create Encounter</Link>
 									<Link className='navbar-item' to="/monster_creation">Create Monster</Link>
 									<Link className='navbar-item' to="/catalog">View Catalog</Link>
 								</NavbarStart>

@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
 import { MonsterCreation } from './components/MonsterCreation';
+import { EncounterCreation } from './components/EncounterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 
 import "bulma/css/bulma.css";
@@ -29,6 +30,7 @@ export class App extends React.Component<IAppProps> {
 						(auth.isAuth) ? (
 							<Switch>
 								<Route exact path="/" component={Platform} />
+								<Route path="/encounter_creation" component={EncounterCreation} />
 								<Route path="/monster_creation" component={MonsterCreation} />
 								<Route path="/catalog" component={ViewCatalog} />
 								<Route path="" component={Platform} />
