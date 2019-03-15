@@ -1,25 +1,40 @@
 var fs = require('fs');
 
-fs.readFile('5e-SRD-Spells.json', ParseSkillData);
+fs.readFile('5e-SRD-Skills.json',(err: any, data: any) => {
 
-function ParseSkillData (err: any, data: any): void{
+    interface ISkill {
+        Name: string,
+        Description: string,    
+        AbilityScore: {
+            Abbreviation?: string
+        }
+    };
 
-    let Skills: Array<any> = []
+    var skills: Array<ISkill> = []
     let Data: any = JSON.parse(data)
-    
+
     for (let i in Data)
     {
-        let skill: any = 
+        let skill: ISkill =
         {
-            //AbilityScoreId: 1,
             Name: '',
             Description: '',
+            AbilityScore: {}
         }
-        //skill.AbilityScoreId = Data[i]
+
         skill.Name = Data[i]['name']
-        skill.Description = Data[i]['desc'][0]
+    
+        var desc: string = ''
+        Data[i]['desc'].forEach((value: any) => {
+                desc += (desc.substr(desc.length - 1) == '.' ? " " + value : value);
+            });
+        skill.Description = desc
+       
+        skill.AbilityScore.Abbreviation = Data[i]['ability_score']['name']
         
-        Skills.push(skill);
+        skills.push(skill);
     }
-    console.log(Skills)
-}
+
+    fs.writeFileSync("../seeds/data/skills.json", JSON.stringify(skills,null,4))
+    console.log("Scraped all skills.")
+});
