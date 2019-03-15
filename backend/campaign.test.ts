@@ -1,0 +1,13 @@
+/*
+Edit campaign tests
+
+When data is valid
+Return success
+
+When invalid encounter is added
+Return error
+
+When unauthorized user requests change
+Return error
+
+*/
