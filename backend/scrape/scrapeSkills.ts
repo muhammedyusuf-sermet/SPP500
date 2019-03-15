@@ -6,7 +6,7 @@ fs.readFile('5e-SRD-Skills.json',(err: any, data: any) => {
         Name: string,
         Description: string,    
         AbilityScore: {
-            Abbriviation?: string
+            Abbreviation?: string
         }
     };
 
@@ -30,7 +30,7 @@ fs.readFile('5e-SRD-Skills.json',(err: any, data: any) => {
             });
         skill.Description = desc
        
-        skill.AbilityScore.Abbriviation = Data[i]['ability_score']['name']
+        skill.AbilityScore.Abbreviation = Data[i]['ability_score']['name']
         
         skills.push(skill);
     }
