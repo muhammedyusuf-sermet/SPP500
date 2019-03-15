@@ -29,7 +29,7 @@ export class Skill extends BaseEntity implements ISkillData {
 
     @Column({
         type: "varchar",
-        length: 500
+        length: 800
     })
     Description: string;
 

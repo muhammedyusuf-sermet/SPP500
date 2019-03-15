@@ -137,7 +137,7 @@ CREATE TABLE "Skill" (
         "Ability_Score_Id" integer REFERENCES "Ability_Score" ("Id"),
         "Id" serial PRIMARY KEY,
         "Name" varchar(50) UNIQUE NOT NULL,
-        "Description" varchar(500)
+        "Description" varchar(800)
 );
 
 CREATE TABLE "Condition" (
