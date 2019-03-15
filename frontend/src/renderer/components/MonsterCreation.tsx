@@ -9,7 +9,7 @@ import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } fr
 import 'bulma/css/bulma.css';
 
 import {Redirect} from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, Help, FieldLabel } from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, SenseMap } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
@@ -509,92 +509,130 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
 			<div className="monster-creation-container">
 				<form onSubmit={this.validateForm}>
+					<Tile isParent isVertical>
 					<Title className="page-title">Create a Monster</Title>
-					<Field>
-						<Control>
-							<Input
-								id='Name'
-								type='text'
-								placeholder='Monster Name'
-								autoComplete='Name'
-								value={this.state.monster.Name}
-								onChange={this.handleMonsterNameChange}
-								required />
-						</Control>
-					</Field>
-					<Box>
-						<Subtitle>Type Configurations</Subtitle>
+					<Tile className="box" isVertical>
+						<Subtitle>Monster Name</Subtitle>
+						<Field>
+							<Control>
+								<Input
+									id='Name'
+									type='text'
+									placeholder='Monster Name'
+									autoComplete='Name'
+									value={this.state.monster.Name}
+									onChange={this.handleMonsterNameChange}
+									required />
+							</Control>
+						</Field>
+					</Tile>
+					<Tile className="box" isVertical>
+						<Subtitle>Basic Configurations</Subtitle>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
+								<Label>Type</Label>
 								<MonsterDropdown name='Type' options={types} onChange={this.handleMonsterTypeChange} />
 							</Control>
 							<Control isExpanded>
+								<Label>Size</Label>
 								<MonsterDropdown name='Size' options={sizes} onChange={this.handleMonsterSizeChange} />
 							</Control>
 							<Control isExpanded>
+								<Label>Race</Label>
 								<MonsterDropdown name='Race' options={races} onChange={this.handleMonsterRaceChange} />
 							</Control>
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
+								<Label>Alignment</Label>
 								<MonsterDropdown name='Alignment' options={alignments} onChange={this.handleMonsterAlignmentChange} />
 							</Control>
 							<Control isExpanded>
+								<Label>Environment</Label>
 								<MonsterDropdown name='Environment' options={environments} onChange={this.handleMonsterEnvironmentChange} />
 							</Control>
 						</Field>
-					</Box>
-					<Box>
+					</Tile>
+					<Tile className="box" isVertical>
 						<Subtitle>Vulnerability, Resistance, and Immunity</Subtitle>
-						<Field>
-							<Control>
-								<Input
-									id='DamageVulnerabilities'
-									type='text'
-									placeholder='Damage Vulnerabilities'
-									autoComplete='DamageVulnerabilities'
-									value={this.state.monster.DamageVulnerabilities}
-									onChange={this.handleMonsterVulnerabilityChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Damage Vulnerabilities </Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='DamageVulnerabilities'
+											type='text'
+											placeholder='Damage Vulnerabilities'
+											autoComplete='DamageVulnerabilities'
+											value={this.state.monster.DamageVulnerabilities}
+											onChange={this.handleMonsterVulnerabilityChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-						<Field>
-							<Control>
-								<Input
-									id='DamageResistances'
-									type='text'
-									placeholder='Damage Resistances'
-									autoComplete='DamageResistances'
-									value={this.state.monster.DamageResistances}
-									onChange={this.handleMonsterResistanceChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Damage Resistances </Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='DamageResistances'
+											type='text'
+											placeholder='Damage Resistances'
+											autoComplete='DamageResistances'
+											value={this.state.monster.DamageResistances}
+											onChange={this.handleMonsterResistanceChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-						<Field>
-							<Control>
-								<Input
-									id='DamageImmunities'
-									type='text'
-									placeholder='Damage Immunities'
-									autoComplete='DamageImmunities'
-									value={this.state.monster.DamageImmunities}
-									onChange={this.handleMonsterDamageImmunityChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Damage Immunities </Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='DamageImmunities'
+											type='text'
+											placeholder='Damage Immunities'
+											autoComplete='DamageImmunities'
+											value={this.state.monster.DamageImmunities}
+											onChange={this.handleMonsterDamageImmunityChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-						<Field>
-							<Control>
-								<Input
-									id='ConditionImmunities'
-									type='text'
-									placeholder='Condition Immunities'
-									autoComplete='ConditionImmunities'
-									value={this.state.monster.ConditionImmunities}
-									onChange={this.handleMonsterConditionImmunityChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Condition Immunities </Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='ConditionImmunities'
+											type='text'
+											placeholder='Condition Immunities'
+											autoComplete='ConditionImmunities'
+											value={this.state.monster.ConditionImmunities}
+											onChange={this.handleMonsterConditionImmunityChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-					</Box>
-					<Box>
+					</Tile>
+					<Tile className="box" isVertical>
 						<Subtitle>Armor Class and Hit Points</Subtitle>
 						<Field>
 							<Control>
+								<Label>Armor Class</Label>
 								<Input
 									id='ArmorClass'
 									type='number'
@@ -606,6 +644,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
+								<Label>Hit Points</Label>
 								<Input
 									id='HitPoints'
 									type='number'
@@ -615,6 +654,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									onChange={this.handleMonsterHitPointsChange} />
 							</Control>
 							<Control isExpanded>
+								<Label>Hit Point Distribution</Label>
 								<Input
 									id='HitPointDistribution'
 									type='string'
@@ -623,13 +663,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									value={this.state.monster.HitPointDistribution}
 									onChange={this.handleMonsterHitPointDistributionChange} />
 							</Control>
-							<Help>Hit Points Distribution should be of the form "#d# + base". # are numbers</Help>
 						</Field>
-					</Box>
-					<Box>
+					</Tile>
+					<Tile className="box" isVertical>
 						<Subtitle>Movement Speed</Subtitle>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
+								<Label>Land Speed</Label>
 								<Input
 									id='SpeedLand'
 									type='number'
@@ -639,6 +679,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									onChange={this.handleMonsterLandSpeedChange} />
 							</Control>
 							<Control isExpanded>
+								<Label>Swimming Speed</Label>
 								<Input
 									id='SpeedSwim'
 									type='number'
@@ -648,315 +689,472 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									onChange={this.handleMonsterSwimSpeedChange} />
 							</Control>
 						</Field>
-					</Box>
-					<Tile isSize={12} isAncestor>
+					</Tile>
+					<Tile isSize={12} >
 						<Tile isSize={6} isParent >
+						<Tile className="box" isVertical isParent >
 							<Tile isChild render={ (props: any) =>
-								<Box className='Tile'>
+								<React.Fragment>
 									<Subtitle>Ability Scores</Subtitle>
-									<Field>
-										<Control>
-											<Input
-												id='AbilityStrength'
-												type='number'
-												placeholder='Strength'
-												autoComplete='Strength'
-												value={this.state.monster.AbilityScores.Strength}
-												onChange={this.AbilityScoreChange.get('Strength')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Strength</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='AbilityStrength'
+														type='number'
+														placeholder='Strength'
+														autoComplete='Strength'
+														value={this.state.monster.AbilityScores.Strength}
+														onChange={this.AbilityScoreChange.get('Strength')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='AbilityDexterity'
-												type='number'
-												placeholder='Dexterity'
-												autoComplete='Dexterity'
-												value={this.state.monster.AbilityScores.Dexterity}
-												onChange={this.AbilityScoreChange.get('Dexterity')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Dexterity</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='AbilityDexterity'
+														type='number'
+														placeholder='Dexterity'
+														autoComplete='Dexterity'
+														value={this.state.monster.AbilityScores.Dexterity}
+														onChange={this.AbilityScoreChange.get('Dexterity')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='AbilityConstitution'
-												type='number'
-												placeholder='Constitution'
-												autoComplete='Constitution'
-												value={this.state.monster.AbilityScores.Constitution}
-												onChange={this.AbilityScoreChange.get('Constitution')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Constitution</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='AbilityConstitution'
+														type='number'
+														placeholder='Constitution'
+														autoComplete='Constitution'
+														value={this.state.monster.AbilityScores.Constitution}
+														onChange={this.AbilityScoreChange.get('Constitution')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='AbilityIntelligence'
-												type='number'
-												placeholder='Intelligence'
-												autoComplete='Intelligence'
-												value={this.state.monster.AbilityScores.Intelligence}
-												onChange={this.AbilityScoreChange.get('Intelligence')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Intelligence</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='AbilityIntelligence'
+														type='number'
+														placeholder='Intelligence'
+														autoComplete='Intelligence'
+														value={this.state.monster.AbilityScores.Intelligence}
+														onChange={this.AbilityScoreChange.get('Intelligence')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='AbilityWisdom'
-												type='number'
-												placeholder='Wisdom'
-												autoComplete='Wisdom'
-												value={this.state.monster.AbilityScores.Wisdom}
-												onChange={this.AbilityScoreChange.get('Wisdom')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Wisdom</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='AbilityWisdom'
+														type='number'
+														placeholder='Wisdom'
+														autoComplete='Wisdom'
+														value={this.state.monster.AbilityScores.Wisdom}
+														onChange={this.AbilityScoreChange.get('Wisdom')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='AbilityCharisma'
-												type='number'
-												placeholder='Charisma'
-												autoComplete='Charisma'
-												value={this.state.monster.AbilityScores.Charisma}
-												onChange={this.AbilityScoreChange.get('Charisma')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Charisma</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='AbilityCharisma'
+														type='number'
+														placeholder='Charisma'
+														autoComplete='Charisma'
+														value={this.state.monster.AbilityScores.Charisma}
+														onChange={this.AbilityScoreChange.get('Charisma')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-								</Box>
+								</React.Fragment>
 							} />
 						</Tile>
-						<Tile isSize={6} isParent>
+						</Tile>
+						<Tile isSize={6} isParent >
+						<Tile className="box" isVertical isParent >
 							<Tile isChild render={ (props: any) =>
-								<Box className='Tile'>
+								<React.Fragment>
 									<Subtitle>Saving Throws</Subtitle>
-									<Field>
-										<Control>
-											<Input
-												id='SavingStrength'
-												type='number'
-												placeholder='Strength'
-												autoComplete='Strength'
-												value={this.state.monster.SavingThrows.Strength}
-												onChange={this.SavingThrowChange.get('Strength')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Strength</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='SavingStrength'
+														type='number'
+														placeholder='Strength'
+														autoComplete='Strength'
+														value={this.state.monster.SavingThrows.Strength}
+														onChange={this.SavingThrowChange.get('Strength')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='SavingDexterity'
-												type='number'
-												placeholder='Dexterity'
-												autoComplete='Dexterity'
-												value={this.state.monster.SavingThrows.Dexterity}
-												onChange={this.SavingThrowChange.get('Dexterity')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Dexterity</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='SavingDexterity'
+														type='number'
+														placeholder='Dexterity'
+														autoComplete='Dexterity'
+														value={this.state.monster.SavingThrows.Dexterity}
+														onChange={this.SavingThrowChange.get('Dexterity')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='SavingConstitution'
-												type='number'
-												placeholder='Constitution'
-												autoComplete='Constitution'
-												value={this.state.monster.SavingThrows.Constitution}
-												onChange={this.SavingThrowChange.get('Constitution')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Constitution</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='SavingConstitution'
+														type='number'
+														placeholder='Constitution'
+														autoComplete='Constitution'
+														value={this.state.monster.SavingThrows.Constitution}
+														onChange={this.SavingThrowChange.get('Constitution')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='SavingIntelligence'
-												type='number'
-												placeholder='Intelligence'
-												autoComplete='Intelligence'
-												value={this.state.monster.SavingThrows.Intelligence}
-												onChange={this.SavingThrowChange.get('Intelligence')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Intelligence</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='SavingIntelligence'
+														type='number'
+														placeholder='Intelligence'
+														autoComplete='Intelligence'
+														value={this.state.monster.SavingThrows.Intelligence}
+														onChange={this.SavingThrowChange.get('Intelligence')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='SavingWisdom'
-												type='number'
-												placeholder='Wisdom'
-												autoComplete='Wisdom'
-												value={this.state.monster.SavingThrows.Wisdom}
-												onChange={this.SavingThrowChange.get('Wisdom')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Wisdom</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='SavingWisdom'
+														type='number'
+														placeholder='Wisdom'
+														autoComplete='Wisdom'
+														value={this.state.monster.SavingThrows.Wisdom}
+														onChange={this.SavingThrowChange.get('Wisdom')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-									<Field>
-										<Control>
-											<Input
-												id='SavingCharisma'
-												type='number'
-												placeholder='Charisma'
-												autoComplete='Charisma'
-												value={this.state.monster.SavingThrows.Charisma}
-												onChange={this.SavingThrowChange.get('Charisma')} />
-										</Control>
+									<Field isHorizontal>
+										<FieldLabel isNormal>
+											<Label>Charisma</Label>
+										</FieldLabel>
+										<FieldBody>
+											<Field>
+												<Control>
+													<Input
+														id='SavingCharisma'
+														type='number'
+														placeholder='Charisma'
+														autoComplete='Charisma'
+														value={this.state.monster.SavingThrows.Charisma}
+														onChange={this.SavingThrowChange.get('Charisma')} />
+												</Control>
+											</Field>
+										</FieldBody>
 									</Field>
-								</Box>
+								</React.Fragment>
 							} />
 						</Tile>
+						</Tile>
 					</Tile>
-					<Tile isAncestor>
+					<Tile className="box" isVertical>
 						<Subtitle>Skill Bonuses</Subtitle>
-						<Tile isSize={4} isParent>
+						<Columns isCentered>
+						<Column className="box" isSize={4}>
 							<Tile isChild render={ (props: any) =>
-								<Box className='tile is-vertical'>
+								<React.Fragment>
 									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))).map(skillName =>
-										<Field key={skillName}>
-											<FieldLabel>{skillName}</FieldLabel>
-											<Control>
-												<Input
-													id={skillName}
-													type='number'
-													placeholder={skillName}
-													autoComplete={skillName}
-													value={this.state.monster.Skills[skillName]}
-													onChange={this.SkillChange.get(skillName)} />
-											</Control>
+										<Field isHorizontal key={skillName}>
+											<FieldLabel isNormal>
+												<Label>{skillName}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={skillName}
+															type='number'
+															placeholder={skillName}
+															autoComplete={skillName}
+															value={this.state.monster.Skills[skillName]}
+															onChange={this.SkillChange.get(skillName)} />
+													</Control>
+												</Field>
+											</FieldBody>
 										</Field>
 									)}
-								</Box>
+								</React.Fragment>
 								} />
-						</Tile>
-						<Tile isSize={4} isParent>
-							<Tile className='box' isChild render={ (props: any) =>
-								<Box>
+						</Column>
+						<Column className='box' isSize={4}>
+							<Tile isChild render={ (props: any) =>
+								<React.Fragment>
 									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))).map(skillName =>
-										<Field key={skillName}>
-											<Control>
-												<Input
-													id={skillName}
-													type='number'
-													placeholder={skillName}
-													autoComplete={skillName}
-													value={this.state.monster.Skills[skillName]}
-													onChange={this.SkillChange.get(skillName)} />
-											</Control>
+										<Field isHorizontal key={skillName}>
+											<FieldLabel isNormal>
+												<Label>{skillName}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={skillName}
+															type='number'
+															placeholder={skillName}
+															autoComplete={skillName}
+															value={this.state.monster.Skills[skillName]}
+															onChange={this.SkillChange.get(skillName)} />
+													</Control>
+												</Field>
+											</FieldBody>
 										</Field>
 									)}
-								</Box>
+								</React.Fragment>
 								} />
-						</Tile>
-						<Tile isSize={4} isParent>
-							<Tile className='box' isChild render={ (props: any) =>
-								<Box>
+						</Column>
+						<Column className="box" isSize={4}>
+							<Tile isChild render={ (props: any) =>
+								<React.Fragment>
 									{this.skillNames.slice(Math.round(this.skillNames.length*(2/3))).map(skillName =>
-										<Field key={skillName}>
-											<Control>
-												<Input
-													id={skillName}
-													type='number'
-													placeholder={skillName}
-													autoComplete={skillName}
-													value={this.state.monster.Skills[skillName]}
-													onChange={this.SkillChange.get(skillName)} />
-											</Control>
+										<Field isHorizontal key={skillName}>
+											<FieldLabel isNormal>
+												<Label>{skillName}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={skillName}
+															type='number'
+															placeholder={skillName}
+															autoComplete={skillName}
+															value={this.state.monster.Skills[skillName]}
+															onChange={this.SkillChange.get(skillName)} />
+													</Control>
+												</Field>
+											</FieldBody>
 										</Field>
 									)}
-								</Box>
+								</React.Fragment>
 								} />
-						</Tile>
+						</Column>
+						<div/>
+						</Columns>
 					</Tile>
-					<Tile isAncestor>
+					<Tile className="box" isVertical>
 						<Subtitle>Sense Bonuses</Subtitle>
-						<Tile isSize={4} isParent>
+						<Columns isCentered>
+						<Column className="box" isSize={4}>
 							<Tile isChild render={ (props: any) =>
-								<Box>
+								<React.Fragment>
 									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))).map(senseName =>
-										<Field key={senseName}>
-											<Control>
-												<Input
-													id={senseName}
-													type='number'
-													placeholder={senseName}
-													autoComplete={senseName}
-													value={(this.state.monster.Senses as SenseMap)[senseName]}
-													onChange={this.SensesChange.get(senseName)} />
-											</Control>
+										<Field isHorizontal key={senseName}>
+											<FieldLabel isNormal>
+												<Label>{senseName}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={senseName}
+															type='number'
+															placeholder={senseName}
+															autoComplete={senseName}
+															value={(this.state.monster.Senses as SenseMap)[senseName]}
+															onChange={this.SensesChange.get(senseName)} />
+													</Control>
+												</Field>
+											</FieldBody>
 										</Field>
 									)}
-								</Box>
+								</React.Fragment>
 								} />
-						</Tile>
-						<Tile isSize={4} isParent>
+						</Column>
+						<Column className='box' isSize={4}>
 							<Tile isChild render={ (props: any) =>
-								<Box>
+								<React.Fragment>
 									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))).map(senseName =>
-										<Field key={senseName}>
-											<Control>
-												<Input
-													id={senseName}
-													type='number'
-													placeholder={senseName}
-													autoComplete={senseName}
-													value={(this.state.monster.Senses as SenseMap)[senseName]}
-													onChange={this.SensesChange.get(senseName)} />
-											</Control>
+										<Field isHorizontal key={senseName}>
+											<FieldLabel isNormal>
+												<Label>{senseName}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={senseName}
+															type='number'
+															placeholder={senseName}
+															autoComplete={senseName}
+															value={(this.state.monster.Senses as SenseMap)[senseName]}
+															onChange={this.SensesChange.get(senseName)} />
+													</Control>
+												</Field>
+											</FieldBody>
 										</Field>
 									)}
-								</Box>
+								</React.Fragment>
 								} />
-						</Tile>
-						<Tile isSize={4} isParent>
+						</Column>
+						<Column className="box" isSize={4}>
 							<Tile isChild render={ (props: any) =>
-								<Box>
+								<React.Fragment>
 									{this.senseNames.slice(Math.round(this.senseNames.length*(2/3))).map(senseName =>
-										<Field key={senseName}>
-											<Control>
-												<Input
-													id={senseName}
-													type='number'
-													placeholder={senseName}
-													autoComplete={senseName}
-													value={(this.state.monster.Senses as SenseMap)[senseName]}
-													onChange={this.SensesChange.get(senseName)} />
-											</Control>
+										<Field isHorizontal key={senseName}>
+											<FieldLabel isNormal>
+												<Label>{senseName}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={senseName}
+															type='number'
+															placeholder={senseName}
+															autoComplete={senseName}
+															value={(this.state.monster.Senses as SenseMap)[senseName]}
+															onChange={this.SensesChange.get(senseName)} />
+													</Control>
+												</Field>
+											</FieldBody>
 										</Field>
 									)}
-								</Box>
+								</React.Fragment>
 								} />
-						</Tile>
+						</Column>
+						<div/>
+						</Columns>
 					</Tile>
-					<Box>
+					<Tile className="box" isVertical>
 						<Subtitle>Final Touches</Subtitle>
-						<Field>
-							<Control>
-								<Input
-									id='Languages'
-									type='text'
-									placeholder='Languages'
-									autoComplete='Languages'
-									value={this.state.monster.Languages}
-									onChange={this.handleMonsterLanguagesChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Languages</Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='Languages'
+											type='text'
+											placeholder='Languages'
+											autoComplete='Languages'
+											value={this.state.monster.Languages}
+											onChange={this.handleMonsterLanguagesChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-						<Field>
-							<Control>
-								<Input
-									id='ChallengeRating'
-									type='number'
-									placeholder='Challenge Rating'
-									autoComplete='ChallengeRating'
-									value={this.state.monster.ChallengeRating}
-									onChange={this.handleMonsterChallengeRatingChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Challenge Rating</Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='ChallengeRating'
+											type='number'
+											placeholder='Challenge Rating'
+											autoComplete='ChallengeRating'
+											value={this.state.monster.ChallengeRating}
+											onChange={this.handleMonsterChallengeRatingChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-						<Field>
-							<Control>
-								<Input
-									id='ExperiencePoints'
-									type='number'
-									placeholder='Experience Points'
-									autoComplete='ExperiencePoints'
-									value={this.state.ExperiencePoints}
-									onChange={this.handleMonsterExperiencePointsChange} />
-							</Control>
+						<Field isHorizontal>
+							<FieldLabel isNormal>
+								<Label>Experience Points</Label>
+							</FieldLabel>
+							<FieldBody>
+								<Field>
+									<Control>
+										<Input
+											id='ExperiencePoints'
+											type='number'
+											placeholder='Experience Points'
+											autoComplete='ExperiencePoints'
+											value={this.state.ExperiencePoints}
+											onChange={this.handleMonsterExperiencePointsChange} />
+									</Control>
+								</Field>
+							</FieldBody>
 						</Field>
-					</Box>
+					</Tile>
 					<Field>
 						<Button isColor='primary' type="submit" isLoading={false}>Create Monster</Button>
 					</Field>
+					</Tile>
 				</form>
 				<Modal id='monsterCreationModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
