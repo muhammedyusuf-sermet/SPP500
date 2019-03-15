@@ -1,170 +1,92 @@
-export const enum MonsterType {
-	Aberration,
-	Beast,
-	Celestial,
-	Construct,
-	Dragon,
-	Elemental,
-	Fey,
-	Fiend,
-	Giant,
-	Humanoid,
-	Monstrosity,
-	Ooze,
-	Plant,
-	SwarmOfTinyBeasts,
-	Undead,
+export enum Size {
+	Tiny = "Tiny",
+	Small = "Small",
+	Medium = "Medium",
+	Large = "Large",
+	Huge = "Huge",
+	Gargantuan = "Gargantuan"
 }
 
-export const MonsterTypeNames = new Map<number, string>([
-	[MonsterType.Aberration, "Aberration"],
-	[MonsterType.Beast, "Beast"],
-	[MonsterType.Celestial, "Celestial"],
-	[MonsterType.Construct, "Construct"],
-	[MonsterType.Dragon, "Dragon"],
-	[MonsterType.Elemental, "Elemental"],
-	[MonsterType.Fey, "Fey"],
-	[MonsterType.Fiend, "Fiend"],
-	[MonsterType.Giant, "Giant"],
-	[MonsterType.Humanoid, "Humanoid"],
-	[MonsterType.Monstrosity, "Monstrosity"],
-	[MonsterType.Ooze, "Ooze"],
-	[MonsterType.Plant, "Plant"],
-	[MonsterType.SwarmOfTinyBeasts, "Swarm of Tiny Beasts"],
-	[MonsterType.Undead, "Undead"],
-])
-
-export const enum MonsterSize {
-	Tiny,
-	Small,
-	Medium,
-	Large,
-	Huge,
-	Gargantuan,
+export enum MonsterType {
+	Beast = "Beast",
+	Dragon = "Dragon",
+	Monstrosity = "Monstrosity",
+	Humanoid = "Humanoid",
+	Fiend = "Fiend",
+	Undead = "Undead",
+	Giant = "Giant",
+	Elemental = "Elemental",
+	SwarmOfTinyBeasts = "SwarmOfTinyBeasts",
+	Construct = "Construct",
+	Celestial = "Celestial",
+	Aberration = "Aberration",
+	Fey = "Fey",
+	Plant = "Plant",
+	Ooze = "Ooze"
 }
 
-export const MonsterSizeNames = new Map<number, string>([
-	[MonsterSize.Tiny, "Tiny"],
-	[MonsterSize.Small, "Small"],
-	[MonsterSize.Medium, "Medium"],
-	[MonsterSize.Large, "Large"],
-	[MonsterSize.Huge, "Huge"],
-	[MonsterSize.Gargantuan, "Gargantuan"],
-])
-
-export const enum MonsterEnvironment {
-	Arctic,
-	Coastal,
-	Desert,
-	Forest,
-	Grassland,
-	Hill,
-	Mountain,
-	Swamp,
-	Underdark,
-	Underwater,
-	Urban,
+export enum MonsterRace {
+	AnyRace = "AnyRace",
+	Devil = "Devil",
+	Demon = "Demon",
+	Human = "Human",
+	Shapechanger = "Shapechanger",
+	Goblinoid = "Goblinoid",
+	Titan = "Titan",
+	Gnoll = "Gnoll",
+	Gnome = "Gnome",
+	Dwarf = "Dwarf",
+	Elf = "Elf",
+	Orc = "Orc",
+	Kobold = "Kobold",
+	Lizardfolk = "Lizardfolk",
+	Merfolk = "Merfolk",
+	Sahuagin = "Sahuagin",
+	Grimlock = "Grimlock"
 }
 
-export const MonsterEnvironmentNames = new Map<number, string>([
-	[MonsterEnvironment.Arctic, "Arctic"],
-	[MonsterEnvironment.Coastal, "Coastal"],
-	[MonsterEnvironment.Desert, "Desert"],
-	[MonsterEnvironment.Forest, "Forest"],
-	[MonsterEnvironment.Grassland, "Grassland"],
-	[MonsterEnvironment.Hill, "Hill"],
-	[MonsterEnvironment.Mountain, "Mountain"],
-	[MonsterEnvironment.Swamp, "Swamp"],
-	[MonsterEnvironment.Underdark, "Underdark"],
-	[MonsterEnvironment.Underwater, "Underwater"],
-	[MonsterEnvironment.Urban, "Urban"],
-])
-
-export const enum MonsterRace {
-	AnyRace,
-	Devil,
-	Demon,
-	Human,
-	Shapechanger,
-	Goblinoid,
-	Titan,
-	Gnoll,
-	Gnome,
-	Dwarf,
-	Elf,
-	Orc,
-	Kobold,
-	Lizardfolk,
-	Merfolk,
-	Sahuagin,
-	Grimlock,
+export enum Alignment {
+	Unaligned = "Unaligned",
+	AnyAlignment = "AnyAlignment",
+	AnyNonGoodAlignment = "AnyNonGoodAlignment",
+	AnyNonEvilAlignment = "AnyNonEvilAlignment",
+	AnyNonLawfulAlignment = "AnyNonLawfulAlignment",
+	AnyNonChaoticAlignment = "AnyNonChaoticAlignment",
+	AnyGoodAlignment = "AnyGoodAlignment",
+	AnyEvilAlignment = "AnyEvilAlignment",
+	AnyLawfulAlignment = "AnyLawfulAlignment",
+	AnyChaoticAlignment = "AnyChaoticAlignment",
+	AnyNeutralAlignment = "AnyNeutralAlignment",
+	LawfulGood = "LawfulGood",
+	LawfulNeutral = "LawfulNeutral",
+	LawfulEvil = "LawfulEvil",
+	NeutralGood = "NeutralGood",
+	Neutral = "Neutral",
+	NeutralEvil = "NeutralEvil",
+	ChaoticGood = "ChaoticGood",
+	ChaoticNeutral = "ChaoticNeutral",
+	ChaoticEvil = "ChaoticEvil"
 }
 
-export const MonsterRaceNames = new Map<number, string>([
-	[MonsterRace.AnyRace, "Any Race"],
-	[MonsterRace.Devil, "Devil"],
-	[MonsterRace.Demon, "Demon"],
-	[MonsterRace.Human, "Human"],
-	[MonsterRace.Shapechanger, "Shapechanger"],
-	[MonsterRace.Goblinoid, "Goblinoid"],
-	[MonsterRace.Titan, "Titan"],
-	[MonsterRace.Gnoll, "Gnoll"],
-	[MonsterRace.Gnome, "Gnome"],
-	[MonsterRace.Dwarf, "Dwarf"],
-	[MonsterRace.Elf, "Elf"],
-	[MonsterRace.Orc, "Orc"],
-	[MonsterRace.Kobold, "Kobold"],
-	[MonsterRace.Lizardfolk, "Lizardfolk"],
-	[MonsterRace.Merfolk, "Merfolk"],
-	[MonsterRace.Sahuagin, "Sahuagin"],
-	[MonsterRace.Grimlock, "Grimlock"],
-])
-
-export const enum MonsterAlignment {
-	Unaligned,
-	AnyAlignment,
-	LawfulGood,
-	LawfulNeutral,
-	LawfulEvil,
-	NeutralGood,
-	Neutral,
-	NeutralEvil,
-	ChaoticGood,
-	ChaoticNeutral,
-	ChaoticEvil,
-	AnyNonGoodAlignment,
-	AnyNonEvilAlignment,
-	AnyNonLawfulAlignment,
-	AnyNonChaoticAlignment,
-	AnyGoodAlignment,
-	AnyEvilAlignment,
-	AnyLawfulAlignment,
-	AnyChaoticAlignment,
-	AnyNeutralAlignment,
+export enum Environment {
+	Arctic = "Arctic",
+	Coastal = "Coastal",
+	Desert = "Desert",
+	Forest = "Forest",
+	Grassland = "Grassland",
+	Hill = "Hill",
+	Mountain = "Mountain",
+	Swamp = "Swamp",
+	Underdark = "Underdark",
+	Underwater = "Underwater",
+	Urban = "Urban"
 }
 
-export const MonsterAlignmentNames = new Map<number, string>([
-	[MonsterAlignment.Unaligned, "Unaligned"],
-	[MonsterAlignment.AnyAlignment, "Any Alignment"],
-	[MonsterAlignment.LawfulGood, "Lawful Good"],
-	[MonsterAlignment.LawfulNeutral, "Lawful Neutral"],
-	[MonsterAlignment.LawfulEvil, "Lawful Evil"],
-	[MonsterAlignment.NeutralGood, "Neutral Good"],
-	[MonsterAlignment.Neutral, "Neutral"],
-	[MonsterAlignment.NeutralEvil, "Neutral Evil"],
-	[MonsterAlignment.ChaoticGood, "Chaotic Good"],
-	[MonsterAlignment.ChaoticNeutral, "Chaotic Neutral"],
-	[MonsterAlignment.ChaoticEvil, "Chaotic Evil"],
-	[MonsterAlignment.AnyNonGoodAlignment, "Any NonGood Alignment"],
-	[MonsterAlignment.AnyNonEvilAlignment, "Any NonEvil Alignment"],
-	[MonsterAlignment.AnyNonLawfulAlignment, "Any NonLawful Alignment"],
-	[MonsterAlignment.AnyNonChaoticAlignment, "Any NonChaotic Alignment"],
-	[MonsterAlignment.AnyGoodAlignment, "Any Good Alignment"],
-	[MonsterAlignment.AnyEvilAlignment, "Any Evil Alignment"],
-	[MonsterAlignment.AnyLawfulAlignment, "Any Lawful Alignment"],
-	[MonsterAlignment.AnyChaoticAlignment, "Any Chaotic Alignment"],
-	[MonsterAlignment.AnyNeutralAlignment, "Any Neutral Alignment"],
-])
+export enum MonsterAction {
+	SpecialAbility = "SpecialAbility",
+	Action = "Action",
+	LegendaryAction = "LegendaryAction"
+}
 
 export interface IMonsterAbilities {
 	name: string,
@@ -191,7 +113,75 @@ export interface IMonsterActions {
 
 }
 
-export interface IMonster {
+export interface IMonsterState {
+	Name: string,
+	Size?: Size | string;
+	Type?: MonsterType | string;
+	Race?: MonsterRace | string;
+	Environment?: Environment | string;
+	Alignment?: Alignment | string;
+
+	ArmorClass?: number;
+	HitPoints?: number;
+	HitPointDistribution?: string;
+
+	Speed?: string;
+	Languages?: string;
+
+	DamageVulnerabilities?: string;
+	DamageResistances?: string;
+	DamageImmunities?: string;
+	ConditionImmunities?: string;
+
+	ChallengeRating?: number;
+
+	AbilityScores: IMonsterAbilityScoreState;
+	// the string part is for the payload.
+	// TODO: remove the string option,
+	//  do this when the sever respects SenseMap as a payload.
+	Senses: SenseMap | string;
+	Skills: SkillMap;
+	SavingThrows: IMonsterSavingThrowState;
+	//Actions: IActionState[];
+}
+
+export interface SkillMap {
+	[skillName: string]: number
+}
+
+export interface SenseMap {
+	[senseName: string]: number
+}
+
+export interface IMonsterAbilityScoreState {
+	[index:string]: number|undefined;
+	Strength?: number;
+	Dexterity?: number;
+	Constitution?: number;
+	Intelligence?: number;
+	Wisdom?: number;
+	Charisma?: number;
+}
+
+export interface IMonsterSavingThrowState {
+	[index:string]: number|undefined;
+	Strength?: number;
+	Dexterity?: number;
+	Constitution?: number;
+	Intelligence?: number;
+	Wisdom?: number;
+	Charisma?: number;
+}
+
+export interface IActionState {
+	Name: string,
+	Description: string,
+	HitBonus?: number,
+	Damage?: string,
+	DamageBonus?: number,
+	Type?: MonsterAction
+}
+/*export interface IMonster {
 	name: string,
 	type: MonsterType,
 	alignment: MonsterAlignment,
@@ -250,4 +240,4 @@ export interface IMonster {
 	experiencePoints: number,
 	abilities?: IMonsterAbilities[],
 	actions?: IMonsterActions[],
-}
+}*/
