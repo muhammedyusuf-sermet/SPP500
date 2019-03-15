@@ -15,12 +15,16 @@ function ToUpperCamelCase (value: string): string | undefined{
 
 fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
 
-    var monsters: Array<IMonsterData> = []
+    interface IMonsterDataScrape {
+        Skills: { Name: string, Bonus: number }[]
+    }
+
+    var monsters: Array<IMonsterData & IMonsterDataScrape> = []
     let Data: any = JSON.parse(data)
 
     for (let i in Data)
     {
-        let monster: IMonsterData = {
+        let monster: IMonsterData & IMonsterDataScrape = {
             Name: '',
             AbilityScores: {},
             SavingThrows: {},
@@ -66,7 +70,24 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         };
 
         // Skills properties.
-        // TODO: add skills.
+        const possibleSkills: string[] = 
+        [ "acrobatics", "arcana", "athletics", "deception", "history", "insight", 
+          "intimidation", "investigation", "medicine", "nature", "perception", 
+          "performance", "persuasion", "religion", "stealth", "survival"];
+        const actualSkills: string[] = 
+        [ "Acrobatics", "Arcana", "Athletics", "Deception", "History", "Insight", 
+          "Intimidation", "Investigation", "Medicine", "Nature", "Perception", 
+          "Performance", "Persuasion", "Religion", "Stealth", "Survival"];
+        monster.Skills = [];
+        for (let skillIndex in possibleSkills){
+            const bonus = Data[i][possibleSkills[skillIndex]];
+            if (bonus) {
+                monster.Skills.push({
+                    Name: actualSkills[skillIndex],
+                    Bonus: bonus
+                });
+            }
+        }
 
         // SavingThrows properties.
         monster.SavingThrows = {
