@@ -1,0 +1,12 @@
+/*
+
+When all info provided correctly
+Save the campaign
+
+When invalid encounter is provided
+raise an error
+
+When name summary or Notes are invalid
+raise an error
+
+*/
