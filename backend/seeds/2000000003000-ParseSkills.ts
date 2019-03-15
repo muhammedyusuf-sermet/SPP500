@@ -8,15 +8,21 @@ export class ParseSkills2000000003000 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
         let skills: Array<Skill> = []
 
-        const allAbilities: AbilityScore[] = await AbilityScore.find({ select: ["Id", "Abbreviation"] });
-        const abilityScoreLookup: { [Name: string]: AbilityScore }= {};
-        allAbilities.forEach((value) => {
-        abilityScoreLookup[value.Abbreviation] = value;
+        const allAbilities: AbilityScore[] = await queryRunner.manager
+            .createQueryBuilder(AbilityScore, "abilityScore") 
+            .select("abilityScore")
+            .getMany();
+
+        const abilityScoreLookup: Map<string,AbilityScore> = new Map();
+        allAbilities.forEach((value: AbilityScore) => {
+            abilityScoreLookup.set(value.Abbreviation , value)
         });
 
         for (let index in Data){
-            let skill: Skill = Data[index] as unknown as Skill
-            skill.AbilityScore = abilityScoreLookup[skill.AbilityScore.Abbreviation]
+            let skill: Skill = Object.assign(new Skill(), Data[index])
+            const ability = abilityScoreLookup.get(skill.AbilityScore.Abbreviation)
+            if (ability)
+                skill.AbilityScore = ability
             skills.push(skill);
         }
 
