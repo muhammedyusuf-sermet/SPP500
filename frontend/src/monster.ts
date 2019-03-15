@@ -192,6 +192,7 @@ export interface IMonsterActions {
 }
 
 export interface IMonster {
+	id: string,
 	name: string,
 	type: MonsterType,
 	alignment: MonsterAlignment,

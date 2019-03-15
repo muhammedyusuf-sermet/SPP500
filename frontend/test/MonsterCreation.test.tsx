@@ -98,6 +98,7 @@ describe('Monster Creation', () => {
 						message: ""
 					},
 					monster: {
+						id: "",
 						name: "Hello",
 						type: Monster.MonsterType.Celestial,
 						alignment: Monster.MonsterAlignment.AnyGoodAlignment,

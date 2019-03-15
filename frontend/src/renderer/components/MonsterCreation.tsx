@@ -143,6 +143,7 @@ export class MonsterCreation extends React.Component<{}, IMonsterCreationState> 
 				message: ""
 			},
 			monster: {
+				id: "",
 				name: "",
 				type: Monster.MonsterType.Aberration,
 				alignment: Monster.MonsterAlignment.AnyAlignment,
