@@ -5,7 +5,9 @@ fs.readFile('5e-SRD-Skills.json',(err: any, data: any) => {
     interface ISkill {
         Name: string,
         Description: string,    
-        //AbilityScoreAbbreviation: string
+        AbilityScore: {
+            Abbriviation?: string
+        }
     };
 
     var skills: Array<ISkill> = []
@@ -17,7 +19,7 @@ fs.readFile('5e-SRD-Skills.json',(err: any, data: any) => {
         {
             Name: '',
             Description: '',
-            //AbilityScoreAbbreviation: ''
+            AbilityScore: {}
         }
 
         skill.Name = Data[i]['name']
@@ -28,7 +30,7 @@ fs.readFile('5e-SRD-Skills.json',(err: any, data: any) => {
             });
         skill.Description = desc
        
-        //skill.AbilityScoreAbbreviation = Data[i]['ability_score']['name']
+        skill.AbilityScore.Abbriviation = Data[i]['ability_score']['name']
         
         skills.push(skill);
     }
