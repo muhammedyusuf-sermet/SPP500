@@ -1,6 +1,6 @@
 import { Entity, Column, Index, PrimaryGeneratedColumn, OneToMany, ManyToMany, BaseEntity, OneToOne, JoinColumn } from "typeorm";
 import { MonsterAbilityScore, IMonsterAbilityScoreData } from "./MonsterAbilityScore";
-import { MonsterSkill } from "./MonsterSkill";
+import { MonsterSkill, IMonsterSkillData } from "./MonsterSkill";
 import { MonsterSavingThrow, IMonsterSavingThrowData } from "./MonsterSavingThrow";
 import { Encounter } from "./Encounter";
 import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./MonsterEnums";
@@ -30,7 +30,7 @@ export interface IMonsterData {
     ChallengeRating?: number;
     
     AbilityScores: IMonsterAbilityScoreData;
-    Skills: MonsterSkill[];
+    Skills: IMonsterSkillData[];
     SavingThrows: IMonsterSavingThrowData;
     Actions: IActionData[];
     Encounters: Encounter[];
