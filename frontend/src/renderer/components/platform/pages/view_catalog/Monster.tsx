@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -40,8 +40,8 @@ export class Monster extends React.Component<any, IMonsterState> {
 		this.setState({ viewMonster: true});
 	}
 
-	edit = (event: React.FormEvent) => {
-		event.preventDefault();
+	edit = (monster: MonsterInterface.IMonster) => {
+		this.setState({ selectedMonster: monster});
 		this.setState({ editMonster: true});
 	}
 
@@ -70,7 +70,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 									<Button size="small" color="primary" onClick={() => this.view(monster)}>
 									  View
 									</Button>
-									<Button size="small" color="primary" /*onClick={this.edit}*/>
+									<Button size="small" color="primary" onClick={() => this.edit(monster)}>
 									  Edit
 									</Button>
 								  </CardActions>

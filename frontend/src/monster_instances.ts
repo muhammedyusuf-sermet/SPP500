@@ -1,6 +1,5 @@
 import * as Monster from "./monster";
 
-// TODO: we might want to add "id" field to the IMonster interface.
 let monsterExample: Monster.IMonster;
 monsterExample = {
 			id: "",
