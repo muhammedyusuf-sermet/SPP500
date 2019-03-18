@@ -7,1030 +7,594 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
   >
     Monster Details
   </h1>
-  <WithStyles(Grid)
-    container={true}
-    spacing={24}
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Monster Name
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      id="name"
+      label="Monster Name"
+      readOnly={true}
+      value="Kobold"
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Tile)
+    className="box"
+    isVertical={true}
   >
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        fullWidth={true}
-        id="name"
-        label="Monster Name"
-        margin="dense"
-        required={false}
-        select={false}
-        value="Kobold"
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={6}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    <withHelpersModifiers(Subtitle)>
+      Basic Configurations
+    </withHelpersModifiers(Subtitle)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Type
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Type"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Celestial"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={6}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Size
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Size"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Gargantuan"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={6}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Race
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Race"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Devil"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={6}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Alignment
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Alignment"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Any Good Alignment"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={6}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Environment
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Environment"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Underdark"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+  </withHelpersModifiers(Tile)>
+  <withHelpersModifiers(Tile)
+    className="box"
+    isVertical={true}
+  >
+    <withHelpersModifiers(Subtitle)>
+      Vulnerability, Resistance, and Immunity
+    </withHelpersModifiers(Subtitle)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Resistance
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Resistance"
-        margin="dense"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Everything"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Damage Immunity
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Damage Immunity"
-        margin="dense"
-        required={false}
-        select={false}
+        readOnly={true}
         value="None at all"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Condition Immunity
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Condition Immunity"
-        margin="dense"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Nada"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Vulnerability
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
         label="Vulnerability"
-        margin="dense"
-        required={false}
-        select={false}
+        readOnly={true}
         value="Nothing"
-        variant="standard"
       />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Armor Class"
-        margin="dense"
-        required={false}
-        select={false}
-        value={15}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Hit Points"
-        margin="dense"
-        required={false}
-        select={false}
-        value={40}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Hit Point Dice"
-        margin="dense"
-        required={false}
-        select={false}
-        value="9d5"
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Hit Point Dice Add"
-        margin="dense"
-        required={false}
-        select={false}
-        value={-5}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Land Speed"
-        margin="dense"
-        required={false}
-        select={false}
-        value={25}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Swimming Speed"
-        margin="dense"
-        required={false}
-        select={false}
-        value={15}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Strength Stat"
-        margin="dense"
-        required={false}
-        select={false}
-        value={17}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Dexterity Stat"
-        margin="dense"
-        required={false}
-        select={false}
-        value={15}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Constitution Stat"
-        margin="dense"
-        required={false}
-        select={false}
-        value={13}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Intelligence Stat"
-        margin="dense"
-        required={false}
-        select={false}
-        value={12}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Wisdom Stat"
-        margin="dense"
-        required={false}
-        select={false}
-        value={16}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Charisma Stat"
-        margin="dense"
-        required={false}
-        select={false}
-        value={15}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Strength Saving Throw Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={-3}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Dexterity Saving Throw Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={0}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Constitution Saving Throw Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={-1}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Intelligence Saving Throw Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={-2}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Wisdom Saving Throw Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={8}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Charisma Saving Throw Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={9}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Athletics Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={9}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Acrobatics Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={10}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Sleight of Hand Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={9}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Stealth Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={8}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Arcana Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={7}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="History Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={7}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Investigation Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={6}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Nature Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={7}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Religion Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={8}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Animal Handling Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={9}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Insight Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={10}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Medicine Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={12}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Perception Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={15}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Survival Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={11}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Deception Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={10}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Intimidation Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={9}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Performance Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={7}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Persuasion Modifier"
-        margin="dense"
-        required={false}
-        select={false}
-        value={4}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Blindsight"
-        margin="dense"
-        required={false}
-        select={false}
-        value={30}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Darkvision"
-        margin="dense"
-        required={false}
-        select={false}
-        value={10}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Tremorsense"
-        margin="dense"
-        required={false}
-        select={false}
-        value={15}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Truesight"
-        margin="dense"
-        required={false}
-        select={false}
-        value={60}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Passive Perception"
-        margin="dense"
-        required={false}
-        select={false}
-        value={13}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Passive Investigation"
-        margin="dense"
-        required={false}
-        select={false}
-        value={14}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Passive Insight"
-        margin="dense"
-        required={false}
-        select={false}
-        value={16}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Languages"
-        margin="dense"
-        required={false}
-        select={false}
-        value="Common and Draconic"
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Challenge Rating"
-        margin="dense"
-        required={false}
-        select={false}
-        value={2.5}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Grid)
-      item={true}
-      xs={12}
-    >
-      <TextField
-        InputProps={
-          Object {
-            "readOnly": true,
-          }
-        }
-        label="Experience Points"
-        margin="dense"
-        required={false}
-        select={false}
-        value={190}
-        variant="standard"
-      />
-    </WithStyles(Grid)>
-    <WithStyles(Button)
-      className="button"
-      color="primary"
-      disabled={true}
-      type="submit"
-      variant="contained"
-    >
-       Edit Monster 
-    </WithStyles(Button)>
-    <WithStyles(Button)
-      className="button"
-      variant="contained"
-    >
-       Return to Catalogue 
-    </WithStyles(Button)>
-  </WithStyles(Grid)>
+    </withHelpersModifiers(Control)>
+  </withHelpersModifiers(Tile)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Armor Class
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Armor Class"
+      readOnly={true}
+      value={15}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Hit Points
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Hit Points"
+      readOnly={true}
+      value={40}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Hit Point Dice
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Hit Point Dice"
+      readOnly={true}
+      value="9d5"
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Hit Point Dice Add
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Hit Point Dice Add"
+      readOnly={true}
+      value={-5}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Land Speed
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Land Speed"
+      readOnly={true}
+      value={25}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Swimming Speed
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Swimming Speed"
+      readOnly={true}
+      value={15}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Strength Stat
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Strength Stat"
+      readOnly={true}
+      value={17}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Dexterity Stat
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Dexterity Stat"
+      readOnly={true}
+      value={15}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Constitution Stat
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Constitution Stat"
+      readOnly={true}
+      value={13}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Intelligence Stat
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Intelligence Stat"
+      readOnly={true}
+      value={12}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Wisdom Stat
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Wisdom Stat"
+      readOnly={true}
+      value={16}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Charisma Stat
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Charisma Stat"
+      readOnly={true}
+      value={15}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Strength Saving Throw Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Strength Saving Throw Modifier"
+      readOnly={true}
+      value={-3}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Dexterity Saving Throw Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Dexterity Saving Throw Modifier"
+      readOnly={true}
+      value={0}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Constitution Saving Throw Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Constitution Saving Throw Modifier"
+      readOnly={true}
+      value={-1}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Intelligence Saving Throw Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Intelligence Saving Throw Modifier"
+      readOnly={true}
+      value={-2}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Wisdom Saving Throw Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Wisdom Saving Throw Modifier"
+      readOnly={true}
+      value={8}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Charisma Saving Throw Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Charisma Saving Throw Modifier"
+      readOnly={true}
+      value={9}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Athletics Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Athletics Modifier"
+      readOnly={true}
+      value={9}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Acrobatics Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Acrobatics Modifier"
+      readOnly={true}
+      value={10}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Sleight of Hand Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Sleight of Hand Modifier"
+      readOnly={true}
+      value={9}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Stealth Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Stealth Modifier"
+      readOnly={true}
+      value={8}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Arcana Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Arcana Modifier"
+      readOnly={true}
+      value={7}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      History Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="History Modifier"
+      readOnly={true}
+      value={7}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Investigation Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Investigation Modifier"
+      readOnly={true}
+      value={6}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Nature Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Nature Modifier"
+      readOnly={true}
+      value={7}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Religion Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Religion Modifier"
+      readOnly={true}
+      value={8}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Animal Handling Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Animal Handling Modifier"
+      readOnly={true}
+      value={9}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Insight Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Insight Modifier"
+      readOnly={true}
+      value={10}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Medicine Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Medicine Modifier"
+      readOnly={true}
+      value={12}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Perception Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Perception Modifier"
+      readOnly={true}
+      value={15}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Survival Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Survival Modifier"
+      readOnly={true}
+      value={11}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Deception Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Deception Modifier"
+      readOnly={true}
+      value={10}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Intimidation Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Intimidation Modifier"
+      readOnly={true}
+      value={9}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Performance Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Performance Modifier"
+      readOnly={true}
+      value={7}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Persuasion Modifier
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Persuasion Modifier"
+      readOnly={true}
+      value={4}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Blindsight
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Blindsight"
+      readOnly={true}
+      value={30}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Darkvision
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Darkvision"
+      readOnly={true}
+      value={10}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Tremorsense
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Tremorsense"
+      readOnly={true}
+      value={15}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Truesight
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Truesight"
+      readOnly={true}
+      value={60}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Passive Perception
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Passive Perception"
+      readOnly={true}
+      value={13}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Passive Investigation
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Passive Investigation"
+      readOnly={true}
+      value={14}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Passive Insight
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Passive Insight"
+      readOnly={true}
+      value={16}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Languages
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Languages"
+      readOnly={true}
+      value="Common and Draconic"
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Challenge Rating
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Challenge Rating"
+      readOnly={true}
+      value={2.5}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Experience Points
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      label="Experience Points"
+      readOnly={true}
+      value={190}
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Button)
+    className="button"
+    disabled={true}
+    type="submit"
+  >
+     Edit Monster 
+  </withHelpersModifiers(Button)>
+  <withHelpersModifiers(Button)
+    className="button"
+  >
+     Return to Catalogue 
+  </withHelpersModifiers(Button)>
 </form>
 `;
