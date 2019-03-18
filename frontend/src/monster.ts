@@ -137,20 +137,20 @@ export interface IMonsterState {
 
 	AbilityScores: IMonsterAbilityScoreState;
 	// the string part is for the payload.
-	// TODO: remove the string option,
+	// TODO: remove the string option and question mark '?',
 	//  do this when the sever respects SenseMap as a payload.
-	Senses: SenseMap | string;
+	Senses?: SenseMap | string;
 	Skills: SkillMap;
 	SavingThrows: IMonsterSavingThrowState;
 	//Actions: IActionState[];
 }
 
 export interface SkillMap {
-	[skillName: string]: number
+	[skillName: string]: number|undefined;
 }
 
 export interface SenseMap {
-	[senseName: string]: number
+	[senseName: string]: number|undefined;
 }
 
 export interface IMonsterAbilityScoreState {

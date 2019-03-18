@@ -82,9 +82,9 @@ interface IMonsterCreationResponse {
 export class MonsterCreation extends React.Component<IMonsterCreationProps, IMonsterCreationState> {
 	// TODO move skillNames, senseNames, abilityScoreNames, savingThrowNames to the monster file.
 	private skillNames = [
-		"Acrobatics", "AnimalHandling", "Arcana", "Athletics", "Deception", "History", "Insight",
+		"Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight",
 		"Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance",
-		"Persuasion", "Religion", "SleightOfHand", "Stealth", "Survival" ];
+		"Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival" ];
 	private senseNames = [
 		"Blindsight", "Darkvision", "Tremorsense", "Truesight",
 		"PassivePerception", "PassiveInvestigation", "PassiveInsight" ];
@@ -194,11 +194,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	};
 
 	stringToNumber = (toConvert : string) => {
-		return parseInt(toConvert) != NaN ? parseInt(toConvert) : 0
+		return parseInt(toConvert) != NaN ? parseInt(toConvert) : undefined
 	}
 
 	stringToFloat = (toConvert : string) => {
-		return parseFloat(toConvert) != NaN ? parseFloat(toConvert) : 0
+		return parseFloat(toConvert) != NaN ? parseFloat(toConvert) : undefined
 	}
 
 	handleMonsterNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -403,10 +403,12 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		event.preventDefault();
 
 			// need to convert speed to single string
-			let monsterSpeed = this.state.SpeedLand + "ft."
-			monsterSpeed = this.state.SpeedSwim != null ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
+			let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
+			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
+			if(monsterSpeed.length == 0)
+				monsterSpeed = undefined;
 			// TODO remove this when the payload accepts senses as a dictionary.
-			let monsterSenses = ""
+			let monsterSenses: string|undefined = "";
 			for (let sense in this.state.monster.Senses as SenseMap) {
 				let units = '';
 				if (sense.startsWith('Passive')) {
@@ -414,10 +416,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				} else {
 					units = ' ft.';
 				}
-				if ((this.state.monster.Senses as SenseMap)[sense]>0)
+				const senseBonus = (this.state.monster.Senses as SenseMap)[sense]
+				if (senseBonus && senseBonus > 0)
 					monsterSenses += ' ' + sense + ': ' + (this.state.monster.Senses as SenseMap)[sense]+ units;
 			}
 			monsterSenses = monsterSenses.trim();
+			if (monsterSenses.length == 0)
+				monsterSenses = undefined;
 			const monsterPayload: IMonsterState = {
 				...this.state.monster,
 				Speed: monsterSpeed,

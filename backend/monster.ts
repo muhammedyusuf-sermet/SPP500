@@ -196,6 +196,10 @@ export class MonsterFactory {
 					const monster: Monster = Object.assign(new Monster(), value);
 					// save ability score
 					const abilityScore: MonsterAbilityScore = Object.assign(new MonsterAbilityScore(), monster.AbilityScores);
+					monster.Skills = [];
+					monster.Actions = [];
+					monster.Encounters = [];
+
 					abilityScore.Monster = monster;
 					monster.AbilityScores = abilityScore;
 					await abilityScore.save();
