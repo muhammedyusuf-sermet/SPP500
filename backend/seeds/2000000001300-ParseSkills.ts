@@ -3,7 +3,7 @@ import { Skill } from "../entity/Skill";
 import { AbilityScore } from "../entity/AbilityScore";
 import Data from './data/skills.json';
 
-export class ParseSkills2000000003000 implements MigrationInterface {
+export class ParseSkills2000000001300 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         let skills: Array<Skill> = []

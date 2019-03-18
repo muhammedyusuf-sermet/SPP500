@@ -13,7 +13,16 @@
             "Intelligence": 8,
             "Wisdom": 6
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "History",
+                "Bonus": 12
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 10
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -108,7 +117,16 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Medicine",
+                "Bonus": 4
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spellcasting",
@@ -157,7 +175,16 @@
             "Wisdom": 6,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 11
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -261,7 +288,12 @@
             "Charisma": 19
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 12
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -370,7 +402,16 @@
             "Wisdom": 7,
             "Charisma": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 12
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -473,7 +514,24 @@
             "Wisdom": 6,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "History",
+                "Bonus": 7
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 11
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 8
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -558,7 +616,20 @@
             "Wisdom": 7,
             "Charisma": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 7
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 12
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -667,7 +738,20 @@
             "Wisdom": 7,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 12
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -770,7 +854,24 @@
             "Wisdom": 8,
             "Charisma": 13
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 8
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 14
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 13
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -879,7 +980,28 @@
             "Wisdom": 7,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 7
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 12
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 8
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -988,7 +1110,16 @@
             "Wisdom": 7,
             "Charisma": 11
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 13
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -1098,7 +1229,24 @@
             "Wisdom": 6,
             "Charisma": 10
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 8
+            },
+            {
+                "Name": "History",
+                "Bonus": 8
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 11
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -1201,7 +1349,16 @@
             "Wisdom": 6,
             "Charisma": 6
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 11
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Ice Walk",
@@ -1367,7 +1524,16 @@
             "Wisdom": 9,
             "Charisma": 11
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 16
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -1481,7 +1647,16 @@
             "Wisdom": 10,
             "Charisma": 12
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 17
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -1578,7 +1753,24 @@
             "Wisdom": 8,
             "Charisma": 10
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "History",
+                "Bonus": 9
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 14
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 10
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -1687,7 +1879,20 @@
             "Wisdom": 10,
             "Charisma": 12
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 10
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 17
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -1802,7 +2007,20 @@
             "Wisdom": 10,
             "Charisma": 11
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 11
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 17
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -1911,7 +2129,24 @@
             "Wisdom": 10,
             "Charisma": 16
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 10
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 17
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 16
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -2026,7 +2261,28 @@
             "Wisdom": 10,
             "Charisma": 11
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 11
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 10
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 17
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 11
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -2135,7 +2391,16 @@
             "Wisdom": 9,
             "Charisma": 13
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 16
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -2238,7 +2503,24 @@
             "Wisdom": 9,
             "Charisma": 13
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 11
+            },
+            {
+                "Name": "History",
+                "Bonus": 11
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 16
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -2347,7 +2629,16 @@
             "Wisdom": 7,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 13
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Ice Walk",
@@ -2438,7 +2729,20 @@
             "Intelligence": 9,
             "Wisdom": 10
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 9
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 10
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 15
+            }
+        ],
         "Actions": [
             {
                 "Name": "Inscrutable",
@@ -2628,7 +2932,16 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -2684,7 +2997,16 @@
             "Intelligence": 9,
             "Wisdom": 6
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 13
+            },
+            {
+                "Name": "History",
+                "Bonus": 13
+            }
+        ],
         "Actions": [
             {
                 "Name": "Magic Resistance",
@@ -2738,7 +3060,24 @@
             "Dexterity": 6,
             "Intelligence": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Acrobatics",
+                "Bonus": 6
+            },
+            {
+                "Name": "Deception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Assassinate",
@@ -3235,7 +3574,16 @@
             "Dexterity": 5,
             "Wisdom": 2
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 4
+            },
+            {
+                "Name": "Deception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -3293,7 +3641,20 @@
             "Wisdom": 5,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Barbed Hide",
@@ -3542,7 +3903,16 @@
             "Charisma": 12
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -3718,7 +4088,16 @@
             "Wisdom": 2,
             "Charisma": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -3828,7 +4207,16 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -3879,7 +4267,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -3935,7 +4328,16 @@
             "Wisdom": 2,
             "Charisma": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -4037,7 +4439,16 @@
             "Wisdom": 6,
             "Charisma": 7
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Devil's Sight",
@@ -4129,7 +4540,16 @@
             "Wisdom": 2,
             "Charisma": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -4180,7 +4600,16 @@
             "Wisdom": 2,
             "Charisma": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -4232,7 +4661,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -4291,7 +4725,16 @@
             "Charisma": 9
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            },
+            {
+                "Name": "Survival",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Brute",
@@ -4351,7 +4794,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Standing Leap",
@@ -4440,7 +4888,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -4505,7 +4958,16 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -4549,7 +5011,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -4608,7 +5075,20 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 6
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Survival",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Charge",
@@ -4739,7 +5219,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -4807,7 +5292,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -4951,7 +5441,12 @@
             "Charisma": 14
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Damage Transfer",
@@ -5038,7 +5533,16 @@
             "Wisdom": 7,
             "Charisma": 7
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 7
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -5232,7 +5736,16 @@
             "Wisdom": 2,
             "Charisma": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -5353,7 +5866,12 @@
             "Charisma": 2
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -5397,7 +5915,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -5442,7 +5965,20 @@
             "Charisma": 14
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 4
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Dark Devotion",
@@ -5499,7 +6035,16 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Dark Devotion",
@@ -5544,7 +6089,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Echolocation",
@@ -5601,7 +6151,16 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Two-Headed",
@@ -5652,7 +6211,20 @@
             "Charisma": 9
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Investigation",
+                "Bonus": 3
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Stone Camouflage",
@@ -5758,7 +6330,16 @@
             "Wisdom": 9,
             "Charisma": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 9
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Angelic Weapons",
@@ -5833,7 +6414,16 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -5957,7 +6547,16 @@
             "Charisma": 14
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -6201,7 +6800,16 @@
             "Charisma": 12
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Fey Ancestry",
@@ -6292,7 +6900,16 @@
             "Charisma": 12
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Fey Ancestry",
@@ -6357,7 +6974,20 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Medicine",
+                "Bonus": 4
+            },
+            {
+                "Name": "Nature",
+                "Bonus": 3
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spellcasting",
@@ -6401,7 +7031,16 @@
             "Charisma": 18
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Innate Spellcasting",
@@ -6540,7 +7179,16 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Death Burst",
@@ -6603,7 +7251,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -6958,7 +7611,20 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            },
+            {
+                "Name": "Survival",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spider Climb",
@@ -7043,7 +7709,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Two Heads",
@@ -7176,7 +7847,16 @@
             "Constitution": 10,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 11
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -7407,7 +8087,16 @@
             "Charisma": 3
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 1
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -7454,7 +8143,16 @@
             "Wisdom": 3,
             "Charisma": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 9
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -7795,7 +8493,16 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 9
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -8049,7 +8756,12 @@
             "Charisma": 3
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -8096,7 +8808,12 @@
             "Charisma": 3
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -8141,7 +8858,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -8200,7 +8922,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -8259,7 +8986,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Charge",
@@ -8358,7 +9090,16 @@
             "Charisma": 3
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -8467,7 +9208,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Rampage",
@@ -8563,7 +9309,16 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -8626,7 +9381,16 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Flyby",
@@ -8677,7 +9441,12 @@
             "Charisma": 3
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -8911,7 +9680,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Blood Frenzy",
@@ -8962,7 +9736,12 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spider Climb",
@@ -9082,7 +9861,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight and Smell",
@@ -9186,7 +9970,16 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -9231,7 +10024,16 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spider Climb",
@@ -9430,7 +10232,16 @@
             "Dexterity": 5,
             "Constitution": 6
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 10
+            },
+            {
+                "Name": "Intimidation",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Brave",
@@ -9608,7 +10419,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Nimble Escape",
@@ -9666,7 +10482,16 @@
             "Wisdom": 2,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -9718,7 +10543,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Trampling Charge",
@@ -9777,7 +10607,12 @@
             "Charisma": 2
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amorphous",
@@ -9839,7 +10674,16 @@
             "Wisdom": 2,
             "Charisma": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -9891,7 +10735,24 @@
             "Charisma": 14
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 3
+            },
+            {
+                "Name": "Deception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -10037,7 +10898,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -10096,7 +10962,20 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Blind Senses",
@@ -10153,7 +11032,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spear",
@@ -10256,7 +11140,24 @@
             "Charisma": 18
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 12
+            },
+            {
+                "Name": "History",
+                "Bonus": 12
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Inscrutable",
@@ -10464,7 +11365,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -10508,7 +11414,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -10641,7 +11552,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -10694,7 +11610,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -10928,7 +11849,12 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Blood Frenzy",
@@ -10979,7 +11905,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -11048,7 +11979,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Pack Tactics",
@@ -11176,7 +12112,16 @@
             "Charisma": 12
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Death Burst",
@@ -11246,7 +12191,24 @@
             "Charisma": 14
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 3
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -11315,7 +12277,16 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 10
+            }
+        ],
         "Actions": [
             {
                 "Name": "Invisibility",
@@ -11456,7 +12427,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -11507,7 +12483,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Echolocation",
@@ -11796,7 +12777,20 @@
             "Charisma": 16
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Innate Spellcasting",
@@ -11915,7 +12909,24 @@
             "Intelligence": 12,
             "Wisdom": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 18
+            },
+            {
+                "Name": "History",
+                "Bonus": 12
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 9
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Legendary Resistance (3/Day)",
@@ -12002,7 +13013,16 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -12111,7 +13131,20 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            },
+            {
+                "Name": "Survival",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -12189,7 +13222,16 @@
             "Intelligence": 6,
             "Wisdom": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 6
+            },
+            {
+                "Name": "History",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spellcasting",
@@ -12234,7 +13276,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Death Burst",
@@ -12563,7 +13610,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -12608,7 +13660,24 @@
             "Charisma": 15
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 4
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Petrifying Gaze",
@@ -12674,7 +13743,12 @@
             "Charisma": 12
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -12785,7 +13859,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -12856,7 +13935,12 @@
             "Charisma": 9
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Charge",
@@ -13085,7 +14169,16 @@
             "Wisdom": 9,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "History",
+                "Bonus": 5
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Magic Resistance",
@@ -13266,7 +14359,24 @@
             "Charisma": 16
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 6
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Innate Spellcasting",
@@ -13416,7 +14526,20 @@
             "Charisma": 16
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 4
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Rapier",
@@ -13506,7 +14629,16 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -13667,7 +14799,20 @@
             "Wisdom": 4,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 5
+            },
+            {
+                "Name": "Deception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Innate Spellcasting",
@@ -13744,7 +14889,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Intimidation",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Aggressive",
@@ -13864,7 +15014,16 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Flyby",
@@ -13914,7 +15073,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight and Smell",
@@ -13973,7 +15137,16 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -14036,7 +15209,12 @@
             "Wisdom": 4,
             "Charisma": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hooves",
@@ -14075,7 +15253,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Ethereal Jaunt",
@@ -14233,7 +15416,12 @@
             "Wisdom": 11,
             "Charisma": 12
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 11
+            }
+        ],
         "Actions": [
             {
                 "Name": "Angelic Weapons",
@@ -14308,7 +15496,16 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Hold Breath",
@@ -14391,7 +15588,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -14489,7 +15691,20 @@
             "Charisma": 13
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Medicine",
+                "Bonus": 7
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 3
+            },
+            {
+                "Name": "Religion",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Divine Eminence",
@@ -14540,7 +15755,16 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Senses",
@@ -14673,7 +15897,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -14792,7 +16021,16 @@
             "Charisma": 20
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 10
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Limited Magic Immunity",
@@ -14893,7 +16131,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Mimicry",
@@ -14941,7 +16184,16 @@
             "Wisdom": 2,
             "Charisma": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -14987,7 +16239,12 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Pack Tactics",
@@ -15180,7 +16437,12 @@
             "Wisdom": 4,
             "Charisma": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight",
@@ -15239,7 +16501,16 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "False Appearance",
@@ -15428,7 +16699,16 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -15487,7 +16767,12 @@
             "Charisma": 9
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Blood Frenzy",
@@ -15632,7 +16917,20 @@
             "Charisma": 14
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Performance",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Magic Resistance",
@@ -15737,7 +17035,24 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Nature",
+                "Bonus": 4
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            },
+            {
+                "Name": "Survival",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Sight",
@@ -15914,7 +17229,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amorphous",
@@ -15971,7 +17291,12 @@
             "Charisma": 5
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Lightning Absorption",
@@ -16139,7 +17464,16 @@
             "Wisdom": 2,
             "Charisma": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -16236,7 +17570,12 @@
             "Wisdom": 14,
             "Charisma": 17
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 14
+            }
+        ],
         "Actions": [
             {
                 "Name": "Angelic Weapons",
@@ -16393,7 +17732,12 @@
             "Charisma": 2
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Spider Climb",
@@ -16505,7 +17849,16 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 8
+            }
+        ],
         "Actions": [
             {
                 "Name": "Longsword",
@@ -16562,7 +17915,32 @@
             "Charisma": 16
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 4
+            },
+            {
+                "Name": "Investigation",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Cunning Action",
@@ -16734,7 +18112,16 @@
             "Constitution": 8,
             "Wisdom": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 12
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Stone Camouflage",
@@ -16867,7 +18254,24 @@
             "Wisdom": 9,
             "Charisma": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 8
+            },
+            {
+                "Name": "Athletics",
+                "Bonus": 14
+            },
+            {
+                "Name": "History",
+                "Bonus": 8
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -16939,7 +18343,28 @@
             "Charisma": 20
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 9
+            },
+            {
+                "Name": "Insight",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 9
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Telepathic Bond",
@@ -17625,7 +19050,12 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Intimidation",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Pack Tactics",
@@ -17683,7 +19113,16 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -17909,7 +19348,12 @@
             "Charisma": 7
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Smell",
@@ -17980,7 +19424,12 @@
             "Charisma": 9
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -18145,7 +19594,16 @@
             "Wisdom": 7,
             "Charisma": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 9
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -18267,7 +19725,16 @@
             "Dexterity": 6,
             "Wisdom": 3
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Regeneration",
@@ -18336,7 +19803,16 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Athletics",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -18528,7 +20004,12 @@
             "Charisma": 4
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Sight and Smell",
@@ -18725,7 +20206,16 @@
             "Charisma": 3
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -18769,7 +20259,12 @@
             "Charisma": 12
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -18842,7 +20337,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -18914,7 +20414,16 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 2
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -18987,7 +20496,16 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -19074,7 +20592,12 @@
             "Charisma": 10
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Shapechanger",
@@ -19152,7 +20675,16 @@
             "Wisdom": 2,
             "Charisma": 2
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 2
+            }
+        ],
         "Actions": [
             {
                 "Name": "Bite",
@@ -19198,7 +20730,16 @@
             "Charisma": 15
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Sunlight Sensitivity",
@@ -19333,7 +20874,16 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -19397,7 +20947,16 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 3
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -19448,7 +21007,12 @@
             "Charisma": 8
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Keen Hearing and Smell",
@@ -19550,7 +21114,12 @@
             "Charisma": 6
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -19611,7 +21180,16 @@
             "Charisma": 11
         },
         "SavingThrows": {},
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Earth Glide",
@@ -19687,7 +21265,16 @@
             "Wisdom": 3,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 5
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -19758,7 +21345,16 @@
             "Wisdom": 5,
             "Charisma": 7
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 9
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -19823,7 +21419,20 @@
             "Wisdom": 3,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 5
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -19888,7 +21497,20 @@
             "Wisdom": 4,
             "Charisma": 6
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 4
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -19959,7 +21581,20 @@
             "Wisdom": 4,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -20024,7 +21659,24 @@
             "Wisdom": 5,
             "Charisma": 9
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Insight",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 9
+            },
+            {
+                "Name": "Persuasion",
+                "Bonus": 9
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 6
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -20095,7 +21747,20 @@
             "Wisdom": 4,
             "Charisma": 5
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Deception",
+                "Bonus": 5
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 7
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Amphibious",
@@ -20166,7 +21831,16 @@
             "Wisdom": 4,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -20231,7 +21905,24 @@
             "Wisdom": 4,
             "Charisma": 8
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Arcana",
+                "Bonus": 6
+            },
+            {
+                "Name": "History",
+                "Bonus": 6
+            },
+            {
+                "Name": "Perception",
+                "Bonus": 8
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 4
+            }
+        ],
         "Actions": [
             {
                 "Name": "Multiattack",
@@ -20296,7 +21987,16 @@
             "Wisdom": 3,
             "Charisma": 4
         },
-        "Skills": [],
+        "Skills": [
+            {
+                "Name": "Perception",
+                "Bonus": 6
+            },
+            {
+                "Name": "Stealth",
+                "Bonus": 3
+            }
+        ],
         "Actions": [
             {
                 "Name": "Ice Walk",
