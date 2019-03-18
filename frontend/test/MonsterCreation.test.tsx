@@ -95,6 +95,7 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#ExperiencePoints').simulate('change', { target: { value: 190 } })
 			//console.log(monsterCreationInstance.state())
 			const expectedMonster = {
+				Id: "",
 				Name: "Hello",
 				Type: MonsterType.Celestial,
 				Alignment: Alignment.AnyGoodAlignment,
@@ -171,6 +172,7 @@ describe('Monster Creation', () => {
 			})
 			nock(API_URL)
 			.post('/monster/create', {
+				"Id": "",
 				"Name": "Hello",
 				"Type": "Celestial",
 				"Alignment": "AnyGoodAlignment",

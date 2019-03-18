@@ -31,7 +31,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             0
           </WithStyles(Typography)>
@@ -86,7 +86,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             1
           </WithStyles(Typography)>
@@ -141,7 +141,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             2
           </WithStyles(Typography)>
@@ -196,7 +196,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             3
           </WithStyles(Typography)>
@@ -251,7 +251,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             4
           </WithStyles(Typography)>
@@ -306,7 +306,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             5
           </WithStyles(Typography)>
@@ -361,7 +361,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             6
           </WithStyles(Typography)>
@@ -416,7 +416,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             7
           </WithStyles(Typography)>
@@ -471,7 +471,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             8
           </WithStyles(Typography)>
@@ -526,7 +526,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             9
           </WithStyles(Typography)>
@@ -581,7 +581,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             10
           </WithStyles(Typography)>
@@ -636,7 +636,7 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
             gutterBottom={true}
             variant="h5"
           >
-            Kobold
+            Hello
              
             11
           </WithStyles(Typography)>

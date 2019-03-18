@@ -15,7 +15,7 @@ import MonsterInstances from '../../../../../monster_instances';
 export interface IMonsterState {
 	viewMonster: boolean,
 	editMonster: boolean,
-	selectedMonster: MonsterInterface.IMonster,
+	selectedMonster: MonsterInterface.IMonsterState,
 }
 
 export class Monster extends React.Component<any, IMonsterState> {
@@ -24,23 +24,23 @@ export class Monster extends React.Component<any, IMonsterState> {
 		this.state = {
 			viewMonster: false,
 			editMonster: false,
-			selectedMonster: {} as MonsterInterface.IMonster,
+			selectedMonster: {} as MonsterInterface.IMonsterState,
 		}
 		this.resetState = this.resetState.bind(this);
 	}
 
 	resetState() {
-		this.setState({ selectedMonster: {} as MonsterInterface.IMonster});
+		this.setState({ selectedMonster: {} as MonsterInterface.IMonsterState});
 		this.setState({ viewMonster: false});
 		this.setState({ editMonster: false});
 	}
 
-	view = (monster: MonsterInterface.IMonster) => {
+	view = (monster: MonsterInterface.IMonsterState) => {
 		this.setState({ selectedMonster: monster});
 		this.setState({ viewMonster: true});
 	}
 
-	edit = (monster: MonsterInterface.IMonster) => {
+	edit = (monster: MonsterInterface.IMonsterState) => {
 		this.setState({ selectedMonster: monster});
 		this.setState({ editMonster: true});
 	}
@@ -51,7 +51,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 				<div className= "layout card-grid">
 					<Grid container spacing={40}>
 						{MonsterInstances['MonsterInstances'].map(monster => (
-							<Grid item key={monster.id} sm={6} md={4} lg={3}>
+							<Grid item key={monster.Id} sm={6} md={4} lg={3}>
 								<Card className="card">
 								  <CardMedia
 									className="card-media"
@@ -60,10 +60,10 @@ export class Monster extends React.Component<any, IMonsterState> {
 								  />
 								  <CardContent className="card-content">
 									<Typography gutterBottom variant="h5" component="h2">
-									  {monster.name} {monster.id}
+									  {monster.Name} {monster.Id}
 									</Typography>
 									<Typography>
-									  This is a {MonsterInterface.MonsterSizeNames.get(monster.size)} {MonsterInterface.MonsterRaceNames.get(monster.race)}, and is a type of {MonsterInterface.MonsterTypeNames.get(monster.type)} monsters.
+									  This is a {monster.Size} {monster.Race}, and is a type of {monster.Type} monsters.
 									</Typography>
 								  </CardContent>
 								  <CardActions>

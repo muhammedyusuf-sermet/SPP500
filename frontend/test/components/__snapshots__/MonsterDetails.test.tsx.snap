@@ -15,7 +15,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
       id="name"
       label="Monster Name"
       readOnly={true}
-      value="Kobold"
+      value="Hello"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Tile)
@@ -62,7 +62,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
       <withHelpersModifiers(Input)
         label="Alignment"
         readOnly={true}
-        value="Any Good Alignment"
+        value="AnyGoodAlignment"
       />
     </withHelpersModifiers(Control)>
     <withHelpersModifiers(Control)>
@@ -90,7 +90,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
       <withHelpersModifiers(Input)
         label="Resistance"
         readOnly={true}
-        value="Everything"
+        value="None at all"
       />
     </withHelpersModifiers(Control)>
     <withHelpersModifiers(Control)>
@@ -100,7 +100,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
       <withHelpersModifiers(Input)
         label="Damage Immunity"
         readOnly={true}
-        value="None at all"
+        value="Nada"
       />
     </withHelpersModifiers(Control)>
     <withHelpersModifiers(Control)>
@@ -110,17 +110,17 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
       <withHelpersModifiers(Input)
         label="Condition Immunity"
         readOnly={true}
-        value="Nada"
+        value="Nothing"
       />
     </withHelpersModifiers(Control)>
     <withHelpersModifiers(Control)>
       <withHelpersModifiers(Label)>
-        Vulnerability
+        Damage Vulnerabilities
       </withHelpersModifiers(Label)>
       <withHelpersModifiers(Input)
         label="Vulnerability"
         readOnly={true}
-        value="Nothing"
+        value="Everything"
       />
     </withHelpersModifiers(Control)>
   </withHelpersModifiers(Tile)>
@@ -146,42 +146,12 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
     <withHelpersModifiers(Label)>
-      Hit Point Dice
+      Hit Point Distribution
     </withHelpersModifiers(Label)>
     <withHelpersModifiers(Input)
       label="Hit Point Dice"
       readOnly={true}
-      value="9d5"
-    />
-  </withHelpersModifiers(Control)>
-  <withHelpersModifiers(Control)>
-    <withHelpersModifiers(Label)>
-      Hit Point Dice Add
-    </withHelpersModifiers(Label)>
-    <withHelpersModifiers(Input)
-      label="Hit Point Dice Add"
-      readOnly={true}
-      value={-5}
-    />
-  </withHelpersModifiers(Control)>
-  <withHelpersModifiers(Control)>
-    <withHelpersModifiers(Label)>
-      Land Speed
-    </withHelpersModifiers(Label)>
-    <withHelpersModifiers(Input)
-      label="Land Speed"
-      readOnly={true}
-      value={25}
-    />
-  </withHelpersModifiers(Control)>
-  <withHelpersModifiers(Control)>
-    <withHelpersModifiers(Label)>
-      Swimming Speed
-    </withHelpersModifiers(Label)>
-    <withHelpersModifiers(Input)
-      label="Swimming Speed"
-      readOnly={true}
-      value={15}
+      value="9d5 - 5"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -572,16 +542,6 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
       label="Challenge Rating"
       readOnly={true}
       value={2.5}
-    />
-  </withHelpersModifiers(Control)>
-  <withHelpersModifiers(Control)>
-    <withHelpersModifiers(Label)>
-      Experience Points
-    </withHelpersModifiers(Label)>
-    <withHelpersModifiers(Input)
-      label="Experience Points"
-      readOnly={true}
-      value={190}
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Button)
