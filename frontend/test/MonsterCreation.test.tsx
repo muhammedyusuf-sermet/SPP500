@@ -67,14 +67,14 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#SavingCharisma').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Athletics').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Acrobatics').simulate('change', { target: { value: 10 } })
-			monsterCreationInstance.find('Input#SleightOfHand').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input[id="Sleight of Hand"]').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Stealth').simulate('change', { target: { value: 8 } })
 			monsterCreationInstance.find('Input#Arcana').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#History').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#Investigation').simulate('change', { target: { value: 6 } })
 			monsterCreationInstance.find('Input#Nature').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#Religion').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('Input#AnimalHandling').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input[id="Animal Handling"]').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Insight').simulate('change', { target: { value: 10 } })
 			monsterCreationInstance.find('Input#Medicine').simulate('change', { target: { value: 12 } })
 			monsterCreationInstance.find('Input#Perception').simulate('change', { target: { value: 15 } })
@@ -127,14 +127,14 @@ describe('Monster Creation', () => {
 				Skills: {
 					Athletics: 9,
 					Acrobatics: 10,
-					SleightOfHand: 9,
+					"Sleight of Hand": 9,
 					Stealth: 8,
 					Arcana: 7,
 					History: 7,
 					Investigation: 6,
 					Nature: 7,
 					Religion: 8,
-					AnimalHandling: 9,
+					"Animal Handling": 9,
 					Insight: 10,
 					Medicine: 12,
 					Perception: 15,
