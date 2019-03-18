@@ -215,6 +215,9 @@ export class MonsterDetails extends React.Component<any, IMonsterDetailsState> {
 							<Input  value={monster.Skills.Persuasion} label="Persuasion Modifier" readOnly/>
 						</Control>
 
+						{/*
+						TODO: Since "Senses" are defined as a string, we can't access its properties like below
+						      Change this once Senses are strcutured like Skills.
 						<Control>
 							<Label>Blindsight</Label>
 							<Input  value={monster.Senses.Blindsight} label="Blindsight" readOnly/>
@@ -243,6 +246,7 @@ export class MonsterDetails extends React.Component<any, IMonsterDetailsState> {
 							<Label>Passive Insight</Label>
 							<Input  value={monster.Senses.PassiveInsight} label="Passive Insight" readOnly/>
 						</Control>
+						*/}
 						<Control>
 							<Label>Languages</Label>
 							<Input  value={monster.Languages} label="Languages" readOnly/>

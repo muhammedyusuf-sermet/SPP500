@@ -138,10 +138,9 @@ export interface IMonsterState {
 
 	AbilityScores: IMonsterAbilityScoreState;
 	// the string part is for the payload.
-	// DONE: remove the string option,
-	// string option is removed because it causes an
-	// error when accessing e.g. monster.Senses.XYZ
-	Senses: SenseMap;
+	// TODO: remove the string option,
+	//  do this when the sever respects SenseMap as a payload.
+	Senses: SenseMap | string;
 	Skills: SkillMap;
 	SavingThrows: IMonsterSavingThrowState;
 	//Actions: IActionState[];
