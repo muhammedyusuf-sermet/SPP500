@@ -5,6 +5,7 @@ import { MonsterSavingThrow, IMonsterSavingThrowData } from "./MonsterSavingThro
 import { Encounter } from "./Encounter";
 import { Size, MonsterType, MonsterRace, Alignment, Environment } from "./MonsterEnums";
 import { Action, IActionData } from "./Action";
+import { IMonsterSenseData, MonsterSense } from "./MonsterSense";
 
 export interface IMonsterData {
     Name: string,
@@ -19,16 +20,16 @@ export interface IMonsterData {
     HitPointDistribution?: string;
 
     Speed?: string;
-    Senses?: string;
     Languages?: string;
-
+    
     DamageVulnerabilities?: string;
     DamageResistances?: string;
     DamageImmunities?: string;
     ConditionImmunities?: string;
-
+    
     ChallengeRating?: number;
     
+    Senses: IMonsterSenseData[];
     AbilityScores: IMonsterAbilityScoreData;
     Skills: IMonsterSkillData[];
     SavingThrows: IMonsterSavingThrowData;
@@ -112,13 +113,6 @@ export class Monster extends BaseEntity implements IMonsterData {
 
     @Column({
         type: "varchar",
-        length: 250,
-        nullable: true
-    })
-    Senses: string;
-
-    @Column({
-        type: "varchar",
         length: 100,
         nullable: true
     })
@@ -164,6 +158,9 @@ export class Monster extends BaseEntity implements IMonsterData {
 
     @OneToMany(() => MonsterSkill, monsterSkill => monsterSkill.Monster)
     Skills: MonsterSkill[];
+
+    @OneToMany(() => MonsterSense, monsterSense => monsterSense.Monster)
+    Senses: MonsterSense[];
 
     @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
     @JoinColumn()
