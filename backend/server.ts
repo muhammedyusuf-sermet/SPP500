@@ -72,7 +72,7 @@ export const initServer = async () => {
 		handler: function (request) {
 			var encounter = new EncounterFactory();
 			return encounter.Edit(request);
-    }
+		}
 	},
 	{
 		method: 'POST',
@@ -82,6 +82,15 @@ export const initServer = async () => {
 			var encounter = new EncounterFactory();
 			return encounter.Delete(request);
 		}
+	},
+	{
+		method: 'POST',
+		path: '/campaign/edit', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.Edit(request);
+      }
 	},
 	{
 		method: 'POST',
