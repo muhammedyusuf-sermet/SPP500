@@ -5,10 +5,11 @@
   "scripts": {
     "connect": "npx ts-node server.ts",
     "scrape-monsters": "ts-node ./scrape/scrapeMonsters.ts",
-    "seed:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c seed -n Initialize",
+    "migration:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -n Initialize",
+    "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
     "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
     "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
-    "start": "yarn run seed:run && yarn ts-node server.ts",
+    "start": "yarn run migration:run && yarn run seed:run && yarn ts-node server.ts",
     "dev-start": "yarn ts-node server.ts",
     "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
