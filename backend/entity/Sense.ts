@@ -33,7 +33,7 @@ export class Sense extends BaseEntity {
 
     @Column({
         type: "varchar",
-        length: 500
+        length: 800
     })
 	Description: string;
 	

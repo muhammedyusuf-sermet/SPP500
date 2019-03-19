@@ -3,7 +3,7 @@ import {MigrationInterface, QueryRunner} from "typeorm";
 export class Initialize1552973805930 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query(`CREATE TABLE "sense" ("Id" SERIAL NOT NULL, "Name" character varying(50) NOT NULL, "Description" character varying(500) NOT NULL, CONSTRAINT "PK_a8cb216d9ebeb8e0af47f5884c8" PRIMARY KEY ("Id"))`);
+        await queryRunner.query(`CREATE TABLE "sense" ("Id" SERIAL NOT NULL, "Name" character varying(50) NOT NULL, "Description" character varying(800) NOT NULL, CONSTRAINT "PK_a8cb216d9ebeb8e0af47f5884c8" PRIMARY KEY ("Id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_d789b42502ad68149019826bc9" ON "sense" ("Name") `);
         await queryRunner.query(`CREATE TABLE "monster_sense" ("Bonus" integer NOT NULL DEFAULT 0, "monsterId" integer NOT NULL, "senseId" integer NOT NULL, CONSTRAINT "PK_d2576ae9b879c103dc720d28050" PRIMARY KEY ("monsterId", "senseId"))`);
         await queryRunner.query(`ALTER TABLE "monster" DROP COLUMN "Senses"`);
