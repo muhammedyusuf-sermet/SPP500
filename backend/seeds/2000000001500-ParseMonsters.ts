@@ -6,6 +6,8 @@ import { MonsterAbilityScore } from "../entity/MonsterAbilityScore";
 import { MonsterSavingThrow } from "../entity/MonsterSavingThrow";
 import { Action } from "../entity/Action";
 import { Skill } from "../entity/Skill";
+import { Sense } from "../entity/Sense";
+import { MonsterSense } from "../entity/MonsterSense";
 
 export class ParseMonsters2000000001500 implements MigrationInterface {
 
@@ -21,6 +23,16 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
             skillLookup.set(value.Name , value)
         });
 
+        const allSenses: Sense[] = await queryRunner.manager
+            .createQueryBuilder(Sense, "sense") 
+            .select("sense")
+            .getMany();
+
+        const senseLookup: Map<string,Sense> = new Map();
+        allSenses.forEach((value: Sense) => {
+            senseLookup.set(value.Name , value)
+        });
+
         let monsters: Array<Monster> = Data.map(value => {
             const monster: Monster = Object.assign(new Monster(),value);
             monster.Actions = [];
@@ -31,7 +43,19 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
                     monster.Actions.push(action);
                 }
             }
-            monster.Skills = []
+            monster.Senses = [];
+            if (value.Senses) {
+                for(let sense of value.Senses) {
+                    const monsterSense: MonsterSense = new MonsterSense();
+                    monsterSense.Monster = monster;
+                    const senseObj = senseLookup.get(sense.Name);
+                    if (senseObj)
+                        monsterSense.Sense = senseObj;
+                    monsterSense.Bonus = sense.Bonus;
+                    monster.Senses.push(monsterSense);
+                }
+            }
+            monster.Skills = [];
             if (value.Skills) {
                 for (let skill of value.Skills) {
                     const monsterSkill: MonsterSkill = new MonsterSkill();
@@ -75,6 +99,14 @@ export class ParseMonsters2000000001500 implements MigrationInterface {
                     .insert()
                     .into(MonsterSkill)
                     .values(monster.Skills)
+                    .execute();
+            }
+            if (monster.Senses.length > 0) {
+                await queryRunner.manager
+                    .createQueryBuilder()
+                    .insert()
+                    .into(MonsterSense)
+                    .values(monster.Senses)
                     .execute();
             }
             if (monster.Actions){
