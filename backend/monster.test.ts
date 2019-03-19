@@ -7,6 +7,8 @@ jest.mock("./entity/MonsterSavingThrow");
 jest.mock("./entity/MonsterSkill");
 jest.mock("./entity/Skill");
 jest.mock("./entity/Action");
+jest.mock("./entity/MonsterSense");
+jest.mock("./entity/Sense");
 
 describe('monster creation tests', async () => {
 	var monster = new MonsterFactory();
@@ -15,7 +17,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
 				"Languages": "test languages",
 				"HitPoints": 13,
 				"DamageVulnerabilities": "test",
@@ -39,6 +40,10 @@ describe('monster creation tests', async () => {
 					"Strength": 20,
 					"Charisma": 3,
 					"Constitution": 12
+				},
+				"Senses": {
+					"A sense": 100,
+					"B sense": 12
 				},
 				"Skills": {
 					"A": 10,
@@ -69,7 +74,6 @@ describe('monster creation tests', async () => {
 	test('when name is not given', async () => {
 		const response = await monster.Create({
 			payload: {
-				"Senses": "test sense",
 				"Languages": "test languages",
 				"HitPoints": 13,
 				"DamageVulnerabilities": "test",
@@ -162,7 +166,6 @@ describe('monster creation tests', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
-				"Senses": "test sense",
 				"Languages": "test languages",
 				"HitPoints": 13,
 				"DamageVulnerabilities": "test",
@@ -195,6 +198,22 @@ describe('monster creation tests', async () => {
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("\"Skill Name\" must be one of A,B");
 	});
+	
+	test('when an invalid Sense is given for MonsterSenses', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Senses": {
+					"C": 3
+				}
+			},
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("\"Sense Name\" must be one of A sense,B sense");
+	});
 
 	test('when a valid Skill is given for MonsterSkills but the Bonus field is invalid', async () => {
 		const response = await monster.Create({
@@ -212,12 +231,44 @@ describe('monster creation tests', async () => {
 		expect(response['messages'][0]).toBe("\"Skill Bonus\" must be a number");
 	});
 
+	test('when a valid Sense is given for MonsterSenses but the Bonus field is invalid', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Senses": {
+					"A sense": "testing"
+				}
+			},
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("\"Sense Bonus\" must be a number");
+	});
+
 	test('when a valid Skill is given for MonsterSkills', async () => {
 		const response = await monster.Create({
 			payload: {
 				"Name": "Test",
 				"Skills": {
 					"A": 3
+				}
+			},
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("success");
+	});
+
+	test('when a valid Sense is given for MonsterSenses', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Senses": {
+					"A sense": 3
 				}
 			},
 		});
@@ -242,6 +293,22 @@ describe('monster creation tests', async () => {
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("\"Skills\" must be an object");
+	});
+
+	test('when a valid Sense is given for MonsterSenses but Senses is an array', async () => {
+		const response = await monster.Create({
+			payload: {
+				"Name": "Test",
+				"Senses": [{
+					"A sense": 3
+				}]
+			},
+		});
+
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("\"Senses\" must be an object");
 	});
 
 	test('when an invalid Strength is given for AbilityScores', async () => {
