@@ -3,16 +3,24 @@ import { User } from "./User";
 
 export class Encounter {
     Creator: User;
+    Id: number;
     Name: string;
     Description: string;
     Monsters: Monster[];
 
-    [key: string]: any|string|User|Monster[]|(()=>void);
+    [key: string]: any|number|string|User|Monster[]|(()=>void);
 
     static TableRows: Encounter[] = [];
 
-    static find(a: any) {
+    static find(a: any): Encounter[] {
         var result = Encounter.TableRows.slice(0);
+        if (a.select) {
+            if (a.where) {
+                return Encounter.find(a.where);
+            } else {
+                return result;
+            }
+		}
         for (let key in a) {
             let value = a[key];
             if (typeof value == 'object') {
