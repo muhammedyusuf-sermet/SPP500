@@ -17,6 +17,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
 
     interface IMonsterDataScrape {
         Skills: { Name: string, Bonus: number }[]
+        Senses: { Name: string, Bonus: number }[]
     }
 
     var monsters: Array<IMonsterData & IMonsterDataScrape> = []
@@ -26,6 +27,7 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
     {
         let monster: IMonsterData & IMonsterDataScrape = {
             Name: '',
+            Senses: [],
             AbilityScores: {},
             SavingThrows: {},
             Skills: [],
@@ -51,7 +53,6 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
         monster.HitPoints = Data[i]['hit_points']
         monster.HitPointDistribution = Data[i]['hit_dice']
         monster.Speed = Data[i]['speed']
-        monster.Senses = Data[i]['senses']
         monster.Languages = Data[i]['languages']
         monster.DamageVulnerabilities = Data[i]['damage_vulnerabilities']
         monster.DamageResistances = Data[i]['damage_resistances']
@@ -68,6 +69,29 @@ fs.readFile('5e-SRD-Monsters.json',(err: any, data: any) => {
             Wisdom: Data[i]['wisdom'],
             Charisma: Data[i]['charisma']
         };
+
+        // Senses properties.
+        const senses: string[] = Data[i]['senses'].split(',');
+        const possibleSenses: string[] =
+        [ "blind beyond this radius", "blindsight", "darkvision", "truesight", "tremorsense",
+          "passive Perception", "passive Investigation", "passive Insight"];
+        const actualSenses: string[] =
+        [ "Blind", "Blindsight", "Darkvision", "Truesight", "Tremorsense",
+          "Passive Perception", "Passive Investigation", "Passive Insight"];
+        monster.Senses = [];
+        for (let senseIndex in possibleSenses) {
+            for (let senseBonus of senses) {
+                if (senseBonus.includes(possibleSenses[senseIndex])){
+                    const bonus:number = parseInt(senseBonus.replace(/\D+/g, ''))
+                    if (bonus) {
+                        monster.Senses.push({
+                            Name: actualSenses[senseIndex],
+                            Bonus: bonus
+                        });
+                    }
+                }
+            }
+        }
 
         // Skills properties.
         const possibleSkills: string[] = 
