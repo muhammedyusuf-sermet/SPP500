@@ -90,6 +90,15 @@ export const initServer = async () => {
 		handler: function (request) {
 			var campaign = new CampaignFactory();
 			return campaign.Edit(request);
+      }
+	},
+	{
+		method: 'POST',
+		path: '/campaign/create', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.Create(request);
 		}
 	},
 	{
