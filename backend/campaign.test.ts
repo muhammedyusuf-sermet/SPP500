@@ -22,17 +22,16 @@ describe('campaign edit tests', async () => {
 		await encounter2.save();
 
 		const user = new User();
-    user.Name = "John Doe";
+		user.Name = "John Doe";
 		user.Id = 1;
 		await user.save();
     
-    const campaign = new Campaign();
+    	const campaign = new Campaign();
 		campaign.Name = "Test1";
 		campaign.Id = 1;
 		campaign.Creator = user;
 		campaign.Encounters = [encounter];
 		await campaign.save();
-
 	});
 
 	var campaignFactory = new CampaignFactory();
@@ -64,18 +63,18 @@ describe('campaign edit tests', async () => {
 				"Id": 1,
 				"Name": "",
 				"Summary": "same summary"
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
 				}
 			}
 		});
-      expect.assertions(3);
 
+		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-      expect(response['messages'][0]).toBe("Name should not be an empty string.");
+		expect(response['messages'][0]).toBe("Name should not be an empty string.");
 	});
 
 	test('When provided summary is empty', async () => {
@@ -84,7 +83,7 @@ describe('campaign edit tests', async () => {
 				"Id": 1,
 				"Name": "same name",
 				"Summary": ""
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
@@ -107,7 +106,7 @@ describe('campaign edit tests', async () => {
 				"Encounters": [
 					{"Id": 2}
 				]
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
@@ -116,7 +115,7 @@ describe('campaign edit tests', async () => {
 		});
 
 		expect.assertions(3);
-    expect(response['status']).toBe(201);
+    	expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("success");
 	});
@@ -129,7 +128,7 @@ describe('campaign edit tests', async () => {
 				"Summary": "same summary",
 				"Encounters": [
 					{"Id": 3}
-          ]
+          		]
 			},
 			auth: {
 				credentials: {
@@ -137,8 +136,8 @@ describe('campaign edit tests', async () => {
 				}
 			}
 		});
-    expect.assertions(3);
 
+    	expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("Encounter is invalid: 3");
@@ -152,20 +151,19 @@ describe('campaign edit tests', async () => {
 				"Summary": "same summary",
 				"Encounters": [
 					{"Id": 2}
-          ]
+          		]
 			},
 			auth: {
 				credentials: {
-          id: 2
-		}
-        }
+         			id: 2
+				}
+        	}
 		});
 
 		expect.assertions(3);
-
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-    expect(response['messages'][0]).toBe("Requester is not the creator of this campaign.");
+    	expect(response['messages'][0]).toBe("Requester is not the creator of this campaign.");
 	});
 
 	test('When no campaign with given id', async () => {
@@ -174,19 +172,18 @@ describe('campaign edit tests', async () => {
 				"Id": 2,
 				"Name": "same name",
 				"Summary": "same summary",
-        "Encounters": [
+        		"Encounters": [
 					{"Id": 2}
 				]
 			},
 			auth: {
 				credentials: {
-          id: 1
-          }
+          			id: 1
+          		}
 			}
 		});
     
 		expect.assertions(3);
-
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("There is no such campaign saved.");
@@ -204,11 +201,12 @@ When invalid encounter is added
 Return error
 
 When unauthorized user requests change
-Return error*/
+Return error
+*/
 describe('campaign creation tests', async () => {
 	beforeAll( async () => {
 		let user = new User();
-    user.Name = "John Doe";
+    	user.Name = "John Doe";
 		user.Id = 1;
 		await user.save();
     
@@ -240,7 +238,7 @@ describe('campaign creation tests', async () => {
 				"Encounters": [
 					{"Id": 1}
 				]
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
@@ -249,7 +247,6 @@ describe('campaign creation tests', async () => {
 		});
 
 		expect.assertions(3);
-
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("success");
@@ -260,15 +257,15 @@ describe('campaign creation tests', async () => {
 				"Name": "Test",
 				"Summary": "Test",
 				"Notes": "Test"
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
 				}
 			}
 		});
-		expect.assertions(3);
 
+		expect.assertions(3);
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("success");
@@ -285,26 +282,26 @@ describe('campaign creation tests', async () => {
 				}
 			}
 		});
-    expect.assertions(3);
 
+    	expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-    expect(response['messages'][0]).toBe("\"Name\" is required");
+    	expect(response['messages'][0]).toBe("\"Name\" is required");
 	});
 
 	test('when summary is not provided', async () => {
 		const response = await campaign.Create({
 			payload: {
 				"Name": "Test"
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
 				}
 			}
 		});
+		
 		expect.assertions(3);
-
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("\"Summary\" is required");
@@ -315,7 +312,7 @@ describe('campaign creation tests', async () => {
 			payload: {
 				"Name": "",
 				"Summary": "Test"
-        },
+        	},
 			auth: {
 				credentials: {
 					id: 1
@@ -336,7 +333,7 @@ describe('campaign creation tests', async () => {
 				"Summary": "Test",
 				"Encounters": [
 					{"Id": 2}
-          ]
+          		]
 			},
 			auth: {
 				credentials: {
@@ -346,7 +343,6 @@ describe('campaign creation tests', async () => {
 		});
 
 		expect.assertions(3);
-
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("\"Encounter Id\" 2 is invalid");
@@ -359,17 +355,16 @@ describe('campaign creation tests', async () => {
 				"Summary": "Test",
 				"Encounters": [
 					{"Id": 3}
-          ]
+          		]
 			},
 			auth: {
 				credentials: {
 					id: 1
 				}
-        }
+        	}
 		});
 
 		expect.assertions(3);
-
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("\"Encounter Id\" 3 is invalid");
@@ -380,18 +375,18 @@ describe('campaign creation tests', async () => {
 			payload: {
 				"Name": "Test",
 				"Summary": "Test",
-        "Encounters": [
+        		"Encounters": [
 					{"Id": 2}
 				]
 			},
 			auth: {
 				credentials: {
 					id: 2
-          }
+          		}
 			}
 		});
+		
 		expect.assertions(3);
-
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(1)
 		expect(response['messages'][0]).toBe("success");

@@ -94,9 +94,10 @@ export class CampaignFactory {
 				}
 			}
 		);
-  }
+	}
+
 	public async Edit(request: {payload: any, auth: any}) {
-	var messages = [];
+		var messages = [];
 
 		const authInfo = request.auth;
 		const payload = request.payload;
@@ -150,20 +151,20 @@ export class CampaignFactory {
 			} else {
 				messages.push("There is no such campaign saved.")
 			}
-	}
-		
-	if (messages.length == 0 && campaign) {
-		await campaign.save();
-
-		return {
-			"status": 201,
-			"messages": ["success"]
 		}
-	} else {
-		return {
+		
+		if (messages.length == 0 && campaign) {
+			await campaign.save();
+
+			return {
+				"status": 201,
+				"messages": ["success"]
+			};
+		} else {
+			return {
 				"status": 400,
 				"messages": messages
-			}
+			};
 		}
 	}
 }
