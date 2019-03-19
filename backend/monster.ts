@@ -1,10 +1,12 @@
-import {Monster} from "./entity/Monster";
+import Joi, { ValidationError, ValidationErrorItem } from 'joi';
+import { Monster } from "./entity/Monster";
 import { Size, MonsterType, MonsterRace, Alignment, Environment, MonsterAction } from "./entity/MonsterEnums";
-import {Skill} from "./entity/Skill"
-import {MonsterAbilityScore} from "./entity/MonsterAbilityScore";
-import {MonsterSavingThrow} from "./entity/MonsterSavingThrow";
-import {MonsterSkill} from "./entity/MonsterSkill";
-import {Action} from "./entity/Action";
+import { Skill } from "./entity/Skill"
+import { MonsterAbilityScore } from "./entity/MonsterAbilityScore";
+import { MonsterSavingThrow } from "./entity/MonsterSavingThrow";
+import { MonsterSkill } from "./entity/MonsterSkill";
+import { Action } from "./entity/Action";
+import { Sense } from "./entity/Sense";
 
 /*
 Parameters:
@@ -60,8 +62,6 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
-import Joi, { ValidationError, ValidationErrorItem } from 'joi';
-
 export class MonsterFactory {
 	private skillNameSchema = Joi.object({
 		Skills: Joi.object().pattern(
@@ -69,6 +69,18 @@ export class MonsterFactory {
 			Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
 		).default({})
 	});
+	private senseNameSchema = Joi.object({
+		Skills: Joi.object().pattern(
+			Joi.symbol().valid(Joi.ref('$SenseOptions')),
+			Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+		).default({})
+	});
+	/*private speedNameSchema = Joi.object({
+		Skills: Joi.object().pattern(
+			Joi.symbol().valid(Joi.ref('$SpeedOptions')),
+			Joi.number().integer().greater(0).allow(0).label('Speed Bonus')
+		).default({})
+	});*/
 	private payloadSchema = Joi.object({
 		Name: Joi.string().required().max(50),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
@@ -81,7 +93,6 @@ export class MonsterFactory {
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
 		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
 		Speed: Joi.string().max(100),
-		Senses: Joi.string().max(250),
 		Languages: Joi.string().max(100),
 		DamageVulnerabilities: Joi.string().allow('').max(200),
 		DamageResistances: Joi.string().allow('').max(200),
@@ -117,6 +128,10 @@ export class MonsterFactory {
 			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
 			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
 		})).default([]),*/
+		/*Senses: Joi.object().pattern(
+			Joi.symbol().valid(Joi.ref('$SenseOptions')),
+			Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+		).default({}),*/
 		Actions: Joi.array().items(Joi.object({
 			Name: Joi.string().required().max(50),
 			Description: Joi.string().required().max(250),
@@ -134,6 +149,13 @@ export class MonsterFactory {
 			skillNames.push(value.Name);
 			skillLookup[value.Name] = value;
 		})
+		const allSenses: Sense[] = await Sense.find({ select: ["Id", "Name"] });
+		const senseNames: string[] = [];
+		const senseLookup: { [Name: string]: Sense }= {};
+		allSenses.forEach((value) => {
+			senseNames.push(value.Name);
+			senseLookup[value.Name] = value;
+		})
 		const options: Joi.ValidationOptions = {
 			abortEarly: false,
 			convert: true,
@@ -145,14 +167,15 @@ export class MonsterFactory {
 				AlignmentOptions: Object.keys(Alignment),
 				EnvironmentOptions: Object.keys(Environment),
 				ActionOptions: Object.keys(MonsterAction),
-				SkillOptions: skillNames
+				SkillOptions: skillNames,
+				SenseOptions: senseNames
 			}
 		}
 		// Temp fix waiting for GitHub responce 
 		// https://github.com/hapijs/joi/issues/1748
 		// This fix recompiles the schema every time a monster is created
 		//  this will impact performance by some amount, unknown.
-		let message = skillNames.join(',');
+		let skillMessage = skillNames.join(',');
 		this.skillNameSchema = Joi.object({
 			Skills: Joi.object().pattern(
 				Joi.string().valid(skillNames),
@@ -160,14 +183,27 @@ export class MonsterFactory {
 			).error((errors) => {
 				for (let error of errors){
 					if(error.type == 'object.allowUnknown' || error.type == 'any.allowOnly')
-						error.message = "\"Skill Name\" must be one of " + message
+						error.message = "\"Skill Name\" must be one of " + skillMessage
+				}
+				return errors
+			}).default({})
+		});
+		let senseMessage = senseNames.join(',');
+		this.senseNameSchema = Joi.object({
+			Senses: Joi.object().pattern(
+				Joi.string().valid(senseNames),
+				Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+			).error((errors) => {
+				for (let error of errors){
+					if(error.type == 'object.allowUnknown' || error.type == 'any.allowOnly')
+						error.message = "\"Sense Name\" must be one of " + senseMessage
 				}
 				return errors
 			}).default({})
 		});
 		return await Joi.validate(
 			request.payload,
-			this.payloadSchema.concat(this.skillNameSchema),
+			this.payloadSchema.concat(this.skillNameSchema.concat(this.senseNameSchema)),
 			options,
 			async (errors: ValidationError, value: any) => {
 				if(errors){
