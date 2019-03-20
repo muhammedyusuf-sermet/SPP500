@@ -7,6 +7,7 @@ import { MonsterSavingThrow } from "./entity/MonsterSavingThrow";
 import { MonsterSkill } from "./entity/MonsterSkill";
 import { Action } from "./entity/Action";
 import { Sense } from "./entity/Sense";
+import { MonsterSense } from './entity/MonsterSense';
 
 /*
 Parameters:
@@ -232,6 +233,7 @@ export class MonsterFactory {
 					const monster: Monster = Object.assign(new Monster(), value);
 					// save ability score
 					const abilityScore: MonsterAbilityScore = Object.assign(new MonsterAbilityScore(), monster.AbilityScores);
+					monster.Senses = [];
 					monster.Skills = [];
 					monster.Actions = [];
 					monster.Encounters = [];
@@ -257,6 +259,17 @@ export class MonsterFactory {
 					}
 					// save skills
 					await MonsterSkill.save(monster.Skills);
+					// link senses to monster
+					monster.Senses = [];
+					for (let senseName in value.Senses) {
+						const monsterSense: MonsterSense = new MonsterSense();
+						monsterSense.Bonus = value.Senses[senseName];
+						monsterSense.Sense = senseLookup[senseName];
+						monsterSense.Monster = monster;
+						monster.Senses.push(monsterSense);
+					}
+					// save senses
+					await MonsterSense.save(monster.Senses);
 					// link actions to monster
 					monster.Actions = [];
 					for (let index in value.Actions) {
