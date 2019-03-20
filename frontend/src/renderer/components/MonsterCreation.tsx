@@ -10,7 +10,7 @@ import 'bulma/css/bulma.css';
 
 import {Redirect} from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns } from 'bloomer';
-import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, SenseMap } from '../../monster';
+import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
 
@@ -86,8 +86,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		"Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance",
 		"Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival" ];
 	private senseNames = [
-		"Blindsight", "Darkvision", "Tremorsense", "Truesight",
-		"PassivePerception", "PassiveInvestigation", "PassiveInsight" ];
+		"Blind", "Blindsight", "Darkvision", "Tremorsense", "Truesight",
+		"Passive Perception", "Passive Investigation", "Passive Insight" ];
 	private abilityScoreNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private savingThrowNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private payloadSchema = Joi.object({
@@ -102,8 +102,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
 		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
 		Speed: Joi.string().max(100),
-		// TODO: change senses to a dictionary and send just like skills, when the backend changes.
-		Senses: Joi.string().max(250),
 		Languages: Joi.string().max(100),
 		DamageVulnerabilities: Joi.string().allow('').max(200),
 		DamageResistances: Joi.string().allow('').max(200),
@@ -137,6 +135,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
 			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
 		})).default([]),*/
+		Senses: Joi.object().pattern(
+			Joi.symbol().valid(this.senseNames),
+			Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+		).default({}),
 		Actions: Joi.array().items(Joi.object({
 			Name: Joi.string().required().max(50),
 			Description: Joi.string().required().max(250),
@@ -163,16 +165,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				Skills: {},
 			} : props.defaultMonster
 		};
-		if(this.state.monster.Senses instanceof String){
-			let stringSenses = this.state.monster.Senses as string;
-			let eachSense = stringSenses.split('.');
-			this.state.monster.Senses = {}
-			for (let sense of eachSense) {
-				const senseName = sense.split(':')[0].trim()
-				const senseValue = this.stringToNumber(sense.split(':')[1].replace(/[^0-9]/g,''));
-				this.state.monster.Senses[senseName] = senseValue;
-			}
-		}
 		for(let skillName of this.skillNames)
 			this.SkillChange.set(skillName, this.handleMonsterSkillChange(skillName));
 		for(let senseName of this.senseNames)
@@ -356,7 +348,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				monster: {
 					...this.state.monster,
 					Senses: {
-						...(this.state.monster.Senses as SenseMap),
+						...this.state.monster.Senses,
 						[name]: this.stringToNumber(event.target.value)
 					}
 				}
@@ -407,26 +399,9 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
 			if(monsterSpeed.length == 0)
 				monsterSpeed = undefined;
-			// TODO remove this when the payload accepts senses as a dictionary.
-			let monsterSenses: string|undefined = "";
-			for (let sense in this.state.monster.Senses as SenseMap) {
-				let units = '';
-				if (sense.startsWith('Passive')) {
-					units = '.';
-				} else {
-					units = ' ft.';
-				}
-				const senseBonus = (this.state.monster.Senses as SenseMap)[sense]
-				if (senseBonus && senseBonus > 0)
-					monsterSenses += ' ' + sense + ': ' + (this.state.monster.Senses as SenseMap)[sense]+ units;
-			}
-			monsterSenses = monsterSenses.trim();
-			if (monsterSenses.length == 0)
-				monsterSenses = undefined;
 			const monsterPayload: IMonsterState = {
 				...this.state.monster,
 				Speed: monsterSpeed,
-				Senses: monsterSenses
 			}
 
 			const validateOptions: ValidationOptions = {
@@ -1034,7 +1009,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={(this.state.monster.Senses as SenseMap)[senseName]}
+															value={this.state.monster.Senses[senseName]}
 															onChange={this.SensesChange.get(senseName)} />
 													</Control>
 												</Field>
@@ -1060,7 +1035,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={(this.state.monster.Senses as SenseMap)[senseName]}
+															value={this.state.monster.Senses[senseName]}
 															onChange={this.SensesChange.get(senseName)} />
 													</Control>
 												</Field>
@@ -1086,7 +1061,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={(this.state.monster.Senses as SenseMap)[senseName]}
+															value={this.state.monster.Senses[senseName]}
 															onChange={this.SensesChange.get(senseName)} />
 													</Control>
 												</Field>
