@@ -487,7 +487,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Damage Vulnerabilities'
 											autoComplete='DamageVulnerabilities'
-											value={this.state.monster.DamageVulnerabilities}
+											value={this.state.monster.DamageVulnerabilities || ''}
 											name='DamageVulnerabilities'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
@@ -506,7 +506,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Damage Resistances'
 											autoComplete='DamageResistances'
-											value={this.state.monster.DamageResistances}
+											value={this.state.monster.DamageResistances || ''}
 											name='DamageResistances'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
@@ -525,7 +525,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Damage Immunities'
 											autoComplete='DamageImmunities'
-											value={this.state.monster.DamageImmunities}
+											value={this.state.monster.DamageImmunities || ''}
 											name='DamageImmunities'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
@@ -544,7 +544,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Condition Immunities'
 											autoComplete='ConditionImmunities'
-											value={this.state.monster.ConditionImmunities}
+											value={this.state.monster.ConditionImmunities || ''}
 											name='ConditionImmunities'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
@@ -562,7 +562,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Armor Class'
 									autoComplete='ArmorClass'
-									value={this.state.monster.ArmorClass}
+									value={this.state.monster.ArmorClass || ''}
 									name='ArmorClass'
 									onChange={this.handleMonsterNumberChange} />
 							</Control>
@@ -575,7 +575,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Hit Points'
 									autoComplete='HitPoints'
-									value={this.state.monster.HitPoints}
+									value={this.state.monster.HitPoints || ''}
 									name='HitPoints'
 									onChange={this.handleMonsterNumberChange} />
 							</Control>
@@ -586,7 +586,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='string'
 									placeholder='Hit Points Distribution'
 									autoComplete='HitPointDistribution'
-									value={this.state.monster.HitPointDistribution}
+									value={this.state.monster.HitPointDistribution || ''}
 									name='HitPointDistribution'
 									onChange={this.handleBaseMonsterChange} />
 							</Control>
@@ -602,7 +602,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Land Speed'
 									autoComplete='SpeedLand'
-									value={this.state.SpeedLand}
+									value={this.state.SpeedLand || ''}
 									onChange={this.handleMonsterLandSpeedChange} />
 							</Control>
 							<Control isExpanded>
@@ -612,7 +612,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Swimming Speed'
 									autoComplete='SpeedSwim'
-									value={this.state.SpeedSwim}
+									value={this.state.SpeedSwim || ''}
 									onChange={this.handleMonsterSwimSpeedChange} />
 							</Control>
 						</Field>
@@ -636,7 +636,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={value}
 															autoComplete={value}
-															value={this.state.monster.AbilityScores[value]}
+															value={this.state.monster.AbilityScores[value] || ''}
 															name={value}
 															onChange={this.handleMonsterAbilityScoreChange} />
 													</Control>
@@ -666,7 +666,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={value}
 															autoComplete={value}
-															value={this.state.monster.SavingThrows[value]}
+															value={this.state.monster.SavingThrows[value] || ''}
 															name={value}
 															onChange={this.handleMonsterSavingThrowChange} />
 													</Control>
@@ -698,7 +698,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName]}
+															value={this.state.monster.Skills[skillName] || ''}
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
@@ -725,7 +725,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName]}
+															value={this.state.monster.Skills[skillName] || ''}
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
@@ -752,7 +752,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName]}
+															value={this.state.monster.Skills[skillName] || ''}
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
@@ -785,7 +785,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName]}
+															value={this.state.monster.Senses[senseName] || ''}
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
@@ -812,7 +812,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName]}
+															value={this.state.monster.Senses[senseName] || ''}
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
@@ -839,7 +839,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName]}
+															value={this.state.monster.Senses[senseName] || ''}
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
@@ -867,7 +867,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Languages'
 											autoComplete='Languages'
-											value={this.state.monster.Languages}
+											value={this.state.monster.Languages || ''}
 											onChange={this.handleMonsterLanguagesChange} />
 									</Control>
 								</Field>
@@ -885,7 +885,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='number'
 											placeholder='Challenge Rating'
 											autoComplete='ChallengeRating'
-											value={this.state.monster.ChallengeRating}
+											value={this.state.monster.ChallengeRating || ''}
 											onChange={this.handleMonsterChallengeRatingChange} />
 									</Control>
 								</Field>
@@ -903,7 +903,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='number'
 											placeholder='Experience Points'
 											autoComplete='ExperiencePoints'
-											value={this.state.ExperiencePoints}
+											value={this.state.ExperiencePoints || ''}
 											onChange={this.handleMonsterExperiencePointsChange} />
 									</Control>
 								</Field>
