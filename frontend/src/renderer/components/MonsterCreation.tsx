@@ -402,7 +402,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								);
 							} else {
 								this.closeModal();
-								if (body.messages){
+								if (body && body.messages){
 									// TODO: change backend so it sends better error messages.
 									// TODO: parse the error messages so they show better.
 									// TODO: maybe the messages from the server shouldn't be
