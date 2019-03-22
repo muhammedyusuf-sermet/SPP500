@@ -197,7 +197,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	};
 
 	stringToNumber = (toConvert : string) => {
-		return toConvert == '' ? undefined : parseInt(toConvert);
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
 
 	stringToFloat = (toConvert : string) => {
@@ -213,7 +213,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError, value: any) => {
 				this.setState({
 					monster: { ...monster, [event.currentTarget.name]: event.target.value },
-					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -227,7 +227,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError, value: any) => {
 				this.setState({
 					monster: { ...monster, Type: newType },
-					monsterErrors: { ...monsterErrors, Type: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, Type: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -241,7 +241,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError, value: any) => {
 				this.setState({
 					monster: { ...monster, Size: newSize },
-					monsterErrors: { ...monsterErrors, Size: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, Size: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -255,7 +255,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError, value: any) => {
 				this.setState({
 					monster: { ...monster, Race: newRace },
-					monsterErrors: { ...monsterErrors, Race: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, Race: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -269,7 +269,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError, value: any) => {
 				this.setState({
 					monster: { ...monster, Environment: newEnvironment },
-					monsterErrors: { ...monsterErrors, Environment: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, Environment: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -283,7 +283,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError, value: any) => {
 				this.setState({
 					monster: { ...monster, Alignment: newAlignment },
-					monsterErrors: { ...monsterErrors, Alignment: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, Alignment: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -298,7 +298,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError) => {
 				this.setState({
 					monster: { ...monster, [event.currentTarget.name]: value },
-					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -335,7 +335,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						...monsterErrors,
 						AbilityScores: {
 							...monsterErrors.AbilityScores,
-							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
 						}
 					}
 				});
@@ -362,7 +362,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						...monsterErrors,
 						SavingThrows: {
 							...monsterErrors.SavingThrows,
-							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
 						}
 					}
 				});
@@ -389,7 +389,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						...monsterErrors,
 						Skills: {
 							...monsterErrors.Skills,
-							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
 						}
 					}
 				});
@@ -416,7 +416,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						...monsterErrors,
 						Senses: {
 							...monsterErrors.Senses,
-							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
 						}
 					}
 				});
@@ -433,7 +433,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			(errors: ValidationError) => {
 				this.setState({
 					monster: { ...monster, [event.currentTarget.name]: value },
-					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : ''}
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
