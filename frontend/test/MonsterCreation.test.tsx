@@ -50,7 +50,7 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
 			monsterCreationInstance.find('Input#ArmorClass').simulate('change', { target: { value: 15 } })
 			monsterCreationInstance.find('Input#HitPoints').simulate('change', { target: { value: 40 } })
-			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5 - 5' } })
+			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5-5' } })
 			monsterCreationInstance.find('Input#SpeedLand').simulate('change', { target: { value: 25 } })
 			monsterCreationInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 15 } })
 			monsterCreationInstance.find('Input#AbilityStrength').simulate('change', { target: { value: 17 } })
@@ -108,7 +108,7 @@ describe('Monster Creation', () => {
 				ConditionImmunities: "Nothing",
 				ArmorClass: 15,
 				HitPoints: 40,
-				HitPointDistribution: "9d5 - 5",
+				HitPointDistribution: "9d5-5",
 				AbilityScores: {
 					Strength: 17,
 					Dexterity: 15,
@@ -160,6 +160,71 @@ describe('Monster Creation', () => {
 				//abilities: [],
 				//actions: [],
 			};
+			const expectedErrors = {
+				Name: undefined,
+				Type: undefined,
+				Alignment: undefined,
+				Size: undefined,
+				Race: undefined,
+				Environment: undefined,
+				DamageVulnerabilities: undefined,
+				DamageResistances: undefined,
+				DamageImmunities: undefined,
+				ConditionImmunities: undefined,
+				ArmorClass: undefined,
+				HitPoints: undefined,
+				HitPointDistribution: undefined,
+				AbilityScores: {
+					Strength: undefined,
+					Dexterity: undefined,
+					Constitution: undefined,
+					Intelligence: undefined,
+					Wisdom: undefined,
+					Charisma: undefined
+				},
+				SavingThrows: {
+					Strength: undefined,
+					Dexterity: undefined,
+					Constitution: undefined,
+					Intelligence: undefined,
+					Wisdom: undefined,
+					Charisma: undefined
+				},
+				Skills: {
+					Athletics: undefined,
+					Acrobatics: undefined,
+					"Sleight of Hand": undefined,
+					Stealth: undefined,
+					Arcana: undefined,
+					History: undefined,
+					Investigation: undefined,
+					Nature: undefined,
+					Religion: undefined,
+					"Animal Handling": undefined,
+					Insight: undefined,
+					Medicine: undefined,
+					Perception: undefined,
+					Survival: undefined,
+					Deception: undefined,
+					Intimidation: undefined,
+					Performance: undefined,
+					Persuasion: undefined,
+				},
+				Senses: {
+					Blind: undefined,
+					Blindsight: undefined,
+					Darkvision: undefined,
+					Tremorsense: undefined,
+					Truesight: undefined,
+					"Passive Perception": undefined,
+					"Passive Investigation": undefined,
+					"Passive Insight": undefined,
+				},
+				Languages: undefined,
+				ChallengeRating: undefined,
+				//abilities: [],
+				//actions: [],
+			};
 			expect(monsterCreationInstance.state()).toEqual({
 					submitted: false,
 					modal: {
@@ -169,7 +234,8 @@ describe('Monster Creation', () => {
 					SpeedLand: 25,
 					SpeedSwim: 15,
 					ExperiencePoints: 190,
-					monster: expectedMonster
+					monster: expectedMonster,
+					monsterErrors: expectedErrors
 			})
 			nock(API_URL)
 			.post('/monster/create', {
@@ -185,7 +251,7 @@ describe('Monster Creation', () => {
 				"ConditionImmunities": "Nothing",
 				"ArmorClass": 15,
 				"HitPoints": 40,
-				"HitPointDistribution": "9d5 - 5",
+				"HitPointDistribution": "9d5-5",
 				"Speed": "25ft. Swimming Speed: 15 ft.",
 				"AbilityScores": {
 					"Strength": 17,
@@ -239,7 +305,7 @@ describe('Monster Creation', () => {
 				//actions: [],
 			})
 			.reply(201, { status: 201, message: 'success' });
-			monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
+			//monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
 		});
 
 		it('should change only types when type is changed', () => {
