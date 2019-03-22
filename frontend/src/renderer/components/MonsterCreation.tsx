@@ -92,44 +92,43 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private abilityScoreNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private savingThrowNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private payloadSchema = Joi.object({
-		Name: Joi.string().required().max(50),
+		Name: Joi.string().required().max(50).label('Name'),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
 		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
 		Alignment: Joi.string().valid(Joi.ref('$AlignmentOptions')),
 		Environment: Joi.string().valid(Joi.ref('$EnvironmentOptions')),
-		ArmorClass: Joi.number().integer().greater(0),
-		HitPoints: Joi.number().integer().greater(0),
+		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
+		HitPoints: Joi.number().integer().greater(0).label('HitPoints'),
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
-		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
+		HitPointDistribution: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces'),
 		Speed: Joi.string().max(100),
-		Languages: Joi.string().max(100),
-		DamageVulnerabilities: Joi.string().allow('').max(200),
-		DamageResistances: Joi.string().allow('').max(200),
-		DamageImmunities: Joi.string().allow('').max(200),
-		ConditionImmunities: Joi.string().allow('').max(200),
-		ChallengeRating: Joi.number().greater(0),
-		ExperiencePoints: Joi.number().greater(0),
+		Languages: Joi.string().max(100).label('Languages'),
+		DamageVulnerabilities: Joi.string().allow('').max(200).label('DamageVulnerabilities'),
+		DamageResistances: Joi.string().allow('').max(200).label('DamageResistances'),
+		DamageImmunities: Joi.string().allow('').max(200).label('DamageImmunities'),
+		ConditionImmunities: Joi.string().allow('').max(200).label('ConditionImmunities'),
+		ChallengeRating: Joi.number().greater(0).label('ChallengeRating'),
 		AbilityScores: Joi.object({
-			Strength: Joi.number().integer().greater(0),
-			Dexterity: Joi.number().integer().greater(0),
-			Constitution: Joi.number().integer().greater(0),
-			Intelligence: Joi.number().integer().greater(0),
-			Wisdom: Joi.number().integer().greater(0),
-			Charisma: Joi.number().integer().greater(0)
+			Strength: Joi.number().integer().greater(0).label('Strength'),
+			Dexterity: Joi.number().integer().greater(0).label('Dexterity'),
+			Constitution: Joi.number().integer().greater(0).label('Constitution'),
+			Intelligence: Joi.number().integer().greater(0).label('Intelligence'),
+			Wisdom: Joi.number().integer().greater(0).label('Wisdom'),
+			Charisma: Joi.number().integer().greater(0).label('Charisma')
 		}).default({}),
 		SavingThrows: Joi.object({
-			Strength: Joi.number().integer(),
-			Dexterity: Joi.number().integer(),
-			Constitution: Joi.number().integer(),
-			Intelligence: Joi.number().integer(),
-			Wisdom: Joi.number().integer(),
-			Charisma: Joi.number().integer()
+			Strength: Joi.number().integer().label('Strength'),
+			Dexterity: Joi.number().integer().label('Dexterity'),
+			Constitution: Joi.number().integer().label('Constitution'),
+			Intelligence: Joi.number().integer().label('Intelligence'),
+			Wisdom: Joi.number().integer().label('Wisdom'),
+			Charisma: Joi.number().integer().label('Charisma')
 		}).default({}),
 		/* This is how to send skills as a dictionary. */
 		Skills: Joi.object().pattern(
 			Joi.symbol().valid(this.skillNames),
-			Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+			Joi.number().integer().greater(0).allow(0)
 		).default({}),
 		/* This is how to send skills as an array of objects.
 		Skills: Joi.array().items(Joi.object({
@@ -138,7 +137,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		})).default([]),*/
 		Senses: Joi.object().pattern(
 			Joi.symbol().valid(this.senseNames),
-			Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+			Joi.number().integer().greater(0).allow(0)
 		).default({}),
 		Actions: Joi.array().items(Joi.object({
 			Name: Joi.string().required().max(50),
@@ -198,60 +197,110 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	};
 
 	stringToNumber = (toConvert : string) => {
-		return parseInt(toConvert) != NaN ? parseInt(toConvert) : undefined;
+		return toConvert == '' ? undefined : parseInt(toConvert);
 	}
 
 	stringToFloat = (toConvert : string) => {
-		return parseFloat(toConvert) != NaN ? parseFloat(toConvert) : undefined;
+		return toConvert == '' ? undefined : parseFloat(toConvert);
 	}
 
 	handleBaseMonsterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster;
-		this.setState({
-			monster: { ...monster, [event.currentTarget.name]: event.target.value }
-		});
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			event.target.value,
+			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, [event.currentTarget.name]: event.target.value },
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterTypeChange = (newType: string) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Type: newType }
-		})
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newType,
+			Joi.reach(this.payloadSchema, ['Type']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Type: newType },
+					monsterErrors: { ...monsterErrors, Type: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterSizeChange = (newSize: string) => {
-		const monster = this.state.monster;
-		this.setState({
-			monster: { ...monster, Size: newSize }
-		});
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newSize,
+			Joi.reach(this.payloadSchema, ['Size']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Size: newSize },
+					monsterErrors: { ...monsterErrors, Size: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterRaceChange = (newRace: string) => {
-		const monster = this.state.monster;
-		this.setState({
-			monster: { ...monster, Race: newRace }
-		});
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newRace,
+			Joi.reach(this.payloadSchema, ['Race']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Race: newRace },
+					monsterErrors: { ...monsterErrors, Race: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterEnvironmentChange = (newEnvironment: string) => {
-		const monster = this.state.monster;
-		this.setState({
-			monster: { ...monster, Environment: newEnvironment }
-		});
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newEnvironment,
+			Joi.reach(this.payloadSchema, ['Environment']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Environment: newEnvironment },
+					monsterErrors: { ...monsterErrors, Environment: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterAlignmentChange = (newAlignment: string) => {
-		const monster = this.state.monster;
-		this.setState({
-			monster: { ...monster, Alignment: newAlignment }
-		});
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newAlignment,
+			Joi.reach(this.payloadSchema, ['Alignment']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Alignment: newAlignment },
+					monsterErrors: { ...monsterErrors, Alignment: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster;
-		this.setState({
-			monster: { ...monster, [event.currentTarget.name]: this.stringToNumber(event.target.value)}
-		});
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: { ...monster, [event.currentTarget.name]: value },
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterLandSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -267,65 +316,126 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	}
 
 	handleMonsterAbilityScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			this.setState({
-				monster: {
-					...this.state.monster,
-					AbilityScores: {
-						...this.state.monster.AbilityScores,
-						[event.currentTarget.name]: this.stringToNumber(event.target.value)
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, ['AbilityScores', event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						AbilityScores: {
+							...monster.AbilityScores,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						AbilityScores: {
+							...monsterErrors.AbilityScores,
+							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+						}
 					}
-				}
+				});
 			});
 		}
 
 	handleMonsterSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			this.setState({
-				monster: {
-					...this.state.monster,
-					SavingThrows: {
-						...this.state.monster.SavingThrows,
-						[event.currentTarget.name]: this.stringToNumber(event.target.value)
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, ['SavingThrows', event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						SavingThrows: {
+							...monster.SavingThrows,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						SavingThrows: {
+							...monsterErrors.SavingThrows,
+							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+						}
 					}
-				}
+				});
 			});
 		}
 
 	handleMonsterSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			this.setState({
-				monster: {
-					...this.state.monster,
-					Skills: {
-						...this.state.monster.Skills,
-						[event.currentTarget.name]: this.stringToNumber(event.target.value)
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			{ [event.currentTarget.name]: value },
+			Joi.reach(this.payloadSchema, ['Skills']),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						Skills: {
+							...monster.Skills,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						Skills: {
+							...monsterErrors.Skills,
+							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+						}
 					}
-				}
-			})
+				});
+			});
 		};
 
 	handleMonsterSenseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			this.setState({
-				monster: {
-					...this.state.monster,
-					Senses: {
-						...this.state.monster.Senses,
-						[event.currentTarget.name]: this.stringToNumber(event.target.value)
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			{ [event.currentTarget.name]: value },
+			Joi.reach(this.payloadSchema, ['Senses']),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						Senses: {
+							...monster.Senses,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						Senses: {
+							...monsterErrors.Senses,
+							[event.currentTarget.name]: errors ? errors.details[0].message : ''
+						}
 					}
-				}
-			})
+				});
+			});
 		};
 
-	handleMonsterLanguagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Languages: event.target.value }
-		})
-	}
-
-	handleMonsterChallengeRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, ChallengeRating: this.stringToFloat(event.target.value) }
-		})
+	handleMonsterFloatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToFloat(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: { ...monster, [event.currentTarget.name]: value },
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : ''}
+				});
+			});
 	}
 
 	handleMonsterExperiencePointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -579,7 +689,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Armor Class'
 									autoComplete='ArmorClass'
-									value={this.state.monster.ArmorClass || ''}
+									value={this.state.monster.ArmorClass != undefined ? this.state.monster.ArmorClass : ''}
 									name='ArmorClass'
 									onChange={this.handleMonsterNumberChange} />
 								<Help isColor='danger'>{this.state.monsterErrors.ArmorClass}</Help>
@@ -593,7 +703,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Hit Points'
 									autoComplete='HitPoints'
-									value={this.state.monster.HitPoints || ''}
+									value={this.state.monster.HitPoints != undefined ? this.state.monster.HitPoints : ''}
 									name='HitPoints'
 									onChange={this.handleMonsterNumberChange} />
 								<Help isColor='danger'>{this.state.monsterErrors.HitPoints}</Help>
@@ -622,7 +732,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Land Speed'
 									autoComplete='SpeedLand'
-									value={this.state.SpeedLand || ''}
+									value={this.state.SpeedLand != undefined ? this.state.SpeedLand : ''}
 									onChange={this.handleMonsterLandSpeedChange} />
 							</Control>
 							<Control isExpanded>
@@ -632,7 +742,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Swimming Speed'
 									autoComplete='SpeedSwim'
-									value={this.state.SpeedSwim || ''}
+									value={this.state.SpeedSwim != undefined ? this.state.SpeedSwim : ''}
 									onChange={this.handleMonsterSwimSpeedChange} />
 							</Control>
 						</Field>
@@ -656,7 +766,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={value}
 															autoComplete={value}
-															value={this.state.monster.AbilityScores[value] || ''}
+															value={this.state.monster.AbilityScores[value] != undefined ? this.state.monster.AbilityScores[value] : ''}
 															name={value}
 															onChange={this.handleMonsterAbilityScoreChange} />
 													</Control>
@@ -687,7 +797,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={value}
 															autoComplete={value}
-															value={this.state.monster.SavingThrows[value] || ''}
+															value={this.state.monster.SavingThrows[value] != undefined ? this.state.monster.SavingThrows[value] : ''}
 															name={value}
 															onChange={this.handleMonsterSavingThrowChange} />
 													</Control>
@@ -720,7 +830,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName] || ''}
+															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
@@ -748,7 +858,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName] || ''}
+															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
@@ -776,7 +886,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName] || ''}
+															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
@@ -810,7 +920,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName] || ''}
+															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
@@ -838,7 +948,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName] || ''}
+															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
@@ -866,7 +976,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName] || ''}
+															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
@@ -896,7 +1006,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											placeholder='Languages'
 											autoComplete='Languages'
 											value={this.state.monster.Languages || ''}
-											onChange={this.handleMonsterLanguagesChange} />
+											name='Languages'
+											onChange={this.handleBaseMonsterChange} />
 									</Control>
 									<Help isColor='danger'>{this.state.monsterErrors.Languages}</Help>
 								</Field>
@@ -914,8 +1025,9 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='number'
 											placeholder='Challenge Rating'
 											autoComplete='ChallengeRating'
-											value={this.state.monster.ChallengeRating || ''}
-											onChange={this.handleMonsterChallengeRatingChange} />
+											value={this.state.monster.ChallengeRating != undefined ? this.state.monster.ChallengeRating : ''}
+											name='ChallengeRating'
+											onChange={this.handleMonsterFloatChange} />
 									</Control>
 									<Help isColor='danger'>{this.state.monsterErrors.ChallengeRating}</Help>
 								</Field>
@@ -933,7 +1045,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='number'
 											placeholder='Experience Points'
 											autoComplete='ExperiencePoints'
-											value={this.state.ExperiencePoints || ''}
+											value={this.state.ExperiencePoints != undefined ? this.state.ExperiencePoints : ''}
 											onChange={this.handleMonsterExperiencePointsChange} />
 									</Control>
 								</Field>
