@@ -9,8 +9,8 @@ import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } fr
 import 'bulma/css/bulma.css';
 
 import {Redirect} from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns } from 'bloomer';
-import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState } from '../../monster';
+import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns, Help } from 'bloomer';
+import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterErrorState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
 
@@ -64,6 +64,7 @@ export interface IMonsterCreationProps {
 
 export interface IMonsterCreationState {
 	monster: IMonsterState,
+	monsterErrors: IMonsterErrorState,
 	SpeedLand?: number,
 	SpeedSwim?: number,
 	ExperiencePoints?: number,
@@ -176,7 +177,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				SavingThrows: {},
 				Senses: {},
 				Skills: {},
-			} : props.defaultMonster
+			} : props.defaultMonster,
+			monsterErrors: {
+				AbilityScores: {},
+				SavingThrows: {},
+				Skills: {},
+				Senses: {}
+			}
 		};
 	}
 
@@ -444,6 +451,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									onChange={this.handleBaseMonsterChange}
 									required />
 							</Control>
+							<Help isColor='danger'>{this.state.monsterErrors.Name}</Help>
 						</Field>
 					</Tile>
 					<Tile className="box" isVertical>
@@ -452,24 +460,29 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							<Control isExpanded>
 								<Label>Type</Label>
 								<MonsterDropdown name='Type' options={types} onChange={this.handleMonsterTypeChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Type}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Size</Label>
 								<MonsterDropdown name='Size' options={sizes} onChange={this.handleMonsterSizeChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Size}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Race</Label>
 								<MonsterDropdown name='Race' options={races} onChange={this.handleMonsterRaceChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Race}</Help>
 							</Control>
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
 								<Label>Alignment</Label>
 								<MonsterDropdown name='Alignment' options={alignments} onChange={this.handleMonsterAlignmentChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Alignment}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Environment</Label>
 								<MonsterDropdown name='Environment' options={environments} onChange={this.handleMonsterEnvironmentChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Environment}</Help>
 							</Control>
 						</Field>
 					</Tile>
@@ -491,6 +504,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											name='DamageVulnerabilities'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.DamageVulnerabilities}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -510,6 +524,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											name='DamageResistances'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.DamageResistances}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -529,6 +544,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											name='DamageImmunities'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.DamageImmunities}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -548,6 +564,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											name='ConditionImmunities'
 											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.ConditionImmunities}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -565,6 +582,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									value={this.state.monster.ArmorClass || ''}
 									name='ArmorClass'
 									onChange={this.handleMonsterNumberChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.ArmorClass}</Help>
 							</Control>
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
@@ -578,6 +596,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									value={this.state.monster.HitPoints || ''}
 									name='HitPoints'
 									onChange={this.handleMonsterNumberChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.HitPoints}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Hit Point Distribution</Label>
@@ -589,6 +608,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									value={this.state.monster.HitPointDistribution || ''}
 									name='HitPointDistribution'
 									onChange={this.handleBaseMonsterChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.HitPointDistribution}</Help>
 							</Control>
 						</Field>
 					</Tile>
@@ -640,6 +660,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={value}
 															onChange={this.handleMonsterAbilityScoreChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.AbilityScores[value]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -670,6 +691,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={value}
 															onChange={this.handleMonsterSavingThrowChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.SavingThrows[value]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -702,6 +724,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -729,6 +752,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -756,6 +780,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={skillName}
 															onChange={this.handleMonsterSkillChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -789,6 +814,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -816,6 +842,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -843,6 +870,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															name={senseName}
 															onChange={this.handleMonsterSenseChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -870,6 +898,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											value={this.state.monster.Languages || ''}
 											onChange={this.handleMonsterLanguagesChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.Languages}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -888,6 +917,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											value={this.state.monster.ChallengeRating || ''}
 											onChange={this.handleMonsterChallengeRatingChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.ChallengeRating}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
