@@ -164,10 +164,10 @@ export interface IMonsterErrorState {
 
 	ChallengeRating?: string;
 
-	AbilityScores: { [key: string]: string }
-	Senses: { [key: string]: string };
-	Skills: { [key: string]: string };
-	SavingThrows: { [key: string]: string };
+	AbilityScores: { [key: string]: string|undefined }
+	Senses: { [key: string]: string|undefined };
+	Skills: { [key: string]: string|undefined };
+	SavingThrows: { [key: string]: string|undefined };
 	//Actions: { [key: string]: string };
 }
 
