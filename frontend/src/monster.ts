@@ -142,6 +142,35 @@ export interface IMonsterState {
 	//Actions: IActionState[];
 }
 
+export interface IMonsterErrorState {
+	Name?: string;
+	Size?: string;
+	Type?: string;
+	Race?: string;
+	Environment?: string;
+	Alignment?: string;
+
+	ArmorClass?: string;
+	HitPoints?: string;
+	HitPointDistribution?: string;
+
+	Speed?: string;
+	Languages?: string;
+
+	DamageVulnerabilities?: string;
+	DamageResistances?: string;
+	DamageImmunities?: string;
+	ConditionImmunities?: string;
+
+	ChallengeRating?: string;
+
+	AbilityScores: { [key: string]: string }
+	Senses: { [key: string]: string };
+	Skills: { [key: string]: string };
+	SavingThrows: { [key: string]: string };
+	//Actions: { [key: string]: string };
+}
+
 export interface SkillMap {
 	[skillName: string]: number|undefined;
 }
