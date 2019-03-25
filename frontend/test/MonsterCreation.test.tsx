@@ -4,7 +4,6 @@ import { mount, ReactWrapper } from 'enzyme';
 import { MonsterCreation, IMonsterCreationState, IMonsterCreationProps } from "../src/renderer/components/MonsterCreation";
 
 import {API_URL} from '../src/config'
-import { MonsterType, Alignment, Size, MonsterRace, Environment } from "../src/monster";
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 
@@ -97,11 +96,6 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			const expectedMonster = {
 				Name: "Hello",
-				Type: MonsterType.Celestial,
-				Alignment: Alignment.AnyGoodAlignment,
-				Size: Size.Gargantuan,
-				Race: MonsterRace.Devil,
-				Environment: Environment.Underdark,
 				DamageVulnerabilities: "Everything",
 				DamageResistances: "None at all",
 				DamageImmunities: "Nada",
@@ -162,11 +156,6 @@ describe('Monster Creation', () => {
 			};
 			const expectedErrors = {
 				Name: undefined,
-				Type: undefined,
-				Alignment: undefined,
-				Size: undefined,
-				Race: undefined,
-				Environment: undefined,
 				DamageVulnerabilities: undefined,
 				DamageResistances: undefined,
 				DamageImmunities: undefined,
@@ -307,31 +296,6 @@ describe('Monster Creation', () => {
 			.reply(201, { status: 201, message: 'success' });
 			//monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
 		});
-
-		it('should change only types when type is changed', () => {
-			monsterCreationInstance.find('select#Type').simulate('change', { target: { value: "Undead" } })
-			expect(monsterCreationInstance.state().monster.Type).toEqual(MonsterType.Undead);
-		})
-
-		it('should change only alignment when alignment is changed', () => {
-			monsterCreationInstance.find('select#Alignment').simulate('change', { target: { value: "AnyNonEvilAlignment" } })
-			expect(monsterCreationInstance.state().monster.Alignment).toEqual(Alignment.AnyNonEvilAlignment);
-		})
-
-		it('should change only size when size is changed', () => {
-			monsterCreationInstance.find('select#Size').simulate('change', { target: { value: "Large" } })
-			expect(monsterCreationInstance.state().monster.Size).toEqual(Size.Large);
-		})
-
-		it('should change only races when race is changed', () => {
-			monsterCreationInstance.find('select#Race').simulate('change', { target: { value: "Goblinoid" } })
-			expect(monsterCreationInstance.state().monster.Race).toEqual(MonsterRace.Goblinoid);
-		})
-
-		it('should change only environments when environment is changed', () => {
-			monsterCreationInstance.find('select#Environment').simulate('change', { target: { value: "Coastal" } })
-			expect(monsterCreationInstance.state().monster.Environment).toEqual(Environment.Coastal);
-		})
 	})
 	// input.simulate('change', { target: { value: 'Hello' } })
 
