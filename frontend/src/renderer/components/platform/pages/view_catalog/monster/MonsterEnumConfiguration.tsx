@@ -93,8 +93,13 @@ export interface IMonsterEnumConfigurationState {
 export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfigurationProps, IMonsterEnumConfigurationState> {
 	constructor(props: IMonsterEnumConfigurationProps) {
 		super(props);
-		this.state = {};
-		Object.assign(this.state, props);
+		this.state = {
+			Size: this.props.Size,
+			Type: this.props.Type,
+			Race: this.props.Race,
+			Alignment: this.props.Alignment,
+			Environment: this.props.Environment
+		};
 	}
 
 	handleMonsterEnumChange = (name: string, newEnum?: string) => {
@@ -104,10 +109,16 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 				Joi.reach(this.props.PayloadSchema, [name]),
 				this.props.ValidationOptions,
 				(errors: ValidationError) => {
-					this.setState({
-						[name]: newEnum,
-						[name+'Error']: errors ? errors.details[0].message : undefined
-					});
+					if(errors) {
+						this.setState({
+							[name+'Error']: errors.details[0].message
+						});
+					} else {
+						this.setState({
+							[name]: newEnum,
+							[name+'Error']: undefined
+						});
+					}
 				});
 		} else {
 			this.setState({
