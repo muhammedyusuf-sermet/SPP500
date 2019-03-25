@@ -114,7 +114,7 @@ export interface IMonsterActions {
 }
 
 export interface IMonsterState {
-	Id: string,
+	Id?: string,
 	Name: string,
 	Size?: Size | string;
 	Type?: MonsterType | string;

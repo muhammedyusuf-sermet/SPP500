@@ -156,7 +156,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				message: ""
 			},
 			monster: props.defaultMonster == undefined ? {
-				Id: '',
 				Name: '',
 				AbilityScores: {},
 				SavingThrows: {},
