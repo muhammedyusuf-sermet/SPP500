@@ -13,12 +13,7 @@ import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterErrorState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
-
-const types = Object.values(MonsterType);
-const sizes = Object.keys(Size);
-const races = Object.keys(MonsterRace);
-const environments = Object.keys(Environment);
-const alignments = Object.keys(Alignment);
+import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -162,6 +157,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			SenseOptions: this.senseNames
 		}
 	};
+	private EnumConfiguration: React.RefObject<MonsterEnumConfiguration>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -184,6 +180,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				Senses: {}
 			}
 		};
+		this.EnumConfiguration = React.createRef<MonsterEnumConfiguration>();
 	}
 
 	openModal = (messageText: string) => {
@@ -214,76 +211,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				this.setState({
 					monster: { ...monster, [event.currentTarget.name]: event.target.value },
 					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
-				});
-			});
-	}
-
-	handleMonsterTypeChange = (newType: string) => {
-		const { monster, monsterErrors } = this.state
-		Joi.validate(
-			newType,
-			Joi.reach(this.payloadSchema, ['Type']),
-			this.validateOptions,
-			(errors: ValidationError, value: any) => {
-				this.setState({
-					monster: { ...monster, Type: newType },
-					monsterErrors: { ...monsterErrors, Type: errors ? errors.details[0].message : undefined}
-				});
-			});
-	}
-
-	handleMonsterSizeChange = (newSize: string) => {
-		const { monster, monsterErrors } = this.state
-		Joi.validate(
-			newSize,
-			Joi.reach(this.payloadSchema, ['Size']),
-			this.validateOptions,
-			(errors: ValidationError, value: any) => {
-				this.setState({
-					monster: { ...monster, Size: newSize },
-					monsterErrors: { ...monsterErrors, Size: errors ? errors.details[0].message : undefined}
-				});
-			});
-	}
-
-	handleMonsterRaceChange = (newRace: string) => {
-		const { monster, monsterErrors } = this.state
-		Joi.validate(
-			newRace,
-			Joi.reach(this.payloadSchema, ['Race']),
-			this.validateOptions,
-			(errors: ValidationError, value: any) => {
-				this.setState({
-					monster: { ...monster, Race: newRace },
-					monsterErrors: { ...monsterErrors, Race: errors ? errors.details[0].message : undefined}
-				});
-			});
-	}
-
-	handleMonsterEnvironmentChange = (newEnvironment: string) => {
-		const { monster, monsterErrors } = this.state
-		Joi.validate(
-			newEnvironment,
-			Joi.reach(this.payloadSchema, ['Environment']),
-			this.validateOptions,
-			(errors: ValidationError, value: any) => {
-				this.setState({
-					monster: { ...monster, Environment: newEnvironment },
-					monsterErrors: { ...monsterErrors, Environment: errors ? errors.details[0].message : undefined}
-				});
-			});
-	}
-
-	handleMonsterAlignmentChange = (newAlignment: string) => {
-		const { monster, monsterErrors } = this.state
-		Joi.validate(
-			newAlignment,
-			Joi.reach(this.payloadSchema, ['Alignment']),
-			this.validateOptions,
-			(errors: ValidationError, value: any) => {
-				this.setState({
-					monster: { ...monster, Alignment: newAlignment },
-					monsterErrors: { ...monsterErrors, Alignment: errors ? errors.details[0].message : undefined}
 				});
 			});
 	}
@@ -462,14 +389,21 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 
 	private validateForm = (event: React.FormEvent) => {
 		event.preventDefault();
-
+			const { ...enumState } = this.EnumConfiguration.current?this.EnumConfiguration.current.state : {};
 			// need to convert speed to single string
 			let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
 			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
 			if(monsterSpeed.length == 0)
 				monsterSpeed = undefined;
+			if(this.EnumConfiguration.current)
+				this.EnumConfiguration.current.state
 			const monsterPayload: IMonsterState = {
 				...this.state.monster,
+				Size: enumState.Size,
+				Type: enumState.Type,
+				Race: enumState.Race,
+				Alignment: enumState.Alignment,
+				Environment: enumState.Environment,
 				Speed: monsterSpeed,
 			}
 
@@ -564,38 +498,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							<Help isColor='danger'>{this.state.monsterErrors.Name}</Help>
 						</Field>
 					</Tile>
-					<Tile className="box" isVertical>
-						<Subtitle>Basic Configurations</Subtitle>
-						<Field isGrouped='centered' isHorizontal>
-							<Control isExpanded>
-								<Label>Type</Label>
-								<MonsterDropdown name='Type' options={types} onChange={this.handleMonsterTypeChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.Type}</Help>
-							</Control>
-							<Control isExpanded>
-								<Label>Size</Label>
-								<MonsterDropdown name='Size' options={sizes} onChange={this.handleMonsterSizeChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.Size}</Help>
-							</Control>
-							<Control isExpanded>
-								<Label>Race</Label>
-								<MonsterDropdown name='Race' options={races} onChange={this.handleMonsterRaceChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.Race}</Help>
-							</Control>
-						</Field>
-						<Field isGrouped='centered' isHorizontal>
-							<Control isExpanded>
-								<Label>Alignment</Label>
-								<MonsterDropdown name='Alignment' options={alignments} onChange={this.handleMonsterAlignmentChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.Alignment}</Help>
-							</Control>
-							<Control isExpanded>
-								<Label>Environment</Label>
-								<MonsterDropdown name='Environment' options={environments} onChange={this.handleMonsterEnvironmentChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.Environment}</Help>
-							</Control>
-						</Field>
-					</Tile>
+					<MonsterEnumConfiguration
+						disabled={false}
+						PayloadSchema={this.payloadSchema}
+						ValidationOptions={this.validateOptions}
+						ref={this.EnumConfiguration}/>
 					<Tile className="box" isVertical>
 						<Subtitle>Vulnerability, Resistance, and Immunity</Subtitle>
 						<Field isHorizontal>
