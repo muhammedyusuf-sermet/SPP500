@@ -96,9 +96,6 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			const expectedMonster = {
 				Name: "Hello",
-				ArmorClass: 15,
-				HitPoints: 40,
-				HitPointDistribution: "9d5-5",
 				AbilityScores: {
 					Strength: 17,
 					Dexterity: 15,
