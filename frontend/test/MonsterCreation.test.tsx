@@ -96,10 +96,6 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			const expectedMonster = {
 				Name: "Hello",
-				DamageVulnerabilities: "Everything",
-				DamageResistances: "None at all",
-				DamageImmunities: "Nada",
-				ConditionImmunities: "Nothing",
 				ArmorClass: 15,
 				HitPoints: 40,
 				HitPointDistribution: "9d5-5",
