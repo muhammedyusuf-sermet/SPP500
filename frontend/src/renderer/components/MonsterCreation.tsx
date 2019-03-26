@@ -14,6 +14,7 @@ import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, 
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
+import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -158,6 +159,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		}
 	};
 	private EnumConfiguration: React.RefObject<MonsterEnumConfiguration>;
+	private Resistances: React.RefObject<MonsterResistances>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -181,6 +183,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			}
 		};
 		this.EnumConfiguration = React.createRef<MonsterEnumConfiguration>();
+		this.Resistances = React.createRef<MonsterResistances>();
 	}
 
 	openModal = (messageText: string) => {
@@ -389,7 +392,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 
 	private validateForm = (event: React.FormEvent) => {
 		event.preventDefault();
-			const { ...enumState } = this.EnumConfiguration.current?this.EnumConfiguration.current.state : {};
+			const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
+			const resistancesState = this.Resistances.current ? this.Resistances.current.state : {};
 			// need to convert speed to single string
 			let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
 			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
@@ -405,6 +409,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				Alignment: enumState.Alignment,
 				Environment: enumState.Environment,
 				Speed: monsterSpeed,
+				DamageVulnerabilities: resistancesState.DamageVulnerabilities,
+				DamageResistances: resistancesState.DamageResistances,
+				DamageImmunities: resistancesState.DamageImmunities,
+				ConditionImmunities: resistancesState.ConditionImmunities
 			}
 
 			let errors = Joi.validate(
@@ -502,90 +510,21 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						disabled={false}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
-						ref={this.EnumConfiguration}/>
-					<Tile className="box" isVertical>
-						<Subtitle>Vulnerability, Resistance, and Immunity</Subtitle>
-						<Field isHorizontal>
-							<FieldLabel isNormal>
-								<Label>Damage Vulnerabilities </Label>
-							</FieldLabel>
-							<FieldBody>
-								<Field>
-									<Control>
-										<Input
-											id='DamageVulnerabilities'
-											type='text'
-											placeholder='Damage Vulnerabilities'
-											autoComplete='DamageVulnerabilities'
-											value={this.state.monster.DamageVulnerabilities || ''}
-											name='DamageVulnerabilities'
-											onChange={this.handleBaseMonsterChange} />
-									</Control>
-									<Help isColor='danger'>{this.state.monsterErrors.DamageVulnerabilities}</Help>
-								</Field>
-							</FieldBody>
-						</Field>
-						<Field isHorizontal>
-							<FieldLabel isNormal>
-								<Label>Damage Resistances </Label>
-							</FieldLabel>
-							<FieldBody>
-								<Field>
-									<Control>
-										<Input
-											id='DamageResistances'
-											type='text'
-											placeholder='Damage Resistances'
-											autoComplete='DamageResistances'
-											value={this.state.monster.DamageResistances || ''}
-											name='DamageResistances'
-											onChange={this.handleBaseMonsterChange} />
-									</Control>
-									<Help isColor='danger'>{this.state.monsterErrors.DamageResistances}</Help>
-								</Field>
-							</FieldBody>
-						</Field>
-						<Field isHorizontal>
-							<FieldLabel isNormal>
-								<Label>Damage Immunities </Label>
-							</FieldLabel>
-							<FieldBody>
-								<Field>
-									<Control>
-										<Input
-											id='DamageImmunities'
-											type='text'
-											placeholder='Damage Immunities'
-											autoComplete='DamageImmunities'
-											value={this.state.monster.DamageImmunities || ''}
-											name='DamageImmunities'
-											onChange={this.handleBaseMonsterChange} />
-									</Control>
-									<Help isColor='danger'>{this.state.monsterErrors.DamageImmunities}</Help>
-								</Field>
-							</FieldBody>
-						</Field>
-						<Field isHorizontal>
-							<FieldLabel isNormal>
-								<Label>Condition Immunities </Label>
-							</FieldLabel>
-							<FieldBody>
-								<Field>
-									<Control>
-										<Input
-											id='ConditionImmunities'
-											type='text'
-											placeholder='Condition Immunities'
-											autoComplete='ConditionImmunities'
-											value={this.state.monster.ConditionImmunities || ''}
-											name='ConditionImmunities'
-											onChange={this.handleBaseMonsterChange} />
-									</Control>
-									<Help isColor='danger'>{this.state.monsterErrors.ConditionImmunities}</Help>
-								</Field>
-							</FieldBody>
-						</Field>
-					</Tile>
+						ref={this.EnumConfiguration}
+						Size={this.state.monster.Size}
+						Type={this.state.monster.Type}
+						Race={this.state.monster.Race}
+						Alignment={this.state.monster.Alignment}
+						Environment={this.state.monster.Alignment} />
+					<MonsterResistances
+						disabled={false}
+						PayloadSchema={this.payloadSchema}
+						ValidationOptions={this.validateOptions}
+						ref={this.Resistances}
+						DamageResistances={this.state.monster.DamageResistances}
+						DamageImmunities={this.state.monster.DamageImmunities}
+						DamageVulnerabilities={this.state.monster.DamageVulnerabilities}
+						ConditionImmunities={this.state.monster.ConditionImmunities} />
 					<Tile className="box" isVertical>
 						<Subtitle>Armor Class and Hit Points</Subtitle>
 						<Field>
