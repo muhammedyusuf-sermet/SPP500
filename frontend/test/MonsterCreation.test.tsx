@@ -52,18 +52,6 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5-5' } })
 			monsterCreationInstance.find('Input#SpeedLand').simulate('change', { target: { value: 25 } })
 			monsterCreationInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('Input#AbilityStrength').simulate('change', { target: { value: 17 } })
-			monsterCreationInstance.find('Input#AbilityDexterity').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('Input#AbilityConstitution').simulate('change', { target: { value: 13 } })
-			monsterCreationInstance.find('Input#AbilityIntelligence').simulate('change', { target: { value: 12 } })
-			monsterCreationInstance.find('Input#AbilityWisdom').simulate('change', { target: { value: 16 } })
-			monsterCreationInstance.find('Input#AbilityCharisma').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('Input#SavingStrength').simulate('change', { target: { value: -3 } })
-			monsterCreationInstance.find('Input#SavingDexterity').simulate('change', { target: { value: 0 } })
-			monsterCreationInstance.find('Input#SavingConstitution').simulate('change', { target: { value: -1 } })
-			monsterCreationInstance.find('Input#SavingIntelligence').simulate('change', { target: { value: -2 } })
-			monsterCreationInstance.find('Input#SavingWisdom').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('Input#SavingCharisma').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Athletics').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Acrobatics').simulate('change', { target: { value: 10 } })
 			monsterCreationInstance.find('Input[id="Sleight of Hand"]').simulate('change', { target: { value: 9 } })
@@ -96,22 +84,8 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			const expectedMonster = {
 				Name: "Hello",
-				AbilityScores: {
-					Strength: 17,
-					Dexterity: 15,
-					Constitution: 13,
-					Intelligence: 12,
-					Wisdom: 16,
-					Charisma: 15
-				},
-				SavingThrows: {
-					Strength: -3,
-					Dexterity: 0,
-					Constitution: -1,
-					Intelligence: -2,
-					Wisdom: 8,
-					Charisma: 9
-				},
+				AbilityScores: {},
+				SavingThrows: {},
 				Skills: {
 					Athletics: 9,
 					Acrobatics: 10,
@@ -149,29 +123,8 @@ describe('Monster Creation', () => {
 			};
 			const expectedErrors = {
 				Name: undefined,
-				DamageVulnerabilities: undefined,
-				DamageResistances: undefined,
-				DamageImmunities: undefined,
-				ConditionImmunities: undefined,
-				ArmorClass: undefined,
-				HitPoints: undefined,
-				HitPointDistribution: undefined,
-				AbilityScores: {
-					Strength: undefined,
-					Dexterity: undefined,
-					Constitution: undefined,
-					Intelligence: undefined,
-					Wisdom: undefined,
-					Charisma: undefined
-				},
-				SavingThrows: {
-					Strength: undefined,
-					Dexterity: undefined,
-					Constitution: undefined,
-					Intelligence: undefined,
-					Wisdom: undefined,
-					Charisma: undefined
-				},
+				AbilityScores: {},
+				SavingThrows: {},
 				Skills: {
 					Athletics: undefined,
 					Acrobatics: undefined,
