@@ -15,6 +15,7 @@ import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
 import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
+import { MonsterDefences } from './platform/pages/view_catalog/monster/MonsterDefences';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -97,7 +98,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
 		HitPoints: Joi.number().integer().greater(0).label('HitPoints'),
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
-		HitPointDistribution: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces'),
+		HitPointDistribution: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces').label('HitPointDistribution'),
 		Speed: Joi.string().max(100),
 		Languages: Joi.string().max(100).label('Languages'),
 		DamageVulnerabilities: Joi.string().allow('').max(200).label('DamageVulnerabilities'),
@@ -160,6 +161,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	};
 	private EnumConfiguration: React.RefObject<MonsterEnumConfiguration>;
 	private Resistances: React.RefObject<MonsterResistances>;
+	private Defences: React.RefObject<MonsterDefences>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -184,6 +186,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		};
 		this.EnumConfiguration = React.createRef<MonsterEnumConfiguration>();
 		this.Resistances = React.createRef<MonsterResistances>();
+		this.Defences = React.createRef<MonsterDefences>();
 	}
 
 	openModal = (messageText: string) => {
@@ -394,6 +397,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		event.preventDefault();
 			const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
 			const resistancesState = this.Resistances.current ? this.Resistances.current.state : {};
+			const defencesState = this.Defences.current ? this.Defences.current.state : {}
 			// need to convert speed to single string
 			let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
 			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
@@ -412,7 +416,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				DamageVulnerabilities: resistancesState.DamageVulnerabilities,
 				DamageResistances: resistancesState.DamageResistances,
 				DamageImmunities: resistancesState.DamageImmunities,
-				ConditionImmunities: resistancesState.ConditionImmunities
+				ConditionImmunities: resistancesState.ConditionImmunities,
+				ArmorClass: defencesState.ArmorClass,
+				HitPoints: defencesState.HitPoints,
+				HitPointDistribution: defencesState.HitPointDistribution
 			}
 
 			let errors = Joi.validate(
@@ -525,49 +532,14 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						DamageImmunities={this.state.monster.DamageImmunities}
 						DamageVulnerabilities={this.state.monster.DamageVulnerabilities}
 						ConditionImmunities={this.state.monster.ConditionImmunities} />
-					<Tile className="box" isVertical>
-						<Subtitle>Armor Class and Hit Points</Subtitle>
-						<Field>
-							<Control>
-								<Label>Armor Class</Label>
-								<Input
-									id='ArmorClass'
-									type='number'
-									placeholder='Armor Class'
-									autoComplete='ArmorClass'
-									value={this.state.monster.ArmorClass != undefined ? this.state.monster.ArmorClass : ''}
-									name='ArmorClass'
-									onChange={this.handleMonsterNumberChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.ArmorClass}</Help>
-							</Control>
-						</Field>
-						<Field isGrouped='centered' isHorizontal>
-							<Control isExpanded>
-								<Label>Hit Points</Label>
-								<Input
-									id='HitPoints'
-									type='number'
-									placeholder='Hit Points'
-									autoComplete='HitPoints'
-									value={this.state.monster.HitPoints != undefined ? this.state.monster.HitPoints : ''}
-									name='HitPoints'
-									onChange={this.handleMonsterNumberChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.HitPoints}</Help>
-							</Control>
-							<Control isExpanded>
-								<Label>Hit Point Distribution</Label>
-								<Input
-									id='HitPointDistribution'
-									type='string'
-									placeholder='Hit Points Distribution'
-									autoComplete='HitPointDistribution'
-									value={this.state.monster.HitPointDistribution || ''}
-									name='HitPointDistribution'
-									onChange={this.handleBaseMonsterChange} />
-								<Help isColor='danger'>{this.state.monsterErrors.HitPointDistribution}</Help>
-							</Control>
-						</Field>
-					</Tile>
+					<MonsterDefences
+						disabled={false}
+						PayloadSchema={this.payloadSchema}
+						ValidationOptions={this.validateOptions}
+						ref={this.Defences}
+						ArmorClass={this.state.monster.ArmorClass}
+						HitPoints={this.state.monster.HitPoints}
+						HitPointDistribution={this.state.monster.HitPointDistribution} />
 					<Tile className="box" isVertical>
 						<Subtitle>Movement Speed</Subtitle>
 						<Field isGrouped='centered' isHorizontal>
