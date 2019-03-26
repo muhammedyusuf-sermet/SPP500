@@ -145,26 +145,26 @@ describe('Monster Resistances', () => {
 
 		it('should validate DamageVulnerabilities when DamageVulnerabilities is changed', () => {
 			monsterResistancesInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: moreThan200  } })
-			expect(monsterResistancesInstance.state().DamageVulnerabilities).toEqual(undefined);
-			expect(monsterResistancesInstance.state().DamageVulnerabilitiesError).toEqual('\"DamageVulnerabilities\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.state().DamageVulnerabilities).toEqual(moreThan200);
+			expect(monsterResistancesInstance.find('Help#DamageVulnerabilities').text()).toEqual('\"DamageVulnerabilities\" length must be less than or equal to 200 characters long');
 		})
 
 		it('should validate DamageResistances when DamageResistances is changed', () => {
 			monsterResistancesInstance.find('Input#DamageResistances').simulate('change', { target: { value: moreThan200 } })
-			expect(monsterResistancesInstance.state().DamageResistances).toEqual(undefined);
-			expect(monsterResistancesInstance.state().DamageResistancesError).toEqual('\"DamageResistances\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.state().DamageResistances).toEqual(moreThan200);
+			expect(monsterResistancesInstance.find('Help#DamageResistances').text()).toEqual('\"DamageResistances\" length must be less than or equal to 200 characters long');
 		})
 
 		it('should validate DamageImmunities when DamageImmunities is changed', () => {
 			monsterResistancesInstance.find('Input#DamageImmunities').simulate('change', { target: { value: moreThan200 } })
-			expect(monsterResistancesInstance.state().DamageImmunities).toEqual(undefined);
-			expect(monsterResistancesInstance.state().DamageImmunitiesError).toEqual('\"DamageImmunities\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.state().DamageImmunities).toEqual(moreThan200);
+			expect(monsterResistancesInstance.find('Help#DamageImmunities').text()).toEqual('\"DamageImmunities\" length must be less than or equal to 200 characters long');
 		})
 
 		it('should validate ConditionImmunities when ConditionImmunities is changed', () => {
 			monsterResistancesInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: moreThan200 } })
-			expect(monsterResistancesInstance.state().ConditionImmunities).toEqual(undefined);
-			expect(monsterResistancesInstance.state().ConditionImmunitiesError).toEqual('\"ConditionImmunities\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.state().ConditionImmunities).toEqual(moreThan200);
+			expect(monsterResistancesInstance.find('Help#ConditionImmunities').text()).toEqual('\"ConditionImmunities\" length must be less than or equal to 200 characters long');
 		})
 	});
 });

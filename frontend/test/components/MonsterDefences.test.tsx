@@ -123,26 +123,26 @@ describe('Monster Defences', () => {
 
 		it('should validate ArmorClass when ArmorClass is changed', () => {
 			monsterDefencesInstance.find('Input#ArmorClass').simulate('change', { target: { value: '-12'  } })
-			expect(monsterDefencesInstance.state().ArmorClass).toEqual(undefined);
-			expect(monsterDefencesInstance.state().ArmorClassError).toEqual('\"ArmorClass\" must be greater than 0');
+			expect(monsterDefencesInstance.state().ArmorClass).toEqual(-12);
+			expect(monsterDefencesInstance.find('Help#ArmorClass').text()).toEqual('\"ArmorClass\" must be greater than 0');
 		})
 
 		it('should validate HitPoints when HitPoints is changed', () => {
 			monsterDefencesInstance.find('Input#HitPoints').simulate('change', { target: { value: '-23' } })
-			expect(monsterDefencesInstance.state().HitPoints).toEqual(undefined);
-			expect(monsterDefencesInstance.state().HitPointsError).toEqual('\"HitPoints\" must be greater than 0');
+			expect(monsterDefencesInstance.state().HitPoints).toEqual(-23);
+			expect(monsterDefencesInstance.find('Help#HitPoints').text()).toEqual('\"HitPoints\" must be greater than 0');
 		})
 
 		it('should validate HitPointDistribution when HitPointDistribution is changed length', () => {
 			monsterDefencesInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: moreThan20 } })
 			expect(monsterDefencesInstance.state().HitPointDistribution).toEqual(undefined);
-			expect(monsterDefencesInstance.state().HitPointDistributionError).toEqual('\"HitPointDistribution\" length must be less than or equal to 20 characters long');
+			expect(monsterDefencesInstance.find('Help#HitPointDistribution').text()).toEqual('\"HitPointDistribution\" length must be less than or equal to 20 characters long');
 		})
 
 		it('should validate HitPointDistribution when HitPointDistribution is changed pattern', () => {
 			monsterDefencesInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: 'InvalidPattern' } })
 			expect(monsterDefencesInstance.state().HitPointDistribution).toEqual(undefined);
-			expect(monsterDefencesInstance.state().HitPointDistributionError).toEqual('\"HitPointDistribution\" with value \"InvalidPattern\" fails to match the #d# OR (#d# operator (#d# or number)) NO spaces pattern');
+			expect(monsterDefencesInstance.find('Help#HitPointDistribution').text()).toEqual('\"HitPointDistribution\" with value \"InvalidPattern\" fails to match the #d# OR (#d# operator (#d# or number)) NO spaces pattern');
 		})
 	});
 });
