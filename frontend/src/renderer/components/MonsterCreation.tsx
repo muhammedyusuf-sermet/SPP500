@@ -16,6 +16,7 @@ import { Select } from 'bloomer/lib/elements/Form/Select';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
 import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
 import { MonsterDefences } from './platform/pages/view_catalog/monster/MonsterDefences';
+import { MonsterStats } from './platform/pages/view_catalog/monster/MonsterStats';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -86,8 +87,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private senseNames = [
 		"Blind", "Blindsight", "Darkvision", "Tremorsense", "Truesight",
 		"Passive Perception", "Passive Investigation", "Passive Insight" ];
-	private abilityScoreNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
-	private savingThrowNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private payloadSchema = Joi.object({
 		Name: Joi.string().required().max(50).label('Name'),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
@@ -162,6 +161,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private EnumConfiguration: React.RefObject<MonsterEnumConfiguration>;
 	private Resistances: React.RefObject<MonsterResistances>;
 	private Defences: React.RefObject<MonsterDefences>;
+	private AbilityScores: React.RefObject<MonsterStats>;
+	private SavingThrows: React.RefObject<MonsterStats>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -187,6 +188,8 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		this.EnumConfiguration = React.createRef<MonsterEnumConfiguration>();
 		this.Resistances = React.createRef<MonsterResistances>();
 		this.Defences = React.createRef<MonsterDefences>();
+		this.AbilityScores = React.createRef<MonsterStats>();
+		this.SavingThrows = React.createRef<MonsterStats>();
 	}
 
 	openModal = (messageText: string) => {
@@ -247,60 +250,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			SpeedSwim: this.stringToNumber(event.target.value)
 		})
 	}
-
-	handleMonsterAbilityScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
-		const value = this.stringToNumber(event.target.value);
-		Joi.validate(
-			value,
-			Joi.reach(this.payloadSchema, ['AbilityScores', event.currentTarget.name]),
-			this.validateOptions,
-			(errors: ValidationError) => {
-				this.setState({
-					monster: {
-						...monster,
-						AbilityScores: {
-							...monster.AbilityScores,
-							[event.currentTarget.name]: value
-						}
-					},
-					monsterErrors: {
-						...monsterErrors,
-						AbilityScores: {
-							...monsterErrors.AbilityScores,
-							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
-						}
-					}
-				});
-			});
-		}
-
-	handleMonsterSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
-		const value = this.stringToNumber(event.target.value);
-		Joi.validate(
-			value,
-			Joi.reach(this.payloadSchema, ['SavingThrows', event.currentTarget.name]),
-			this.validateOptions,
-			(errors: ValidationError) => {
-				this.setState({
-					monster: {
-						...monster,
-						SavingThrows: {
-							...monster.SavingThrows,
-							[event.currentTarget.name]: value
-						}
-					},
-					monsterErrors: {
-						...monsterErrors,
-						SavingThrows: {
-							...monsterErrors.SavingThrows,
-							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
-						}
-					}
-				});
-			});
-		}
 
 	handleMonsterSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { monster, monsterErrors } = this.state
@@ -397,7 +346,9 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		event.preventDefault();
 			const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
 			const resistancesState = this.Resistances.current ? this.Resistances.current.state : {};
-			const defencesState = this.Defences.current ? this.Defences.current.state : {}
+			const defencesState = this.Defences.current ? this.Defences.current.state : {};
+			const abilityScoreState = this.AbilityScores.current ? this.AbilityScores.current.state : {};
+			const savingThrowState = this.SavingThrows.current ? this.SavingThrows.current.state : {};
 			// need to convert speed to single string
 			let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
 			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
@@ -419,7 +370,23 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				ConditionImmunities: resistancesState.ConditionImmunities,
 				ArmorClass: defencesState.ArmorClass,
 				HitPoints: defencesState.HitPoints,
-				HitPointDistribution: defencesState.HitPointDistribution
+				HitPointDistribution: defencesState.HitPointDistribution,
+				AbilityScores: {
+					Strength: abilityScoreState.Strength,
+					Dexterity: abilityScoreState.Dexterity,
+					Constitution: abilityScoreState.Constitution,
+					Intelligence: abilityScoreState.Intelligence,
+					Wisdom: abilityScoreState.Wisdom,
+					Charisma: abilityScoreState.Charisma
+				},
+				SavingThrows: {
+					Strength: savingThrowState.Strength,
+					Dexterity: savingThrowState.Dexterity,
+					Constitution: savingThrowState.Constitution,
+					Intelligence: savingThrowState.Intelligence,
+					Wisdom: savingThrowState.Wisdom,
+					Charisma: savingThrowState.Charisma
+				}
 			}
 
 			let errors = Joi.validate(
@@ -567,66 +534,32 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 					</Tile>
 					<Tile isSize={12} >
 						<Tile isSize={6} isParent >
-						<Tile className="box" isVertical isParent >
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									<Subtitle>Ability Scores</Subtitle>
-									{this.abilityScoreNames.map((value: string) =>
-										<Field isHorizontal key={'Ability'+value}>
-											<FieldLabel isNormal>
-												<Label>{value}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={'Ability'+value}
-															type='number'
-															placeholder={value}
-															autoComplete={value}
-															value={this.state.monster.AbilityScores[value] != undefined ? this.state.monster.AbilityScores[value] : ''}
-															name={value}
-															onChange={this.handleMonsterAbilityScoreChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.AbilityScores[value]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-							} />
-						</Tile>
+							<MonsterStats
+								disabled={false}
+								PayloadSchema={this.payloadSchema}
+								ValidationOptions={this.validateOptions}
+								ref={this.AbilityScores}
+								Parent={'AbilityScores'}
+								Strength={this.state.monster.AbilityScores.Strength}
+								Dexterity={this.state.monster.AbilityScores.Dexterity}
+								Constitution={this.state.monster.AbilityScores.Constitution}
+								Intelligence={this.state.monster.AbilityScores.Intelligence}
+								Wisdom={this.state.monster.AbilityScores.Wisdom}
+								Charisma={this.state.monster.AbilityScores.Charisma} />
 						</Tile>
 						<Tile isSize={6} isParent >
-						<Tile className="box" isVertical isParent >
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									<Subtitle>Saving Throws</Subtitle>
-									{this.savingThrowNames.map((value: string) =>
-										<Field isHorizontal key={'Saving'+value}>
-											<FieldLabel isNormal>
-												<Label>{value}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={'Saving'+value}
-															type='number'
-															placeholder={value}
-															autoComplete={value}
-															value={this.state.monster.SavingThrows[value] != undefined ? this.state.monster.SavingThrows[value] : ''}
-															name={value}
-															onChange={this.handleMonsterSavingThrowChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.SavingThrows[value]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-							} />
-						</Tile>
+							<MonsterStats
+								disabled={false}
+								PayloadSchema={this.payloadSchema}
+								ValidationOptions={this.validateOptions}
+								ref={this.SavingThrows}
+								Parent={'SavingThrows'}
+								Strength={this.state.monster.AbilityScores.Strength}
+								Dexterity={this.state.monster.AbilityScores.Dexterity}
+								Constitution={this.state.monster.AbilityScores.Constitution}
+								Intelligence={this.state.monster.AbilityScores.Intelligence}
+								Wisdom={this.state.monster.AbilityScores.Wisdom}
+								Charisma={this.state.monster.AbilityScores.Charisma} />
 						</Tile>
 					</Tile>
 					<Tile className="box" isVertical>
