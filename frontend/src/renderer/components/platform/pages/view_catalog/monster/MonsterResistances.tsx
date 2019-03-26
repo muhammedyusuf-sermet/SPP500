@@ -50,16 +50,10 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 			Joi.reach(this.props.PayloadSchema, [event.currentTarget.name]),
 			this.props.ValidationOptions,
 			(errors: ValidationError) => {
-				if(errors) {
-					this.setState({
-						[event.currentTarget.name+'Error']: errors.details[0].message
-					});
-				} else {
-					this.setState({
-						[event.currentTarget.name]: value,
-						[event.currentTarget.name+'Error']: undefined
-					});
-				}
+				this.setState({
+					[event.currentTarget.name]: value,
+					[event.currentTarget.name+'Error']: errors ? errors.details[0].message : undefined
+				});
 			});
 	}
 
@@ -84,7 +78,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									name='DamageVulnerabilities'
 									onChange={this.handleResistancesChange} />
 							</Control>
-							<Help isColor='danger'>{this.state.DamageVulnerabilitiesError}</Help>
+							<Help id='DamageVulnerabilities' isColor='danger'>{this.state.DamageVulnerabilitiesError}</Help>
 						</Field>
 					</FieldBody>
 				</Field>
@@ -105,7 +99,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									name='DamageResistances'
 									onChange={this.handleResistancesChange} />
 							</Control>
-							<Help isColor='danger'>{this.state.DamageResistancesError}</Help>
+							<Help id='DamageResistances' isColor='danger'>{this.state.DamageResistancesError}</Help>
 						</Field>
 					</FieldBody>
 				</Field>
@@ -126,7 +120,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									name='DamageImmunities'
 									onChange={this.handleResistancesChange} />
 							</Control>
-							<Help isColor='danger'>{this.state.DamageImmunitiesError}</Help>
+							<Help id='DamageImmunities' isColor='danger'>{this.state.DamageImmunitiesError}</Help>
 						</Field>
 					</FieldBody>
 				</Field>
@@ -147,7 +141,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									name='ConditionImmunities'
 									onChange={this.handleResistancesChange} />
 							</Control>
-							<Help isColor='danger'>{this.state.ConditionImmunitiesError}</Help>
+							<Help id='ConditionImmunities' isColor='danger'>{this.state.ConditionImmunitiesError}</Help>
 						</Field>
 					</FieldBody>
 				</Field>

@@ -49,16 +49,10 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 			Joi.reach(this.props.PayloadSchema, [name]),
 			this.props.ValidationOptions,
 			(errors: ValidationError) => {
-				if(errors) {
-					this.setState({
-						[name+'Error']: errors.details[0].message
-					});
-				} else {
-					this.setState({
-						[name]: value,
-						[name+'Error']: undefined
-					});
-				}
+				this.setState({
+					[name]: value,
+					[name+'Error']: errors ? errors.details[0].message : undefined
+				});
 			});
 	}
 
@@ -99,7 +93,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 							value={this.state.ArmorClass != undefined ? this.state.ArmorClass : ''}
 							name='ArmorClass'
 							onChange={this.handleNumberChange} />
-						<Help isColor='danger'>{this.state.ArmorClassError}</Help>
+						<Help id='ArmorClass' isColor='danger'>{this.state.ArmorClassError}</Help>
 					</Control>
 				</Field>
 				<Field isGrouped='centered' isHorizontal>
@@ -113,7 +107,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 							value={this.state.HitPoints != undefined ? this.state.HitPoints : ''}
 							name='HitPoints'
 							onChange={this.handleNumberChange} />
-						<Help isColor='danger'>{this.state.HitPointsError}</Help>
+						<Help id='HitPoints' isColor='danger'>{this.state.HitPointsError}</Help>
 					</Control>
 					<Control isExpanded>
 						<Label>Hit Point Distribution</Label>
@@ -125,7 +119,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 							value={this.state.HitPointDistribution || ''}
 							name='HitPointDistribution'
 							onChange={this.handleStringChange} />
-						<Help isColor='danger'>{this.state.HitPointDistributionError}</Help>
+						<Help id='HitPointDistribution' isColor='danger'>{this.state.HitPointDistributionError}</Help>
 					</Control>
 				</Field>
 			</Tile>
