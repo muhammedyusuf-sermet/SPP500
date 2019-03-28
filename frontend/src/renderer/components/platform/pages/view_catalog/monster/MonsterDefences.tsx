@@ -11,9 +11,11 @@ export interface IMonsterDefencesProps {
 	PayloadSchema: JoiObject,
 	ValidationOptions: ValidationOptions,
 	// initial values
-	ArmorClass?: number;
-	HitPoints?: number;
-	HitPointDistribution?: string;
+	initial: {
+		ArmorClass?: number;
+		HitPoints?: number;
+		HitPointDistribution?: string;
+	}
 }
 
 export interface IMonsterDefencesState {
@@ -31,9 +33,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 	constructor(props: IMonsterDefencesProps) {
 		super(props);
 		this.state = {
-			ArmorClass: props.ArmorClass,
-			HitPoints: props.HitPoints,
-			HitPointDistribution: props.HitPointDistribution,
+			...props.initial
 		};
 	}
 

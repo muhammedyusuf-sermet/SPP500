@@ -490,7 +490,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							Type: this.state.monster.Type,
 							Race: this.state.monster.Race,
 							Alignment: this.state.monster.Alignment,
-							Environment: this.state.monster.Alignment 
+							Environment: this.state.monster.Alignment
 						}} />
 					<MonsterResistances
 						disabled={false}
@@ -501,16 +501,18 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							DamageResistances: this.state.monster.DamageResistances,
 							DamageImmunities: this.state.monster.DamageImmunities,
 							DamageVulnerabilities: this.state.monster.DamageVulnerabilities,
-							ConditionImmunities: this.state.monster.ConditionImmunities,
+							ConditionImmunities: this.state.monster.ConditionImmunities
 						}} />
 					<MonsterDefences
 						disabled={false}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.Defences}
-						ArmorClass={this.state.monster.ArmorClass}
-						HitPoints={this.state.monster.HitPoints}
-						HitPointDistribution={this.state.monster.HitPointDistribution} />
+						initial={{
+							ArmorClass: this.state.monster.ArmorClass,
+							HitPoints: this.state.monster.HitPoints,
+							HitPointDistribution: this.state.monster.HitPointDistribution
+						}} />
 					<Tile className="box" isVertical>
 						<Subtitle>Movement Speed</Subtitle>
 						<Field isGrouped='centered' isHorizontal>
