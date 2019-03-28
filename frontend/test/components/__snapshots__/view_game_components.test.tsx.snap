@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the View Game Components Page renders correctly when the page is loaded 1`] = `
+<div
+  className="view-game-components-container"
+>
+  <h1
+    className="page-title"
+  >
+    View Encounters
+  </h1>
+  <div
+    className="tab-root"
+  >
+    <WithStyles(AppBar)
+      position="static"
+    >
+      <WithStyles(Tabs)
+        onChange={[Function]}
+        value={0}
+      >
+        <WithStyles(Tab)
+          label="Encounters"
+        />
+      </WithStyles(Tabs)>
+    </WithStyles(AppBar)>
+    <TabContainer>
+      <EncounterList />
+    </TabContainer>
+  </div>
+</div>
+`;

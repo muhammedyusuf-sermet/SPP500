@@ -1,0 +1,39 @@
+.view-game-components-container {
+	text-align: center;
+}
+.page-title {
+	padding: 5px 15px;
+	display: inline-block;
+}
+
+.view-game-components-container .tab-root {
+	flex-grow: 1;
+}
+
+.view-game-components-container .app-bar {
+	position: relative;
+}
+
+.view-game-components-container .layout {
+	width: auto;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.view-game-components-container .card-grid {
+	padding: 8px 0;
+}
+
+.view-game-components-container .card {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.view-game-components-container .card-media {
+	padding-top: 56.25%; /* 16:9 */
+}
+
+.view-game-components-container .card-content {
+	flex-grow: 1;
+}
