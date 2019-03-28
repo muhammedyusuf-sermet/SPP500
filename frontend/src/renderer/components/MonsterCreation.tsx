@@ -485,11 +485,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.EnumConfiguration}
-						Size={this.state.monster.Size}
-						Type={this.state.monster.Type}
-						Race={this.state.monster.Race}
-						Alignment={this.state.monster.Alignment}
-						Environment={this.state.monster.Alignment} />
+						initial= {{
+							Size: this.state.monster.Size,
+							Type: this.state.monster.Type,
+							Race: this.state.monster.Race,
+							Alignment: this.state.monster.Alignment,
+							Environment: this.state.monster.Alignment 
+						}} />
 					<MonsterResistances
 						disabled={false}
 						PayloadSchema={this.payloadSchema}

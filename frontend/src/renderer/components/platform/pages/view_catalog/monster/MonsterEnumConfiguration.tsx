@@ -68,11 +68,13 @@ export interface IMonsterEnumConfigurationProps {
 	PayloadSchema: JoiObject,
 	ValidationOptions: ValidationOptions,
 	// initial values
-	Size?: string;
-	Type?: string;
-	Race?: string;
-	Alignment?: string;
-	Environment?: string;
+	initial: {
+		Size?: string;
+		Type?: string;
+		Race?: string;
+		Alignment?: string;
+		Environment?: string;
+	}
 }
 
 export interface IMonsterEnumConfigurationState {
@@ -94,11 +96,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 	constructor(props: IMonsterEnumConfigurationProps) {
 		super(props);
 		this.state = {
-			Size: this.props.Size,
-			Type: this.props.Type,
-			Race: this.props.Race,
-			Alignment: this.props.Alignment,
-			Environment: this.props.Environment
+			...props.initial
 		};
 	}
 
