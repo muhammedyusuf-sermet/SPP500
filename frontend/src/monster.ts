@@ -137,21 +137,47 @@ export interface IMonsterState {
 	ChallengeRating?: number;
 
 	AbilityScores: IMonsterAbilityScoreState;
-	// the string part is for the payload.
-	// TODO: remove the string option,
-	//  do this when the sever respects SenseMap as a payload.
-	Senses: SenseMap | string;
+	Senses: SenseMap;
 	Skills: SkillMap;
 	SavingThrows: IMonsterSavingThrowState;
 	//Actions: IActionState[];
 }
 
+export interface IMonsterErrorState {
+	Name?: string;
+	Size?: string;
+	Type?: string;
+	Race?: string;
+	Environment?: string;
+	Alignment?: string;
+
+	ArmorClass?: string;
+	HitPoints?: string;
+	HitPointDistribution?: string;
+
+	Speed?: string;
+	Languages?: string;
+
+	DamageVulnerabilities?: string;
+	DamageResistances?: string;
+	DamageImmunities?: string;
+	ConditionImmunities?: string;
+
+	ChallengeRating?: string;
+
+	AbilityScores: { [key: string]: string|undefined }
+	Senses: { [key: string]: string|undefined };
+	Skills: { [key: string]: string|undefined };
+	SavingThrows: { [key: string]: string|undefined };
+	//Actions: { [key: string]: string };
+}
+
 export interface SkillMap {
-	[skillName: string]: number
+	[skillName: string]: number|undefined;
 }
 
 export interface SenseMap {
-	[senseName: string]: number
+	[senseName: string]: number|undefined;
 }
 
 export interface IMonsterAbilityScoreState {

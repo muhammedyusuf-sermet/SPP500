@@ -50,7 +50,7 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
 			monsterCreationInstance.find('Input#ArmorClass').simulate('change', { target: { value: 15 } })
 			monsterCreationInstance.find('Input#HitPoints').simulate('change', { target: { value: 40 } })
-			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5 - 5' } })
+			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5-5' } })
 			monsterCreationInstance.find('Input#SpeedLand').simulate('change', { target: { value: 25 } })
 			monsterCreationInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 15 } })
 			monsterCreationInstance.find('Input#AbilityStrength').simulate('change', { target: { value: 17 } })
@@ -67,14 +67,14 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#SavingCharisma').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Athletics').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Acrobatics').simulate('change', { target: { value: 10 } })
-			monsterCreationInstance.find('Input#SleightOfHand').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input[id="Sleight of Hand"]').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Stealth').simulate('change', { target: { value: 8 } })
 			monsterCreationInstance.find('Input#Arcana').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#History').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#Investigation').simulate('change', { target: { value: 6 } })
 			monsterCreationInstance.find('Input#Nature').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#Religion').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('Input#AnimalHandling').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input[id="Animal Handling"]').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Insight').simulate('change', { target: { value: 10 } })
 			monsterCreationInstance.find('Input#Medicine').simulate('change', { target: { value: 12 } })
 			monsterCreationInstance.find('Input#Perception').simulate('change', { target: { value: 15 } })
@@ -83,13 +83,14 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#Intimidation').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Performance').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#Persuasion').simulate('change', { target: { value: 4 } })
+			monsterCreationInstance.find('Input#Blind').simulate('change', { target: { value: 30 } })
 			monsterCreationInstance.find('Input#Blindsight').simulate('change', { target: { value: 30 } })
 			monsterCreationInstance.find('Input#Darkvision').simulate('change', { target: { value: 10} })
 			monsterCreationInstance.find('Input#Tremorsense').simulate('change', { target: { value: 15 } })
 			monsterCreationInstance.find('Input#Truesight').simulate('change', { target: { value: 60 } })
-			monsterCreationInstance.find('Input#PassivePerception').simulate('change', { target: { value: 13 } })
-			monsterCreationInstance.find('Input#PassiveInvestigation').simulate('change', { target: { value: 14 } })
-			monsterCreationInstance.find('Input#PassiveInsight').simulate('change', { target: { value: 16 } })
+			monsterCreationInstance.find('Input[id="Passive Perception"]').simulate('change', { target: { value: 13 } })
+			monsterCreationInstance.find('Input[id="Passive Investigation"]').simulate('change', { target: { value: 14 } })
+			monsterCreationInstance.find('Input[id="Passive Insight"]').simulate('change', { target: { value: 16 } })
 			monsterCreationInstance.find('Input#Languages').simulate('change', { target: { value: 'Common and Draconic' } })
 			monsterCreationInstance.find('Input#ChallengeRating').simulate('change', { target: { value: 2.5 } })
 			monsterCreationInstance.find('Input#ExperiencePoints').simulate('change', { target: { value: 190 } })
@@ -107,7 +108,7 @@ describe('Monster Creation', () => {
 				ConditionImmunities: "Nothing",
 				ArmorClass: 15,
 				HitPoints: 40,
-				HitPointDistribution: "9d5 - 5",
+				HitPointDistribution: "9d5-5",
 				AbilityScores: {
 					Strength: 17,
 					Dexterity: 15,
@@ -127,14 +128,14 @@ describe('Monster Creation', () => {
 				Skills: {
 					Athletics: 9,
 					Acrobatics: 10,
-					SleightOfHand: 9,
+					"Sleight of Hand": 9,
 					Stealth: 8,
 					Arcana: 7,
 					History: 7,
 					Investigation: 6,
 					Nature: 7,
 					Religion: 8,
-					AnimalHandling: 9,
+					"Animal Handling": 9,
 					Insight: 10,
 					Medicine: 12,
 					Perception: 15,
@@ -145,16 +146,82 @@ describe('Monster Creation', () => {
 					Persuasion: 4,
 				},
 				Senses: {
+					Blind: 30,
 					Blindsight: 30,
 					Darkvision: 10,
 					Tremorsense: 15,
 					Truesight: 60,
-					PassivePerception: 13,
-					PassiveInvestigation: 14,
-					PassiveInsight: 16,
+					"Passive Perception": 13,
+					"Passive Investigation": 14,
+					"Passive Insight": 16,
 				},
 				Languages: "Common and Draconic",
 				ChallengeRating: 2.5,
+				//abilities: [],
+				//actions: [],
+			};
+			const expectedErrors = {
+				Name: undefined,
+				Type: undefined,
+				Alignment: undefined,
+				Size: undefined,
+				Race: undefined,
+				Environment: undefined,
+				DamageVulnerabilities: undefined,
+				DamageResistances: undefined,
+				DamageImmunities: undefined,
+				ConditionImmunities: undefined,
+				ArmorClass: undefined,
+				HitPoints: undefined,
+				HitPointDistribution: undefined,
+				AbilityScores: {
+					Strength: undefined,
+					Dexterity: undefined,
+					Constitution: undefined,
+					Intelligence: undefined,
+					Wisdom: undefined,
+					Charisma: undefined
+				},
+				SavingThrows: {
+					Strength: undefined,
+					Dexterity: undefined,
+					Constitution: undefined,
+					Intelligence: undefined,
+					Wisdom: undefined,
+					Charisma: undefined
+				},
+				Skills: {
+					Athletics: undefined,
+					Acrobatics: undefined,
+					"Sleight of Hand": undefined,
+					Stealth: undefined,
+					Arcana: undefined,
+					History: undefined,
+					Investigation: undefined,
+					Nature: undefined,
+					Religion: undefined,
+					"Animal Handling": undefined,
+					Insight: undefined,
+					Medicine: undefined,
+					Perception: undefined,
+					Survival: undefined,
+					Deception: undefined,
+					Intimidation: undefined,
+					Performance: undefined,
+					Persuasion: undefined,
+				},
+				Senses: {
+					Blind: undefined,
+					Blindsight: undefined,
+					Darkvision: undefined,
+					Tremorsense: undefined,
+					Truesight: undefined,
+					"Passive Perception": undefined,
+					"Passive Investigation": undefined,
+					"Passive Insight": undefined,
+				},
+				Languages: undefined,
+				ChallengeRating: undefined,
 				//abilities: [],
 				//actions: [],
 			};
@@ -167,7 +234,8 @@ describe('Monster Creation', () => {
 					SpeedLand: 25,
 					SpeedSwim: 15,
 					ExperiencePoints: 190,
-					monster: expectedMonster
+					monster: expectedMonster,
+					monsterErrors: expectedErrors
 			})
 			nock(API_URL)
 			.post('/monster/create', {
@@ -183,7 +251,7 @@ describe('Monster Creation', () => {
 				"ConditionImmunities": "Nothing",
 				"ArmorClass": 15,
 				"HitPoints": 40,
-				"HitPointDistribution": "9d5 - 5",
+				"HitPointDistribution": "9d5-5",
 				"Speed": "25ft. Swimming Speed: 15 ft.",
 				"AbilityScores": {
 					"Strength": 17,
@@ -221,14 +289,23 @@ describe('Monster Creation', () => {
 					"Performance": 7,
 					"Persuasion": 4,
 				},
-				"Senses": "Blindsight: 30 ft. Darkvision: 10 ft. Tremorsense: 15 ft. Truesight: 60 ft. PassivePerception: 13. PassiveInvestigation: 14. PassiveInsight: 16.",
+				"Senses": {
+					"Blind": 30,
+					"Blindsight": 30,
+					"Darkvision": 10,
+					"Tremorsense": 15,
+					"Truesight": 60,
+					"Passive Perception": 13,
+					"Passive Investigation": 14,
+					"Passive Insight": 16,
+				},
 				"Languages": "Common and Draconic",
 				"ChallengeRating": 2.5,
 				//abilities: [],
 				//actions: [],
 			})
 			.reply(201, { status: 201, message: 'success' });
-			monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
+			//monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
 		});
 
 		it('should change only types when type is changed', () => {

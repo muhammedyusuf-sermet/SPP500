@@ -5,10 +5,11 @@
   "scripts": {
     "connect": "npx ts-node server.ts",
     "scrape-monsters": "ts-node ./scrape/scrapeMonsters.ts",
-    "seed:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -c seed -n Initialize",
+    "migration:generate": "ts-node ./node_modules/.bin/typeorm migration:generate -n Initialize",
+    "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
     "seed:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c seed",
     "seed:run": "ts-node ./node_modules/.bin/typeorm migration:run -c seed",
-    "start": "yarn run seed:run && yarn ts-node server.ts",
+    "start": "yarn run migration:run && yarn run seed:run && yarn ts-node server.ts",
     "dev-start": "yarn ts-node server.ts",
     "test": "jest --passWithNoTests --coverage --detectOpenHandles"
   },
@@ -32,7 +33,7 @@
     "reflect-metadata": "^0.1.13",
     "request": "2.68.0",
     "ts-node": "^8.0.2",
-    "typeorm": "^0.2.13",
+    "typeorm": "^0.2.15",
     "typescript": "^3.3.3",
     "uglify-js": "2.6.0"
   },

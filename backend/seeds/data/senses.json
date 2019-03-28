@@ -1,0 +1,34 @@
+[
+	{
+		"Name": "Blind",
+		"Description": "A creature with (Blind) can only see through blindsight, darkvision, or truesight senses."
+	},
+    {
+        "Name": "Blindsight",
+        "Description": "A creature with (Blindsight) can perceive its surroundings without relying on sight, within a specific radius. Creatures without eyes, such as oozes, and creatures with echolocation or heightened senses, such as bats and true dragons, have this sense."
+	},
+	{
+        "Name": "Darkvision",
+        "Description": "Many creatures in the worlds of D&D, especially those that dwell underground, have (Darkvision). Within a specific range, a creature with (Darkvision) can see in darkness as if the darkness were dim light, so areas of darkness are only lightly obscured as far as that creature is concerned. However, the creature can't discern color in darkness, only shades of gray."
+	},
+	{
+        "Name": "Truesight",
+        "Description": "A creature with (Truesight) can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects, automatically detect visual illusions and succeed on saving throws against them, and perceives the original form of a shapechanger or a creature that is transformed by magic. Furthermore, the creature can see into the Ethereal Plane."
+	},
+	{
+        "Name": "Tremorsense",
+        "Description": "UNKNOWN"
+	},
+	{
+        "Name": "Passive Perception",
+        "Description": "Your Wisdom (Perception) check lets you spot, hear, or otherwise detect the presence of something. It measures your general awareness of your surroundings and the keenness of your senses. For example, you might try to hear a conversation through a closed door, eavesdrop under an open window, or hear monsters moving stealthily in the forest. Or you might try to spot things that are obscured or easy to miss, whether they are orcs lying in ambush on a road, thugs hiding in the shadows of an alley, or candlelight under a closed secret door."
+	},
+	{
+        "Name": "Passive Investigation",
+        "Description": "When you look around for clues and make deductions based on those clues, you make an Intelligence (Investigation) check. You might deduce the location of a hidden object, discern from the appearance of a wound what kind of weapon dealt it, or determine the weakest point in a tunnel that could cause it to collapse. Poring through ancient scrolls in search of a hidden fragment of knowledge might also call for an Intelligence (Investigation) check."
+	},
+	{
+        "Name": "Passive Insight",
+        "Description": "Your Wisdom (Insight) check decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone’s next move. Doing so involves gleaning clues from body language, speech habits, and changes in mannerisms."
+	}
+]
