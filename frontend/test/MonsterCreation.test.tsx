@@ -83,13 +83,14 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#Intimidation').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Performance').simulate('change', { target: { value: 7 } })
 			monsterCreationInstance.find('Input#Persuasion').simulate('change', { target: { value: 4 } })
+			monsterCreationInstance.find('Input#Blind').simulate('change', { target: { value: 30 } })
 			monsterCreationInstance.find('Input#Blindsight').simulate('change', { target: { value: 30 } })
 			monsterCreationInstance.find('Input#Darkvision').simulate('change', { target: { value: 10} })
 			monsterCreationInstance.find('Input#Tremorsense').simulate('change', { target: { value: 15 } })
 			monsterCreationInstance.find('Input#Truesight').simulate('change', { target: { value: 60 } })
-			monsterCreationInstance.find('Input#PassivePerception').simulate('change', { target: { value: 13 } })
-			monsterCreationInstance.find('Input#PassiveInvestigation').simulate('change', { target: { value: 14 } })
-			monsterCreationInstance.find('Input#PassiveInsight').simulate('change', { target: { value: 16 } })
+			monsterCreationInstance.find('Input[id="Passive Perception"]').simulate('change', { target: { value: 13 } })
+			monsterCreationInstance.find('Input[id="Passive Investigation"]').simulate('change', { target: { value: 14 } })
+			monsterCreationInstance.find('Input[id="Passive Insight"]').simulate('change', { target: { value: 16 } })
 			monsterCreationInstance.find('Input#Languages').simulate('change', { target: { value: 'Common and Draconic' } })
 			monsterCreationInstance.find('Input#ChallengeRating').simulate('change', { target: { value: 2.5 } })
 			monsterCreationInstance.find('Input#ExperiencePoints').simulate('change', { target: { value: 190 } })
@@ -145,13 +146,14 @@ describe('Monster Creation', () => {
 					Persuasion: 4,
 				},
 				Senses: {
+					Blind: 30,
 					Blindsight: 30,
 					Darkvision: 10,
 					Tremorsense: 15,
 					Truesight: 60,
-					PassivePerception: 13,
-					PassiveInvestigation: 14,
-					PassiveInsight: 16,
+					"Passive Perception": 13,
+					"Passive Investigation": 14,
+					"Passive Insight": 16,
 				},
 				Languages: "Common and Draconic",
 				ChallengeRating: 2.5,
@@ -221,7 +223,16 @@ describe('Monster Creation', () => {
 					"Performance": 7,
 					"Persuasion": 4,
 				},
-				"Senses": "Blindsight: 30 ft. Darkvision: 10 ft. Tremorsense: 15 ft. Truesight: 60 ft. PassivePerception: 13. PassiveInvestigation: 14. PassiveInsight: 16.",
+				"Senses": {
+					"Blind": 30,
+					"Blindsight": 30,
+					"Darkvision": 10,
+					"Tremorsense": 15,
+					"Truesight": 60,
+					"Passive Perception": 13,
+					"Passive Investigation": 14,
+					"Passive Insight": 16,
+				},
 				"Languages": "Common and Draconic",
 				"ChallengeRating": 2.5,
 				//abilities: [],
