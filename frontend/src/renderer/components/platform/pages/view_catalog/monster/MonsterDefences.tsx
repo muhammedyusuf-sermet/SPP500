@@ -65,16 +65,10 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 			Joi.reach(this.props.PayloadSchema, [event.currentTarget.name]),
 			this.props.ValidationOptions,
 			(errors: ValidationError) => {
-				if(errors) {
-					this.setState({
-						[event.currentTarget.name+'Error']: errors.details[0].message
-					});
-				} else {
-					this.setState({
-						[event.currentTarget.name]: value,
-						[event.currentTarget.name+'Error']: undefined
-					});
-				}
+				this.setState({
+					[event.currentTarget.name]: value,
+					[event.currentTarget.name+'Error']: errors ? errors.details[0].message : undefined
+				});
 			});
 	}
 
