@@ -540,12 +540,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								ValidationOptions={this.validateOptions}
 								ref={this.AbilityScores}
 								Parent={'AbilityScores'}
-								Strength={this.state.monster.AbilityScores.Strength}
-								Dexterity={this.state.monster.AbilityScores.Dexterity}
-								Constitution={this.state.monster.AbilityScores.Constitution}
-								Intelligence={this.state.monster.AbilityScores.Intelligence}
-								Wisdom={this.state.monster.AbilityScores.Wisdom}
-								Charisma={this.state.monster.AbilityScores.Charisma} />
+								{...this.state.monster.AbilityScores} />
 						</Tile>
 						<Tile isSize={6} isParent >
 							<MonsterStats
@@ -554,12 +549,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								ValidationOptions={this.validateOptions}
 								ref={this.SavingThrows}
 								Parent={'SavingThrows'}
-								Strength={this.state.monster.AbilityScores.Strength}
-								Dexterity={this.state.monster.AbilityScores.Dexterity}
-								Constitution={this.state.monster.AbilityScores.Constitution}
-								Intelligence={this.state.monster.AbilityScores.Intelligence}
-								Wisdom={this.state.monster.AbilityScores.Wisdom}
-								Charisma={this.state.monster.AbilityScores.Charisma} />
+								{...this.state.monster.SavingThrows} />
 						</Tile>
 					</Tile>
 					<Tile className="box" isVertical>
