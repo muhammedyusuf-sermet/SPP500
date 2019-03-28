@@ -58,7 +58,7 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
 
-	handleMonsterStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	handleMonsterNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = this.stringToNumber(event.target.value);
 		const name = event.currentTarget.name;
 		Joi.validate(
@@ -95,7 +95,7 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 												autoComplete={value}
 												value={this.state[value] != undefined ? this.state[value] : ''}
 												name={value}
-												onChange={this.handleMonsterStringChange} />
+												onChange={this.handleMonsterNumberChange} />
 										</Control>
 										<Help isColor='danger' id={this.props.Parent+value}>{this.state[value+'Error']}</Help>
 									</Field>
