@@ -495,10 +495,12 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.Resistances}
-						DamageResistances={this.state.monster.DamageResistances}
-						DamageImmunities={this.state.monster.DamageImmunities}
-						DamageVulnerabilities={this.state.monster.DamageVulnerabilities}
-						ConditionImmunities={this.state.monster.ConditionImmunities} />
+						initial={{
+							DamageResistances: this.state.monster.DamageResistances,
+							DamageImmunities: this.state.monster.DamageImmunities,
+							DamageVulnerabilities: this.state.monster.DamageVulnerabilities,
+							ConditionImmunities: this.state.monster.ConditionImmunities,
+						}} />
 					<MonsterDefences
 						disabled={false}
 						PayloadSchema={this.payloadSchema}

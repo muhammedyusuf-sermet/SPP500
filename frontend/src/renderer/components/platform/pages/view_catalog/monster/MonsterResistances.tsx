@@ -11,10 +11,12 @@ export interface IMonsterResistancesProps {
 	PayloadSchema: JoiObject,
 	ValidationOptions: ValidationOptions,
 	// initial values
-	DamageVulnerabilities?: string;
-	DamageResistances?: string;
-	DamageImmunities?: string;
-	ConditionImmunities?: string;
+	initial: {
+		DamageVulnerabilities?: string;
+		DamageResistances?: string;
+		DamageImmunities?: string;
+		ConditionImmunities?: string;
+	}
 }
 
 export interface IMonsterResistancesState {
@@ -34,10 +36,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 	constructor(props: IMonsterResistancesProps) {
 		super(props);
 		this.state = {
-			DamageVulnerabilities: props.DamageVulnerabilities,
-			DamageResistances: props.DamageResistances,
-			DamageImmunities: props.DamageImmunities,
-			ConditionImmunities: props.ConditionImmunities
+			...props.initial
 		};
 	}
 
