@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the Encounter View Details Per Encounter renders correctly when the page is loaded 1`] = `
+<form>
+  <h1
+    className="page-title"
+  >
+    Encounter Details
+  </h1>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Encounter Name
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      id="name"
+      label="Encounter Name"
+      readOnly={true}
+      value="Encounter"
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Control)>
+    <withHelpersModifiers(Label)>
+      Encounter Description
+    </withHelpersModifiers(Label)>
+    <withHelpersModifiers(Input)
+      id="name"
+      label="Encounter Description"
+      readOnly={true}
+      value="This is a fierce encounter..."
+    />
+  </withHelpersModifiers(Control)>
+  <withHelpersModifiers(Tile)
+    className="box"
+    isVertical={true}
+  >
+    <withHelpersModifiers(Subtitle)>
+      Monsters
+    </withHelpersModifiers(Subtitle)>
+  </withHelpersModifiers(Tile)>
+  <withHelpersModifiers(Button)
+    className="button"
+    disabled={true}
+    type="submit"
+  >
+     Edit Encounter 
+  </withHelpersModifiers(Button)>
+  <withHelpersModifiers(Button)
+    className="button"
+  >
+     Return to Game Components 
+  </withHelpersModifiers(Button)>
+</form>
+`;

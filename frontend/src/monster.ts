@@ -114,6 +114,7 @@ export interface IMonsterActions {
 }
 
 export interface IMonsterState {
+	Id?: string,
 	Name: string,
 	Size?: Size | string;
 	Type?: MonsterType | string;
@@ -140,6 +141,35 @@ export interface IMonsterState {
 	Skills: SkillMap;
 	SavingThrows: IMonsterSavingThrowState;
 	//Actions: IActionState[];
+}
+
+export interface IMonsterErrorState {
+	Name?: string;
+	Size?: string;
+	Type?: string;
+	Race?: string;
+	Environment?: string;
+	Alignment?: string;
+
+	ArmorClass?: string;
+	HitPoints?: string;
+	HitPointDistribution?: string;
+
+	Speed?: string;
+	Languages?: string;
+
+	DamageVulnerabilities?: string;
+	DamageResistances?: string;
+	DamageImmunities?: string;
+	ConditionImmunities?: string;
+
+	ChallengeRating?: string;
+
+	AbilityScores: { [key: string]: string|undefined }
+	Senses: { [key: string]: string|undefined };
+	Skills: { [key: string]: string|undefined };
+	SavingThrows: { [key: string]: string|undefined };
+	//Actions: { [key: string]: string };
 }
 
 export interface SkillMap {

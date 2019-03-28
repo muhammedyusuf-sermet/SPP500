@@ -9,8 +9,8 @@ import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } fr
 import 'bulma/css/bulma.css';
 
 import {Redirect} from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns } from 'bloomer';
-import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState } from '../../monster';
+import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns, Help } from 'bloomer';
+import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterErrorState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
 
@@ -64,6 +64,7 @@ export interface IMonsterCreationProps {
 
 export interface IMonsterCreationState {
 	monster: IMonsterState,
+	monsterErrors: IMonsterErrorState,
 	SpeedLand?: number,
 	SpeedSwim?: number,
 	ExperiencePoints?: number,
@@ -91,44 +92,43 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private abilityScoreNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private savingThrowNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 	private payloadSchema = Joi.object({
-		Name: Joi.string().required().max(50),
+		Name: Joi.string().required().max(50).label('Name'),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
 		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
 		Alignment: Joi.string().valid(Joi.ref('$AlignmentOptions')),
 		Environment: Joi.string().valid(Joi.ref('$EnvironmentOptions')),
-		ArmorClass: Joi.number().integer().greater(0),
-		HitPoints: Joi.number().integer().greater(0),
+		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
+		HitPoints: Joi.number().integer().greater(0).label('HitPoints'),
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
-		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
+		HitPointDistribution: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces'),
 		Speed: Joi.string().max(100),
-		Languages: Joi.string().max(100),
-		DamageVulnerabilities: Joi.string().allow('').max(200),
-		DamageResistances: Joi.string().allow('').max(200),
-		DamageImmunities: Joi.string().allow('').max(200),
-		ConditionImmunities: Joi.string().allow('').max(200),
-		ChallengeRating: Joi.number().greater(0),
-		ExperiencePoints: Joi.number().greater(0),
+		Languages: Joi.string().max(100).label('Languages'),
+		DamageVulnerabilities: Joi.string().allow('').max(200).label('DamageVulnerabilities'),
+		DamageResistances: Joi.string().allow('').max(200).label('DamageResistances'),
+		DamageImmunities: Joi.string().allow('').max(200).label('DamageImmunities'),
+		ConditionImmunities: Joi.string().allow('').max(200).label('ConditionImmunities'),
+		ChallengeRating: Joi.number().greater(0).label('ChallengeRating'),
 		AbilityScores: Joi.object({
-			Strength: Joi.number().integer().greater(0),
-			Dexterity: Joi.number().integer().greater(0),
-			Constitution: Joi.number().integer().greater(0),
-			Intelligence: Joi.number().integer().greater(0),
-			Wisdom: Joi.number().integer().greater(0),
-			Charisma: Joi.number().integer().greater(0)
+			Strength: Joi.number().integer().greater(0).label('Strength'),
+			Dexterity: Joi.number().integer().greater(0).label('Dexterity'),
+			Constitution: Joi.number().integer().greater(0).label('Constitution'),
+			Intelligence: Joi.number().integer().greater(0).label('Intelligence'),
+			Wisdom: Joi.number().integer().greater(0).label('Wisdom'),
+			Charisma: Joi.number().integer().greater(0).label('Charisma')
 		}).default({}),
 		SavingThrows: Joi.object({
-			Strength: Joi.number().integer(),
-			Dexterity: Joi.number().integer(),
-			Constitution: Joi.number().integer(),
-			Intelligence: Joi.number().integer(),
-			Wisdom: Joi.number().integer(),
-			Charisma: Joi.number().integer()
+			Strength: Joi.number().integer().label('Strength'),
+			Dexterity: Joi.number().integer().label('Dexterity'),
+			Constitution: Joi.number().integer().label('Constitution'),
+			Intelligence: Joi.number().integer().label('Intelligence'),
+			Wisdom: Joi.number().integer().label('Wisdom'),
+			Charisma: Joi.number().integer().label('Charisma')
 		}).default({}),
 		/* This is how to send skills as a dictionary. */
 		Skills: Joi.object().pattern(
 			Joi.symbol().valid(this.skillNames),
-			Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+			Joi.number().integer().greater(0).allow(0)
 		).default({}),
 		/* This is how to send skills as an array of objects.
 		Skills: Joi.array().items(Joi.object({
@@ -137,7 +137,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		})).default([]),*/
 		Senses: Joi.object().pattern(
 			Joi.symbol().valid(this.senseNames),
-			Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+			Joi.number().integer().greater(0).allow(0)
 		).default({}),
 		Actions: Joi.array().items(Joi.object({
 			Name: Joi.string().required().max(50),
@@ -148,7 +148,20 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			Type: Joi.string().valid(Joi.ref('$ActionOptions'))
 		}).label('Action Items')).default([])
 	});
-
+	private validateOptions: ValidationOptions = {
+		abortEarly: false,
+		convert: true,
+		allowUnknown: false,
+		context: {
+			SizeOptions: Object.keys(Size),
+			TypeOptions: Object.keys(MonsterType),
+			RaceOptions: Object.keys(MonsterRace),
+			AlignmentOptions: Object.keys(Alignment),
+			EnvironmentOptions: Object.keys(Environment),
+			SkillOptions: this.skillNames,
+			SenseOptions: this.senseNames
+		}
+	};
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -163,124 +176,131 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				SavingThrows: {},
 				Senses: {},
 				Skills: {},
-			} : props.defaultMonster
+			} : props.defaultMonster,
+			monsterErrors: {
+				AbilityScores: {},
+				SavingThrows: {},
+				Skills: {},
+				Senses: {}
+			}
 		};
-		for(let skillName of this.skillNames)
-			this.SkillChange.set(skillName, this.handleMonsterSkillChange(skillName));
-		for(let senseName of this.senseNames)
-			this.SensesChange.set(senseName, this.handleMonsterSenseChange(senseName));
-		for(let abilityScoreName of this.abilityScoreNames)
-			this.AbilityScoreChange.set(abilityScoreName, this.handleMonsterAbilityScoreChange(abilityScoreName));
-		for(let savingThrowName of this.savingThrowNames)
-			this.SavingThrowChange.set(savingThrowName, this.handleMonsterSavingThrowChange(savingThrowName));
 	}
 
 	openModal = (messageText: string) => {
-		const modal = this.state.modal
+		const modal = this.state.modal;
 		this.setState({ modal: {...modal, open: true, message: messageText }});
 	};
 
 	closeModal = () => {
-		const modal = this.state.modal
+		const modal = this.state.modal;
 		this.setState({ modal: {...modal, open: false }});
 	};
 
 	stringToNumber = (toConvert : string) => {
-		return parseInt(toConvert) != NaN ? parseInt(toConvert) : undefined
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
 
 	stringToFloat = (toConvert : string) => {
-		return parseFloat(toConvert) != NaN ? parseFloat(toConvert) : undefined
+		return toConvert == '' ? undefined : parseFloat(toConvert);
 	}
 
-	handleMonsterNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Name: event.target.value }
-		})
+	handleBaseMonsterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			event.target.value,
+			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, [event.currentTarget.name]: event.target.value },
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
 
 	handleMonsterTypeChange = (newType: string) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Type: newType }
-		})
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newType,
+			Joi.reach(this.payloadSchema, ['Type']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Type: newType },
+					monsterErrors: { ...monsterErrors, Type: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
 
 	handleMonsterSizeChange = (newSize: string) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Size: newSize }
-		})
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newSize,
+			Joi.reach(this.payloadSchema, ['Size']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Size: newSize },
+					monsterErrors: { ...monsterErrors, Size: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
 
 	handleMonsterRaceChange = (newRace: string) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Race: newRace }
-		})
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newRace,
+			Joi.reach(this.payloadSchema, ['Race']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Race: newRace },
+					monsterErrors: { ...monsterErrors, Race: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
+
 	handleMonsterEnvironmentChange = (newEnvironment: string) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Environment: newEnvironment }
-		})
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newEnvironment,
+			Joi.reach(this.payloadSchema, ['Environment']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Environment: newEnvironment },
+					monsterErrors: { ...monsterErrors, Environment: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
+
 	handleMonsterAlignmentChange = (newAlignment: string) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Alignment: newAlignment }
-		})
+		const { monster, monsterErrors } = this.state
+		Joi.validate(
+			newAlignment,
+			Joi.reach(this.payloadSchema, ['Alignment']),
+			this.validateOptions,
+			(errors: ValidationError, value: any) => {
+				this.setState({
+					monster: { ...monster, Alignment: newAlignment },
+					monsterErrors: { ...monsterErrors, Alignment: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
 
-	handleMonsterResistanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, DamageResistances: event.target.value }
-		})
-	}
-
-	handleMonsterDamageImmunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, DamageImmunities: event.target.value }
-		})
-	}
-
-	handleMonsterConditionImmunityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, ConditionImmunities: event.target.value }
-		})
-	}
-
-	handleMonsterVulnerabilityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, DamageVulnerabilities: event.target.value }
-		})
-	}
-
-	handleMonsterArmorClassChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, ArmorClass: this.stringToNumber(event.target.value)}
-		})
-
-	}
-
-	handleMonsterHitPointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, HitPoints: this.stringToNumber(event.target.value)}
-		})
-	}
-
-	handleMonsterHitPointDistributionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, HitPointDistribution: event.target.value }
-		})
+	handleMonsterNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: { ...monster, [event.currentTarget.name]: value },
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
 
 	handleMonsterLandSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -295,78 +315,127 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		})
 	}
 
-	AbilityScoreChange: Map<string, (event: React.ChangeEvent<HTMLInputElement>) => void> = new Map();
-	handleMonsterAbilityScoreChange = (name: string) =>
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			const newState = {
-				monster: {
-					...this.state.monster,
-					AbilityScores: {
-						...this.state.monster.AbilityScores
+	handleMonsterAbilityScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, ['AbilityScores', event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						AbilityScores: {
+							...monster.AbilityScores,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						AbilityScores: {
+							...monsterErrors.AbilityScores,
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
+						}
 					}
-				}
-			};
-			let value = this.stringToNumber(event.target.value);
-			newState.monster.AbilityScores[name] = value;
-			this.setState(newState);
+				});
+			});
 		}
 
-	SavingThrowChange: Map<string, (event: React.ChangeEvent<HTMLInputElement>) => void> = new Map();
-	handleMonsterSavingThrowChange = (name: string) =>
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			const newState = {
-				monster: {
-					...this.state.monster,
-					SavingThrows: {
-						...this.state.monster.SavingThrows
+	handleMonsterSavingThrowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, ['SavingThrows', event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						SavingThrows: {
+							...monster.SavingThrows,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						SavingThrows: {
+							...monsterErrors.SavingThrows,
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
+						}
 					}
-				}
-			};
-			let value = this.stringToNumber(event.target.value);
-			newState.monster.SavingThrows[name] = value;
-			this.setState(newState);
+				});
+			});
 		}
 
-	SkillChange: Map<string, ((event: React.ChangeEvent<HTMLInputElement>) => void)> = new Map();
-	handleMonsterSkillChange = (name: string) =>
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			this.setState({
-				monster: {
-					...this.state.monster,
-					Skills: {
-						...this.state.monster.Skills,
-						[name]: this.stringToNumber(event.target.value)
+	handleMonsterSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			{ [event.currentTarget.name]: value },
+			Joi.reach(this.payloadSchema, ['Skills']),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						Skills: {
+							...monster.Skills,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						Skills: {
+							...monsterErrors.Skills,
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
+						}
 					}
-				}
-			})
+				});
+			});
 		};
 
-	SensesChange: Map<string, ((event: React.ChangeEvent<HTMLInputElement>) => void)> = new Map();
-	handleMonsterSenseChange = (name: string) =>
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			this.setState({
-				monster: {
-					...this.state.monster,
-					Senses: {
-						...this.state.monster.Senses,
-						[name]: this.stringToNumber(event.target.value)
+	handleMonsterSenseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToNumber(event.target.value);
+		Joi.validate(
+			{ [event.currentTarget.name]: value },
+			Joi.reach(this.payloadSchema, ['Senses']),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: {
+						...monster,
+						Senses: {
+							...monster.Senses,
+							[event.currentTarget.name]: value
+						}
+					},
+					monsterErrors: {
+						...monsterErrors,
+						Senses: {
+							...monsterErrors.Senses,
+							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
+						}
 					}
-				}
-			})
+				});
+			});
 		};
 
-	handleMonsterLanguagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, Languages: event.target.value }
-		})
-	}
-
-	handleMonsterChallengeRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const monster = this.state.monster
-		this.setState({
-			monster: { ...monster, ChallengeRating: this.stringToFloat(event.target.value) }
-		})
+	handleMonsterFloatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { monster, monsterErrors } = this.state
+		const value = this.stringToFloat(event.target.value);
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					monster: { ...monster, [event.currentTarget.name]: value },
+					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
+				});
+			});
 	}
 
 	handleMonsterExperiencePointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -404,33 +473,20 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				Speed: monsterSpeed,
 			}
 
-			const validateOptions: ValidationOptions = {
-				abortEarly: false,
-				convert: true,
-				allowUnknown: false,
-				context: {
-					SizeOptions: Object.keys(Size),
-					TypeOptions: Object.keys(MonsterType),
-					RaceOptions: Object.keys(MonsterRace),
-					AlignmentOptions: Object.keys(Alignment),
-					EnvironmentOptions: Object.keys(Environment)
-				}
-			}
-
 			let errors = Joi.validate(
 				monsterPayload,
 				this.payloadSchema,
-				validateOptions,
+				this.validateOptions,
 				(errors: ValidationError, validationValue: any) => {
 					if(errors){
 						const messages: Set<string> = new Set<string>();
 						errors.details.forEach((error: ValidationErrorItem) => {
 							let message: string = ''
-							if ((error.type == 'any.allowOnly') && error.context && validateOptions) {
+							if ((error.type == 'any.allowOnly') && error.context && this.validateOptions) {
 								for (let valid of error.context.valids){
 									if (Joi.isRef(valid)){
 										const reference = valid as Reference
-										message += reference(null, validateOptions) + ',';
+										message += reference(null, this.validateOptions) + ',';
 									} else {
 										message += valid + ','
 									}
@@ -463,7 +519,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								);
 							} else {
 								this.closeModal();
-								if (body.messages){
+								if (body && body.messages){
 									// TODO: change backend so it sends better error messages.
 									// TODO: parse the error messages so they show better.
 									// TODO: maybe the messages from the server shouldn't be
@@ -500,10 +556,12 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='text'
 									placeholder='Monster Name'
 									autoComplete='Name'
+									name='Name'
 									value={this.state.monster.Name}
-									onChange={this.handleMonsterNameChange}
+									onChange={this.handleBaseMonsterChange}
 									required />
 							</Control>
+							<Help isColor='danger'>{this.state.monsterErrors.Name}</Help>
 						</Field>
 					</Tile>
 					<Tile className="box" isVertical>
@@ -512,24 +570,29 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							<Control isExpanded>
 								<Label>Type</Label>
 								<MonsterDropdown name='Type' options={types} onChange={this.handleMonsterTypeChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Type}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Size</Label>
 								<MonsterDropdown name='Size' options={sizes} onChange={this.handleMonsterSizeChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Size}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Race</Label>
 								<MonsterDropdown name='Race' options={races} onChange={this.handleMonsterRaceChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Race}</Help>
 							</Control>
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
 							<Control isExpanded>
 								<Label>Alignment</Label>
 								<MonsterDropdown name='Alignment' options={alignments} onChange={this.handleMonsterAlignmentChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Alignment}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Environment</Label>
 								<MonsterDropdown name='Environment' options={environments} onChange={this.handleMonsterEnvironmentChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.Environment}</Help>
 							</Control>
 						</Field>
 					</Tile>
@@ -547,9 +610,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Damage Vulnerabilities'
 											autoComplete='DamageVulnerabilities'
-											value={this.state.monster.DamageVulnerabilities}
-											onChange={this.handleMonsterVulnerabilityChange} />
+											value={this.state.monster.DamageVulnerabilities || ''}
+											name='DamageVulnerabilities'
+											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.DamageVulnerabilities}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -565,9 +630,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Damage Resistances'
 											autoComplete='DamageResistances'
-											value={this.state.monster.DamageResistances}
-											onChange={this.handleMonsterResistanceChange} />
+											value={this.state.monster.DamageResistances || ''}
+											name='DamageResistances'
+											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.DamageResistances}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -583,9 +650,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Damage Immunities'
 											autoComplete='DamageImmunities'
-											value={this.state.monster.DamageImmunities}
-											onChange={this.handleMonsterDamageImmunityChange} />
+											value={this.state.monster.DamageImmunities || ''}
+											name='DamageImmunities'
+											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.DamageImmunities}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -601,9 +670,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Condition Immunities'
 											autoComplete='ConditionImmunities'
-											value={this.state.monster.ConditionImmunities}
-											onChange={this.handleMonsterConditionImmunityChange} />
+											value={this.state.monster.ConditionImmunities || ''}
+											name='ConditionImmunities'
+											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.ConditionImmunities}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -618,8 +689,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Armor Class'
 									autoComplete='ArmorClass'
-									value={this.state.monster.ArmorClass}
-									onChange={this.handleMonsterArmorClassChange} />
+									value={this.state.monster.ArmorClass != undefined ? this.state.monster.ArmorClass : ''}
+									name='ArmorClass'
+									onChange={this.handleMonsterNumberChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.ArmorClass}</Help>
 							</Control>
 						</Field>
 						<Field isGrouped='centered' isHorizontal>
@@ -630,8 +703,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Hit Points'
 									autoComplete='HitPoints'
-									value={this.state.monster.HitPoints}
-									onChange={this.handleMonsterHitPointsChange} />
+									value={this.state.monster.HitPoints != undefined ? this.state.monster.HitPoints : ''}
+									name='HitPoints'
+									onChange={this.handleMonsterNumberChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.HitPoints}</Help>
 							</Control>
 							<Control isExpanded>
 								<Label>Hit Point Distribution</Label>
@@ -640,8 +715,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='string'
 									placeholder='Hit Points Distribution'
 									autoComplete='HitPointDistribution'
-									value={this.state.monster.HitPointDistribution}
-									onChange={this.handleMonsterHitPointDistributionChange} />
+									value={this.state.monster.HitPointDistribution || ''}
+									name='HitPointDistribution'
+									onChange={this.handleBaseMonsterChange} />
+								<Help isColor='danger'>{this.state.monsterErrors.HitPointDistribution}</Help>
 							</Control>
 						</Field>
 					</Tile>
@@ -655,7 +732,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Land Speed'
 									autoComplete='SpeedLand'
-									value={this.state.SpeedLand}
+									value={this.state.SpeedLand != undefined ? this.state.SpeedLand : ''}
 									onChange={this.handleMonsterLandSpeedChange} />
 							</Control>
 							<Control isExpanded>
@@ -665,7 +742,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 									type='number'
 									placeholder='Swimming Speed'
 									autoComplete='SpeedSwim'
-									value={this.state.SpeedSwim}
+									value={this.state.SpeedSwim != undefined ? this.state.SpeedSwim : ''}
 									onChange={this.handleMonsterSwimSpeedChange} />
 							</Control>
 						</Field>
@@ -676,114 +753,28 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							<Tile isChild render={ (props: any) =>
 								<React.Fragment>
 									<Subtitle>Ability Scores</Subtitle>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Strength</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='AbilityStrength'
-														type='number'
-														placeholder='Strength'
-														autoComplete='Strength'
-														value={this.state.monster.AbilityScores.Strength}
-														onChange={this.AbilityScoreChange.get('Strength')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Dexterity</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='AbilityDexterity'
-														type='number'
-														placeholder='Dexterity'
-														autoComplete='Dexterity'
-														value={this.state.monster.AbilityScores.Dexterity}
-														onChange={this.AbilityScoreChange.get('Dexterity')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Constitution</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='AbilityConstitution'
-														type='number'
-														placeholder='Constitution'
-														autoComplete='Constitution'
-														value={this.state.monster.AbilityScores.Constitution}
-														onChange={this.AbilityScoreChange.get('Constitution')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Intelligence</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='AbilityIntelligence'
-														type='number'
-														placeholder='Intelligence'
-														autoComplete='Intelligence'
-														value={this.state.monster.AbilityScores.Intelligence}
-														onChange={this.AbilityScoreChange.get('Intelligence')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Wisdom</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='AbilityWisdom'
-														type='number'
-														placeholder='Wisdom'
-														autoComplete='Wisdom'
-														value={this.state.monster.AbilityScores.Wisdom}
-														onChange={this.AbilityScoreChange.get('Wisdom')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Charisma</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='AbilityCharisma'
-														type='number'
-														placeholder='Charisma'
-														autoComplete='Charisma'
-														value={this.state.monster.AbilityScores.Charisma}
-														onChange={this.AbilityScoreChange.get('Charisma')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
+									{this.abilityScoreNames.map((value: string) =>
+										<Field isHorizontal key={'Ability'+value}>
+											<FieldLabel isNormal>
+												<Label>{value}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={'Ability'+value}
+															type='number'
+															placeholder={value}
+															autoComplete={value}
+															value={this.state.monster.AbilityScores[value] != undefined ? this.state.monster.AbilityScores[value] : ''}
+															name={value}
+															onChange={this.handleMonsterAbilityScoreChange} />
+													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.AbilityScores[value]}</Help>
+												</Field>
+											</FieldBody>
+										</Field>
+									)}
 								</React.Fragment>
 							} />
 						</Tile>
@@ -793,114 +784,28 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							<Tile isChild render={ (props: any) =>
 								<React.Fragment>
 									<Subtitle>Saving Throws</Subtitle>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Strength</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='SavingStrength'
-														type='number'
-														placeholder='Strength'
-														autoComplete='Strength'
-														value={this.state.monster.SavingThrows.Strength}
-														onChange={this.SavingThrowChange.get('Strength')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Dexterity</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='SavingDexterity'
-														type='number'
-														placeholder='Dexterity'
-														autoComplete='Dexterity'
-														value={this.state.monster.SavingThrows.Dexterity}
-														onChange={this.SavingThrowChange.get('Dexterity')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Constitution</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='SavingConstitution'
-														type='number'
-														placeholder='Constitution'
-														autoComplete='Constitution'
-														value={this.state.monster.SavingThrows.Constitution}
-														onChange={this.SavingThrowChange.get('Constitution')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Intelligence</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='SavingIntelligence'
-														type='number'
-														placeholder='Intelligence'
-														autoComplete='Intelligence'
-														value={this.state.monster.SavingThrows.Intelligence}
-														onChange={this.SavingThrowChange.get('Intelligence')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Wisdom</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='SavingWisdom'
-														type='number'
-														placeholder='Wisdom'
-														autoComplete='Wisdom'
-														value={this.state.monster.SavingThrows.Wisdom}
-														onChange={this.SavingThrowChange.get('Wisdom')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
-									<Field isHorizontal>
-										<FieldLabel isNormal>
-											<Label>Charisma</Label>
-										</FieldLabel>
-										<FieldBody>
-											<Field>
-												<Control>
-													<Input
-														id='SavingCharisma'
-														type='number'
-														placeholder='Charisma'
-														autoComplete='Charisma'
-														value={this.state.monster.SavingThrows.Charisma}
-														onChange={this.SavingThrowChange.get('Charisma')} />
-												</Control>
-											</Field>
-										</FieldBody>
-									</Field>
+									{this.savingThrowNames.map((value: string) =>
+										<Field isHorizontal key={'Saving'+value}>
+											<FieldLabel isNormal>
+												<Label>{value}</Label>
+											</FieldLabel>
+											<FieldBody>
+												<Field>
+													<Control>
+														<Input
+															id={'Saving'+value}
+															type='number'
+															placeholder={value}
+															autoComplete={value}
+															value={this.state.monster.SavingThrows[value] != undefined ? this.state.monster.SavingThrows[value] : ''}
+															name={value}
+															onChange={this.handleMonsterSavingThrowChange} />
+													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.SavingThrows[value]}</Help>
+												</Field>
+											</FieldBody>
+										</Field>
+									)}
 								</React.Fragment>
 							} />
 						</Tile>
@@ -925,9 +830,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName]}
-															onChange={this.SkillChange.get(skillName)} />
+															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
+															name={skillName}
+															onChange={this.handleMonsterSkillChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -951,9 +858,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName]}
-															onChange={this.SkillChange.get(skillName)} />
+															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
+															name={skillName}
+															onChange={this.handleMonsterSkillChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -977,9 +886,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={skillName}
 															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName]}
-															onChange={this.SkillChange.get(skillName)} />
+															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
+															name={skillName}
+															onChange={this.handleMonsterSkillChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -1009,9 +920,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName]}
-															onChange={this.SensesChange.get(senseName)} />
+															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
+															name={senseName}
+															onChange={this.handleMonsterSenseChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -1035,9 +948,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName]}
-															onChange={this.SensesChange.get(senseName)} />
+															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
+															name={senseName}
+															onChange={this.handleMonsterSenseChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -1061,9 +976,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 															type='number'
 															placeholder={senseName}
 															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName]}
-															onChange={this.SensesChange.get(senseName)} />
+															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
+															name={senseName}
+															onChange={this.handleMonsterSenseChange} />
 													</Control>
+													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
 												</Field>
 											</FieldBody>
 										</Field>
@@ -1088,9 +1005,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='text'
 											placeholder='Languages'
 											autoComplete='Languages'
-											value={this.state.monster.Languages}
-											onChange={this.handleMonsterLanguagesChange} />
+											value={this.state.monster.Languages || ''}
+											name='Languages'
+											onChange={this.handleBaseMonsterChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.Languages}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -1106,9 +1025,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='number'
 											placeholder='Challenge Rating'
 											autoComplete='ChallengeRating'
-											value={this.state.monster.ChallengeRating}
-											onChange={this.handleMonsterChallengeRatingChange} />
+											value={this.state.monster.ChallengeRating != undefined ? this.state.monster.ChallengeRating : ''}
+											name='ChallengeRating'
+											onChange={this.handleMonsterFloatChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.monsterErrors.ChallengeRating}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -1124,7 +1045,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											type='number'
 											placeholder='Experience Points'
 											autoComplete='ExperiencePoints'
-											value={this.state.ExperiencePoints}
+											value={this.state.ExperiencePoints != undefined ? this.state.ExperiencePoints : ''}
 											onChange={this.handleMonsterExperiencePointsChange} />
 									</Control>
 								</Field>

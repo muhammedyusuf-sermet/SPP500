@@ -40,7 +40,7 @@ exports[`Test the View Catalog Page renders correctly when the page is loaded 1`
       </WithStyles(Tabs)>
     </WithStyles(AppBar)>
     <TabContainer>
-      <Component />
+      <Monster />
     </TabContainer>
   </div>
 </div>

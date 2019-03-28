@@ -6,52 +6,52 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {MonsterDetails} from './MonsterDetails';
-import * as MonsterInterface from '../../../../../monster';
+import {EncounterDetails} from './EncounterDetails';
+import * as EncounterInterface from '../../../../../encounter';
 
-// Dummy array of monsters
-import MonsterInstances from '../../../../../monster_instances';
+// Dummy array of encounters
+import EncounterInstances from '../../../../../encounter_instances';
 
-export interface IMonsterState {
-	viewMonster: boolean,
-	editMonster: boolean,
-	selectedMonster: MonsterInterface.IMonsterState,
+export interface IEncounterListState {
+	viewEncounter: boolean,
+	editEncounter: boolean,
+	selectedEncounter: EncounterInterface.IEncounterState,
 }
 
-export class Monster extends React.Component<any, IMonsterState> {
+export class EncounterList extends React.Component<any, IEncounterListState> {
 	constructor(props: any) {
 		super(props);
 		this.state = {
-			viewMonster: false,
-			editMonster: false,
-			selectedMonster: {} as MonsterInterface.IMonsterState,
+			viewEncounter: false,
+			editEncounter: false,
+			selectedEncounter: {} as EncounterInterface.IEncounterState,
 		}
 		this.resetState = this.resetState.bind(this);
 	}
 
 	resetState() {
-		this.setState({ selectedMonster: {} as MonsterInterface.IMonsterState});
-		this.setState({ viewMonster: false});
-		this.setState({ editMonster: false});
+		this.setState({ selectedEncounter: {} as EncounterInterface.IEncounterState});
+		this.setState({ viewEncounter: false});
+		this.setState({ editEncounter: false});
 	}
 
-	view = (monster: MonsterInterface.IMonsterState) => {
-		this.setState({ selectedMonster: monster});
-		this.setState({ viewMonster: true});
+	view = (encounter: EncounterInterface.IEncounterState) => {
+		this.setState({ selectedEncounter: encounter});
+		this.setState({ viewEncounter: true});
 	}
 
-	edit = (monster: MonsterInterface.IMonsterState) => {
-		this.setState({ selectedMonster: monster});
-		this.setState({ editMonster: true});
+	edit = (encounter: EncounterInterface.IEncounterState) => {
+		this.setState({ selectedEncounter: encounter});
+		this.setState({ editEncounter: true});
 	}
 
 	render() {
-		if(!this.state.viewMonster && !this.state.editMonster){
+		if(!this.state.viewEncounter && !this.state.editEncounter){
 			return (
 				<div className= "layout card-grid">
 					<Grid container spacing={40}>
-						{MonsterInstances['MonsterInstances'].map(monster => (
-							<Grid item key={monster.Id} sm={6} md={4} lg={3}>
+						{EncounterInstances['EncounterInstances'].map(encounter => (
+							<Grid item key={encounter.Id} sm={6} md={4} lg={3}>
 								<Card className="card">
 								  <CardMedia
 									className="card-media"
@@ -60,17 +60,17 @@ export class Monster extends React.Component<any, IMonsterState> {
 								  />
 								  <CardContent className="card-content">
 									<Typography gutterBottom variant="h5" component="h2">
-									  {monster.Name} {monster.Id}
+									  {encounter.Name} {encounter.Id}
 									</Typography>
 									<Typography>
-									  This is a {monster.Size} {monster.Race}, and is a type of {monster.Type} monsters.
+									  {encounter.Description}.
 									</Typography>
 								  </CardContent>
 								  <CardActions>
-									<Button size="small" color="primary" onClick={() => this.view(monster)}>
+									<Button size="small" color="primary" onClick={() => this.view(encounter)}>
 									  View
 									</Button>
-									<Button size="small" color="primary" onClick={() => this.edit(monster)}>
+									<Button size="small" color="primary" onClick={() => this.edit(encounter)}>
 									  Edit
 									</Button>
 								  </CardActions>
@@ -81,11 +81,11 @@ export class Monster extends React.Component<any, IMonsterState> {
 				</div>
 			)
 		}
-		else if(this.state.viewMonster){
-			return (<MonsterDetails monster={this.state.selectedMonster} resetParentState={this.resetState}/>);
+		else if(this.state.viewEncounter){
+			return (<EncounterDetails encounter={this.state.selectedEncounter} resetParentState={this.resetState}/>);
 		}
 		else{
-			// Todo: To enable editing, just use the same component as MonsterDetails:
+			// Todo: To enable editing, just use the same component as EncounterDetails:
 			// enable edit button, remove readOnly, and add the code to submit the changes
 			return (<div>Editing Feature is not yet enabled. Please check again later.</div>);
 		}
