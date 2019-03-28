@@ -13,12 +13,14 @@ export interface IMonsterStatsProps {
 	// parent
 	Parent: string,
 	// initial values
-	Strength?: number;
-	Dexterity?: number;
-	Constitution?: number;
-	Intelligence?: number;
-	Wisdom?: number;
-	Charisma?: number;
+	initial: {
+		Strength?: number;
+		Dexterity?: number;
+		Constitution?: number;
+		Intelligence?: number;
+		Wisdom?: number;
+		Charisma?: number;
+	}
 }
 
 export interface IMonsterStatsState {
@@ -43,12 +45,7 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 	constructor(props: IMonsterStatsProps) {
 		super(props);
 		this.state = {
-			Strength: props.Strength,
-			Dexterity: props.Dexterity,
-			Constitution: props.Constitution,
-			Intelligence: props.Intelligence,
-			Wisdom: props.Wisdom,
-			Charisma: props.Charisma
+			...props.initial
 		};
 	}
 
