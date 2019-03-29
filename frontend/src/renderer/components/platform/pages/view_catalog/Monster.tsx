@@ -1,4 +1,5 @@
 import * as React from 'react';
+import request from 'request';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,13 +10,27 @@ import Typography from '@material-ui/core/Typography';
 import {MonsterDetails} from './MonsterDetails';
 import * as MonsterInterface from '../../../../../monster';
 
-// Dummy array of monsters
-import MonsterInstances from '../../../../../monster_instances';
+import { CookieManager } from '../../../../../cookie';
+import { API_URL } from '../../../../../config';
+import '../../../../css/platform/pages/view-catalog/view_monster.css';
+
+
+interface IMonsterGetResponse {
+	status: number,
+	messages: string[],
+	content: MonsterInterface.IMonsterState[],
+	total: number,
+}
 
 export interface IMonsterState {
 	viewMonster: boolean,
 	editMonster: boolean,
 	selectedMonster: MonsterInterface.IMonsterState,
+
+	page: number,
+	pageSize: number,
+	totalMonsters: number,
+	monstersInCurrentPage: MonsterInterface.IMonsterState[],
 }
 
 export class Monster extends React.Component<any, IMonsterState> {
@@ -25,14 +40,21 @@ export class Monster extends React.Component<any, IMonsterState> {
 			viewMonster: false,
 			editMonster: false,
 			selectedMonster: {} as MonsterInterface.IMonsterState,
+
+			page: 0,
+			pageSize: 12,
+			totalMonsters: 0,
+			monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
 		}
 		this.resetState = this.resetState.bind(this);
+		this.getPaginatedMonsters();
 	}
 
 	resetState() {
 		this.setState({ selectedMonster: {} as MonsterInterface.IMonsterState});
 		this.setState({ viewMonster: false});
 		this.setState({ editMonster: false});
+		this.setState({ page: 0});
 	}
 
 	view = (monster: MonsterInterface.IMonsterState) => {
@@ -45,12 +67,60 @@ export class Monster extends React.Component<any, IMonsterState> {
 		this.setState({ editMonster: true});
 	}
 
+	previousPage() {
+		if(this.state.page > 0){
+			this.setState({ page: this.state.page-1});
+			this.getPaginatedMonsters();
+		}
+	}
+
+	nextPage() {
+		// Starts from 0
+		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize);
+		if(this.state.page < totalPages){
+			this.setState({ page: this.state.page+1});
+			this.getPaginatedMonsters();
+		}
+	}
+
+	getPaginatedMonsters() {
+		var options = { method: 'GET',
+			url: API_URL + '/monster/get/' + this.state.page + '/' + this.state.pageSize,
+			headers:
+			{
+				'Cache-Control': 'no-cache',
+				'Content-Type': 'application/json' ,
+				'Authorization': CookieManager.UserToken('session_token')
+			},
+			json: true
+		};
+
+		request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
+			if (!error && body.status === 201) { // success
+				this.setState({
+						monstersInCurrentPage: body.content,
+						totalMonsters: body.total,
+				});
+			} else {
+				// There was an error retrieving the monsters. Just return empty array.
+				// No need to print a modal.
+				this.setState({
+						monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
+						totalMonsters: 0,
+				});
+			}
+		})
+	}
+
 	render() {
 		if(!this.state.viewMonster && !this.state.editMonster){
 			return (
-				<div className= "layout card-grid">
+				<div id="view-monsters-container" className="layout card-grid">
+					<h3>Page No: {this.state.page}</h3>
+					<a onClick={() => this.previousPage()} className="previous">&laquo; Previous</a>
+					<a onClick={() => this.nextPage()} className="next">Next &raquo;</a>
 					<Grid container spacing={40}>
-						{MonsterInstances['MonsterInstances'].map(monster => (
+						{this.state.monstersInCurrentPage.map(monster => (
 							<Grid item key={monster.Id} sm={6} md={4} lg={3}>
 								<Card className="card">
 								  <CardMedia
