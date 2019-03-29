@@ -168,23 +168,25 @@ export class EncounterFactory {
 
 	public async GetAll(request: {params: any, auth: any}) {
 		const authInfo = request.auth;
-		var pageNumber = request.params.page;
-		var pageSize = request.params.size;
-		var messages = [];
+		var pageNumber = +request.params.page;
+		var pageSize = +request.params.size;
 
-		if (typeof pageNumber != "number") {
+ 		var messages = [];
+
+ 		if (isNaN(pageNumber)) {
 			messages.push("Parameter 'page' must be a number.")
 		}
 
-		if (typeof pageSize != "number") {
+ 		if (isNaN(pageSize)) {
 			messages.push("Parameter 'size' must be a number.")
 		}
 
+
 		if (messages.length == 0) {
 			var respond = await Encounter.find({
-				Creator : { Id: authInfo.credentials.id},
 				skip: pageSize*pageNumber,
-				take: pageSize
+				take: pageSize,
+				where: {Creator : { Id: authInfo.credentials.id}},
 			});
 
 			return {
