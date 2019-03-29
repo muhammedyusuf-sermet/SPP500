@@ -287,4 +287,37 @@ export class MonsterFactory {
 			}
 		);
 	}
+
+	public async GetAll(request: any) {
+		var pageNumber = request.params.page;
+		var pageSize = request.params.size;
+		var messages = [];
+
+		if (typeof pageNumber != "number") {
+			messages.push("Parameter 'page' must be a number.")
+		}
+
+		if (typeof pageSize != "number") {
+			messages.push("Parameter 'size' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			var respond = await Monster.find({ 
+				skip: pageSize*pageNumber,
+				take: pageSize
+			});
+
+			return {
+				"status": 201,
+				"messages": messages,
+				"content": respond
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": []
+			}
+		}
+	}
 }
