@@ -52,7 +52,6 @@ export class NavBar extends React.Component<any, INavBarState> {
 								</NavbarStart>
 							) : (
 								<NavbarStart className='is-light' onClick={this.closeNav}>
-									<Link className='navbar-item' to="/catalog">View Catalog</Link>
 								</NavbarStart>
 							)
 						}
