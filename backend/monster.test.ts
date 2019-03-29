@@ -669,3 +669,11 @@ describe('monster creation tests', async () => {
 	*/
 
 });
+
+/*
+
+Monster paginated get tests
+
+When a page number if provided return all monsters in that page
+
+*/
