@@ -165,4 +165,39 @@ export class EncounterFactory {
 			}
 		}
 	}
+
+	public async GetAll(request: {params: any, auth: any}) {
+		const authInfo = request.auth;
+		var pageNumber = request.params.page;
+		var pageSize = request.params.size;
+		var messages = [];
+
+		if (typeof pageNumber != "number") {
+			messages.push("Parameter 'page' must be a number.")
+		}
+
+		if (typeof pageSize != "number") {
+			messages.push("Parameter 'size' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			var respond = await Encounter.find({
+				Creator : { Id: authInfo.credentials.id},
+				skip: pageSize*pageNumber,
+				take: pageSize
+			});
+
+			return {
+				"status": 201,
+				"messages": messages,
+				"content": respond
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": []
+			}
+		}
+	}
 }

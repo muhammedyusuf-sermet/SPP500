@@ -84,6 +84,15 @@ export const initServer = async () => {
 		}
 	},
 	{
+		method: 'GET',
+		path: '/encounter/get/{page}/{size}', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var encounter = new EncounterFactory();
+			return encounter.GetAll(request);
+		}
+	},
+	{
 		method: 'POST',
 		path: '/campaign/edit', 
 		options: { auth: 'jwt' },
