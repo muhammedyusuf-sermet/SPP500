@@ -183,22 +183,24 @@ export class EncounterFactory {
 
 
 		if (messages.length == 0) {
-			var respond = await Encounter.find({
-				skip: pageSize*pageNumber,
-				take: pageSize,
+			var allEncounters = await Encounter.find({
 				where: {Creator : { Id: authInfo.credentials.id}},
 			});
+
+			var respond = allEncounters.slice(pageSize*pageNumber, pageSize*(pageNumber+1))
 
 			return {
 				"status": 201,
 				"messages": messages,
-				"content": respond
+				"content": respond,
+				"total": allEncounters.length
 			}
 		} else {
 			return {
 				"status": 400,
 				"messages": messages,
-				"content": []
+				"content": [],
+				"total": 0
 			}
 		}
 	}
