@@ -306,10 +306,11 @@ export class MonsterFactory {
 
 			var allMonsters = await Monster.find();
 
-			var respond = await Monster.find({ 
-				skip: pageSize*pageNumber,
-				take: pageSize
-			});
+			var respond = allMonsters.slice(pageSize*pageNumber, pageSize*(pageNumber+1))
+			// var respond = await Monster.find({ 
+			// 	skip: pageSize*pageNumber,
+			// 	take: pageSize
+			// });
 
 			return {
 				"status": 201,
