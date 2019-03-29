@@ -342,6 +342,18 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	}
 	*/
 
+	private stateWithoutErrors(state: any): any
+	{
+		let newState: { [key: string]: number | string } = {};
+		for (let field in state) {
+			if (field.endsWith('Error'))
+				continue
+			if (state[field])
+				newState[field] = state[field];
+		}
+		return newState;
+	}
+
 	private validateForm = (event: React.FormEvent) => {
 		event.preventDefault();
 			const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
@@ -358,34 +370,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				this.EnumConfiguration.current.state
 			const monsterPayload: IMonsterState = {
 				...this.state.monster,
-				Size: enumState.Size,
-				Type: enumState.Type,
-				Race: enumState.Race,
-				Alignment: enumState.Alignment,
-				Environment: enumState.Environment,
+				...this.stateWithoutErrors(enumState),
 				Speed: monsterSpeed,
-				DamageVulnerabilities: resistancesState.DamageVulnerabilities,
-				DamageResistances: resistancesState.DamageResistances,
-				DamageImmunities: resistancesState.DamageImmunities,
-				ConditionImmunities: resistancesState.ConditionImmunities,
-				ArmorClass: defencesState.ArmorClass,
-				HitPoints: defencesState.HitPoints,
-				HitPointDistribution: defencesState.HitPointDistribution,
+				...this.stateWithoutErrors(resistancesState),
+				...this.stateWithoutErrors(defencesState),
 				AbilityScores: {
-					Strength: abilityScoreState.Strength,
-					Dexterity: abilityScoreState.Dexterity,
-					Constitution: abilityScoreState.Constitution,
-					Intelligence: abilityScoreState.Intelligence,
-					Wisdom: abilityScoreState.Wisdom,
-					Charisma: abilityScoreState.Charisma
+					...this.stateWithoutErrors(abilityScoreState)
 				},
 				SavingThrows: {
-					Strength: savingThrowState.Strength,
-					Dexterity: savingThrowState.Dexterity,
-					Constitution: savingThrowState.Constitution,
-					Intelligence: savingThrowState.Intelligence,
-					Wisdom: savingThrowState.Wisdom,
-					Charisma: savingThrowState.Charisma
+					...this.stateWithoutErrors(savingThrowState)
 				}
 			}
 
