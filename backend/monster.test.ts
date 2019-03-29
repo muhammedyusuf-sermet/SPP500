@@ -753,15 +753,6 @@ describe('monster get all tests', async () => {
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("Parameter 'size' must be a number.");
 	});
-	/*
-	Monster action tests
-
-	When valid monster actions are given
-	return success
-
-	When invalid monster actions are given
-	return an error
-	*/
 
 });
 

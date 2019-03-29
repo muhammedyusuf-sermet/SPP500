@@ -289,15 +289,16 @@ export class MonsterFactory {
 	}
 
 	public async GetAll(request: any) {
-		var pageNumber = request.params.page;
-		var pageSize = request.params.size;
+		var pageNumber = +request.params.page;
+		var pageSize = +request.params.size;
+		
 		var messages = [];
 
-		if (typeof pageNumber != "number") {
+		if (isNaN(pageNumber)) {
 			messages.push("Parameter 'page' must be a number.")
 		}
 
-		if (typeof pageSize != "number") {
+		if (isNaN(pageSize)) {
 			messages.push("Parameter 'size' must be a number.")
 		}
 
