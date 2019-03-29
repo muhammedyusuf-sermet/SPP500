@@ -57,6 +57,15 @@ export const initServer = async () => {
 		}
 	},
 	{
+		method: 'GET',
+		path: '/monster/get/{page}/{size}', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.GetAll(request);
+		}
+	},
+	{
 		method: 'POST',
 		path: '/encounter/create', 
 		options: { auth: 'jwt' },
