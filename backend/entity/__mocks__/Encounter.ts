@@ -23,27 +23,47 @@ export class Encounter {
             } else {
                 return result;
             }
-		}
+        } else {
+            if (a.where) {
+                var query = a.where;
+                if (a.skip) {
+                    query["skip"] = a.skip;
+                }
+
+                if (a.take) {
+                    query["take"] = a.take;   
+                }
+
+                return Encounter.find(query);
+            } else {
+                if (a.skip) {
+                    skip = a.skip;
+                }
+
+                if (a.take) {
+                    take = a.take;   
+                }
+            }
+        }
+
         for (let key in a) {
             let value = a[key];
-            if (key == "skip") {
-                skip = value;
-            } else if (key == "take") {
-                take = value;
+            
+            if (typeof value == 'object') {
+                for (let key2 in value) {
+                    let value2 = value[key2]
+                    result = result.filter(function (el: Encounter) {
+                        return el[key][key2] == value2;
+                    });
+                }
             } else {
-                if (typeof value == 'object') {
-                    for (let key2 in value) {
-                        let value2 = value[key2]
-                        result = result.filter(function (el: Encounter) {
-                            return el[key][key2] == value2;
-                        });
-                    }
-                } else {
+                if (key != "skip" && key != "take") {
                     result = result.filter(function (el: Encounter) {
                         return el[key] == value;
                     });
                 }
             }
+            
         }
 
         if (skip > 0) {
@@ -73,6 +93,6 @@ export class Encounter {
     }
 
     static clear() {
-        Monster.TableRows = [];
+        Encounter.TableRows = [];
     }
 }

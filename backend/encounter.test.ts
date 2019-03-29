@@ -438,38 +438,55 @@ describe('encounter delete tests', async () => {
 	});
 });
 
-describe('monster get all tests', async () => {
+describe('encounter get all tests', async () => {
 	beforeAll( async () => {
 		Encounter.clear();
-		
-		const monster = new Monster();
-		monster.Name = "John Doe";
-		monster.Id = 1;
-		await monster.save();
 
-		const monster2 = new Monster();
-		monster2.Name = "John Doe";
-		monster2.Id = 2;
-		await monster2.save();
+		const user = new User();
+		user.Name = "John Doe";
+		user.Id = 1;
+		await user.save();
 
-		const monster3 = new Monster();
-		monster3.Name = "John Doe";
-		monster3.Id = 3;
-		await monster3.save();
+		const encounter = new Encounter();
+		encounter.Id = 1;
+		encounter.Name = "Test Name";
+		encounter.Description = "Test Description";
+		encounter.Creator = user;
+		await encounter.save();
+
+ 		const encounter2 = new Encounter();
+		encounter2.Id = 2;
+		encounter2.Name = "Test Name 2";
+		encounter2.Description = "Test Description 2";
+		encounter2.Creator = user;
+		await encounter2.save();
+
+ 		const encounter3 = new Encounter();
+		encounter3.Id = 3;
+		encounter3.Name = "Test Name 3";
+		encounter3.Description = "Test Description 3";
+		encounter3.Creator = user;
+		await encounter3.save();
 	});
 
-	var monster = new MonsterFactory();
+ 	var encounter = new EncounterFactory();
 
 
-	test('when page number and page size is given properly for first page', async () => {
-		const response = await monster.GetAll({
+ 	test('when page number and page size is given properly for first page', async () => {
+		const response = await encounter.GetAll({
 			params: {
 				page: 0,
 				size: 2
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
-		
-		expect.assertions(5);
+
+
+ 		expect.assertions(5);
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(0);
 		expect(response['content'].length).toBe(2);
@@ -477,46 +494,63 @@ describe('monster get all tests', async () => {
 		expect(response['content'][1].Id).toBe(2);
 	});
 
-	test('when page number and page size is given properly for last page', async () => {
-		const response = await monster.GetAll({
+ 	test('when page number and page size is given properly for last page', async () => {
+		const response = await encounter.GetAll({
 			params: {
 				page: 1,
 				size: 2
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
-		
-		expect.assertions(4);
+
+ 		expect.assertions(4);
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(0);
 		expect(response['content'].length).toBe(1);
 		expect(response['content'][0].Id).toBe(3);
 	});
 
-	test('when page parameter is not number', async () => {
-		const response = await monster.GetAll({
+ 	test('when page parameter is not number', async () => {
+		const response = await encounter.GetAll({
 			params: {
 				page: "test",
 				size: 2
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
-		
-		expect.assertions(3);
+
+ 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
 	});
 
-	test('when size parameter is not number', async () => {
-		const response = await monster.GetAll({
+ 	test('when size parameter is not number', async () => {
+		const response = await encounter.GetAll({
 			params: {
 				page: 0,
 				size: "test"
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
-		
-		expect.assertions(3);
+
+ 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("Parameter 'size' must be a number.");
 	});
-});
+
+ });
+
