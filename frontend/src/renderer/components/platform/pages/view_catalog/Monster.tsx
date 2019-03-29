@@ -47,7 +47,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 			monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
 		}
 		this.resetState = this.resetState.bind(this);
-		this.getPaginatedMonsters();
+		this.getPaginatedMonsters(this.state.page);
 	}
 
 	resetState() {
@@ -55,6 +55,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 		this.setState({ viewMonster: false});
 		this.setState({ editMonster: false});
 		this.setState({ page: 0});
+		this.getPaginatedMonsters(0);
 	}
 
 	view = (monster: MonsterInterface.IMonsterState) => {
@@ -69,23 +70,25 @@ export class Monster extends React.Component<any, IMonsterState> {
 
 	previousPage() {
 		if(this.state.page > 0){
-			this.setState({ page: this.state.page-1});
-			this.getPaginatedMonsters();
+			let newPage = this.state.page-1;
+			this.setState({ page: newPage});
+			this.getPaginatedMonsters(newPage);
 		}
 	}
 
 	nextPage() {
 		// Starts from 0
-		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize);
+		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
 		if(this.state.page < totalPages){
-			this.setState({ page: this.state.page+1});
-			this.getPaginatedMonsters();
+			let newPage = this.state.page+1;
+			this.setState({ page: newPage});
+			this.getPaginatedMonsters(newPage);
 		}
 	}
 
-	getPaginatedMonsters() {
+	getPaginatedMonsters(page: number) {
 		var options = { method: 'GET',
-			url: API_URL + '/monster/get/' + this.state.page + '/' + this.state.pageSize,
+			url: API_URL + '/monster/get/' + page + '/' + this.state.pageSize,
 			headers:
 			{
 				'Cache-Control': 'no-cache',
@@ -116,7 +119,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 		if(!this.state.viewMonster && !this.state.editMonster){
 			return (
 				<div id="view-monsters-container" className="layout card-grid">
-					<h3>Page No: {this.state.page}</h3>
+					<h3>Page No: {this.state.page+1}</h3>
 					<a onClick={() => this.previousPage()} className="previous">&laquo; Previous</a>
 					<a onClick={() => this.nextPage()} className="next">Next &raquo;</a>
 					<Grid container spacing={40}>
