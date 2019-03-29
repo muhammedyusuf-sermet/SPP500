@@ -1,4 +1,5 @@
 import {MonsterFactory} from "./monster";
+import {Monster} from "./entity/Monster"
 
 jest.mock("./entity/AbilityScore");
 jest.mock("./entity/Monster");
@@ -657,6 +658,100 @@ describe('monster creation tests', async () => {
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("success");
+	});
+	/*
+	Monster action tests
+
+	When valid monster actions are given
+	return success
+
+	When invalid monster actions are given
+	return an error
+	*/
+
+});
+
+
+describe('monster get all tests', async () => {
+	beforeAll( async () => {
+		Monster.clear();
+		const monster = new Monster();
+
+		monster.Name = "John Doe";
+		monster.Id = 1;
+		await monster.save();
+
+		const monster2 = new Monster();
+		monster2.Name = "John Doe";
+		monster2.Id = 2;
+		await monster2.save();
+
+		const monster3 = new Monster();
+		monster3.Name = "John Doe";
+		monster3.Id = 3;
+		await monster3.save();
+	});
+
+	var monster = new MonsterFactory();
+
+
+	test('when page number and page size is given properly for first page', async () => {
+		const response = await monster.GetAll({
+			params: {
+				page: 0,
+				size: 2
+			},
+		});
+		
+		expect.assertions(5);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(0);
+		expect(response['content'].length).toBe(2);
+		expect(response['content'][0].Id).toBe(1);
+		expect(response['content'][1].Id).toBe(2);
+	});
+
+	test('when page number and page size is given properly for last page', async () => {
+		const response = await monster.GetAll({
+			params: {
+				page: 1,
+				size: 2
+			},
+		});
+		
+		expect.assertions(4);
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(0);
+		expect(response['content'].length).toBe(1);
+		expect(response['content'][0].Id).toBe(3);
+	});
+
+	test('when page parameter is not number', async () => {
+		const response = await monster.GetAll({
+			params: {
+				page: "test",
+				size: 2
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
+	});
+
+	test('when size parameter is not number', async () => {
+		const response = await monster.GetAll({
+			params: {
+				page: 0,
+				size: "test"
+			},
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Parameter 'size' must be a number.");
 	});
 	/*
 	Monster action tests
