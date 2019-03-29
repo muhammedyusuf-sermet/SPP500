@@ -138,13 +138,13 @@ describe('Monster Defences', () => {
 
 		it('should validate HitPointDistribution when HitPointDistribution is changed length', () => {
 			monsterDefencesInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: moreThan20 } })
-			expect(monsterDefencesInstance.state().HitPointDistribution).toEqual(undefined);
+			expect(monsterDefencesInstance.state().HitPointDistribution).toEqual(moreThan20);
 			expect(monsterDefencesInstance.find('Help#HitPointDistribution').text()).toEqual('\"HitPointDistribution\" length must be less than or equal to 20 characters long');
 		})
 
 		it('should validate HitPointDistribution when HitPointDistribution is changed pattern', () => {
 			monsterDefencesInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: 'InvalidPattern' } })
-			expect(monsterDefencesInstance.state().HitPointDistribution).toEqual(undefined);
+			expect(monsterDefencesInstance.state().HitPointDistribution).toEqual('InvalidPattern');
 			expect(monsterDefencesInstance.find('Help#HitPointDistribution').text()).toEqual('\"HitPointDistribution\" with value \"InvalidPattern\" fails to match the #d# OR (#d# operator (#d# or number)) NO spaces pattern');
 		})
 	});
