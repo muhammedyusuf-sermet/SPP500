@@ -1,5 +1,5 @@
 import * as React from 'react';
-import request from 'request';
+import * as request from 'request';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -120,8 +120,8 @@ export class Monster extends React.Component<any, IMonsterState> {
 			return (
 				<div id="view-monsters-container" className="layout card-grid">
 					<h3>Page No: {this.state.page+1}</h3>
-					<a onClick={() => this.previousPage()} className="previous">&laquo; Previous</a>
-					<a onClick={() => this.nextPage()} className="next">Next &raquo;</a>
+					<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
+					<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
 					<Grid container spacing={40}>
 						{this.state.monstersInCurrentPage.map(monster => (
 							<Grid item key={monster.Id} sm={6} md={4} lg={3}>
