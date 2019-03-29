@@ -703,8 +703,9 @@ describe('monster get all tests', async () => {
 			},
 		});
 		
-		expect.assertions(5);
+		expect.assertions(6);
 		expect(response['status']).toBe(201);
+		expect(response['total']).toBe(3);
 		expect(response['messages'].length).toBe(0);
 		expect(response['content'].length).toBe(2);
 		expect(response['content'][0].Id).toBe(1);
@@ -719,8 +720,9 @@ describe('monster get all tests', async () => {
 			},
 		});
 		
-		expect.assertions(4);
+		expect.assertions(5);
 		expect(response['status']).toBe(201);
+		expect(response['total']).toBe(3);
 		expect(response['messages'].length).toBe(0);
 		expect(response['content'].length).toBe(1);
 		expect(response['content'][0].Id).toBe(3);

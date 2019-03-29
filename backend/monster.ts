@@ -303,21 +303,23 @@ export class MonsterFactory {
 		}
 
 		if (messages.length == 0) {
-			var respond = await Monster.find({ 
-				skip: pageSize*pageNumber,
-				take: pageSize
-			});
+
+			var allMonsters = await Monster.find();
+
+			var respond = allMonsters.slice(pageSize*pageNumber, pageSize*(pageNumber+1))
 
 			return {
 				"status": 201,
 				"messages": messages,
-				"content": respond
+				"content": respond,
+				"total": allMonsters.length
 			}
 		} else {
 			return {
 				"status": 400,
 				"messages": messages,
-				"content": []
+				"content": [],
+				"total": 0
 			}
 		}
 	}
