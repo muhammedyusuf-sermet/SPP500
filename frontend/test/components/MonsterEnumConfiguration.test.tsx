@@ -40,11 +40,13 @@ describe('Monster Creation', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						Size={Size.Gargantuan}
-						Type={MonsterType.Elemental}
-						Race={MonsterRace.Dwarf}
-						Alignment={Alignment.AnyEvilAlignment}
-						Environment={Environment.Coastal}/>
+						initial={{
+							Size: Size.Gargantuan,
+							Type: MonsterType.Elemental,
+							Race: MonsterRace.Dwarf,
+							Alignment: Alignment.AnyEvilAlignment,
+							Environment: Environment.Coastal
+						}} />
 				);
 		})
 
@@ -81,7 +83,8 @@ describe('Monster Creation', () => {
 					<MonsterEnumConfiguration
 						disabled={false}
 						PayloadSchema={payloadSchema}
-						ValidationOptions={validateOptions}/>
+						ValidationOptions={validateOptions}
+						initial={{}} />
 				);
 		})
 

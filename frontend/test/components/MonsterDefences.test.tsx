@@ -34,9 +34,11 @@ describe('Monster Defences', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						ArmorClass={124}
-						HitPoints={623}
-						HitPointDistribution={'5d12+34'} />
+						initial={{
+							ArmorClass: 124,
+							HitPoints: 623,
+							HitPointDistribution: '5d12+34'
+						}} />
 				);
 		})
 
@@ -65,7 +67,8 @@ describe('Monster Defences', () => {
 					<MonsterDefences
 						disabled={false}
 						PayloadSchema={payloadSchema}
-						ValidationOptions={validateOptions}/>
+						ValidationOptions={validateOptions}
+						initial={{}}/>
 				);
 		})
 

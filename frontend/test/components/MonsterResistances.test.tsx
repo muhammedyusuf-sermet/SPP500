@@ -34,10 +34,12 @@ describe('Monster Resistances', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						DamageResistances={'This is test damage resistance'}
-						DamageImmunities={'This is test damage immunity'}
-						DamageVulnerabilities={'This is test damage vulnerabilities'}
-						ConditionImmunities={'This is test condition immunities'} />
+						initial={{
+							DamageResistances: 'This is test damage resistance',
+							DamageImmunities: 'This is test damage immunity',
+							DamageVulnerabilities: 'This is test damage vulnerabilities',
+							ConditionImmunities: 'This is test condition immunities'
+						}} />
 				);
 		})
 
@@ -70,7 +72,8 @@ describe('Monster Resistances', () => {
 					<MonsterResistances
 						disabled={false}
 						PayloadSchema={payloadSchema}
-						ValidationOptions={validateOptions}/>
+						ValidationOptions={validateOptions}
+						initial={{}} />
 				);
 		})
 

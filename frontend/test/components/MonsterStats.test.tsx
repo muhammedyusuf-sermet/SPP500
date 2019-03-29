@@ -39,12 +39,14 @@ describe('Monster Stats', () => {
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
 						Parent='AbilityScores'
-						Strength={123}
-						Dexterity={53}
-						Constitution={25}
-						Intelligence={85}
-						Wisdom={43}
-						Charisma={32} />
+						initial={{
+							Strength: 123,
+							Dexterity: 53,
+							Constitution: 25,
+							Intelligence: 85,
+							Wisdom: 43,
+							Charisma: 32
+						}} />
 				);
 		})
 
@@ -96,7 +98,8 @@ describe('Monster Stats', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						Parent='AbilityScores' />
+						Parent='AbilityScores'
+						initial={{}} />
 				);
 		})
 
