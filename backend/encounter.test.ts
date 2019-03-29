@@ -439,15 +439,15 @@ describe('encounter delete tests', async () => {
 });
 
 /*
-Delete encounter tests
+Encounter List Tests
 
-When owner of an encounter requests delete
-delete the encounter, return success
+When proper page number and size are provided
+return encounter
 
-When another user requests an encounter to be deleted when they are not the owner
-do not delete the encounter, return error
+When invalid page number is provided
+return an error
 
-When an invalid encounter is given
+When invalid page size is provided
 return an error
 
 */
