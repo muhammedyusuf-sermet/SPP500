@@ -8,6 +8,7 @@ import { Platform } from './components/Platform';
 import { MonsterCreation } from './components/MonsterCreation';
 import { EncounterCreation } from './components/EncounterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
+import { ViewGameComponents } from './components/platform/pages/ViewGameComponents';
 
 import "bulma/css/bulma.css";
 import { NavBar } from './components/NavBar';
@@ -33,6 +34,7 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/encounter_creation" component={EncounterCreation} />
 								<Route path="/monster_creation" component={MonsterCreation} />
 								<Route path="/catalog" component={ViewCatalog} />
+								<Route path="/game_components" component={ViewGameComponents} />
 								<Route path="" component={Platform} />
 							</Switch>
 						) : (

@@ -32,11 +32,29 @@ export class Monster {
 
 	static find(a: any) {
 		var result = Monster.TableRows.slice(0);
+		var skip = -1;
+		var take = -1;
+
 		for (let key in a) {
 			let value = a[key];
-			result = result.filter(function (el: Monster) {
-				return el[key] == value;
-			});
+
+			if (key == "skip") {
+				skip = value;
+			} else if (key == "take") {
+				take = value;
+			} else {
+				result = result.filter(function (el: Monster) {
+					return el[key] == value;
+				});
+			}
+		}
+
+		if (skip > 0) {
+			result = result.slice(skip, result.length)
+		}
+
+		if (take > 0) {
+			result = result.slice(0, take)
 		}
 
 		return result
@@ -49,4 +67,9 @@ export class Monster {
 	save() {
 		Monster.TableRows.push(this)
 	}
+
+	static clear() {
+		Monster.TableRows = [];
+	}
+
 }
