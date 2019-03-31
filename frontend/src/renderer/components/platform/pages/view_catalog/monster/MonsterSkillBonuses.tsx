@@ -69,6 +69,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 											<Field>
 												<Control>
 													<Input
+														disabled={this.props.disabled}
 														id={skillName}
 														type='number'
 														placeholder={skillName}
@@ -97,6 +98,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 											<Field>
 												<Control>
 													<Input
+														disabled={this.props.disabled}
 														id={skillName}
 														type='number'
 														placeholder={skillName}
@@ -125,6 +127,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 											<Field>
 												<Control>
 													<Input
+														disabled={this.props.disabled}
 														id={skillName}
 														type='number'
 														placeholder={skillName}
