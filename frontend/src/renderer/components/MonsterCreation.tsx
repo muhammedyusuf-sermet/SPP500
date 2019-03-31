@@ -348,7 +348,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		for (let field in state) {
 			if (field.endsWith('Error'))
 				continue
-			if (state[field])
+			if (state[field] != undefined)
 				newState[field] = state[field];
 		}
 		return newState;
