@@ -9,7 +9,7 @@ import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } fr
 import 'bulma/css/bulma.css';
 
 import {Redirect} from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Column, Columns, Help } from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterErrorState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { Select } from 'bloomer/lib/elements/Form/Select';
@@ -19,6 +19,7 @@ import { MonsterDefences } from './platform/pages/view_catalog/monster/MonsterDe
 import { MonsterStats } from './platform/pages/view_catalog/monster/MonsterStats';
 import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/MonsterSkillBonuses';
 import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/MonsterSpeedBonuses';
+import { MonsterSenseBonuses } from './platform/pages/view_catalog/monster/MonsterSenseBonuses';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -167,6 +168,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private SavingThrows: React.RefObject<MonsterStats>;
 	private SkillBonuses: React.RefObject<MonsterSkillBonuses>;
 	private SpeedBonuses: React.RefObject<MonsterSpeedBonuses>;
+	private SenseBonuses: React.RefObject<MonsterSenseBonuses>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -196,6 +198,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		this.SavingThrows = React.createRef<MonsterStats>();
 		this.SkillBonuses = React.createRef<MonsterSkillBonuses>();
 		this.SpeedBonuses = React.createRef<MonsterSpeedBonuses>();
+		this.SenseBonuses = React.createRef<MonsterSenseBonuses>();
 	}
 
 	openModal = (messageText: string) => {
@@ -342,6 +345,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		const savingThrowState = this.SavingThrows.current ? this.SavingThrows.current.state : {};
 		const skillBonusesState = this.SkillBonuses.current ? this.SkillBonuses.current.state : {};
 		const speedBonusesState = this.SpeedBonuses.current ? this.SpeedBonuses.current.state : {};
+		const senseBonusesState = this.SenseBonuses.current ? this.SenseBonuses.current.state : {};
 
 		// need to convert speed to single string
 		let monsterSpeed: string|undefined = speedBonusesState.SpeedLand ? speedBonusesState.SpeedLand + "ft." : ""
@@ -351,7 +355,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		if(this.EnumConfiguration.current)
 			this.EnumConfiguration.current.state
 		const monsterPayload: IMonsterState = {
-			...this.state.monster,
+			//...this.state.monster,
+			Name: this.state.monster.Name,
+			Languages: this.state.monster.Languages,
+			ChallengeRating: this.state.monster.ChallengeRating,
 			...this.stateWithoutErrors(enumState),
 			Speed: monsterSpeed,
 			...this.stateWithoutErrors(resistancesState),
@@ -364,6 +371,9 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			},
 			Skills: {
 				...this.stateWithoutErrors(skillBonusesState)
+			},
+			Senses: {
+				...this.stateWithoutErrors(senseBonusesState)
 			}
 		}
 
@@ -534,96 +544,14 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 						initial={{
 							...this.state.monster.Skills
 						}} />
-					<Tile className="box" isVertical>
-						<Subtitle>Sense Bonuses</Subtitle>
-						<Columns isCentered>
-						<Column className="box" isSize={4}>
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									{this.senseNames.slice(0,Math.round(this.senseNames.length*(1/3))).map(senseName =>
-										<Field isHorizontal key={senseName}>
-											<FieldLabel isNormal>
-												<Label>{senseName}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={senseName}
-															type='number'
-															placeholder={senseName}
-															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
-															name={senseName}
-															onChange={this.handleMonsterSenseChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-								} />
-						</Column>
-						<Column className='box' isSize={4}>
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									{this.senseNames.slice(Math.round(this.senseNames.length*(1/3)),Math.round(this.senseNames.length*(2/3))).map(senseName =>
-										<Field isHorizontal key={senseName}>
-											<FieldLabel isNormal>
-												<Label>{senseName}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={senseName}
-															type='number'
-															placeholder={senseName}
-															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
-															name={senseName}
-															onChange={this.handleMonsterSenseChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-								} />
-						</Column>
-						<Column className="box" isSize={4}>
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									{this.senseNames.slice(Math.round(this.senseNames.length*(2/3))).map(senseName =>
-										<Field isHorizontal key={senseName}>
-											<FieldLabel isNormal>
-												<Label>{senseName}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={senseName}
-															type='number'
-															placeholder={senseName}
-															autoComplete={senseName}
-															value={this.state.monster.Senses[senseName] != undefined ? this.state.monster.Senses[senseName] : ''}
-															name={senseName}
-															onChange={this.handleMonsterSenseChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.Senses[senseName]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-								} />
-						</Column>
-						<div/>
-						</Columns>
-					</Tile>
+					<MonsterSenseBonuses
+						disabled={false}
+						PayloadSchema={this.payloadSchema}
+						ValidationOptions={this.validateOptions}
+						ref={this.SenseBonuses}
+						initial={{
+							...this.state.monster.Senses
+						}} />
 					<Tile className="box" isVertical>
 						<Subtitle>Final Touches</Subtitle>
 						<Field isHorizontal>
