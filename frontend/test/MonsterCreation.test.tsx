@@ -6,6 +6,7 @@ import { MonsterCreation, IMonsterCreationState, IMonsterCreationProps } from ".
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
+import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../src/cookie');
 
@@ -15,6 +16,29 @@ jest.mock('../src/cookie');
 describe('Monster Creation', () => {
 
 	let monsterCreationInstance: ReactWrapper<IMonsterCreationProps, IMonsterCreationState, MonsterCreation>;
+
+	describe('Redirect if submitted', () => {
+		beforeEach(() => {
+			nock.disableNetConnect();
+			CookieManagerMock.SetStringCookie("session_token", "testToken");
+			// bind the normal user token function to the mock.
+			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
+			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
+			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
+			monsterCreationInstance = mount<MonsterCreation, IMonsterCreationProps, IMonsterCreationState>(<BrowserRouter><MonsterCreation /></BrowserRouter>);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterCreationInstance).toBeDefined();
+		});
+
+		it('should redirect', () => {
+			expect(monsterCreationInstance.find('Redirect')).toHaveLength(0);
+			monsterCreationInstance.find("MonsterCreation").setState({ submitted: true });
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('Redirect')).toHaveLength(1);
+		});
+	});
 
 	describe('Happy Path', () => {
 
@@ -35,6 +59,131 @@ describe('Monster Creation', () => {
 		/*it('renders correctly when the page is loaded', () => {
 			expect(monsterCreationInstance).toMatchSnapshot();
 		});*/
+
+		it('should be able to send monster name only to create', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(201, { status: 201, messages: ['success'] });
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("Monster successfully created.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when unable to connect', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.replyWithError("Test Error");
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when API route not found', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(404);
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when server denies you', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(200, { status: 400, messages: ["Invalid monster object"]});
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("Invalid monster object");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when server denies you without any messages', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(200, { status: 401 });
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("There was an error submitting your request. Please try again later.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show payload error message when monster is not properly formed', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: -1 } })
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("\"Strength\" must be greater than 0");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			done();
+		});
+
+		it('should show payload error message when monster has an invalid skill', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('MonsterSkillBonuses').setState({ "InvalidSkillName": 100 })
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("\"InvalidSkillName\" is not allowed");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			done();
+		});
+
+		it('should show payload error message when monster has an invalid Size', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('MonsterEnumConfiguration').setState({ Size: "InvalidSize" })
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("\"Size\" must be one of Tiny,Small,Medium,Large,Huge,Gargantuan");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			done();
+		});
 
 		it('should be able to send monster to create', async (done) => {
 			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
@@ -195,8 +344,44 @@ describe('Monster Creation', () => {
 			})
 			.reply(201, { status: 201, message: 'success' });
 			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("Monster successfully created.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
+		});
+
+		describe('should show and hide modal', () => {
+			it('show modal', () => {
+				monsterCreationInstance.instance().closeModal();
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(false);
+				monsterCreationInstance.instance().openModal('TestMessage');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			});
+
+			it('close modal', () => {
+				monsterCreationInstance.instance().openModal('TestMessage');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+				monsterCreationInstance.instance().closeModal();
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(false);
+			});
+
+			it('close modal by click', () => {
+				monsterCreationInstance.instance().openModal('TestMessage');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('#ModalMessage').text().length).toBeGreaterThan(0);
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+				let background = monsterCreationInstance.find('ModalBackground#modalBackground')
+				background.simulate('click');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(false);
+			});
 		});
 	})
 	// input.simulate('change', { target: { value: 'Hello' } })
