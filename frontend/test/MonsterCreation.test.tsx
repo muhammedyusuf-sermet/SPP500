@@ -140,8 +140,6 @@ describe('Monster Creation', () => {
 						open: false,
 						message: ""
 					},
-					SpeedLand: 25,
-					SpeedSwim: 15,
 					ExperiencePoints: 190,
 					monster: expectedMonster,
 					monsterErrors: expectedErrors
