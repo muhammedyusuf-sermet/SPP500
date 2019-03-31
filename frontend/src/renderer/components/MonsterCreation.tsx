@@ -12,7 +12,6 @@ import {Redirect} from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterErrorState } from '../../monster';
 import { CookieManager } from '../../cookie';
-import { Select } from 'bloomer/lib/elements/Form/Select';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
 import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
 import { MonsterDefences } from './platform/pages/view_catalog/monster/MonsterDefences';
@@ -20,44 +19,6 @@ import { MonsterStats } from './platform/pages/view_catalog/monster/MonsterStats
 import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/MonsterSkillBonuses';
 import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/MonsterSpeedBonuses';
 import { MonsterSenseBonuses } from './platform/pages/view_catalog/monster/MonsterSenseBonuses';
-
-export interface IMonsterDropdownProps {
-	name: string,
-	options: string[]
-	onChange: (selectOption: string) => void
-}
-
-export interface IMonsterDropdownState {
-	selected: string
-}
-
-export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMonsterDropdownState> {
-	constructor(props: IMonsterDropdownProps) {
-		super(props);
-		this.state = {
-			selected: props.options[0]
-		};
-	}
-
-	handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		this.setState({selected: event.target.value});
-		this.props.onChange(event.target.value);
-	}
-
-	render() {
-		return (
-			<Select id={this.props.name} onChange={this.handleChange} value={this.state.selected} className="is-fullwidth">
-				{this.props.options.map(option =>
-					<option
-						key={this.props.name+'.'+option}
-						id={this.props.name+'.'+option}
-						value={option}>
-						{option.replace(/([A-Z])/g, ' $1').trim()}
-					</option>)}
-			</Select>
-		);
-	}
-}
 
 export interface IMonsterCreationProps {
 	defaultMonster?: IMonsterState
@@ -233,60 +194,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			});
 	}
 
-	handleMonsterNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
-		const value = this.stringToNumber(event.target.value);
-		Joi.validate(
-			value,
-			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
-			this.validateOptions,
-			(errors: ValidationError) => {
-				this.setState({
-					monster: { ...monster, [event.currentTarget.name]: value },
-					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
-				});
-			});
-	}
-
-	handleMonsterLandSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			SpeedLand: this.stringToNumber(event.target.value)
-		})
-	}
-
-	handleMonsterSwimSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		this.setState({
-			SpeedSwim: this.stringToNumber(event.target.value)
-		})
-	}
-
-	handleMonsterSenseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
-		const value = this.stringToNumber(event.target.value);
-		Joi.validate(
-			{ [event.currentTarget.name]: value },
-			Joi.reach(this.payloadSchema, ['Senses']),
-			this.validateOptions,
-			(errors: ValidationError) => {
-				this.setState({
-					monster: {
-						...monster,
-						Senses: {
-							...monster.Senses,
-							[event.currentTarget.name]: value
-						}
-					},
-					monsterErrors: {
-						...monsterErrors,
-						Senses: {
-							...monsterErrors.Senses,
-							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
-						}
-					}
-				});
-			});
-		};
-
 	handleMonsterFloatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { monster, monsterErrors } = this.state
 		const value = this.stringToFloat(event.target.value);
@@ -352,8 +259,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		monsterSpeed = speedBonusesState.SpeedSwim ? monsterSpeed + " Swimming Speed: " + speedBonusesState.SpeedSwim + " ft." : monsterSpeed
 		if(monsterSpeed.length == 0)
 			monsterSpeed = undefined;
-		if(this.EnumConfiguration.current)
-			this.EnumConfiguration.current.state
 		const monsterPayload: IMonsterState = {
 			//...this.state.monster,
 			Name: this.state.monster.Name,
@@ -391,8 +296,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								if (Joi.isRef(valid)){
 									const reference = valid as Reference
 									message += reference(null, this.validateOptions) + ',';
-								} else {
-									message += valid + ','
 								}
 							}
 						}
@@ -440,7 +343,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 					}
 				})
 				.catch((error: string) => {
-					console.error(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}
