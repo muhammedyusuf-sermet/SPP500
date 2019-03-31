@@ -17,6 +17,7 @@ import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/
 import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
 import { MonsterDefences } from './platform/pages/view_catalog/monster/MonsterDefences';
 import { MonsterStats } from './platform/pages/view_catalog/monster/MonsterStats';
+import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/MonsterSkillBonuses';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -163,6 +164,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private Defences: React.RefObject<MonsterDefences>;
 	private AbilityScores: React.RefObject<MonsterStats>;
 	private SavingThrows: React.RefObject<MonsterStats>;
+	private SkillBonuses: React.RefObject<MonsterSkillBonuses>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -190,6 +192,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		this.Defences = React.createRef<MonsterDefences>();
 		this.AbilityScores = React.createRef<MonsterStats>();
 		this.SavingThrows = React.createRef<MonsterStats>();
+		this.SkillBonuses = React.createRef<MonsterSkillBonuses>();
 	}
 
 	openModal = (messageText: string) => {
@@ -250,33 +253,6 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			SpeedSwim: this.stringToNumber(event.target.value)
 		})
 	}
-
-	handleMonsterSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
-		const value = this.stringToNumber(event.target.value);
-		Joi.validate(
-			{ [event.currentTarget.name]: value },
-			Joi.reach(this.payloadSchema, ['Skills']),
-			this.validateOptions,
-			(errors: ValidationError) => {
-				this.setState({
-					monster: {
-						...monster,
-						Skills: {
-							...monster.Skills,
-							[event.currentTarget.name]: value
-						}
-					},
-					monsterErrors: {
-						...monsterErrors,
-						Skills: {
-							...monsterErrors.Skills,
-							[event.currentTarget.name]: errors ? errors.details[0].message : undefined
-						}
-					}
-				});
-			});
-		};
 
 	handleMonsterSenseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { monster, monsterErrors } = this.state
@@ -361,6 +337,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		const defencesState = this.Defences.current ? this.Defences.current.state : {};
 		const abilityScoreState = this.AbilityScores.current ? this.AbilityScores.current.state : {};
 		const savingThrowState = this.SavingThrows.current ? this.SavingThrows.current.state : {};
+		const skillBonusesState = this.SkillBonuses.current ? this.SkillBonuses.current.state : {};
 
 		// need to convert speed to single string
 		let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
@@ -380,6 +357,9 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			},
 			SavingThrows: {
 				...this.stateWithoutErrors(savingThrowState)
+			},
+			Skills: {
+				...this.stateWithoutErrors(skillBonusesState)
 			}
 		}
 
@@ -446,6 +426,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 					}
 				})
 				.catch((error: string) => {
+					console.error(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}
@@ -557,96 +538,14 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								}} />
 						</Tile>
 					</Tile>
-					<Tile className="box" isVertical>
-						<Subtitle>Skill Bonuses</Subtitle>
-						<Columns isCentered>
-						<Column className="box" isSize={4}>
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									{this.skillNames.slice(0,Math.round(this.skillNames.length*(1/3))).map(skillName =>
-										<Field isHorizontal key={skillName}>
-											<FieldLabel isNormal>
-												<Label>{skillName}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={skillName}
-															type='number'
-															placeholder={skillName}
-															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
-															name={skillName}
-															onChange={this.handleMonsterSkillChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-								} />
-						</Column>
-						<Column className='box' isSize={4}>
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									{this.skillNames.slice(Math.round(this.skillNames.length*(1/3)),Math.round(this.skillNames.length*(2/3))).map(skillName =>
-										<Field isHorizontal key={skillName}>
-											<FieldLabel isNormal>
-												<Label>{skillName}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={skillName}
-															type='number'
-															placeholder={skillName}
-															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
-															name={skillName}
-															onChange={this.handleMonsterSkillChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-								} />
-						</Column>
-						<Column className="box" isSize={4}>
-							<Tile isChild render={ (props: any) =>
-								<React.Fragment>
-									{this.skillNames.slice(Math.round(this.skillNames.length*(2/3))).map(skillName =>
-										<Field isHorizontal key={skillName}>
-											<FieldLabel isNormal>
-												<Label>{skillName}</Label>
-											</FieldLabel>
-											<FieldBody>
-												<Field>
-													<Control>
-														<Input
-															id={skillName}
-															type='number'
-															placeholder={skillName}
-															autoComplete={skillName}
-															value={this.state.monster.Skills[skillName] != undefined ? this.state.monster.Skills[skillName] : ''}
-															name={skillName}
-															onChange={this.handleMonsterSkillChange} />
-													</Control>
-													<Help isColor='danger'>{this.state.monsterErrors.Skills[skillName]}</Help>
-												</Field>
-											</FieldBody>
-										</Field>
-									)}
-								</React.Fragment>
-								} />
-						</Column>
-						<div/>
-						</Columns>
-					</Tile>
+					<MonsterSkillBonuses
+						disabled={false}
+						PayloadSchema={this.payloadSchema}
+						ValidationOptions={this.validateOptions}
+						ref={this.SkillBonuses}
+						initial={{
+							...this.state.monster.Skills
+						}} />
 					<Tile className="box" isVertical>
 						<Subtitle>Sense Bonuses</Subtitle>
 						<Columns isCentered>
