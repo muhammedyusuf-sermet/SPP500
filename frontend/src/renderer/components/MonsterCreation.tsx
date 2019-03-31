@@ -18,6 +18,7 @@ import { MonsterResistances } from './platform/pages/view_catalog/monster/Monste
 import { MonsterDefences } from './platform/pages/view_catalog/monster/MonsterDefences';
 import { MonsterStats } from './platform/pages/view_catalog/monster/MonsterStats';
 import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/MonsterSkillBonuses';
+import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/MonsterSpeedBonuses';
 
 export interface IMonsterDropdownProps {
 	name: string,
@@ -165,6 +166,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private AbilityScores: React.RefObject<MonsterStats>;
 	private SavingThrows: React.RefObject<MonsterStats>;
 	private SkillBonuses: React.RefObject<MonsterSkillBonuses>;
+	private SpeedBonuses: React.RefObject<MonsterSpeedBonuses>;
 	constructor(props: IMonsterCreationProps) {
 		super(props);
 		this.state = {
@@ -193,6 +195,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		this.AbilityScores = React.createRef<MonsterStats>();
 		this.SavingThrows = React.createRef<MonsterStats>();
 		this.SkillBonuses = React.createRef<MonsterSkillBonuses>();
+		this.SpeedBonuses = React.createRef<MonsterSpeedBonuses>();
 	}
 
 	openModal = (messageText: string) => {
@@ -338,10 +341,11 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		const abilityScoreState = this.AbilityScores.current ? this.AbilityScores.current.state : {};
 		const savingThrowState = this.SavingThrows.current ? this.SavingThrows.current.state : {};
 		const skillBonusesState = this.SkillBonuses.current ? this.SkillBonuses.current.state : {};
+		const speedBonusesState = this.SpeedBonuses.current ? this.SpeedBonuses.current.state : {};
 
 		// need to convert speed to single string
-		let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
-		monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
+		let monsterSpeed: string|undefined = speedBonusesState.SpeedLand ? speedBonusesState.SpeedLand + "ft." : ""
+		monsterSpeed = speedBonusesState.SpeedSwim ? monsterSpeed + " Swimming Speed: " + speedBonusesState.SpeedSwim + " ft." : monsterSpeed
 		if(monsterSpeed.length == 0)
 			monsterSpeed = undefined;
 		if(this.EnumConfiguration.current)
@@ -489,31 +493,15 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 							HitPoints: this.state.monster.HitPoints,
 							HitPointDistribution: this.state.monster.HitPointDistribution
 						}} />
-					<Tile className="box" isVertical>
-						<Subtitle>Movement Speed</Subtitle>
-						<Field isGrouped='centered' isHorizontal>
-							<Control isExpanded>
-								<Label>Land Speed</Label>
-								<Input
-									id='SpeedLand'
-									type='number'
-									placeholder='Land Speed'
-									autoComplete='SpeedLand'
-									value={this.state.SpeedLand != undefined ? this.state.SpeedLand : ''}
-									onChange={this.handleMonsterLandSpeedChange} />
-							</Control>
-							<Control isExpanded>
-								<Label>Swimming Speed</Label>
-								<Input
-									id='SpeedSwim'
-									type='number'
-									placeholder='Swimming Speed'
-									autoComplete='SpeedSwim'
-									value={this.state.SpeedSwim != undefined ? this.state.SpeedSwim : ''}
-									onChange={this.handleMonsterSwimSpeedChange} />
-							</Control>
-						</Field>
-					</Tile>
+					<MonsterSpeedBonuses
+						disabled={false}
+						// TODO: use validation for speeds
+						//PayloadSchema={this.payloadSchema}
+						//ValidationOptions={this.validateOptions}
+						ref={this.SpeedBonuses}
+						initial={{
+							// TODO: parse the speed string into SpeedLand and SpeedSwim
+						}} />
 					<Tile isSize={12} >
 						<Tile isSize={6} isParent >
 							<MonsterStats
