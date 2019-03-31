@@ -36,7 +36,7 @@ describe('Monster Creation', () => {
 			expect(monsterCreationInstance).toMatchSnapshot();
 		});*/
 
-		it('should be able to update state', () => {
+		it('should be able to send monster to create', async (done) => {
 			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
 			monsterCreationInstance.find('select#Type').simulate('change', { target: { value: "Celestial" } })
 			monsterCreationInstance.find('select#Size').simulate('change', { target: { value: "Gargantuan" } })
@@ -240,7 +240,9 @@ describe('Monster Creation', () => {
 				//actions: [],
 			})
 			.reply(201, { status: 201, message: 'success' });
-			//monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			expect(nock.isDone()).toEqual(true);
+			done();
 		});
 	})
 	// input.simulate('change', { target: { value: 'Hello' } })

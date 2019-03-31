@@ -1,5 +1,5 @@
 import * as React from 'react';
-import request from 'request';
+var request = require('request-promise-native');
 
 import { API_URL } from '../../config';
 // LEAVE THIS AS REQUIRE OR suffur from "TypeError: joi_1.default.string is not a function"
@@ -354,100 +354,102 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		return newState;
 	}
 
-	private validateForm = (event: React.FormEvent) => {
+	validateForm = async (event: React.FormEvent) => {
 		event.preventDefault();
-			const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
-			const resistancesState = this.Resistances.current ? this.Resistances.current.state : {};
-			const defencesState = this.Defences.current ? this.Defences.current.state : {};
-			const abilityScoreState = this.AbilityScores.current ? this.AbilityScores.current.state : {};
-			const savingThrowState = this.SavingThrows.current ? this.SavingThrows.current.state : {};
-			// need to convert speed to single string
-			let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
-			monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
-			if(monsterSpeed.length == 0)
-				monsterSpeed = undefined;
-			if(this.EnumConfiguration.current)
-				this.EnumConfiguration.current.state
-			const monsterPayload: IMonsterState = {
-				...this.state.monster,
-				...this.stateWithoutErrors(enumState),
-				Speed: monsterSpeed,
-				...this.stateWithoutErrors(resistancesState),
-				...this.stateWithoutErrors(defencesState),
-				AbilityScores: {
-					...this.stateWithoutErrors(abilityScoreState)
-				},
-				SavingThrows: {
-					...this.stateWithoutErrors(savingThrowState)
+		const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
+		const resistancesState = this.Resistances.current ? this.Resistances.current.state : {};
+		const defencesState = this.Defences.current ? this.Defences.current.state : {};
+		const abilityScoreState = this.AbilityScores.current ? this.AbilityScores.current.state : {};
+		const savingThrowState = this.SavingThrows.current ? this.SavingThrows.current.state : {};
+
+		// need to convert speed to single string
+		let monsterSpeed: string|undefined = this.state.SpeedLand ? this.state.SpeedLand + "ft." : ""
+		monsterSpeed = this.state.SpeedSwim ? monsterSpeed + " Swimming Speed: " + this.state.SpeedSwim + " ft." : monsterSpeed
+		if(monsterSpeed.length == 0)
+			monsterSpeed = undefined;
+		if(this.EnumConfiguration.current)
+			this.EnumConfiguration.current.state
+		const monsterPayload: IMonsterState = {
+			...this.state.monster,
+			...this.stateWithoutErrors(enumState),
+			Speed: monsterSpeed,
+			...this.stateWithoutErrors(resistancesState),
+			...this.stateWithoutErrors(defencesState),
+			AbilityScores: {
+				...this.stateWithoutErrors(abilityScoreState)
+			},
+			SavingThrows: {
+				...this.stateWithoutErrors(savingThrowState)
+			}
+		}
+
+		let validationErrors = Joi.validate(
+			monsterPayload,
+			this.payloadSchema,
+			this.validateOptions,
+			(errors: ValidationError) => {
+				if(errors){
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						let message: string = ''
+						if ((error.type == 'any.allowOnly') && error.context && this.validateOptions) {
+							for (let valid of error.context.valids){
+								if (Joi.isRef(valid)){
+									const reference = valid as Reference
+									message += reference(null, this.validateOptions) + ',';
+								} else {
+									message += valid + ','
+								}
+							}
+						}
+						message = error.message.split('[')[0] + message.substr(0,message.length-1);
+						messages.add(message);
+					})
+					return Array.from(messages.values());
+				}else{
+					return undefined;
 				}
 			}
+		);
 
-			let errors = Joi.validate(
-				monsterPayload,
-				this.payloadSchema,
-				this.validateOptions,
-				(errors: ValidationError, validationValue: any) => {
-					if(errors){
-						const messages: Set<string> = new Set<string>();
-						errors.details.forEach((error: ValidationErrorItem) => {
-							let message: string = ''
-							if ((error.type == 'any.allowOnly') && error.context && this.validateOptions) {
-								for (let valid of error.context.valids){
-									if (Joi.isRef(valid)){
-										const reference = valid as Reference
-										message += reference(null, this.validateOptions) + ',';
-									} else {
-										message += valid + ','
-									}
-								}
-							}
-							message = error.message.split('[')[0] + message.substr(0,message.length-1);
-							messages.add(message);
-						})
-						return Array.from(messages.values());
+		if (validationErrors) {
+			// These errors are from validation and may be irrelevent or out of date.
+			this.openModal(validationErrors.toString());
+		} else {
+			var options = { method: 'POST',
+				url: API_URL + '/monster/create',
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Content-Type': 'application/json' ,
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				body: monsterPayload,
+				json: true
+			};
+			await request(options)
+				.then((body: IMonsterCreationResponse) => {
+					if (body.status == 201) { // success
+						this.openModal("Monster successfully created.");
+						this.setState({
+							submitted: true
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal(body.messages.toString());
 					}else{
-						var options = { method: 'POST',
-							url: API_URL + '/monster/create',
-							headers:
-							{
-								'Cache-Control': 'no-cache',
-								'Content-Type': 'application/json' ,
-								'Authorization': CookieManager.UserToken('session_token')
-							},
-							body: validationValue,
-							json: true
-						};
-
-						request(options, (error:string, responce: any, body: IMonsterCreationResponse) => {
-							if (!error && body.status === 201) { // success
-								this.openModal("Monster successfully created.");
-								this.setState(
-									{
-										submitted: true
-									}
-								);
-							} else {
-								this.closeModal();
-								if (body && body.messages){
-									// TODO: change backend so it sends better error messages.
-									// TODO: parse the error messages so they show better.
-									// TODO: maybe the messages from the server shouldn't be
-									// a list of strings but a JSON object so things are
-									// grouped together. Easier to parse?
-									this.openModal(body.messages.toString());
-								}else{
-									this.openModal("There was an error submitting your request. Please try again later.")
-								}
-							}
-						})
-						return undefined;
+						this.openModal("There was an error submitting your request. Please try again later.")
 					}
-				}
-			);
-			if(errors)
-				// These errors are from validation and may be irrelevent or out of date.
-				this.openModal(errors.toString());
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request.")
+				})
 		}
+	}
 
 	render() {
 		return (
