@@ -83,39 +83,38 @@ export class MonsterFactory {
 		).default({})
 	});*/
 	private payloadSchema = Joi.object({
-		Name: Joi.string().required().max(50),
+		Name: Joi.string().required().max(50).label('Name'),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
 		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
 		Alignment: Joi.string().valid(Joi.ref('$AlignmentOptions')),
 		Environment: Joi.string().valid(Joi.ref('$EnvironmentOptions')),
-		ArmorClass: Joi.number().integer().greater(0),
-		HitPoints: Joi.number().integer().greater(0),
+		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
+		HitPoints: Joi.number().integer().greater(0).label('HitPoints'),
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
-		HitPointDistribution: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'distribution'),
+		HitPointDistribution: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces').label('HitPointDistribution'),
 		Speed: Joi.string().max(100),
-		Languages: Joi.string().max(100),
-		DamageVulnerabilities: Joi.string().allow('').max(200),
-		DamageResistances: Joi.string().allow('').max(200),
-		DamageImmunities: Joi.string().allow('').max(200),
-		ConditionImmunities: Joi.string().allow('').max(200),
-		ChallengeRating: Joi.number().greater(0),
-		ExperiencePoints: Joi.number().greater(0),
+		Languages: Joi.string().max(100).label('Languages'),
+		DamageVulnerabilities: Joi.string().allow('').max(200).label('DamageVulnerabilities'),
+		DamageResistances: Joi.string().allow('').max(200).label('DamageResistances'),
+		DamageImmunities: Joi.string().allow('').max(200).label('DamageImmunities'),
+		ConditionImmunities: Joi.string().allow('').max(200).label('ConditionImmunities'),
+		ChallengeRating: Joi.number().greater(0).label('ChallengeRating'),
 		AbilityScores: Joi.object({
-			Strength: Joi.number().integer().greater(0),
-    		Dexterity: Joi.number().integer().greater(0),
-    		Constitution: Joi.number().integer().greater(0),
-    		Intelligence: Joi.number().integer().greater(0),
-    		Wisdom: Joi.number().integer().greater(0),
-    		Charisma: Joi.number().integer().greater(0)
+			Strength: Joi.number().integer().greater(0).label('Strength'),
+			Dexterity: Joi.number().integer().greater(0).label('Dexterity'),
+			Constitution: Joi.number().integer().greater(0).label('Constitution'),
+			Intelligence: Joi.number().integer().greater(0).label('Intelligence'),
+			Wisdom: Joi.number().integer().greater(0).label('Wisdom'),
+			Charisma: Joi.number().integer().greater(0).label('Charisma')
 		}).default({}),
 		SavingThrows: Joi.object({
-			Strength: Joi.number().integer(),
-    		Dexterity: Joi.number().integer(),
-    		Constitution: Joi.number().integer(),
-    		Intelligence: Joi.number().integer(),
-    		Wisdom: Joi.number().integer(),
-    		Charisma: Joi.number().integer()
+			Strength: Joi.number().integer().label('Strength'),
+			Dexterity: Joi.number().integer().label('Dexterity'),
+			Constitution: Joi.number().integer().label('Constitution'),
+			Intelligence: Joi.number().integer().label('Intelligence'),
+			Wisdom: Joi.number().integer().label('Wisdom'),
+			Charisma: Joi.number().integer().label('Charisma')
 		}).default({}),
 		/* This is the correct way to do this,
 			waiting for responce on github.
