@@ -4,9 +4,9 @@ import { mount, ReactWrapper } from 'enzyme';
 import { MonsterCreation, IMonsterCreationState, IMonsterCreationProps } from "../src/renderer/components/MonsterCreation";
 
 import {API_URL} from '../src/config'
-import { MonsterType, Alignment, Size, MonsterRace, Environment } from "../src/monster";
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
+import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../src/cookie');
 
@@ -16,6 +16,29 @@ jest.mock('../src/cookie');
 describe('Monster Creation', () => {
 
 	let monsterCreationInstance: ReactWrapper<IMonsterCreationProps, IMonsterCreationState, MonsterCreation>;
+
+	describe('Redirect if submitted', () => {
+		beforeEach(() => {
+			nock.disableNetConnect();
+			CookieManagerMock.SetStringCookie("session_token", "testToken");
+			// bind the normal user token function to the mock.
+			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
+			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
+			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
+			monsterCreationInstance = mount<MonsterCreation, IMonsterCreationProps, IMonsterCreationState>(<BrowserRouter><MonsterCreation /></BrowserRouter>);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterCreationInstance).toBeDefined();
+		});
+
+		it('should redirect', () => {
+			expect(monsterCreationInstance.find('Redirect')).toHaveLength(0);
+			monsterCreationInstance.find("MonsterCreation").setState({ submitted: true });
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('Redirect')).toHaveLength(1);
+		});
+	});
 
 	describe('Happy Path', () => {
 
@@ -37,7 +60,132 @@ describe('Monster Creation', () => {
 			expect(monsterCreationInstance).toMatchSnapshot();
 		});*/
 
-		it('should be able to update state', () => {
+		it('should be able to send monster name only to create', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(201, { status: 201, messages: ['success'] });
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("Monster successfully created.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when unable to connect', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.replyWithError("Test Error");
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when API route not found', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(404);
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when server denies you', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(200, { status: 400, messages: ["Invalid monster object"]});
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("Invalid monster object");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show error message when server denies you without any messages', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			nock(API_URL)
+			.post('/monster/create', {
+				"Name": "Hello",
+				"AbilityScores": {},
+				"SavingThrows": {},
+				"Skills": {},
+				"Senses": {}
+			})
+			.reply(200, { status: 401 });
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("There was an error submitting your request. Please try again later.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+		});
+
+		it('should show payload error message when monster is not properly formed', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: -1 } })
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("\"Strength\" must be greater than 0");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			done();
+		});
+
+		it('should show payload error message when monster has an invalid skill', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('MonsterSkillBonuses').setState({ "InvalidSkillName": 100 })
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("\"InvalidSkillName\" is not allowed");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			done();
+		});
+
+		it('should show payload error message when monster has an invalid Size', async (done) => {
+			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
+			monsterCreationInstance.find('MonsterEnumConfiguration').setState({ Size: "InvalidSize" })
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("\"Size\" must be one of Tiny,Small,Medium,Large,Huge,Gargantuan");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			done();
+		});
+
+		it('should be able to send monster to create', async (done) => {
 			monsterCreationInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
 			monsterCreationInstance.find('select#Type').simulate('change', { target: { value: "Celestial" } })
 			monsterCreationInstance.find('select#Size').simulate('change', { target: { value: "Gargantuan" } })
@@ -53,18 +201,18 @@ describe('Monster Creation', () => {
 			monsterCreationInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5-5' } })
 			monsterCreationInstance.find('Input#SpeedLand').simulate('change', { target: { value: 25 } })
 			monsterCreationInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('Input#AbilityStrength').simulate('change', { target: { value: 17 } })
-			monsterCreationInstance.find('Input#AbilityDexterity').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('Input#AbilityConstitution').simulate('change', { target: { value: 13 } })
-			monsterCreationInstance.find('Input#AbilityIntelligence').simulate('change', { target: { value: 12 } })
-			monsterCreationInstance.find('Input#AbilityWisdom').simulate('change', { target: { value: 16 } })
-			monsterCreationInstance.find('Input#AbilityCharisma').simulate('change', { target: { value: 15 } })
-			monsterCreationInstance.find('Input#SavingStrength').simulate('change', { target: { value: -3 } })
-			monsterCreationInstance.find('Input#SavingDexterity').simulate('change', { target: { value: 0 } })
-			monsterCreationInstance.find('Input#SavingConstitution').simulate('change', { target: { value: -1 } })
-			monsterCreationInstance.find('Input#SavingIntelligence').simulate('change', { target: { value: -2 } })
-			monsterCreationInstance.find('Input#SavingWisdom').simulate('change', { target: { value: 8 } })
-			monsterCreationInstance.find('Input#SavingCharisma').simulate('change', { target: { value: 9 } })
+			monsterCreationInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: 17 } })
+			monsterCreationInstance.find('Input#AbilityScoresDexterity').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#AbilityScoresConstitution').simulate('change', { target: { value: 13 } })
+			monsterCreationInstance.find('Input#AbilityScoresIntelligence').simulate('change', { target: { value: 12 } })
+			monsterCreationInstance.find('Input#AbilityScoresWisdom').simulate('change', { target: { value: 16 } })
+			monsterCreationInstance.find('Input#AbilityScoresCharisma').simulate('change', { target: { value: 15 } })
+			monsterCreationInstance.find('Input#SavingThrowsStrength').simulate('change', { target: { value: -3 } })
+			monsterCreationInstance.find('Input#SavingThrowsDexterity').simulate('change', { target: { value: 0 } })
+			monsterCreationInstance.find('Input#SavingThrowsConstitution').simulate('change', { target: { value: -1 } })
+			monsterCreationInstance.find('Input#SavingThrowsIntelligence').simulate('change', { target: { value: -2 } })
+			monsterCreationInstance.find('Input#SavingThrowsWisdom').simulate('change', { target: { value: 8 } })
+			monsterCreationInstance.find('Input#SavingThrowsCharisma').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Athletics').simulate('change', { target: { value: 9 } })
 			monsterCreationInstance.find('Input#Acrobatics').simulate('change', { target: { value: 10 } })
 			monsterCreationInstance.find('Input[id="Sleight of Hand"]').simulate('change', { target: { value: 9 } })
@@ -97,64 +245,10 @@ describe('Monster Creation', () => {
 			//console.log(monsterCreationInstance.state())
 			const expectedMonster = {
 				Name: "Hello",
-				Type: MonsterType.Celestial,
-				Alignment: Alignment.AnyGoodAlignment,
-				Size: Size.Gargantuan,
-				Race: MonsterRace.Devil,
-				Environment: Environment.Underdark,
-				DamageVulnerabilities: "Everything",
-				DamageResistances: "None at all",
-				DamageImmunities: "Nada",
-				ConditionImmunities: "Nothing",
-				ArmorClass: 15,
-				HitPoints: 40,
-				HitPointDistribution: "9d5-5",
-				AbilityScores: {
-					Strength: 17,
-					Dexterity: 15,
-					Constitution: 13,
-					Intelligence: 12,
-					Wisdom: 16,
-					Charisma: 15
-				},
-				SavingThrows: {
-					Strength: -3,
-					Dexterity: 0,
-					Constitution: -1,
-					Intelligence: -2,
-					Wisdom: 8,
-					Charisma: 9
-				},
-				Skills: {
-					Athletics: 9,
-					Acrobatics: 10,
-					"Sleight of Hand": 9,
-					Stealth: 8,
-					Arcana: 7,
-					History: 7,
-					Investigation: 6,
-					Nature: 7,
-					Religion: 8,
-					"Animal Handling": 9,
-					Insight: 10,
-					Medicine: 12,
-					Perception: 15,
-					Survival: 11,
-					Deception: 10,
-					Intimidation: 9,
-					Performance: 7,
-					Persuasion: 4,
-				},
-				Senses: {
-					Blind: 30,
-					Blindsight: 30,
-					Darkvision: 10,
-					Tremorsense: 15,
-					Truesight: 60,
-					"Passive Perception": 13,
-					"Passive Investigation": 14,
-					"Passive Insight": 16,
-				},
+				AbilityScores: {},
+				SavingThrows: {},
+				Skills: {},
+				Senses: {},
 				Languages: "Common and Draconic",
 				ChallengeRating: 2.5,
 				//abilities: [],
@@ -162,64 +256,10 @@ describe('Monster Creation', () => {
 			};
 			const expectedErrors = {
 				Name: undefined,
-				Type: undefined,
-				Alignment: undefined,
-				Size: undefined,
-				Race: undefined,
-				Environment: undefined,
-				DamageVulnerabilities: undefined,
-				DamageResistances: undefined,
-				DamageImmunities: undefined,
-				ConditionImmunities: undefined,
-				ArmorClass: undefined,
-				HitPoints: undefined,
-				HitPointDistribution: undefined,
-				AbilityScores: {
-					Strength: undefined,
-					Dexterity: undefined,
-					Constitution: undefined,
-					Intelligence: undefined,
-					Wisdom: undefined,
-					Charisma: undefined
-				},
-				SavingThrows: {
-					Strength: undefined,
-					Dexterity: undefined,
-					Constitution: undefined,
-					Intelligence: undefined,
-					Wisdom: undefined,
-					Charisma: undefined
-				},
-				Skills: {
-					Athletics: undefined,
-					Acrobatics: undefined,
-					"Sleight of Hand": undefined,
-					Stealth: undefined,
-					Arcana: undefined,
-					History: undefined,
-					Investigation: undefined,
-					Nature: undefined,
-					Religion: undefined,
-					"Animal Handling": undefined,
-					Insight: undefined,
-					Medicine: undefined,
-					Perception: undefined,
-					Survival: undefined,
-					Deception: undefined,
-					Intimidation: undefined,
-					Performance: undefined,
-					Persuasion: undefined,
-				},
-				Senses: {
-					Blind: undefined,
-					Blindsight: undefined,
-					Darkvision: undefined,
-					Tremorsense: undefined,
-					Truesight: undefined,
-					"Passive Perception": undefined,
-					"Passive Investigation": undefined,
-					"Passive Insight": undefined,
-				},
+				AbilityScores: {},
+				SavingThrows: {},
+				Skills: {},
+				Senses: {},
 				Languages: undefined,
 				ChallengeRating: undefined,
 				//abilities: [],
@@ -231,8 +271,6 @@ describe('Monster Creation', () => {
 						open: false,
 						message: ""
 					},
-					SpeedLand: 25,
-					SpeedSwim: 15,
 					ExperiencePoints: 190,
 					monster: expectedMonster,
 					monsterErrors: expectedErrors
@@ -272,14 +310,14 @@ describe('Monster Creation', () => {
 				"Skills": {
 					"Athletics": 9,
 					"Acrobatics": 10,
-					"SleightOfHand": 9,
+					"Sleight of Hand": 9,
 					"Stealth": 8,
 					"Arcana": 7,
 					"History": 7,
 					"Investigation": 6,
 					"Nature": 7,
 					"Religion": 8,
-					"AnimalHandling": 9,
+					"Animal Handling": 9,
 					"Insight": 10,
 					"Medicine": 12,
 					"Perception": 15,
@@ -305,33 +343,46 @@ describe('Monster Creation', () => {
 				//actions: [],
 			})
 			.reply(201, { status: 201, message: 'success' });
-			//monsterCreationInstance.find('form').simulate('submit', { preventDefault() {} });
+			await monsterCreationInstance.instance().validateForm({ preventDefault() {} } as React.FormEvent);
+			monsterCreationInstance.update();
+			expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual("Monster successfully created.");
+			expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
 		});
 
-		it('should change only types when type is changed', () => {
-			monsterCreationInstance.find('select#Type').simulate('change', { target: { value: "Undead" } })
-			expect(monsterCreationInstance.state().monster.Type).toEqual(MonsterType.Undead);
-		})
+		describe('should show and hide modal', () => {
+			it('show modal', () => {
+				monsterCreationInstance.instance().closeModal();
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(false);
+				monsterCreationInstance.instance().openModal('TestMessage');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+			});
 
-		it('should change only alignment when alignment is changed', () => {
-			monsterCreationInstance.find('select#Alignment').simulate('change', { target: { value: "AnyNonEvilAlignment" } })
-			expect(monsterCreationInstance.state().monster.Alignment).toEqual(Alignment.AnyNonEvilAlignment);
-		})
+			it('close modal', () => {
+				monsterCreationInstance.instance().openModal('TestMessage');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+				monsterCreationInstance.instance().closeModal();
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(false);
+			});
 
-		it('should change only size when size is changed', () => {
-			monsterCreationInstance.find('select#Size').simulate('change', { target: { value: "Large" } })
-			expect(monsterCreationInstance.state().monster.Size).toEqual(Size.Large);
-		})
-
-		it('should change only races when race is changed', () => {
-			monsterCreationInstance.find('select#Race').simulate('change', { target: { value: "Goblinoid" } })
-			expect(monsterCreationInstance.state().monster.Race).toEqual(MonsterRace.Goblinoid);
-		})
-
-		it('should change only environments when environment is changed', () => {
-			monsterCreationInstance.find('select#Environment').simulate('change', { target: { value: "Coastal" } })
-			expect(monsterCreationInstance.state().monster.Environment).toEqual(Environment.Coastal);
-		})
+			it('close modal by click', () => {
+				monsterCreationInstance.instance().openModal('TestMessage');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('#ModalMessage').text().length).toBeGreaterThan(0);
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(true);
+				let background = monsterCreationInstance.find('ModalBackground#modalBackground')
+				background.simulate('click');
+				monsterCreationInstance.update();
+				expect(monsterCreationInstance.find('Modal#monsterCreationModal').prop('isActive')).toEqual(false);
+			});
+		});
 	})
 	// input.simulate('change', { target: { value: 'Hello' } })
 
