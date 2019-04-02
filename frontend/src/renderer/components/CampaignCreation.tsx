@@ -1,17 +1,16 @@
 import * as React from 'react';
+var request = require('request-promise-native');
+
+// LEAVE THIS AS REQUIRE OR suffur from "TypeError: joi_1.default.string is not a function"
+const Joi = require('joi');
+import { ValidationError, ValidationOptions, ValidationErrorItem } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Input, Label, Button, Checkbox, Control, Field, TextArea, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
+import { Button, Control, Field, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
-
-// Todo: Actually get the encounters from the db once the backend is ready
-// Dummy array of encounters
-const encounters = [{"Id": "1", "Name": "Encounter 1"},
-					{"Id": "2", "Name": "Encounter 2"},
-					{"Id": "3", "Name": "Encounter 3"}
-				];
+import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
 
 interface ICampaignResponse {
 	status: number,
@@ -19,13 +18,7 @@ interface ICampaignResponse {
 }
 
 export interface ICampaignCreationState {
-	redirectToHome: boolean,
-	checkedEncounters: Map<string, boolean>,
-	campaign: {
-		name: string,
-		summary: string,
-		notes: string,
-	},
+	submitted: boolean,
 	modal: {
 		open: boolean,
 		message: string
@@ -33,51 +26,31 @@ export interface ICampaignCreationState {
 }
 
 export class CampaignCreation extends React.Component<any, ICampaignCreationState> {
+	private payloadSchema = Joi.object({
+		Name: Joi.string().required().max(50),
+		Summary: Joi.string().required().max(1000),
+		Notes: Joi.string().max(2000),
+		Encounters: Joi.array().items(Joi.object({
+			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
+		})).default([])
+	});
+	private validateOptions: ValidationOptions = {
+		abortEarly: false,
+		convert: true,
+		allowUnknown: false,
+		context: {}
+	};
+	private CampaignDetails: React.RefObject<CampaignDetails>;
 	constructor(props: any) {
 		super(props);
 		this.state = {
-			redirectToHome: false,
-			checkedEncounters: new Map(),
-			campaign: {
-				name: "x",
-				summary: "",
-				notes: "",
-			},
+			submitted: false,
 			modal: {
 				open: false,
 				message: ""
 			}
 		}
-	}
-
-	handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const campaign = this.state.campaign
-		this.setState({
-			campaign: { ...campaign, name: event.target.value }
-		})
-	}
-
-	handleSummaryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const campaign = this.state.campaign
-		this.setState({
-			campaign: { ...campaign, summary: event.target.value }
-		})
-	}
-
-	handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const campaign = this.state.campaign
-		this.setState({
-			campaign: { ...campaign, notes: event.target.value }
-		})
-	}
-
-	handleEncounterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		event.persist();
-		//const id = event.target.attributes['data-id'].value;
-		const id = event.target.name;
-		const isChecked = event.target.checked;
-
-		this.setState(prevState => ({ checkedEncounters: prevState.checkedEncounters.set(id, isChecked)}));
+		this.CampaignDetails = React.createRef<CampaignDetails>();
 	}
 
 	openModal = (messageText: string) => {
@@ -94,15 +67,45 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 		event.preventDefault();
 		this.saveCampaign();
 	}
-
-	saveCampaign = (callback?: (message: string) => void) => {
+	private stateWithoutErrors(state: any): any
+	{
+		let newState: { [key: string]: number | string } = {};
+		for (let field in state) {
+			if (field.endsWith('Error'))
+				continue
+			if (state[field] != undefined)
+				newState[field] = state[field];
+		}
+		return newState;
+	}
+	saveCampaign = async (callback?: (message: string) => void) => {
 		// Gather the selected encounters for this campaign
-		const checkedEncounterIds = [ ...this.state.checkedEncounters.keys() ];
-		const selectedEncounters = encounters.filter(function(encounter){
-			return checkedEncounterIds.indexOf(encounter['Id']) > -1;
-		});
+		//const checkedEncounterIds = [ ...this.state.checkedEncounters.keys() ];
+		//const selectedEncounters = encounters.filter(function(encounter){
+		//	return checkedEncounterIds.indexOf(encounter['Id']) > -1;
+		//});
+		const campaignDetailsState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
+		const campaignPayload = {
+			... this.stateWithoutErrors(campaignDetailsState)
+		};
+		let validationErrors = Joi.validate(
+			campaignPayload,
+			this.payloadSchema,
+			this.validateOptions,
+			(errors: ValidationError) => {
+				if(errors){
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						messages.add(error.message);
+					});
+					return Array.from(messages.values());
+				}else{
+					return undefined;
+				}
+			}
+		);
 
-		const request = require("request");
+
 		const options = { method: 'POST',
 			url: API_URL + '/campaign/create',
 			timeout: 2000,
@@ -112,89 +115,58 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 				'Content-Type': 'application/json',
 				'Authorization': CookieManager.UserToken('session_token')
 			},
-			body:
-			{
-				Name: this.state.campaign.name,
-				Summay: this.state.campaign.summary,
-				Notes: this.state.campaign.notes,
-				Encounters: selectedEncounters
-			},
+			body: campaignPayload,
 			json: true
 		};
-		request(options, (error: string, response: string, body: ICampaignResponse) => {
-			if (error) {
-				this.openModal("There has been a server error when saving the campaign. Please try again later.");
-			} else {
-				let { status, messages } = body
-				if (status == 201){
-					this.openModal("Hooray, the campaign is successfully saved!");
-					this.setState({ redirectToHome: true});
-				}
-				else{
-					let message = "There has been an error saving the campaign. Please check your input and try again."
-					if (messages) {
-						message = messages.join(' ');
+		if (validationErrors) {
+			// These errors are from validation and may be irrelevent or out of date.
+			this.openModal(validationErrors.toString());
+		} else {
+			await request(options)
+				.then((body: ICampaignResponse) => {
+					if (body.status == 201) { // success
+						this.openModal("Campaign successfully created.");
+						this.setState({
+							submitted: true
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal(body.messages.toString());
+					}else{
+						this.openModal("There was an error submitting your request. Please try again later.")
 					}
-					this.openModal(message);
-				}
-			}
-		});
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request.")
+				})
+		}
 	}
 
 	cancel = (event: React.FormEvent) => {
 		event.preventDefault();
-		this.setState({ redirectToHome: true});
+		this.setState({ submitted: true});
 	}
 
 	render() {
 		return (
-			(this.state.redirectToHome && !this.state.modal.open) ? <Redirect to="/"/> :
+			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
 			<div>
 				<form id="createCampaignForm" onSubmit={this.createCampaign}>
-					<Field>
-						<Label>Campaign Name</Label>
-						<Control>
-							<Input
-									id="campaign_name"
-									type="text"
-									placeholder='Please enter the name of the campaign.'
-									onChange={this.handleNameChange} />
-						</Control>
-					</Field>
-
-					<Field>
-					    <Label>Summary</Label>
-					    <Control>
-					        <TextArea
-					        			id="campaign_summary"
-					        			placeholder={'Please write the campaign summary here.'}
-					        			onChange={this.handleSummaryChange} />
-					    </Control>
-					</Field>
-
-					<Field>
-					    <Label>Notes</Label>
-					    <Control>
-					        <TextArea
-					        			id="campaign_notes"
-					        			placeholder={'Please write the campaign notes here.'}
-					        			onChange={this.handleNotesChange} />
-					    </Control>
-					</Field>
-
-					<Field>
-						<Control>
-							{encounters.map(encounter => (
-								<Checkbox 	key={encounter.Id}
-											name={encounter.Id}
-											checked={this.state.checkedEncounters.get(encounter.Id)}
-											onChange={this.handleEncounterCheckboxChange}>
-									{encounter.Name}
-								</Checkbox>
-							))}
-						</Control>
-					</Field>
-
+					<CampaignDetails
+						disabled={false}
+						PayloadSchema={this.payloadSchema}
+						ValidationOptions={this.validateOptions}
+						ref={this.CampaignDetails}
+						initial= {{
+							//Name: undefined,
+							//Summary: undefined,
+							//Notes: undefined,
+							//Encounters: undefined
+							}}/>
 					<Field isGrouped>
 					    <Control>
 					        <Button isColor='primary' type="submit">Submit</Button>
