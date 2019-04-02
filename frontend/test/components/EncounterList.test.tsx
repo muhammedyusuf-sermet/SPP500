@@ -3,6 +3,8 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import {EncounterList, IEncounterListState} from '../../src/renderer/components/platform/pages/view_game_components/EncounterList';
 import * as EncounterInterface from '../../src/encounter';
 
+jest.mock('../../src/cookie');
+
 describe('Test the EncounterList View Details', () => {
 	let encounterListInstance: ShallowWrapper<any, IEncounterListState, EncounterList>;
 
