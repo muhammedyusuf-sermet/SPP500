@@ -12,7 +12,7 @@ import * as MonsterInterface from '../../../../../monster';
 
 import { CookieManager } from '../../../../../cookie';
 import { API_URL } from '../../../../../config';
-import '../../../../css/platform/pages/view-catalog/view_monster.css';
+import '../../../../css/platform/pages/catalogue-pagination.css';
 
 
 interface IMonsterGetResponse {
@@ -119,9 +119,11 @@ export class Monster extends React.Component<any, IMonsterState> {
 		if(!this.state.viewMonster && !this.state.editMonster){
 			return (
 				<div id="view-monsters-container" className="layout card-grid">
-					<h3>Page No: {this.state.page+1}</h3>
-					<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
-					<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
+					<div id="paginated-catalogue-navigation">
+						<h3>Page No: {this.state.page+1}</h3>
+						<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
+						<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
+					</div>
 					<Grid container spacing={40}>
 						{this.state.monstersInCurrentPage.map(monster => (
 							<Grid item key={monster.Id} sm={6} md={4} lg={3}>

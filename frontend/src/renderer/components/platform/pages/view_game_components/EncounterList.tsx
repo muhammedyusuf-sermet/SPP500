@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as request from 'request';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,13 +10,26 @@ import Typography from '@material-ui/core/Typography';
 import {EncounterDetails} from './EncounterDetails';
 import * as EncounterInterface from '../../../../../encounter';
 
-// Dummy array of encounters
-import EncounterInstances from '../../../../../encounter_instances';
+import { CookieManager } from '../../../../../cookie';
+import { API_URL } from '../../../../../config';
+import '../../../../css/platform/pages/catalogue-pagination.css';
+
+interface IEncounterGetResponse {
+	status: number,
+	messages: string[],
+	content: EncounterInterface.IEncounterState[],
+	total: number,
+}
 
 export interface IEncounterListState {
 	viewEncounter: boolean,
 	editEncounter: boolean,
 	selectedEncounter: EncounterInterface.IEncounterState,
+
+	page: number,
+	pageSize: number,
+	totalEncounters: number,
+	encountersInCurrentPage: EncounterInterface.IEncounterState[],
 }
 
 export class EncounterList extends React.Component<any, IEncounterListState> {
@@ -25,14 +39,22 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 			viewEncounter: false,
 			editEncounter: false,
 			selectedEncounter: {} as EncounterInterface.IEncounterState,
+
+			page: 0,
+			pageSize: 12,
+			totalEncounters: 0,
+			encountersInCurrentPage: [] as EncounterInterface.IEncounterState[],
 		}
 		this.resetState = this.resetState.bind(this);
+		this.getPaginatedEncounters(this.state.page);
 	}
 
 	resetState() {
 		this.setState({ selectedEncounter: {} as EncounterInterface.IEncounterState});
 		this.setState({ viewEncounter: false});
 		this.setState({ editEncounter: false});
+		this.setState({ page: 0});
+		this.getPaginatedEncounters(0);
 	}
 
 	view = (encounter: EncounterInterface.IEncounterState) => {
@@ -45,12 +67,64 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 		this.setState({ editEncounter: true});
 	}
 
+	previousPage() {
+		if(this.state.page > 0){
+			let newPage = this.state.page-1;
+			this.setState({ page: newPage});
+			this.getPaginatedEncounters(newPage);
+		}
+	}
+
+	nextPage() {
+		// Starts from 0
+		let totalPages = Math.ceil(this.state.totalEncounters / this.state.pageSize)-1;
+		if(this.state.page < totalPages){
+			let newPage = this.state.page+1;
+			this.setState({ page: newPage});
+			this.getPaginatedEncounters(newPage);
+		}
+	}
+
+	getPaginatedEncounters(page: number) {
+		var options = { method: 'GET',
+			url: API_URL + '/encounter/get/' + page + '/' + this.state.pageSize,
+			headers:
+			{
+				'Cache-Control': 'no-cache',
+				'Content-Type': 'application/json' ,
+				'Authorization': CookieManager.UserToken('session_token')
+			},
+			json: true
+		};
+
+		request(options, (error:string, responce: any, body: IEncounterGetResponse) => {
+			if (!error && body.status === 201) { // success
+				this.setState({
+						encountersInCurrentPage: body.content,
+						totalEncounters: body.total,
+				});
+			} else {
+				// There was an error retrieving the encounters. Just return empty array.
+				// No need to print a modal.
+				this.setState({
+						encountersInCurrentPage: [] as EncounterInterface.IEncounterState[],
+						totalEncounters: 0,
+				});
+			}
+		})
+	}
+
 	render() {
 		if(!this.state.viewEncounter && !this.state.editEncounter){
 			return (
-				<div className= "layout card-grid">
+				<div id="view-encounters-container" className= "layout card-grid">
+					<div id="paginated-catalogue-navigation">
+						<h3>Page No: {this.state.page+1}</h3>
+						<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
+						<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
+					</div>
 					<Grid container spacing={40}>
-						{EncounterInstances['EncounterInstances'].map(encounter => (
+						{this.state.encountersInCurrentPage.map(encounter => (
 							<Grid item key={encounter.Id} sm={6} md={4} lg={3}>
 								<Card className="card">
 								  <CardMedia
