@@ -1,7 +1,7 @@
 import * as React from "react"
 import { shallow, ShallowWrapper } from 'enzyme';
 import { EncounterCreation, IEncounterCreationState } from "../src/renderer/components/EncounterCreation";
-//import { Checkbox } from 'bloomer';
+import { Checkbox } from 'bloomer';
 
 import * as nock from 'nock';
 import {API_URL} from '../src/config'
@@ -54,11 +54,10 @@ describe('Encounter Creation', () => {
 				nock.disableNetConnect();
 			nock(API_URL)
 				.get('/monster/get/0/12')
-				.delayBody(2000)
 				.reply(201,
-					{ "status": 201,
-					"messages": [],
-					"content": [ {"Id": "1", "Name": "Monster 1"},
+					{ status: 201,
+					messages: [],
+					content: [ {"Id": "1", "Name": "Monster 1"},
 						{"Id": "2", "Name": "Monster 2"},
 						{"Id": "3", "Name": "Monster 3"},
 						{"Id": "4", "Name": "Monster 4"},
@@ -74,7 +73,7 @@ describe('Encounter Creation', () => {
 						{"Id": "14", "Name": "Monster 14"},
 						{"Id": "15", "Name": "Monster 15"},
 					],
-						"total": "15", 
+						total: 12, 
 					},
 				).log(console.log);
 			encounterCreationInstance = shallow (<EncounterCreation/>);
@@ -85,7 +84,7 @@ describe('Encounter Creation', () => {
 				//const response = await encounterCreationInstance.state(0, 12);
 
 				//expect(getApiCall(0, 12)).toEqual([1]);
-				/*
+				
 				var checkboxMonster = encounterCreationInstance.find(Checkbox);
 
 				console.log("hello!");
@@ -96,7 +95,7 @@ describe('Encounter Creation', () => {
 				checkboxMonster.at(0).simulate('change',{ target: { checked: true }, persist: () => {} });
 
 				expect(encounterCreationInstance.state('checkedMonsters')).not.toEqual(new Map()); 
-				*/
+				
 			});
 		})
 

@@ -19,28 +19,6 @@ interface IEncounterMonsterInformation {
 	"Name": string,
 }
 
-export function getApiCall(page: number, pageSize: number) {
-	var options = { method: 'GET',
-		url: API_URL + '/monster/get/' + page + '/' + pageSize,
-		headers:
-		{
-			'Cache-Control': 'no-cache',
-			'Content-Type': 'application/json' ,
-			'Authorization': CookieManager.UserToken('session_token')
-		},
-		json: true
-	};
-
-	request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
-		console.log(body);
-		if (!error && body.status === 201) { // success
-			return body.content;
-		} else {
-			return [];
-		}
-	})
-}
-
 interface IEncounterResponse {
 	status: number,
 	messages: string[]
@@ -124,7 +102,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 			json: true
 		};
 
-		console.log(options.url);
+		//console.log(options.url);
 
 		request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
 			console.log("Body: " + body);
@@ -165,7 +143,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		const isChecked = event.target.checked;
 
 		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(id, isChecked)}));
-		console.log(this.state.checkedMonsters);
+		//console.log(this.state.checkedMonsters);
 	}
 
 	openModal = (messageText: string) => {
@@ -185,7 +163,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	saveEncounter = (callback?: (message: string) => void) => {
 		// Gather the selected monsters for this encounter
-		console.log(this.state.checkedMonsters);
+		//console.log(this.state.checkedMonsters);
 		const checkedMonsterIds = [ ...this.state.checkedMonsters.keys() ];
 		const keptMonsterIds = [];
 		for (var i = 0; i < checkedMonsterIds.length; i++) {
@@ -194,7 +172,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 			}
 		}
 
-		console.log(keptMonsterIds);
+		//console.log(keptMonsterIds);
 
 		const request = require("request");
 		const options = { method: 'POST',
