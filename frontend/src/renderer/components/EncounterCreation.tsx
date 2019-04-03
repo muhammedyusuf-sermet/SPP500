@@ -1,5 +1,4 @@
 import * as React from 'react';
-//import * as request from 'request';
 var request = require('request-promise-native');
 import 'bulma/css/bulma.css';
 import { Input, Label, Button, Checkbox, Control, Field, TextArea, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
@@ -7,14 +6,6 @@ import { Redirect } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
 import {Pagination} from "./helpers/Pagination"
-
-// Todo: Actually get the monsters from the db once the backend is ready
-// Dummy array of monsters
-/*const monsters = [	{"Id": "1", "Name": "Monster 1"},
-					{"Id": "2", "Name": "Monster 2"},
-					{"Id": "3", "Name": "Monster 3"}
-				];
-				*/
 
 interface IEncounterMonsterInformation {
 	"Id": string,
@@ -36,47 +27,18 @@ interface IMonsterGetResponse {
 export async function getMonsters(page: number, pageSize: number) {
 
 	var options = { method: 'GET',
-        url: API_URL + '/monster/get/' + page + '/' + pageSize,
-        headers:
-        {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json' ,
-            'Authorization': CookieManager.UserToken('session_token')
-        },
-        json: true
+		url: API_URL + '/monster/get/' + page + '/' + pageSize,
+		headers:
+		{
+			'Cache-Control': 'no-cache',
+			'Content-Type': 'application/json' ,
+			'Authorization': CookieManager.UserToken('session_token')
+		},
+		json: true
 	};
 	let result: IMonsterGetResponse = await request(options);
 	return result;
 }
-/*
-export function getApiCall (page: number, pageSize: number) {
-	console.log("It is: " + getMonsters(page, pageSize));
-
-    var options = { method: 'GET',
-        url: API_URL + '/monster/get/' + page + '/' + pageSize,
-        headers:
-        {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json' ,
-            'Authorization': CookieManager.UserToken('session_token')
-        },
-        json: true
-    };
-
-	var requestResponse;
-    request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
-        //console.log(body);
-        if (!error && body.status === 201) { // success
-            requestResponse = body;
-        } 
-	})
-	
-	if (requestResponse) {
-		console.log(requestResponse);
-	}
-	return {status: 500, messages: ["none found"], content: [], total: 0} as IMonsterGetResponse;
-}
-*/
 
 export interface IEncounterCreationState {
 	redirectToHome: boolean,
@@ -95,13 +57,6 @@ export interface IEncounterCreationState {
 		message: string
 	}
 }
-
-
-/*
-const exportFunctions = {
-	getApiCall,
-  };
-  */
 
 export class EncounterCreation extends React.Component<any, IEncounterCreationState> {
 	constructor(props: any) {
@@ -131,8 +86,6 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 	}
 
 	getPaginatedMonsters = async (page: number) => {
-
-		//var body = exportFunctions.getApiCall(page, this.state.pageSize);
 
 		let body: IMonsterGetResponse = await getMonsters(page, this.state.pageSize);
 
@@ -167,10 +120,8 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	handleMonsterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.persist();
-		//const id = event.target.attributes['data-id'].value;
 
 		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(event.target.name, event.target.checked)}));
-		//console.log(this.state.checkedMonsters);
 	}
 
 	openModal = (messageText: string) => {
@@ -190,16 +141,12 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	saveEncounter = (callback?: (message: string) => void) => {
 		// Gather the selected monsters for this encounter
-		//console.log(this.state.checkedMonsters);
+
 		const checkedMonsterIds = [ ...this.state.checkedMonsters.keys() ];
 		const keptMonsterIds = [];
-		for (var i = 0; i < checkedMonsterIds.length; i++) {
-			if (this.state.checkedMonsters.get(checkedMonsterIds[i].toString())) {
+		for (var i = 0; i < checkedMonsterIds.length; i++)
+			if (this.state.checkedMonsters.get(checkedMonsterIds[i].toString()))
 				keptMonsterIds.push({"Id": checkedMonsterIds[i]});
-			}
-		}
-
-		//console.log(keptMonsterIds);
 
 		const request = require("request");
 		const options = { method: 'POST',
@@ -230,9 +177,8 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 				}
 				else{
 					let message = "There has been an error saving the encounter. Please check your input and try again."
-					if (messages) {
+					if (messages)
 						message = messages.join(' ');
-					}
 					this.openModal(message);
 				}
 			}
@@ -269,13 +215,13 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 					</Field>
 
 					<Field>
-					    <Label>Description</Label>
-					    <Control>
-					        <TextArea
-					        			id="encounter_description"
-					        			placeholder={'Please write the encounter description here.'}
-					        			onChange={this.handleDescriptionChange} />
-					    </Control>
+						<Label>Description</Label>
+						<Control>
+							<TextArea
+								id="encounter_description"
+								placeholder={'Please write the encounter description here.'}
+								onChange={this.handleDescriptionChange} />
+						</Control>
 					</Field>
 
 					<Field>
@@ -290,17 +236,16 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 							))}
 						</Control>
 					</Field>
-					
+
 					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
-					
 
 					<Field isGrouped>
-					    <Control>
-					        <Button isColor='primary' type="submit">Submit</Button>
-					    </Control>
-					    <Control>
-					        <Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
-					    </Control>
+						<Control>
+							<Button isColor='primary' type="submit">Submit</Button>
+						</Control>
+						<Control>
+							<Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
+						</Control>
 					</Field>
 				</form>
 				<Modal id='encounterCreationModal' isActive={this.state.modal.open}>
