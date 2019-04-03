@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Input, Control, Label, Button, Tile, Subtitle } from 'bloomer';
 import * as EncounterInterface from '../../../../../encounter';
+import * as MonsterInterface from '../../../../../monster';
 
 import 'bulma/css/bulma.css';
 
@@ -14,6 +15,7 @@ export class EncounterDetails extends React.Component<any, IEncounterDetailsStat
 		this.state = {
 			encounter: this.props.encounter,
 		}
+		this.preprocessMissingEncounterData();
 	}
 
 	isEmptyObject(obj: EncounterInterface.IEncounterState) {
@@ -22,6 +24,15 @@ export class EncounterDetails extends React.Component<any, IEncounterDetailsStat
 				return false;
 		}
 		return true;
+	}
+
+	// For now, we are not getting the monsters of an encounter from the backend.
+	// Once the backend is fixed, we can get rid of this function.
+	preprocessMissingEncounterData() {
+		let encounter = this.state.encounter;
+		if(encounter.Monsters == null){
+			encounter.Monsters = [] as MonsterInterface.IMonsterState[];
+		}
 	}
 
 	render() {

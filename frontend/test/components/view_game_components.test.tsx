@@ -2,6 +2,8 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {ViewGameComponents} from '../../src/renderer/components/platform/pages/ViewGameComponents';
 
+jest.mock('../../src/cookie');
+
 describe('Test the View Game Components Page', () => {
 	const ViewGameComponentsInstance = shallow(<ViewGameComponents/>);
 
