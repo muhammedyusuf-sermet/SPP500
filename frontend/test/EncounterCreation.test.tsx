@@ -1,7 +1,7 @@
 import * as React from "react"
 import { shallow, ShallowWrapper } from 'enzyme';
 import { EncounterCreation, IEncounterCreationState } from "../src/renderer/components/EncounterCreation";
-import { Checkbox } from 'bloomer';
+//import { Checkbox } from 'bloomer';
 
 import * as nock from 'nock';
 import {API_URL} from '../src/config'
@@ -59,8 +59,22 @@ describe('Encounter Creation', () => {
 
 		describe('interacts with the DB data accordingly', () => {
 
+			/*it('should be able to send monster name only to create', async () => {
+				await encounterCreationInstance.instance().getPaginatedMonsters(0);
+				encounterCreationInstance = await shallow (<EncounterCreation/>);
+
+				var checkboxMonster = encounterCreationInstance.update().find(Checkbox);
+
+				console.log(checkboxMonster.length);
+				console.log(checkboxMonster.text());
+
+				console.log("hello!");
+				// Check a monster, doesn't matter which one
+				console.log( encounterCreationInstance.state('monstersInCurrentPage'));
+
+			});*/
 			
-			it('should allow monster checkboxes respond to change event and update the state', async () => {
+			/*it('should allow monster checkboxes respond to change event and update the state', async () => {
 				
 				//const response = await encounterCreationInstance.state(0, 12);
 
@@ -82,7 +96,7 @@ describe('Encounter Creation', () => {
 
 				//expect(encounterCreationInstance.state('checkedMonsters')).not.toEqual(new Map()); 
 				
-			});
+			});*/
 		})
 
 		describe('next and back buttons work', () => {

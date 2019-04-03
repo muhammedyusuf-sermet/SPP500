@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as request from 'request';
+//import * as request from 'request';
+var request = require('request-promise-native');
 import 'bulma/css/bulma.css';
 import { Input, Label, Button, Checkbox, Control, Field, TextArea, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
 import { Redirect } from "react-router-dom"
@@ -24,13 +25,70 @@ interface IEncounterResponse {
 	messages: string[]
 }
 
-/*interface IMonsterGetResponse {
+interface IMonsterGetResponse {
 	status: number,
 	messages: string[],
 	content: IEncounterMonsterInformation[],
 	total: number,
 }
+/*
+var getMonsters = async (page: number, pageSize: number) => {
+
+	var options = { method: 'GET',
+        url: API_URL + '/monster/get/' + page + '/' + pageSize,
+        headers:
+        {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json' ,
+            'Authorization': CookieManager.UserToken('session_token')
+        },
+        json: true
+	};
+	
+	var requestResponse;
+
+    await request(options , (error:string, responce: any, body: IMonsterGetResponse) => {
+        console.log(body);
+		if (!error && body.status === 201) { // success
+			console.log("Hello!");
+            requestResponse = body;
+        } 
+	})
+
+	if (requestResponse) {
+		console.log(requestResponse);
+	}
+	return requestResponse;
+}
+export function getApiCall (page: number, pageSize: number) {
+	console.log("It is: " + getMonsters(page, pageSize));
+
+    var options = { method: 'GET',
+        url: API_URL + '/monster/get/' + page + '/' + pageSize,
+        headers:
+        {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json' ,
+            'Authorization': CookieManager.UserToken('session_token')
+        },
+        json: true
+    };
+
+	var requestResponse;
+    request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
+        //console.log(body);
+        if (!error && body.status === 201) { // success
+            requestResponse = body;
+        } 
+	})
+	
+	if (requestResponse) {
+		console.log(requestResponse);
+	}
+	return {status: 500, messages: ["none found"], content: [], total: 0} as IMonsterGetResponse;
+}
 */
+
 export interface IEncounterCreationState {
 	redirectToHome: boolean,
 	checkedMonsters: Map<string, boolean>,
@@ -48,6 +106,13 @@ export interface IEncounterCreationState {
 		message: string
 	}
 }
+
+
+/*
+const exportFunctions = {
+	getApiCall,
+  };
+  */
 
 export class EncounterCreation extends React.Component<any, IEncounterCreationState> {
 	constructor(props: any) {
@@ -90,7 +155,56 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		}
 	}
 
-	getPaginatedMonsters(page: number) {
+	getPaginatedMonsters = async (page: number) => {
+
+		//var body = exportFunctions.getApiCall(page, this.state.pageSize);
+
+		var options = { method: 'GET',
+			url: API_URL + '/monster/get/' + page + '/' + this.state.pageSize,
+			headers:
+			{
+				'Cache-Control': 'no-cache',
+				'Content-Type': 'application/json' ,
+				'Authorization': CookieManager.UserToken('session_token')
+			},
+			json: true
+		};
+
+		//console.log(options.url);
+
+		await request(options).then((body: IMonsterGetResponse) => {
+			//console.log("Error: " + error);
+			//console.log("Response: " + JSON.stringify(responce));
+			//console.log("Body: " + JSON.stringify(body));
+			if (body.status === 201) { // success
+				this.setState({
+						monstersInCurrentPage: body.content,
+						totalMonsters: body.total,
+				});
+			} else {
+				// There was an error retrieving the monsters. Just return empty array.
+				// No need to print a modal.
+				this.setState({
+						monstersInCurrentPage: [] as IEncounterMonsterInformation[],
+						totalMonsters: 0,
+				});
+			}
+		}).catch((error: string) => {
+			this.openModal("There was an error sending your request.")
+		})
+
+		/*console.log(body);
+		console.log(body.total);
+		console.log(body.content);
+
+		if (body.total && body.content) {
+			this.setState({
+				monstersInCurrentPage: body["content"],
+				totalMonsters: body["total"],
+		});
+		}*/
+
+		/*
 		var options = { method: 'GET',
 			url: API_URL + '/monster/get/' + page + '/' + this.state.pageSize,
 			headers:
@@ -121,7 +235,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 						totalMonsters: 0,
 				});
 			}
-		})
+		})*/
 
 		//console.log("mICP:" + this.state.monstersInCurrentPage);
 		//console.log("totalMonsters:" + this.state.totalMonsters);
