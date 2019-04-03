@@ -13,11 +13,32 @@ import { CookieManager } from "../../cookie";
 					{"Id": "3", "Name": "Monster 3"}
 				];
 				*/
-const monster = [];
 
 interface IEncounterMonsterInformation {
 	"Id": string,
 	"Name": string,
+}
+
+export function getApiCall(page: number, pageSize: number) {
+	var options = { method: 'GET',
+		url: API_URL + '/monster/get/' + page + '/' + pageSize,
+		headers:
+		{
+			'Cache-Control': 'no-cache',
+			'Content-Type': 'application/json' ,
+			'Authorization': CookieManager.UserToken('session_token')
+		},
+		json: true
+	};
+
+	request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
+		console.log(body);
+		if (!error && body.status === 201) { // success
+			return body.content;
+		} else {
+			return [];
+		}
+	})
 }
 
 interface IEncounterResponse {
@@ -103,8 +124,10 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 			json: true
 		};
 
+		console.log(options.url);
+
 		request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
-			console.log(body);
+			console.log("Body: " + body);
 			if (!error && body.status === 201) { // success
 				this.setState({
 						monstersInCurrentPage: body.content,
