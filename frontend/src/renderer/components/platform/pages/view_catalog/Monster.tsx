@@ -7,12 +7,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {MonsterDetails} from './MonsterDetails';
-import * as MonsterInterface from '../../../../../monster';
 
+import {MonsterDetails} from './MonsterDetails';
+import {Pagination} from '../../../helpers/Pagination';
+
+import * as MonsterInterface from '../../../../../monster';
 import { CookieManager } from '../../../../../cookie';
 import { API_URL } from '../../../../../config';
-import '../../../../css/platform/pages/catalogue-pagination.css';
 
 
 interface IMonsterGetResponse {
@@ -27,7 +28,6 @@ export interface IMonsterState {
 	editMonster: boolean,
 	selectedMonster: MonsterInterface.IMonsterState,
 
-	page: number,
 	pageSize: number,
 	totalMonsters: number,
 	monstersInCurrentPage: MonsterInterface.IMonsterState[],
@@ -41,21 +41,31 @@ export class Monster extends React.Component<any, IMonsterState> {
 			editMonster: false,
 			selectedMonster: {} as MonsterInterface.IMonsterState,
 
-			page: 0,
 			pageSize: 12,
 			totalMonsters: 0,
 			monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
 		}
 		this.resetState = this.resetState.bind(this);
-		this.getPaginatedMonsters(this.state.page);
+		this.updatePage = this.updatePage.bind(this);
+		this.getTotalPages = this.getTotalPages.bind(this);
+
+		// First page ever
+		this.getPaginatedMonsters(0);
 	}
 
 	resetState() {
 		this.setState({ selectedMonster: {} as MonsterInterface.IMonsterState});
 		this.setState({ viewMonster: false});
 		this.setState({ editMonster: false});
-		this.setState({ page: 0});
 		this.getPaginatedMonsters(0);
+	}
+
+	updatePage(page: number) {
+		this.getPaginatedMonsters(page);
+	}
+
+	getTotalPages() {
+		return Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
 	}
 
 	view = (monster: MonsterInterface.IMonsterState) => {
@@ -66,24 +76,6 @@ export class Monster extends React.Component<any, IMonsterState> {
 	edit = (monster: MonsterInterface.IMonsterState) => {
 		this.setState({ selectedMonster: monster});
 		this.setState({ editMonster: true});
-	}
-
-	previousPage() {
-		if(this.state.page > 0){
-			let newPage = this.state.page-1;
-			this.setState({ page: newPage});
-			this.getPaginatedMonsters(newPage);
-		}
-	}
-
-	nextPage() {
-		// Starts from 0
-		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
-		if(this.state.page < totalPages){
-			let newPage = this.state.page+1;
-			this.setState({ page: newPage});
-			this.getPaginatedMonsters(newPage);
-		}
 	}
 
 	getPaginatedMonsters(page: number) {
@@ -119,11 +111,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 		if(!this.state.viewMonster && !this.state.editMonster){
 			return (
 				<div id="view-monsters-container" className="layout card-grid">
-					<div id="paginated-catalogue-navigation">
-						<h3>Page No: {this.state.page+1}</h3>
-						<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
-						<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
-					</div>
+					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
 					<Grid container spacing={40}>
 						{this.state.monstersInCurrentPage.map(monster => (
 							<Grid item key={monster.Id} sm={6} md={4} lg={3}>

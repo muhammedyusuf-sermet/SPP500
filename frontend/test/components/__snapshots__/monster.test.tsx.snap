@@ -5,28 +5,10 @@ exports[`Test the Monster View Details renders correctly when the page is loaded
   className="layout card-grid"
   id="view-monsters-container"
 >
-  <div
-    id="paginated-catalogue-navigation"
-  >
-    <h3>
-      Page No: 
-      1
-    </h3>
-    <a
-      className="previous"
-      id="previousPageButton"
-      onClick={[Function]}
-    >
-      « Previous
-    </a>
-    <a
-      className="next"
-      id="nextPageButton"
-      onClick={[Function]}
-    >
-      Next »
-    </a>
-  </div>
+  <Pagination
+    getTotalPages={[Function]}
+    onPageChange={[Function]}
+  />
   <WithStyles(Grid)
     container={true}
     spacing={40}

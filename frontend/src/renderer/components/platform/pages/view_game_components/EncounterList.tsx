@@ -7,12 +7,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {EncounterDetails} from './EncounterDetails';
-import * as EncounterInterface from '../../../../../encounter';
 
+import {EncounterDetails} from './EncounterDetails';
+import {Pagination} from '../../../helpers/Pagination';
+
+import * as EncounterInterface from '../../../../../encounter';
 import { CookieManager } from '../../../../../cookie';
 import { API_URL } from '../../../../../config';
-import '../../../../css/platform/pages/catalogue-pagination.css';
 
 interface IEncounterGetResponse {
 	status: number,
@@ -26,7 +27,6 @@ export interface IEncounterListState {
 	editEncounter: boolean,
 	selectedEncounter: EncounterInterface.IEncounterState,
 
-	page: number,
 	pageSize: number,
 	totalEncounters: number,
 	encountersInCurrentPage: EncounterInterface.IEncounterState[],
@@ -40,21 +40,31 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 			editEncounter: false,
 			selectedEncounter: {} as EncounterInterface.IEncounterState,
 
-			page: 0,
 			pageSize: 12,
 			totalEncounters: 0,
 			encountersInCurrentPage: [] as EncounterInterface.IEncounterState[],
 		}
 		this.resetState = this.resetState.bind(this);
-		this.getPaginatedEncounters(this.state.page);
+		this.updatePage = this.updatePage.bind(this);
+		this.getTotalPages = this.getTotalPages.bind(this);
+
+		// First page ever
+		this.getPaginatedEncounters(0);
 	}
 
 	resetState() {
 		this.setState({ selectedEncounter: {} as EncounterInterface.IEncounterState});
 		this.setState({ viewEncounter: false});
 		this.setState({ editEncounter: false});
-		this.setState({ page: 0});
 		this.getPaginatedEncounters(0);
+	}
+
+	updatePage(page: number) {
+		this.getPaginatedEncounters(page);
+	}
+
+	getTotalPages() {
+		return Math.ceil(this.state.totalEncounters / this.state.pageSize)-1;
 	}
 
 	view = (encounter: EncounterInterface.IEncounterState) => {
@@ -65,24 +75,6 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 	edit = (encounter: EncounterInterface.IEncounterState) => {
 		this.setState({ selectedEncounter: encounter});
 		this.setState({ editEncounter: true});
-	}
-
-	previousPage() {
-		if(this.state.page > 0){
-			let newPage = this.state.page-1;
-			this.setState({ page: newPage});
-			this.getPaginatedEncounters(newPage);
-		}
-	}
-
-	nextPage() {
-		// Starts from 0
-		let totalPages = Math.ceil(this.state.totalEncounters / this.state.pageSize)-1;
-		if(this.state.page < totalPages){
-			let newPage = this.state.page+1;
-			this.setState({ page: newPage});
-			this.getPaginatedEncounters(newPage);
-		}
 	}
 
 	getPaginatedEncounters(page: number) {
@@ -118,11 +110,7 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 		if(!this.state.viewEncounter && !this.state.editEncounter){
 			return (
 				<div id="view-encounters-container" className= "layout card-grid">
-					<div id="paginated-catalogue-navigation">
-						<h3>Page No: {this.state.page+1}</h3>
-						<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
-						<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
-					</div>
+					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
 					<Grid container spacing={40}>
 						{this.state.encountersInCurrentPage.map(encounter => (
 							<Grid item key={encounter.Id} sm={6} md={4} lg={3}>
