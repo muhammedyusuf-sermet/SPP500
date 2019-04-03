@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the Pagination Component renders correctly when the page is loaded 1`] = `
+<div
+  id="paginated-catalogue-navigation"
+>
+  <h3>
+    Page No: 
+    1
+  </h3>
+  <a
+    className="previous"
+    id="previousPageButton"
+    onClick={[Function]}
+  >
+    « Previous
+  </a>
+  <a
+    className="next"
+    id="nextPageButton"
+    onClick={[Function]}
+  >
+    Next »
+  </a>
+</div>
+`;
