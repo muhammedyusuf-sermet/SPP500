@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import * as request from 'request';
 import 'bulma/css/bulma.css';
 import { Input, Label, Button, Checkbox, Control, Field, TextArea, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
 import { Redirect } from "react-router-dom"
@@ -8,19 +8,38 @@ import { CookieManager } from "../../cookie";
 
 // Todo: Actually get the monsters from the db once the backend is ready
 // Dummy array of monsters
-const monsters = [	{"Id": "1", "Name": "Monster 1"},
+/*const monsters = [	{"Id": "1", "Name": "Monster 1"},
 					{"Id": "2", "Name": "Monster 2"},
 					{"Id": "3", "Name": "Monster 3"}
 				];
+				*/
+const monster = [];
+
+interface IEncounterMonsterInformation {
+	"Id": string,
+	"Name": string,
+}
 
 interface IEncounterResponse {
 	status: number,
 	messages: string[]
 }
 
+interface IMonsterGetResponse {
+	status: number,
+	messages: string[],
+	content: IEncounterMonsterInformation[],
+	total: number,
+}
+
 export interface IEncounterCreationState {
 	redirectToHome: boolean,
 	checkedMonsters: Map<string, boolean>,
+	page: number,
+	pageSize: number,
+	totalMonsters: number,
+	monstersInCurrentPage: IEncounterMonsterInformation[],
+	fullInformationOfCheckedMonsters: IEncounterMonsterInformation[],
 	encounter: {
 		name: string,
 		description: string,
@@ -37,6 +56,11 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		this.state = {
 			redirectToHome: false,
 			checkedMonsters: new Map(),
+			page: 0,
+			pageSize: 12,
+			totalMonsters: 0,
+			monstersInCurrentPage: [] as IEncounterMonsterInformation[],
+			fullInformationOfCheckedMonsters: [] as IEncounterMonsterInformation[],
 			encounter: {
 				name: "",
 				description: "",
@@ -46,6 +70,55 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 				message: ""
 			}
 		}
+		this.getPaginatedMonsters(this.state.page);
+	}
+
+	previousPage() {
+		if(this.state.page > 0){
+			let newPage = this.state.page-1;
+			this.setState({ page: newPage});
+			this.getPaginatedMonsters(newPage);
+		}
+	}
+
+	nextPage() {
+		// Starts from 0
+		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
+		if(this.state.page < totalPages){
+			let newPage = this.state.page+1;
+			this.setState({ page: newPage});
+			this.getPaginatedMonsters(newPage);
+		}
+	}
+
+	getPaginatedMonsters(page: number) {
+		var options = { method: 'GET',
+			url: API_URL + '/monster/get/' + page + '/' + this.state.pageSize,
+			headers:
+			{
+				'Cache-Control': 'no-cache',
+				'Content-Type': 'application/json' ,
+				'Authorization': CookieManager.UserToken('session_token')
+			},
+			json: true
+		};
+
+		request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
+			console.log(body);
+			if (!error && body.status === 201) { // success
+				this.setState({
+						monstersInCurrentPage: body.content,
+						totalMonsters: body.total,
+				});
+			} else {
+				// There was an error retrieving the monsters. Just return empty array.
+				// No need to print a modal.
+				this.setState({
+						monstersInCurrentPage: [] as IEncounterMonsterInformation[],
+						totalMonsters: 0,
+				});
+			}
+		})
 	}
 
 	handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +142,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		const isChecked = event.target.checked;
 
 		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(id, isChecked)}));
+		console.log(this.state.checkedMonsters);
 	}
 
 	openModal = (messageText: string) => {
@@ -88,10 +162,16 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	saveEncounter = (callback?: (message: string) => void) => {
 		// Gather the selected monsters for this encounter
+		console.log(this.state.checkedMonsters);
 		const checkedMonsterIds = [ ...this.state.checkedMonsters.keys() ];
-		const selectedMonsters = monsters.filter(function(monster){
-			return checkedMonsterIds.indexOf(monster['Id']) > -1;
-		});
+		const keptMonsterIds = [];
+		for (var i = 0; i < checkedMonsterIds.length; i++) {
+			if (this.state.checkedMonsters.get(checkedMonsterIds[i].toString())) {
+				keptMonsterIds.push({"Id": checkedMonsterIds[i]});
+			}
+		}
+
+		console.log(keptMonsterIds);
 
 		const request = require("request");
 		const options = { method: 'POST',
@@ -107,7 +187,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 			{
 				Name: this.state.encounter.name,
 				Description: this.state.encounter.description,
-				Monsters: selectedMonsters
+				Monsters: keptMonsterIds
 			},
 			json: true
 		};
@@ -164,7 +244,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 					<Field>
 						<Control>
-							{monsters.map(monster => (
+							{this.state.monstersInCurrentPage.map(monster => (
 								<Checkbox 	key={monster.Id}
 											name={monster.Id}
 											checked={this.state.checkedMonsters.get(monster.Id)}
@@ -174,6 +254,11 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 							))}
 						</Control>
 					</Field>
+					
+					<h3>Page No: {this.state.page+1}</h3>
+					<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
+					<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
+					
 
 					<Field isGrouped>
 					    <Control>
