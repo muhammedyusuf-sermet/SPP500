@@ -34,24 +34,10 @@ exports[`Encounter Creation Happy Path renders correctly when the page is loaded
     <withHelpersModifiers(Field)>
       <withHelpersModifiers(Control) />
     </withHelpersModifiers(Field)>
-    <h3>
-      Page No: 
-      1
-    </h3>
-    <a
-      className="previous"
-      id="previousPageButton"
-      onClick={[Function]}
-    >
-      « Previous
-    </a>
-    <a
-      className="next"
-      id="nextPageButton"
-      onClick={[Function]}
-    >
-      Next »
-    </a>
+    <Pagination
+      getTotalPages={[Function]}
+      onPageChange={[Function]}
+    />
     <withHelpersModifiers(Field)
       isGrouped={true}
     >

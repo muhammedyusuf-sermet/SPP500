@@ -1,7 +1,8 @@
 import * as React from "react"
 import { shallow, ShallowWrapper } from 'enzyme';
-import { EncounterCreation, IEncounterCreationState } from "../src/renderer/components/EncounterCreation";
+import { EncounterCreation, IEncounterCreationState, getMonsters } from "../src/renderer/components/EncounterCreation";
 //import { Checkbox } from 'bloomer';
+//var request = require('request-promise-native');
 
 import * as nock from 'nock';
 import {API_URL} from '../src/config'
@@ -11,12 +12,14 @@ jest.mock('../src/cookie');
 describe('Encounter Creation', () => {
 
 	let encounterCreationInstance: ShallowWrapper<any, IEncounterCreationState, EncounterCreation>;
+	let scope: nock.Scope;
 
 	describe('Happy Path', () => {
 
 		beforeEach(() => {
 			nock.disableNetConnect();
-			nock(API_URL)
+			scope = nock(API_URL)
+				.persist()
 				.get('/monster/get/0/12')
 				.reply(201,
 					{ status:201,
@@ -27,6 +30,16 @@ describe('Encounter Creation', () => {
 				).log(console.log);
 			encounterCreationInstance = shallow (<EncounterCreation/>);
 		})
+
+		afterEach(() => {
+			scope.persist(false);
+		})
+
+		it('should be able to hit the URL', async () => {
+			let result = await getMonsters(0, 12);
+			expect(result.status).toBe(201);
+		})
+
 
 		it('renders without crashing', () => {
 			expect(encounterCreationInstance).toBeDefined();
@@ -57,22 +70,38 @@ describe('Encounter Creation', () => {
 			expect(encounterCreationInstance.state('redirectToHome')).toEqual(true);
 		});
 
+		it('should make an GET request to retrieve Monsters when getPaginatedMonsters function is called', () => {
+			encounterCreationInstance.instance().getPaginatedMonsters(0);
+	
+			nock(API_URL)
+			.get('/monster/get/0/12')
+			.reply(201, { status: 201, message: 'success', total: 1, content: [] });
+		});
+	
+		it('should return the total number of pages when getTotalPages function is called', () => {
+			encounterCreationInstance.instance().setState({ totalMonsters: 20});
+			let totalPages = encounterCreationInstance.instance().getTotalPages();
+	
+			// Starts from 0
+			expect(totalPages).toEqual(1);
+			
+		});
+
 		describe('interacts with the DB data accordingly', () => {
 
-			/*it('should be able to send monster name only to create', async () => {
+			it('should be able to send monster name only to create', async () => {
+				encounterCreationInstance.instance().getPaginatedMonsters = jest.fn();
 				await encounterCreationInstance.instance().getPaginatedMonsters(0);
 				encounterCreationInstance = await shallow (<EncounterCreation/>);
 
-				var checkboxMonster = encounterCreationInstance.update().find(Checkbox);
+				//expect(encounterCreationInstance.instance().getPaginatedMonsters).toHaveBeenCalled();
 
-				console.log(checkboxMonster.length);
-				console.log(checkboxMonster.text());
+				//var checkboxMonster = encounterCreationInstance.update().find(Checkbox);
 
-				console.log("hello!");
 				// Check a monster, doesn't matter which one
-				console.log( encounterCreationInstance.state('monstersInCurrentPage'));
+				//console.log( encounterCreationInstance.state('monstersInCurrentPage'));
 
-			});*/
+			});
 			
 			/*it('should allow monster checkboxes respond to change event and update the state', async () => {
 				
@@ -114,7 +143,7 @@ describe('Encounter Creation', () => {
 				});
 					
 
-			it('should allow switching between pages', async () => {
+			/*it('should allow switching between pages', async () => {
 				var nextButton = encounterCreationInstance.find('#nextPageButton');
 				var prevButton = encounterCreationInstance.find('#previousPageButton');
 
@@ -131,7 +160,7 @@ describe('Encounter Creation', () => {
 						).log(console.log);
 				prevButton.simulate('click');
 
-			});
+			});*/
 
 		})
 
@@ -169,7 +198,7 @@ describe('Encounter Creation', () => {
 						body: [{ status: 201, messages: 'success' }],
 					});
 				createEncounterForm.simulate('submit', {preventDefault: () => {}});
-				//expect(encounterCreationInstance.find('#encounterCreationModal').prop('isActive')).toEqual(true);
+//				expect(encounterCreationInstance.find('#encounterCreationModal').prop('isActive')).toEqual(true);
 				
 			});
 		});
@@ -202,5 +231,6 @@ describe('Encounter Creation', () => {
 		});
 
 	});
+
 
 });

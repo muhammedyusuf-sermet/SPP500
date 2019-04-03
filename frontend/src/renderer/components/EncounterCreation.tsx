@@ -32,8 +32,8 @@ interface IMonsterGetResponse {
 	content: IEncounterMonsterInformation[],
 	total: number,
 }
-/*
-var getMonsters = async (page: number, pageSize: number) => {
+
+export async function getMonsters(page: number, pageSize: number) {
 
 	var options = { method: 'GET',
         url: API_URL + '/monster/get/' + page + '/' + pageSize,
@@ -45,22 +45,10 @@ var getMonsters = async (page: number, pageSize: number) => {
         },
         json: true
 	};
-	
-	var requestResponse;
-
-    await request(options , (error:string, responce: any, body: IMonsterGetResponse) => {
-        console.log(body);
-		if (!error && body.status === 201) { // success
-			console.log("Hello!");
-            requestResponse = body;
-        } 
-	})
-
-	if (requestResponse) {
-		console.log(requestResponse);
-	}
-	return requestResponse;
+	let result: IMonsterGetResponse = await request(options);
+	return result;
 }
+/*
 export function getApiCall (page: number, pageSize: number) {
 	console.log("It is: " + getMonsters(page, pageSize));
 
@@ -142,109 +130,25 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		this.getPaginatedMonsters(this.state.page);
 	}
 
-	previousPage() {
-		if(this.state.page > 0){
-			let newPage = this.state.page-1;
-			this.setState({ page: newPage});
-			this.getPaginatedMonsters(newPage);
-		}
-	}
-
-	nextPage() {
-		// Starts from 0
-		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
-		if(this.state.page < totalPages){
-			let newPage = this.state.page+1;
-			this.setState({ page: newPage});
-			this.getPaginatedMonsters(newPage);
-		}
-	}
-
 	getPaginatedMonsters = async (page: number) => {
 
 		//var body = exportFunctions.getApiCall(page, this.state.pageSize);
 
-		var options = { method: 'GET',
-			url: API_URL + '/monster/get/' + page + '/' + this.state.pageSize,
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json' ,
-				'Authorization': CookieManager.UserToken('session_token')
-			},
-			json: true
-		};
+		let body: IMonsterGetResponse = await getMonsters(page, this.state.pageSize);
 
-		//console.log(options.url);
-		
-
-		await request(options).then((body: IMonsterGetResponse) => {
-			//console.log("Error: " + error);
-			//console.log("Response: " + JSON.stringify(responce));
-			//console.log("Body: " + JSON.stringify(body));
-			if (body.status === 201) { // success
-				this.setState({
-						monstersInCurrentPage: body.content,
-						totalMonsters: body.total,
-				});
-			} else {
-				// There was an error retrieving the monsters. Just return empty array.
-				// No need to print a modal.
-				this.setState({
-						monstersInCurrentPage: [] as IEncounterMonsterInformation[],
-						totalMonsters: 0,
-				});
-			}
-		}).catch((error: string) => {
-			this.openModal("There was an error sending your request.")
-		})
-
-		/*console.log(body);
-		console.log(body.total);
-		console.log(body.content);
-
-		if (body.total && body.content) {
+		if (body.status === 201) { // success
 			this.setState({
-				monstersInCurrentPage: body["content"],
-				totalMonsters: body["total"],
-		});
-		}*/
-
-		/*
-		var options = { method: 'GET',
-			url: API_URL + '/monster/get/' + page + '/' + this.state.pageSize,
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json' ,
-				'Authorization': CookieManager.UserToken('session_token')
-			},
-			json: true
-		};
-
-		//console.log(options.url);
-
-		request(options, (error:string, responce: any, body: any) => {
-			//console.log("Error: " + error);
-			//console.log("Response: " + JSON.stringify(responce));
-			//console.log("Body: " + JSON.stringify(body));
-			if (!error && body && body.status === 201) { // success
-				this.setState({
-						monstersInCurrentPage: body.content,
-						totalMonsters: body.total,
-				});
-			} else {
-				// There was an error retrieving the monsters. Just return empty array.
-				// No need to print a modal.
-				this.setState({
-						monstersInCurrentPage: [] as IEncounterMonsterInformation[],
-						totalMonsters: 0,
-				});
-			}
-		})*/
-
-		//console.log("mICP:" + this.state.monstersInCurrentPage);
-		//console.log("totalMonsters:" + this.state.totalMonsters);
+					monstersInCurrentPage: body.content,
+					totalMonsters: body.total,
+			});
+		} else {
+			// There was an error retrieving the monsters. Just return empty array.
+			// No need to print a modal.
+			this.setState({
+					monstersInCurrentPage: [] as IEncounterMonsterInformation[],
+					totalMonsters: 0,
+			});
+		}
 	}
 
 	handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -388,10 +292,6 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 					</Field>
 					
 					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
-					
-					<h3>Page No: {this.state.page+1}</h3>
-					<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
-					<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
 					
 
 					<Field isGrouped>
