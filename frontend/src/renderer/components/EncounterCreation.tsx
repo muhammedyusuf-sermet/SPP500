@@ -6,6 +6,7 @@ import { Input, Label, Button, Checkbox, Control, Field, TextArea, Modal, ModalC
 import { Redirect } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
+import {Pagination} from "./helpers/Pagination"
 
 // Todo: Actually get the monsters from the db once the backend is ready
 // Dummy array of monsters
@@ -134,6 +135,10 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 				message: ""
 			}
 		}
+
+		this.updatePage = this.updatePage.bind(this);
+		this.getTotalPages = this.getTotalPages.bind(this);
+
 		this.getPaginatedMonsters(this.state.page);
 	}
 
@@ -171,6 +176,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		};
 
 		//console.log(options.url);
+		
 
 		await request(options).then((body: IMonsterGetResponse) => {
 			//console.log("Error: " + error);
@@ -334,6 +340,14 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		this.setState({ redirectToHome: true});
 	}
 
+	updatePage(page: number) {
+		this.getPaginatedMonsters(page);
+	}
+
+	getTotalPages() {
+		return Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
+	}
+
 	render() {
 		return (
 			(this.state.redirectToHome && !this.state.modal.open) ? <Redirect to="/"/> :
@@ -372,6 +386,8 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 							))}
 						</Control>
 					</Field>
+					
+					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
 					
 					<h3>Page No: {this.state.page+1}</h3>
 					<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
