@@ -24,13 +24,13 @@ interface IEncounterResponse {
 	messages: string[]
 }
 
-interface IMonsterGetResponse {
+/*interface IMonsterGetResponse {
 	status: number,
 	messages: string[],
 	content: IEncounterMonsterInformation[],
 	total: number,
 }
-
+*/
 export interface IEncounterCreationState {
 	redirectToHome: boolean,
 	checkedMonsters: Map<string, boolean>,
@@ -104,9 +104,11 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 		//console.log(options.url);
 
-		request(options, (error:string, responce: any, body: IMonsterGetResponse) => {
-			console.log("Body: " + body);
-			if (!error && body.status === 201) { // success
+		request(options, (error:string, responce: any, body: any) => {
+			//console.log("Error: " + error);
+			//console.log("Response: " + JSON.stringify(responce));
+			//console.log("Body: " + JSON.stringify(body));
+			if (!error && body && body.status === 201) { // success
 				this.setState({
 						monstersInCurrentPage: body.content,
 						totalMonsters: body.total,
@@ -120,6 +122,9 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 				});
 			}
 		})
+
+		//console.log("mICP:" + this.state.monstersInCurrentPage);
+		//console.log("totalMonsters:" + this.state.totalMonsters);
 	}
 
 	handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,10 +144,8 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 	handleMonsterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.persist();
 		//const id = event.target.attributes['data-id'].value;
-		const id = event.target.name;
-		const isChecked = event.target.checked;
 
-		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(id, isChecked)}));
+		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(event.target.name, event.target.checked)}));
 		//console.log(this.state.checkedMonsters);
 	}
 
