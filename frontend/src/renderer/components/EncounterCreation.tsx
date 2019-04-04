@@ -1,26 +1,53 @@
 import * as React from 'react';
-
+var request = require('request-promise-native');
 import 'bulma/css/bulma.css';
 import { Input, Label, Button, Checkbox, Control, Field, TextArea, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
+import {Pagination} from "./helpers/Pagination"
 
-// Todo: Actually get the monsters from the db once the backend is ready
-// Dummy array of monsters
-const monsters = [	{"Id": "1", "Name": "Monster 1"},
-					{"Id": "2", "Name": "Monster 2"},
-					{"Id": "3", "Name": "Monster 3"}
-				];
+interface IEncounterMonsterInformation {
+	"Id": string,
+	"Name": string,
+}
 
 interface IEncounterResponse {
 	status: number,
 	messages: string[]
 }
 
+interface IMonsterGetResponse {
+	status: number,
+	messages: string[],
+	content: IEncounterMonsterInformation[],
+	total: number,
+}
+
+export async function getMonsters(page: number, pageSize: number) {
+
+	var options = { method: 'GET',
+		url: API_URL + '/monster/get/' + page + '/' + pageSize,
+		headers:
+		{
+			'Cache-Control': 'no-cache',
+			'Content-Type': 'application/json' ,
+			'Authorization': CookieManager.UserToken('session_token')
+		},
+		json: true
+	};
+	let result: IMonsterGetResponse = await request(options);
+	return result;
+}
+
 export interface IEncounterCreationState {
 	redirectToHome: boolean,
 	checkedMonsters: Map<string, boolean>,
+	page: number,
+	pageSize: number,
+	totalMonsters: number,
+	monstersInCurrentPage: IEncounterMonsterInformation[],
+	fullInformationOfCheckedMonsters: IEncounterMonsterInformation[],
 	encounter: {
 		name: string,
 		description: string,
@@ -37,6 +64,11 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 		this.state = {
 			redirectToHome: false,
 			checkedMonsters: new Map(),
+			page: 0,
+			pageSize: 12,
+			totalMonsters: 0,
+			monstersInCurrentPage: [] as IEncounterMonsterInformation[],
+			fullInformationOfCheckedMonsters: [] as IEncounterMonsterInformation[],
 			encounter: {
 				name: "",
 				description: "",
@@ -45,6 +77,30 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 				open: false,
 				message: ""
 			}
+		}
+
+		this.updatePage = this.updatePage.bind(this);
+		this.getTotalPages = this.getTotalPages.bind(this);
+
+		this.getPaginatedMonsters(this.state.page);
+	}
+
+	getPaginatedMonsters = async (page: number) => {
+
+		let body: IMonsterGetResponse = await getMonsters(page, this.state.pageSize);
+
+		if (body.status === 201) { // success
+			this.setState({
+					monstersInCurrentPage: body.content,
+					totalMonsters: body.total,
+			});
+		} else {
+			// There was an error retrieving the monsters. Just return empty array.
+			// No need to print a modal.
+			this.setState({
+					monstersInCurrentPage: [] as IEncounterMonsterInformation[],
+					totalMonsters: 0,
+			});
 		}
 	}
 
@@ -64,11 +120,8 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	handleMonsterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.persist();
-		//const id = event.target.attributes['data-id'].value;
-		const id = event.target.name;
-		const isChecked = event.target.checked;
 
-		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(id, isChecked)}));
+		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(event.target.name, event.target.checked)}));
 	}
 
 	openModal = (messageText: string) => {
@@ -88,10 +141,12 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 
 	saveEncounter = (callback?: (message: string) => void) => {
 		// Gather the selected monsters for this encounter
+
 		const checkedMonsterIds = [ ...this.state.checkedMonsters.keys() ];
-		const selectedMonsters = monsters.filter(function(monster){
-			return checkedMonsterIds.indexOf(monster['Id']) > -1;
-		});
+		const keptMonsterIds = [];
+		for (var i = 0; i < checkedMonsterIds.length; i++)
+			if (this.state.checkedMonsters.get(checkedMonsterIds[i].toString()))
+				keptMonsterIds.push({"Id": checkedMonsterIds[i]});
 
 		const request = require("request");
 		const options = { method: 'POST',
@@ -107,7 +162,7 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 			{
 				Name: this.state.encounter.name,
 				Description: this.state.encounter.description,
-				Monsters: selectedMonsters
+				Monsters: keptMonsterIds
 			},
 			json: true
 		};
@@ -122,9 +177,8 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 				}
 				else{
 					let message = "There has been an error saving the encounter. Please check your input and try again."
-					if (messages) {
+					if (messages)
 						message = messages.join(' ');
-					}
 					this.openModal(message);
 				}
 			}
@@ -134,6 +188,14 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 	cancel = (event: React.FormEvent) => {
 		event.preventDefault();
 		this.setState({ redirectToHome: true});
+	}
+
+	updatePage(page: number) {
+		this.getPaginatedMonsters(page);
+	}
+
+	getTotalPages() {
+		return Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
 	}
 
 	render() {
@@ -153,18 +215,18 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 					</Field>
 
 					<Field>
-					    <Label>Description</Label>
-					    <Control>
-					        <TextArea
-					        			id="encounter_description"
-					        			placeholder={'Please write the encounter description here.'}
-					        			onChange={this.handleDescriptionChange} />
-					    </Control>
+						<Label>Description</Label>
+						<Control>
+							<TextArea
+								id="encounter_description"
+								placeholder={'Please write the encounter description here.'}
+								onChange={this.handleDescriptionChange} />
+						</Control>
 					</Field>
 
 					<Field>
 						<Control>
-							{monsters.map(monster => (
+							{this.state.monstersInCurrentPage.map(monster => (
 								<Checkbox 	key={monster.Id}
 											name={monster.Id}
 											checked={this.state.checkedMonsters.get(monster.Id)}
@@ -175,13 +237,15 @@ export class EncounterCreation extends React.Component<any, IEncounterCreationSt
 						</Control>
 					</Field>
 
+					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
+
 					<Field isGrouped>
-					    <Control>
-					        <Button isColor='primary' type="submit">Submit</Button>
-					    </Control>
-					    <Control>
-					        <Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
-					    </Control>
+						<Control>
+							<Button isColor='primary' type="submit">Submit</Button>
+						</Control>
+						<Control>
+							<Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
+						</Control>
 					</Field>
 				</form>
 				<Modal id='encounterCreationModal' isActive={this.state.modal.open}>

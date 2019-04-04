@@ -36,17 +36,10 @@ describe('Test the Monster View Details', () => {
 		.reply(201, { status: 201, message: 'success', total: 1, content: [] as MonsterInterface.IMonsterState[] });
 	});
 
-	it('should update the state variables when Next button is clicked', () => {
+	it('should return the total number of pages when getTotalPages function is called', () => {
 		monsterInstance.instance().setState({ totalMonsters: 24});
-		monsterInstance.find('a#nextPageButton').simulate('click', {preventDefault: () => {}});
-
-		expect(monsterInstance.state('page')).toEqual(1);
-	});
-
-	it('should update the state variables when Previous button is clicked', () => {
-		monsterInstance.instance().setState({ totalMonsters: 24, page: 1});
-		monsterInstance.find('a#previousPageButton').simulate('click', {preventDefault: () => {}});
-
-		expect(monsterInstance.state('page')).toEqual(0);
+		let totalPages = monsterInstance.instance().getTotalPages();
+		// Starts from 0
+		expect(totalPages).toEqual(1);
 	});
 });

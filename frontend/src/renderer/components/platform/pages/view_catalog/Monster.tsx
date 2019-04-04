@@ -7,9 +7,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import * as MonsterInterface from '../../../../../monster';
+import {Pagination} from '../../../helpers/Pagination';
 
 import { CookieManager } from '../../../../../cookie';
 import { API_URL } from '../../../../../config';
+
 import '../../../../css/platform/pages/view-catalog/view_monster.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -44,30 +46,16 @@ export class Monster extends React.Component<any, IMonsterState> {
 			monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
 		}
 		this.resetState = this.resetState.bind(this);
-		this.getPaginatedMonsters(this.state.page);
+		this.updatePage = this.updatePage.bind(this);
+		this.getTotalPages = this.getTotalPages.bind(this);
+
+		// First page ever
+		this.getPaginatedMonsters(0);
 	}
 
 	resetState() {
 		this.setState({ page: 0});
 		this.getPaginatedMonsters(0);
-	}
-
-	previousPage() {
-		if(this.state.page > 0){
-			let newPage = this.state.page-1;
-			this.setState({ page: newPage});
-			this.getPaginatedMonsters(newPage);
-		}
-	}
-
-	nextPage() {
-		// Starts from 0
-		let totalPages = Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
-		if(this.state.page < totalPages){
-			let newPage = this.state.page+1;
-			this.setState({ page: newPage});
-			this.getPaginatedMonsters(newPage);
-		}
 	}
 
 	deleteMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -84,6 +72,14 @@ export class Monster extends React.Component<any, IMonsterState> {
 		request(options, (error:string, responce: any, body: IMonsterDeleteResponse) => {
 			this.getPaginatedMonsters(this.state.page);
 		})
+  }
+
+	updatePage(page: number) {
+		this.getPaginatedMonsters(page);
+	}
+
+	getTotalPages() {
+		return Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
 	}
 
 	getPaginatedMonsters(page: number) {
@@ -118,14 +114,12 @@ export class Monster extends React.Component<any, IMonsterState> {
 	render() {
 		return (
 			<div id="view-monsters-container" className="layout card-grid">
-				<h3>Page No: {this.state.page+1}</h3>
-				<a onClick={() => this.previousPage()} id="previousPageButton" className="previous">&laquo; Previous</a>
-				<a onClick={() => this.nextPage()} id="nextPageButton" className="next">Next &raquo;</a>
-				<Grid container spacing={40}>
-					{this.state.monstersInCurrentPage.map(monster => (
-						<Grid item key={monster.Id} sm={6} md={4} lg={3}>
-							<Card className="card">
-								<CardMedia
+					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
+					<Grid container spacing={40}>
+						{this.state.monstersInCurrentPage.map(monster => (
+							<Grid item key={monster.Id} sm={6} md={4} lg={3}>
+								<Card className="card">
+								  <CardMedia
 									className="card-media"
 									image="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22288%22%20height%3D%22225%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20288%20225%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_164edaf95ee%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_164edaf95ee%22%3E%3Crect%20width%3D%22288%22%20height%3D%22225%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2296.32500076293945%22%20y%3D%22118.8%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" // eslint-disable-line max-len
 									title="Image title" />
