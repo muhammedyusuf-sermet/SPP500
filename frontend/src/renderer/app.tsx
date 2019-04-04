@@ -5,7 +5,6 @@ import { Route, Switch } from 'react-router-dom';
 
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
-import { MonsterCreation } from './components/MonsterCreation';
 import { EncounterCreation } from './components/EncounterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 import { ViewGameComponents } from './components/platform/pages/ViewGameComponents';
@@ -13,6 +12,7 @@ import { ViewGameComponents } from './components/platform/pages/ViewGameComponen
 import "bulma/css/bulma.css";
 import { NavBar } from './components/NavBar';
 import { AuthContext, IAuthProviderState } from './components/AuthContext';
+import { MonsterCRUD, MonsterCRUDState } from './components/MonsterCRUD';
 
 interface IAppProps { }
 
@@ -32,7 +32,18 @@ export class App extends React.Component<IAppProps> {
 							<Switch>
 								<Route exact path="/" component={Platform} />
 								<Route path="/encounter_creation" component={EncounterCreation} />
-								<Route path="/monster_creation" component={MonsterCreation} />
+								<Route path="/monster/create" render={() => {
+									return (
+										<MonsterCRUD Process={MonsterCRUDState.Create} />
+									);}} />
+								<Route path="/monster/view/:Id" render={(props) => {
+									return (
+										<MonsterCRUD Process={MonsterCRUDState.Read} Id={props.match.params.Id} />
+									);}} />
+								<Route path="/monster/edit/:Id" render={(props) => {
+									return (
+										<MonsterCRUD Process={MonsterCRUDState.Edit} Id={props.match.params.Id} />
+									);}} />
 								<Route path="/catalog" component={ViewCatalog} />
 								<Route path="/game_components" component={ViewGameComponents} />
 								<Route path="" component={Platform} />
