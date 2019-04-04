@@ -152,7 +152,7 @@ export class Monster extends BaseEntity implements IMonsterData {
     })
     ChallengeRating: number;
     
-    @OneToOne(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.Monster)
+    @OneToOne(() => MonsterAbilityScore, monsterAbilityScore => monsterAbilityScore.Monster, { onDelete: 'CASCADE' })
     @JoinColumn()
     AbilityScores: MonsterAbilityScore;
 
@@ -162,7 +162,7 @@ export class Monster extends BaseEntity implements IMonsterData {
     @OneToMany(() => MonsterSense, monsterSense => monsterSense.Monster)
     Senses: MonsterSense[];
 
-    @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster)
+    @OneToOne(() => MonsterSavingThrow, monsterSavingThrow => monsterSavingThrow.Monster, { onDelete: 'CASCADE' })
     @JoinColumn()
     SavingThrows: MonsterSavingThrow;
 
