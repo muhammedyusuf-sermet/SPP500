@@ -177,7 +177,7 @@ export class CampaignFactory {
  		if (isNaN(idOfCampaign)) {
 			messages.push("Id must be a number.")
 		} else {
-			var campaign = await Campaign.findOne({ Id: idOfCampaign, Creator : { Id: authInfo.credentials.id} });	
+			var campaign = await Campaign.findOne({ relations: ['Encounters'], Id: idOfCampaign, Creator : { Id: authInfo.credentials.id} });	
 		}
 
 		if (!campaign && !isNaN(idOfCampaign)) {
@@ -187,7 +187,8 @@ export class CampaignFactory {
 			} else {
 				messages.push("Id is not a valid id.")
 			}
-		} 
+		}
+		
 
 		if (messages.length == 0){
 			return {

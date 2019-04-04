@@ -16,19 +16,22 @@ export class Campaign {
     static find(a: any) {
         var result = Campaign.TableRows.slice(0);
         for (let key in a) {
-            let value = a[key];
-            if (typeof value == 'object') {
-                for (let key2 in value) {
-                    let value2 = value[key2]
+            if (key != "relations") {
+                let value = a[key];
+                if (typeof value == 'object') {
+                    for (let key2 in value) {
+                        let value2 = value[key2]
+                        result = result.filter(function (el: Campaign) {
+                            return el[key][key2] == value2;
+                        });
+                    }
+                } else {
                     result = result.filter(function (el: Campaign) {
-                        return el[key][key2] == value2;
+                        return el[key] == value;
                     });
                 }
-            } else {
-                result = result.filter(function (el: Campaign) {
-                    return el[key] == value;
-                });
             }
+            
         }
 
         return result
