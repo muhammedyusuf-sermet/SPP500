@@ -378,6 +378,92 @@ describe('campaign tests', async () => {
 			expect(response['messages'][0]).toBe("success");
 		});
 	});
+
+	describe('campaign get tests', async () => {
+
+		var campaignFactory = new CampaignFactory();
+
+		test('When all info is valid', async () => {
+			const response = await campaignFactory.GetOne({
+				params: {
+					id: 1
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(3);
+
+			expect(response['status']).toBe(201);
+			expect(response['messages'].length).toBe(0)
+			expect(response['content'].length).toBe(1);
+		});
+
+		test('When id is not a valid id', async () => {
+			const response = await campaignFactory.GetOne({
+				params: {
+					id: 2
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(4);
+
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1);
+			expect(response['messages'][0]).toBe("Id is not a valid id.")
+			expect(response['content'].length).toBe(0);
+		});
+
+		test('When requester is not the owner', async () => {
+			const response = await campaignFactory.GetOne({
+				params: {
+					id: 1
+				},
+				auth: {
+					credentials: {
+						id: 2
+					}
+				}
+			});
+
+			expect.assertions(4);
+
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1);
+			expect(response['messages'][0]).toBe("Requester is not the owner.")
+			expect(response['content'].length).toBe(0);
+		});
+
+		test('When id is not a number', async () => {
+			const response = await campaignFactory.GetOne({
+				params: {
+					id: "test"
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(4);
+
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1);
+			expect(response['messages'][0]).toBe("Id must be a number.")
+			expect(response['content'].length).toBe(0);
+		});
+	  	
+
+	});
 });
 /*
 
