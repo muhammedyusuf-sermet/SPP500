@@ -167,4 +167,40 @@ export class CampaignFactory {
 			};
 		}
 	}
+
+	public async GetOne(request: {params: any, auth: any}) {
+		const authInfo = request.auth;
+		var idOfCampaign = +request.params.id;
+		
+ 		var messages = [];
+
+ 		if (isNaN(idOfCampaign)) {
+			messages.push("Id must be a number.")
+		} else {
+			var campaign = await Campaign.findOne({ Id: idOfCampaign, Creator : { Id: authInfo.credentials.id} });	
+		}
+
+		if (!campaign && !isNaN(idOfCampaign)) {
+			campaign = await Campaign.findOne({ Id: idOfCampaign });
+			if (campaign) {
+				messages.push("Requester is not the owner.")
+			} else {
+				messages.push("Id is not a valid id.")
+			}
+		} 
+
+		if (messages.length == 0){
+			return {
+				"status": 201,
+				"messages": messages,
+				"content": [campaign]
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": []
+			}
+		}
+	}
 }

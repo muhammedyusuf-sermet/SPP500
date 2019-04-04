@@ -121,6 +121,15 @@ export const initServer = async () => {
 	},
 	{
 		method: 'GET',
+		path: '/campaign/one/{id}', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.GetOne(request);
+		}
+	},
+	{
+		method: 'GET',
 		path: '/verify', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
