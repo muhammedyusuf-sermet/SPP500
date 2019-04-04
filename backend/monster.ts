@@ -83,6 +83,7 @@ export class MonsterFactory {
 		).default({})
 	});*/
 	private payloadSchema = Joi.object({
+		Id: Joi.number().label('Id'),
 		Name: Joi.string().required().max(50).label('Name'),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
 		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
@@ -136,7 +137,7 @@ export class MonsterFactory {
 			Name: Joi.string().required().max(50),
 			Description: Joi.string().required().max(250),
 			HitBonus: Joi.number().integer().greater(0).allow(0),
-			Damage: Joi.string().max(20).regex(/^(\ *(\d+d\d+)\ *[\+\-\*\/]\ *)*(\ *(\d+d\d+))\ *(\+\d+)?$/, 'range'),
+			Damage: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces'),
 			DamageBonus: Joi.number().integer().greater(0).allow(0),
 			Type: Joi.string().valid(Joi.ref('$ActionOptions'))
 		}).label('Action Items')).default([])
@@ -285,6 +286,326 @@ export class MonsterFactory {
 				}
 			}
 		);
+	}
+
+	public async Edit(request: {payload:any}) {
+		const allSkills: Skill[] = await Skill.find({ select: ["Id", "Name"] });
+		const skillNames: string[] = [];
+		const skillLookup: { [Name: string]: Skill }= {};
+		allSkills.forEach((value) => {
+			skillNames.push(value.Name);
+			skillLookup[value.Name] = value;
+		})
+		const allSenses: Sense[] = await Sense.find({ select: ["Id", "Name"] });
+		const senseNames: string[] = [];
+		const senseLookup: { [Name: string]: Sense }= {};
+		allSenses.forEach((value) => {
+			senseNames.push(value.Name);
+			senseLookup[value.Name] = value;
+		})
+		const options: Joi.ValidationOptions = {
+			abortEarly: false,
+			convert: true,
+			allowUnknown: false,
+			context: {
+				SizeOptions: Object.keys(Size),
+				TypeOptions: Object.keys(MonsterType),
+				RaceOptions: Object.keys(MonsterRace),
+				AlignmentOptions: Object.keys(Alignment),
+				EnvironmentOptions: Object.keys(Environment),
+				ActionOptions: Object.keys(MonsterAction),
+				SkillOptions: skillNames,
+				SenseOptions: senseNames
+			}
+		}
+		// Temp fix waiting for GitHub responce 
+		// https://github.com/hapijs/joi/issues/1748
+		// This fix recompiles the schema every time a monster is created
+		//  this will impact performance by some amount, unknown.
+		let skillMessage = skillNames.join(',');
+		this.skillNameSchema = Joi.object({
+			Skills: Joi.object().pattern(
+				Joi.string().valid(skillNames),
+				Joi.number().integer().greater(0).allow(0).label('Skill Bonus')
+			).error((errors) => {
+				for (let error of errors){
+					if(error.type == 'object.allowUnknown' || error.type == 'any.allowOnly')
+						error.message = "\"Skill Name\" must be one of " + skillMessage
+				}
+				return errors
+			}).default({})
+		});
+		let senseMessage = senseNames.join(',');
+		this.senseNameSchema = Joi.object({
+			Senses: Joi.object().pattern(
+				Joi.string().valid(senseNames),
+				Joi.number().integer().greater(0).allow(0).label('Sense Bonus')
+			).error((errors) => {
+				for (let error of errors){
+					if(error.type == 'object.allowUnknown' || error.type == 'any.allowOnly')
+						error.message = "\"Sense Name\" must be one of " + senseMessage
+				}
+				return errors
+			}).default({})
+		});
+		return await Joi.validate(
+			request.payload,
+			this.payloadSchema.concat(this.skillNameSchema.concat(this.senseNameSchema)),
+			options,
+			async (errors: ValidationError, value: any) => {
+				if(errors){
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						let message: string = ''
+						if ((error.type == 'any.allowOnly') && error.context && options) {
+							for (let valid of error.context.valids){
+								if (Joi.isRef(valid)){
+									const reference = valid as Joi.Reference
+									message += reference(null, options) + ',';
+								} /* add this else back in if we ever have .valid([something]) instead of references.
+								else {
+									message += valid + ','
+								}*/
+							}
+						}
+						message = error.message.split('[')[0] + message.substr(0,message.length-1);
+						messages.add(message);
+					})
+					return {
+						"status": 400,
+						"messages": Array.from(messages.values())
+					};
+				}else{
+					var monsterId = +request.payload.Id;
+					let monsterFind: Monster[] = await Monster.find({
+						relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Senses.Sense'],
+						where: { Id: monsterId }
+					});
+					if(monsterFind.length > 0){
+						let monsterDb: Monster = monsterFind[0];
+						console.log(monsterFind);
+						console.log('EDIT -- EDIT -- EDIT -- EDIT -- EDIT -- EDIT -- EDIT -- EDIT');
+						// link normal attributes
+						monsterDb.Name = value.Name;
+    					monsterDb.Size = value.Size;
+    					monsterDb.Type = value.Type;
+    					monsterDb.Race = value.Race;
+    					monsterDb.Environment = value.Environment;
+    					monsterDb.Alignment = value.Alignment;
+
+    					monsterDb.ArmorClass = value.ArmorClass;
+    					monsterDb.HitPoints = value.HitPoints;
+    					monsterDb.HitPointDistribution = value.HitPointDistribution;
+
+    					monsterDb.Speed = value.Speed;
+    					monsterDb.Languages = value.Languages;
+
+    					monsterDb.DamageVulnerabilities = value.DamageVulnerabilities;
+    					monsterDb.DamageResistances = value.DamageResistances;
+    					monsterDb.DamageImmunities = value.DamageImmunities;
+    					monsterDb.ConditionImmunities = value.ConditionImmunities;
+
+    					monsterDb.ChallengeRating = value.ChallengeRating;
+						// link ability score
+						monsterDb.AbilityScores.Strength = value.AbilityScores.Strength
+						monsterDb.AbilityScores.Dexterity = value.AbilityScores.Dexterity
+						monsterDb.AbilityScores.Charisma = value.AbilityScores.Charisma
+						monsterDb.AbilityScores.Constitution = value.AbilityScores.Constitution
+						monsterDb.AbilityScores.Intelligence = value.AbilityScores.Intelligence
+						monsterDb.AbilityScores.Wisdom = value.AbilityScores.Wisdom
+						await monsterDb.AbilityScores.save();
+						// link saving throw
+						monsterDb.SavingThrows.Strength = value.SavingThrows.Strength
+						monsterDb.SavingThrows.Charisma = value.SavingThrows.Charisma
+						monsterDb.SavingThrows.Constitution = value.SavingThrows.Constitution
+						monsterDb.SavingThrows.Dexterity = value.SavingThrows.Dexterity
+						monsterDb.SavingThrows.Intelligence = value.SavingThrows.Intelligence
+						monsterDb.SavingThrows.Wisdom = value.SavingThrows.Wisdom
+						await monsterDb.SavingThrows.save();
+						// link skills to monster
+						console.log("LINK SKILLS")
+						
+						for (let skillName in value.Skills) {
+							let missing = true;
+							for (let index in monsterDb.Skills) {
+								if (monsterDb.Skills[index].Skill.Name == skillName) {
+									monsterDb.Skills[index].Bonus = value.Skills[skillName];
+									monsterDb.Skills[index].Skill = skillLookup[skillName];
+									monsterDb.Skills[index].Monster = monsterDb;
+									missing = false;
+									break;
+								}
+							}
+							if (missing) {
+								const monsterSkill: MonsterSkill = new MonsterSkill();
+								monsterSkill.Bonus = value.Skills[skillName];
+								monsterSkill.Skill = skillLookup[skillName];
+								monsterSkill.Monster = monsterDb;
+								monsterDb.Skills.push(monsterSkill);
+							}
+						}
+						const removeSkills: MonsterSkill[] = monsterDb.Skills.filter((skill) => skill.Monster == undefined);
+						for (let skill of removeSkills) {
+							skill.Monster = monsterDb;
+						}
+						await MonsterSkill.remove(removeSkills)
+						await MonsterSkill.save(monsterDb.Skills.filter((skill) => skill.Monster));
+						console.log("LINK SENSES")
+						// link senses to monster
+						for (let senseName in value.Senses) {
+							let missing = true;
+							for (let index in monsterDb.Senses) {
+								if (monsterDb.Senses[index].Sense.Name == senseName) {
+									monsterDb.Senses[index].Bonus = value.Senses[senseName];
+									monsterDb.Senses[index].Sense = senseLookup[senseName];
+									monsterDb.Senses[index].Monster = monsterDb;
+									missing = false;
+									break;
+								}
+							}
+							if (missing) {
+								const monsterSense: MonsterSense = new MonsterSense();
+								monsterSense.Bonus = value.Senses[senseName];
+								monsterSense.Sense = senseLookup[senseName];
+								monsterSense.Monster = monsterDb;
+								monsterDb.Senses.push(monsterSense);
+							}
+						}
+						const removeSenses: MonsterSense[] = monsterDb.Senses.filter((sense) => sense.Monster == undefined);
+						for (let sense of removeSenses) {
+							sense.Monster = monsterDb;
+						}
+						await MonsterSense.remove(removeSenses)
+						await MonsterSense.save(monsterDb.Senses.filter((sense) => sense.Monster));
+						// link actions to monster
+						/*for (let index in value.Actions) {
+							let missing = true;
+							for (let action of monsterDb.Actions) {
+								if (action.Name == value.Actions[index].Name) {
+									Object.assign(action, value.Actions[index]);
+									missing = false;
+									break;
+								}
+							}
+							if (missing) {
+								const action: Action = Object.assign(new Action(),value.Actions[index]);
+								action.Monster = monsterDb;
+								monsterDb.Actions.push(action);
+							}
+						}
+						await Action.save(monsterDb.Actions);*/
+
+						await monsterDb.save();
+						return {
+							"status": 201,
+							"messages": ["success"]
+						};
+					} else {
+						return {
+							"status": 400,
+							"messages": ['Monster not found.']
+						}
+					}
+				}
+			}
+		);
+	}
+
+	public async Delete(request: any){
+		console.log('DELETE')
+		const monsterId = +request.params.monsterId;
+		const messages: string[] = [];
+		
+		if (isNaN(monsterId)) {
+			messages.push("Parameter 'monsterId' must be a number.")
+			console.log('????????')
+		}
+
+		if (messages.length == 0) {
+			let monster: Monster[] | undefined = await Monster.find({
+				relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Senses.Sense', 'Actions', 'Encounters'], 
+				where: { Id: monsterId }
+			});
+			if (monster && monster.length > 0) {
+				const monsterDb: Monster = monster[0];
+				console.log(monsterDb);
+				for (let skill of monsterDb.Skills) {
+					skill.Monster = monsterDb;
+				}
+				await MonsterSkill.remove(monsterDb.Skills)
+				for (let sense of monsterDb.Senses) {
+					sense.Monster = monsterDb;
+				}
+				await MonsterSense.remove(monsterDb.Senses)
+				await Action.remove(monsterDb.Actions)
+
+				await monsterDb.remove()
+
+				return {
+					"status": 201,
+					"messages": ['success'],
+				}
+			} else {
+				return {
+					"status": 400,
+					"messages": ['Monster not found.'],
+				}
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+			}
+		}
+	}
+
+	public async GetOne(request: any) {
+		var monsterId = +request.params.monsterId;
+		
+		var messages: string[] = [];
+
+		if (isNaN(monsterId)) {
+			messages.push("Parameter 'monsterId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			let monster: Monster[] | undefined = await Monster.find({
+				relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Senses.Sense'], 
+				where: { Id: monsterId }
+			});
+			if (monster && monster.length > 0) {
+				const firstMonster: Monster = monster[0];
+				let newMonster: any = Object.assign({}, firstMonster)
+				newMonster.Skills = {}
+				for(let skill of firstMonster.Skills){
+					newMonster.Skills[skill.Skill.Name] = skill.Bonus
+				}
+				newMonster.Senses = {}
+				for(let sense of firstMonster.Senses){
+					newMonster.Senses[sense.Sense.Name] = sense.Bonus
+				}
+				newMonster.AbilityScores.Id = undefined
+				newMonster.SavingThrows.Id = undefined
+			
+				return {
+					"status": 201,
+					"messages": messages,
+					"content": newMonster,
+				}
+			} else {
+				return {
+					"status": 400,
+					"messages": ['Monster not found.'],
+					"content": {},
+				}
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": {},
+			}
+		}
 	}
 
 	public async GetAll(request: any) {
