@@ -22,30 +22,10 @@ describe('Test the Monster View Details', () => {
 		expect(monsterInstance).toMatchSnapshot();
 	});
 
-	it('should update the state variables when View button is clicked for a monster', () => {
-		let selectedMonster: MonsterInterface.IMonsterState;
-		selectedMonster = {} as MonsterInterface.IMonsterState;
-		monsterInstance.instance().view(selectedMonster);
-
-		expect(monsterInstance.state('viewMonster')).toEqual(true);
-		expect(monsterInstance.state('selectedMonster')).toEqual(selectedMonster);
-	});
-
-	it('should update the state variables when Edit button is clicked for a monster', () => {
-		let selectedMonster: MonsterInterface.IMonsterState;
-		selectedMonster = {} as MonsterInterface.IMonsterState;
-		monsterInstance.instance().edit(selectedMonster);
-
-		expect(monsterInstance.state('editMonster')).toEqual(true);
-		expect(monsterInstance.state('selectedMonster')).toEqual(selectedMonster);
-	});
-
 	it('should update the state variables when resetState function is called', () => {
 		monsterInstance.instance().resetState();
 
-		expect(monsterInstance.state('viewMonster')).toEqual(false);
-		expect(monsterInstance.state('editMonster')).toEqual(false);
-		expect(monsterInstance.state('selectedMonster')).toEqual({} as MonsterInterface.IMonsterState);
+		expect(monsterInstance.state('page')).toEqual(0);
 	});
 
 	it('should make an GET request to retrieve Monsters when getPaginatedMonsters function is called', () => {
@@ -64,9 +44,9 @@ describe('Test the Monster View Details', () => {
 	});
 
 	it('should update the state variables when Previous button is clicked', () => {
-		monsterInstance.instance().setState({ totalMonsters: 24, page: 2});
+		monsterInstance.instance().setState({ totalMonsters: 24, page: 1});
 		monsterInstance.find('a#previousPageButton').simulate('click', {preventDefault: () => {}});
 
-		expect(monsterInstance.state('page')).toEqual(1);
+		expect(monsterInstance.state('page')).toEqual(0);
 	});
 });
