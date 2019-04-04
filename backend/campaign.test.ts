@@ -381,13 +381,16 @@ describe('campaign tests', async () => {
 });
 /*
 
-When all info provided correctly
-Save the campaign
+When the right campaign id was provided by the owner
+return the campaign
 
-When invalid encounter is provided
-raise an error
+When the requester is not owner
+return an error
 
-When name summary or Notes are invalid
-raise an error
+When provided id is not number
+return an error
+
+When campaign id is invalid
+return an error
 
 */
