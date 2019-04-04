@@ -4,6 +4,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 import { Tile, Subtitle, Field, FieldLabel, Label, FieldBody, Control, Input, Help, Column, Columns } from 'bloomer';
+import { isDeepStrictEqual } from 'util';
 
 export interface IMonsterSenseBonusesProps {
 	disabled?: boolean;
@@ -26,6 +27,13 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 		this.state = {
 			...props.initial
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterSenseBonusesProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+				...nextProps.initial
+			});
 	}
 
 	private keyNames: string[] = [

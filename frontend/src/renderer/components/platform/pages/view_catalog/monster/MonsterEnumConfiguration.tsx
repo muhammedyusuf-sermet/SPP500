@@ -6,6 +6,7 @@ import 'bulma/css/bulma.css';
 
 import { Select, Tile, Field, Control, Subtitle, Label, Help } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment } from '../../../../../../monster';
+import { isDeepStrictEqual } from 'util';
 
 const types = Object.values(MonsterType);
 const sizes = Object.values(Size);
@@ -31,6 +32,13 @@ export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMon
 		this.state = {
 			selected: props.selected ? props.selected : 'Default'
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterDropdownProps) {
+		if (this.state.selected != nextProps.selected)
+			this.setState({
+				selected: nextProps.selected ? nextProps.selected : 'Default'
+			});
 	}
 
 	handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -98,6 +106,13 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 		this.state = {
 			...props.initial
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterEnumConfigurationProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+				...nextProps.initial
+			});
 	}
 
 	handleMonsterEnumChange = (name: string, newEnum?: string) => {

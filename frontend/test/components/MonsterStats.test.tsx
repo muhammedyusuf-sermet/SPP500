@@ -79,6 +79,79 @@ describe('Monster Stats', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			const payloadSchema = Joi.object({
+				AbilityScores: Joi.object({
+					Strength: Joi.number().integer().greater(0).label('Strength'),
+					Dexterity: Joi.number().integer().greater(0).label('Dexterity'),
+					Constitution: Joi.number().integer().greater(0).label('Constitution'),
+					Intelligence: Joi.number().integer().greater(0).label('Intelligence'),
+					Wisdom: Joi.number().integer().greater(0).label('Wisdom'),
+					Charisma: Joi.number().integer().greater(0).label('Charisma')
+				})
+			});
+			monsterStatsInstance =
+				mount<MonsterStats, IMonsterStatsProps, IMonsterStatsState>(
+					<MonsterStats
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						Parent='AbilityScores'
+						initial={{
+							Strength: 123,
+							Dexterity: 53,
+							Constitution: 25,
+							Intelligence: 85,
+							Wisdom: 43,
+							Charisma: 32
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterStatsInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterStatsInstance.setProps({
+				initial: {
+					Strength: 12,
+					Dexterity: 36,
+					Constitution: 5,
+					Intelligence: 52,
+					Wisdom: 71,
+					Charisma: 14
+				}
+			})
+			expect(monsterStatsInstance.find('Input#AbilityScoresStrength').props().value).toEqual(12);
+			expect(monsterStatsInstance.find('Input#AbilityScoresDexterity').props().value).toEqual(36);
+			expect(monsterStatsInstance.find('Input#AbilityScoresConstitution').props().value).toEqual(5);
+			expect(monsterStatsInstance.find('Input#AbilityScoresIntelligence').props().value).toEqual(52);
+			expect(monsterStatsInstance.find('Input#AbilityScoresWisdom').props().value).toEqual(71);
+			expect(monsterStatsInstance.find('Input#AbilityScoresCharisma').props().value).toEqual(14);
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterStatsInstance.setProps({
+				initial: {
+					Strength: 123,
+					Dexterity: 53,
+					Constitution: 25,
+					Intelligence: 85,
+					Wisdom: 43,
+					Charisma: 32
+				}
+			});
+			expect(monsterStatsInstance.find('Input#AbilityScoresStrength').props().value).toEqual(123);
+			expect(monsterStatsInstance.find('Input#AbilityScoresDexterity').props().value).toEqual(53);
+			expect(monsterStatsInstance.find('Input#AbilityScoresConstitution').props().value).toEqual(25);
+			expect(monsterStatsInstance.find('Input#AbilityScoresIntelligence').props().value).toEqual(85);
+			expect(monsterStatsInstance.find('Input#AbilityScoresWisdom').props().value).toEqual(43);
+			expect(monsterStatsInstance.find('Input#AbilityScoresCharisma').props().value).toEqual(32);
+		});
+	});
+
 	describe('Provided Stat values', () => {
 
 		beforeEach(() => {

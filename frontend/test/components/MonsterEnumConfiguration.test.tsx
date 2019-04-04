@@ -75,6 +75,63 @@ describe('Monster Creation', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			monsterEnumConfigurationInstance =
+				mount<MonsterEnumConfiguration, IMonsterEnumConfigurationProps, IMonsterEnumConfigurationState>(
+					<MonsterEnumConfiguration
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{
+							Size: Size.Gargantuan,
+							Type: MonsterType.Elemental,
+							Race: MonsterRace.Dwarf,
+							Alignment: Alignment.AnyEvilAlignment,
+							Environment: Environment.Coastal
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterEnumConfigurationInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterEnumConfigurationInstance.setProps({
+				initial:  {
+					Size: Size.Tiny,
+					Type: MonsterType.Construct,
+					Race: MonsterRace.Gnome,
+					Alignment: Alignment.ChaoticNeutral,
+					Environment: Environment.Forest
+				}
+			})
+			expect(monsterEnumConfigurationInstance.find('select#Type').props().value).toEqual('Construct');
+			expect(monsterEnumConfigurationInstance.find('select#Size').props().value).toEqual('Tiny');
+			expect(monsterEnumConfigurationInstance.find('select#Race').props().value).toEqual('Gnome');
+			expect(monsterEnumConfigurationInstance.find('select#Environment').props().value).toEqual('Forest');
+			expect(monsterEnumConfigurationInstance.find('select#Alignment').props().value).toEqual('ChaoticNeutral');
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterEnumConfigurationInstance.setProps({
+				initial: {
+					Size: Size.Gargantuan,
+					Type: MonsterType.Elemental,
+					Race: MonsterRace.Dwarf,
+					Alignment: Alignment.AnyEvilAlignment,
+					Environment: Environment.Coastal
+				}
+			});
+			expect(monsterEnumConfigurationInstance.find('select#Type').props().value).toEqual('Elemental');
+			expect(monsterEnumConfigurationInstance.find('select#Size').props().value).toEqual('Gargantuan');
+			expect(monsterEnumConfigurationInstance.find('select#Race').props().value).toEqual('Dwarf');
+			expect(monsterEnumConfigurationInstance.find('select#Environment').props().value).toEqual('Coastal');
+			expect(monsterEnumConfigurationInstance.find('select#Alignment').props().value).toEqual('AnyEvilAlignment');
+		});
+	});
+
 	describe('Happy Path', () => {
 
 		beforeEach(() => {

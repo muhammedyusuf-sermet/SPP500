@@ -86,6 +86,78 @@ describe('Monster SenseBonuses', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			monsterSenseBonusesInstance =
+				mount<MonsterSenseBonuses, IMonsterSenseBonusesProps, IMonsterSenseBonusesState>(
+					<MonsterSenseBonuses
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{
+							Blind: 30,
+							Blindsight: 30,
+							Darkvision: 10,
+							Tremorsense: 15,
+							Truesight: 60,
+							"Passive Perception": 13,
+							"Passive Investigation": 14,
+							"Passive Insight": 16,
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterSenseBonusesInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterSenseBonusesInstance.setProps({
+				initial: {
+					Blind: 21,
+					Blindsight: 56,
+					Darkvision: 14,
+					Tremorsense: 30,
+					Truesight: 50,
+					"Passive Perception": 45,
+					"Passive Investigation": 67,
+					"Passive Insight": 5,
+				}
+			})
+			expect(monsterSenseBonusesInstance.find('Input#Blind').props().value).toEqual(21);
+			expect(monsterSenseBonusesInstance.find('Input#Blindsight').props().value).toEqual(56);
+			expect(monsterSenseBonusesInstance.find('Input#Darkvision').props().value).toEqual(14);
+			expect(monsterSenseBonusesInstance.find('Input#Tremorsense').props().value).toEqual(30);
+			expect(monsterSenseBonusesInstance.find('Input#Truesight').props().value).toEqual(50);
+			expect(monsterSenseBonusesInstance.find('Input[id="Passive Perception"]').props().value).toEqual(45);
+			expect(monsterSenseBonusesInstance.find('Input[id="Passive Investigation"]').props().value).toEqual(67);
+			expect(monsterSenseBonusesInstance.find('Input[id="Passive Insight"]').props().value).toEqual(5);
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterSenseBonusesInstance.setProps({
+				initial: {
+					Blind: 30,
+					Blindsight: 30,
+					Darkvision: 10,
+					Tremorsense: 15,
+					Truesight: 60,
+					"Passive Perception": 13,
+					"Passive Investigation": 14,
+					"Passive Insight": 16,
+				}
+			});
+			expect(monsterSenseBonusesInstance.find('Input#Blind').props().value).toEqual(30);
+			expect(monsterSenseBonusesInstance.find('Input#Blindsight').props().value).toEqual(30);
+			expect(monsterSenseBonusesInstance.find('Input#Darkvision').props().value).toEqual(10);
+			expect(monsterSenseBonusesInstance.find('Input#Tremorsense').props().value).toEqual(15);
+			expect(monsterSenseBonusesInstance.find('Input#Truesight').props().value).toEqual(60);
+			expect(monsterSenseBonusesInstance.find('Input[id="Passive Perception"]').props().value).toEqual(13);
+			expect(monsterSenseBonusesInstance.find('Input[id="Passive Investigation"]').props().value).toEqual(14);
+			expect(monsterSenseBonusesInstance.find('Input[id="Passive Insight"]').props().value).toEqual(16);
+		});
+	});
+
 	describe('Happy Path', () => {
 
 		beforeEach(() => {

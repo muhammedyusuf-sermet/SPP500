@@ -4,6 +4,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 import { Tile, Subtitle, Field, FieldLabel, Label, FieldBody, Control, Input, Help } from 'bloomer';
+import { isDeepStrictEqual } from 'util';
 
 export interface IMonsterStatsProps {
 	disabled?: boolean,
@@ -47,6 +48,13 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 		this.state = {
 			...props.initial
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterStatsProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+				...nextProps.initial
+			});
 	}
 
 	private keyNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
