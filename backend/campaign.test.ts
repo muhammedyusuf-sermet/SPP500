@@ -381,13 +381,13 @@ describe('campaign tests', async () => {
 });
 /*
 
-When all info provided correctly
-Save the campaign
-
-When invalid encounter is provided
+When another user requests an campaign to delete when they are not the owner
 raise an error
 
-When name summary or Notes are invalid
+When owner of an campaign requests delete
+delete the campaign
+
+When an invalid campaign is given
 raise an error
 
 */
