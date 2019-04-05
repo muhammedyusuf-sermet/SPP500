@@ -121,11 +121,11 @@ export const initServer = async () => {
 	},
 	{
 		method: 'GET',
-		path: '/campaign/one/{id}', 
+		path: '/campaign/get/{page}/{size}', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
 			var campaign = new CampaignFactory();
-			return campaign.GetOne(request);
+			return campaign.GetAll(request);
 		}
 	},
 	{
