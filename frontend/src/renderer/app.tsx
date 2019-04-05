@@ -43,7 +43,7 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/campaign/view/:Id" render={(props) => {
 									return (
 										<CampaignCRUD Process={CampaignCRUDState.Read} Id={props.match.params.Id} />
-
+									);}} />
 								<Route path="/monster/create" render={() => {
 									return (
 										<MonsterCRUD Process={MonsterCRUDState.Create} />
