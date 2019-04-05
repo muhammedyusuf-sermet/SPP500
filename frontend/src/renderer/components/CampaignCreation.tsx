@@ -38,7 +38,10 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 		abortEarly: false,
 		convert: true,
 		allowUnknown: false,
-		context: {}
+		context: {
+			// TODO: Get the encounter IDs from database.
+			EncounterOptions: [0,1,2,3,4,5,6,7,8,9,10,11]
+		}
 	};
 	private CampaignDetails: React.RefObject<CampaignDetails>;
 	constructor(props: any) {
