@@ -57,6 +57,33 @@ export const initServer = async () => {
 		}
 	},
 	{
+		method: 'POST',
+		path: '/monster/edit',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.Edit(request);
+		}
+	},
+	{
+		method: 'DELETE',
+		path: '/monster/{monsterId}',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.Delete(request);
+		}
+	},
+	{
+		method: 'GET',
+		path: '/monster/{monsterId}',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.GetOne(request);
+		}
+	},
+	{
 		method: 'GET',
 		path: '/monster/get/{page}/{size}', 
 		options: { auth: 'jwt' },
@@ -112,11 +139,29 @@ export const initServer = async () => {
 	},
 	{
 		method: 'POST',
+		path: '/campaign/delete', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.Delete(request);
+		}
+	},
+	{
+		method: 'POST',
 		path: '/campaign/create', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
 			var campaign = new CampaignFactory();
 			return campaign.Create(request);
+		}
+	},
+	{
+		method: 'GET',
+		path: '/campaign/get/{page}/{size}', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.GetAll(request);
 		}
 	},
 	{

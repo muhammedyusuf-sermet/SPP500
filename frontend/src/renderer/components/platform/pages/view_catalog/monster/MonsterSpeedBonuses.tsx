@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import 'bulma/css/bulma.css';
 import { Tile, Subtitle, Field, Label, Control, Input } from 'bloomer';
+import { isDeepStrictEqual } from 'util';
 
 export interface IMonsterSpeedBonusesProps {
 	disabled?: boolean;
@@ -27,6 +28,13 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 		this.state = {
 			...props.initial
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterSpeedBonusesProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+				...nextProps.initial
+			});
 	}
 
 	//TODO: Make speed its own dictionary of all the different monvement options.
@@ -63,6 +71,7 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 					<Control isExpanded>
 						<Label>Land Speed</Label>
 						<Input
+							disabled={this.props.disabled}
 							id='SpeedLand'
 							type='number'
 							placeholder='Land Speed'
@@ -74,6 +83,7 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 					<Control isExpanded>
 						<Label>Swimming Speed</Label>
 						<Input
+							disabled={this.props.disabled}
 							id='SpeedSwim'
 							type='number'
 							placeholder='Swimming Speed'

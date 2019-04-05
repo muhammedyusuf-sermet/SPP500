@@ -2,6 +2,8 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {ViewCatalog} from '../../src/renderer/components/platform/pages/ViewCatalog';
 
+jest.mock('../../src/cookie');
+
 describe('Test the View Catalog Page', () => {
 	const viewCatalogInstance = shallow(<ViewCatalog/>);
 

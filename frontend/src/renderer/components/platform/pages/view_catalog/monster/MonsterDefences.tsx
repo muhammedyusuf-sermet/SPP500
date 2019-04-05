@@ -4,6 +4,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 import { Tile, Subtitle, Field, Control, Label, Input, Help } from 'bloomer';
+import { isDeepStrictEqual } from 'util';
 
 export interface IMonsterDefencesProps {
 	disabled?: boolean,
@@ -35,6 +36,13 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 		this.state = {
 			...props.initial
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterDefencesProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+				...nextProps.initial
+			});
 	}
 
 	stringToNumber = (toConvert : string) => {
@@ -80,6 +88,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 					<Control>
 						<Label>Armor Class</Label>
 						<Input
+							disabled={this.props.disabled}
 							id='ArmorClass'
 							type='number'
 							placeholder='Armor Class'
@@ -94,6 +103,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 					<Control isExpanded>
 						<Label>Hit Points</Label>
 						<Input
+							disabled={this.props.disabled}
 							id='HitPoints'
 							type='number'
 							placeholder='Hit Points'
@@ -106,6 +116,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 					<Control isExpanded>
 						<Label>Hit Point Distribution</Label>
 						<Input
+							disabled={this.props.disabled}
 							id='HitPointDistribution'
 							type='string'
 							placeholder='Hit Points Distribution'

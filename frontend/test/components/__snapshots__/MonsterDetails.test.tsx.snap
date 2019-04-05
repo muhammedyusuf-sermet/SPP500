@@ -161,7 +161,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Strength Stat"
       readOnly={true}
-      value={17}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -171,7 +171,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Dexterity Stat"
       readOnly={true}
-      value={15}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -181,7 +181,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Constitution Stat"
       readOnly={true}
-      value={13}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -191,7 +191,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Intelligence Stat"
       readOnly={true}
-      value={12}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -201,7 +201,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Wisdom Stat"
       readOnly={true}
-      value={16}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -211,7 +211,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Charisma Stat"
       readOnly={true}
-      value={15}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -221,7 +221,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Strength Saving Throw Modifier"
       readOnly={true}
-      value={-3}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -231,7 +231,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Dexterity Saving Throw Modifier"
       readOnly={true}
-      value={0}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -241,7 +241,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Constitution Saving Throw Modifier"
       readOnly={true}
-      value={-1}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -251,7 +251,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Intelligence Saving Throw Modifier"
       readOnly={true}
-      value={-2}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -261,7 +261,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Wisdom Saving Throw Modifier"
       readOnly={true}
-      value={8}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -271,7 +271,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Charisma Saving Throw Modifier"
       readOnly={true}
-      value={9}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -281,7 +281,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Athletics Modifier"
       readOnly={true}
-      value={9}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -291,7 +291,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Acrobatics Modifier"
       readOnly={true}
-      value={10}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -301,7 +301,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Sleight of Hand Modifier"
       readOnly={true}
-      value={9}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -311,7 +311,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Stealth Modifier"
       readOnly={true}
-      value={8}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -321,7 +321,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Arcana Modifier"
       readOnly={true}
-      value={7}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -331,7 +331,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="History Modifier"
       readOnly={true}
-      value={7}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -341,7 +341,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Investigation Modifier"
       readOnly={true}
-      value={6}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -351,7 +351,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Nature Modifier"
       readOnly={true}
-      value={7}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -361,7 +361,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Religion Modifier"
       readOnly={true}
-      value={8}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -371,7 +371,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Animal Handling Modifier"
       readOnly={true}
-      value={9}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -381,7 +381,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Insight Modifier"
       readOnly={true}
-      value={10}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -391,7 +391,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Medicine Modifier"
       readOnly={true}
-      value={12}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -401,7 +401,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Perception Modifier"
       readOnly={true}
-      value={15}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -411,7 +411,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Survival Modifier"
       readOnly={true}
-      value={11}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -421,7 +421,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Deception Modifier"
       readOnly={true}
-      value={10}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -431,7 +431,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Intimidation Modifier"
       readOnly={true}
-      value={9}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -441,7 +441,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Performance Modifier"
       readOnly={true}
-      value={7}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>
@@ -451,7 +451,7 @@ exports[`Test the Monster View Details Per Monster renders correctly when the pa
     <withHelpersModifiers(Input)
       label="Persuasion Modifier"
       readOnly={true}
-      value={4}
+      value="N/A"
     />
   </withHelpersModifiers(Control)>
   <withHelpersModifiers(Control)>

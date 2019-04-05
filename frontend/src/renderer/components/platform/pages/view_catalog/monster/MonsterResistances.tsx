@@ -4,6 +4,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 import { Tile, Subtitle, Field, FieldLabel, Label, FieldBody, Control, Input, Help } from 'bloomer';
+import { isDeepStrictEqual } from 'util';
 
 export interface IMonsterResistancesProps {
 	disabled?: boolean,
@@ -38,6 +39,13 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 		this.state = {
 			...props.initial
 		};
+	}
+
+	componentWillReceiveProps(nextProps: IMonsterResistancesProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+				...nextProps.initial
+			});
 	}
 
 	handleResistancesChange = (event: React.ChangeEvent<HTMLInputElement>) => {

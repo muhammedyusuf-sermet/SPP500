@@ -32,30 +32,12 @@ exports[`Encounter Creation Happy Path renders correctly when the page is loaded
       </withHelpersModifiers(Control)>
     </withHelpersModifiers(Field)>
     <withHelpersModifiers(Field)>
-      <withHelpersModifiers(Control)>
-        <withHelpersModifiers(Checkbox)
-          key="1"
-          name="1"
-          onChange={[Function]}
-        >
-          Monster 1
-        </withHelpersModifiers(Checkbox)>
-        <withHelpersModifiers(Checkbox)
-          key="2"
-          name="2"
-          onChange={[Function]}
-        >
-          Monster 2
-        </withHelpersModifiers(Checkbox)>
-        <withHelpersModifiers(Checkbox)
-          key="3"
-          name="3"
-          onChange={[Function]}
-        >
-          Monster 3
-        </withHelpersModifiers(Checkbox)>
-      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control) />
     </withHelpersModifiers(Field)>
+    <Pagination
+      getTotalPages={[Function]}
+      onPageChange={[Function]}
+    />
     <withHelpersModifiers(Field)
       isGrouped={true}
     >

@@ -7,8 +7,9 @@ describe('Test the Monster View Details Per Monster', () => {
 	let monsterDetailsInstance: ShallowWrapper<any, IMonsterDetailsState, MonsterDetails>;
 
 	beforeEach(() => {
-		let monsterExample: Monster.IMonsterState;
-		monsterExample = {
+		// This mock object is in the same format with the backend would return
+		// Backend currently doesn't return skills, senses, etc.
+		let monsterExample = {
 			Id: "",
 			Name: "Hello",
 			Type: Monster.MonsterType.Celestial,
@@ -23,55 +24,12 @@ describe('Test the Monster View Details Per Monster', () => {
 			ArmorClass: 15,
 			HitPoints: 40,
 			HitPointDistribution: "9d5 - 5",
-			AbilityScores: {
-				Strength: 17,
-				Dexterity: 15,
-				Constitution: 13,
-				Intelligence: 12,
-				Wisdom: 16,
-				Charisma: 15
-			},
-			SavingThrows: {
-				Strength: -3,
-				Dexterity: 0,
-				Constitution: -1,
-				Intelligence: -2,
-				Wisdom: 8,
-				Charisma: 9
-			},
-			Skills: {
-				Athletics: 9,
-				Acrobatics: 10,
-				SleightOfHand: 9,
-				Stealth: 8,
-				Arcana: 7,
-				History: 7,
-				Investigation: 6,
-				Nature: 7,
-				Religion: 8,
-				AnimalHandling: 9,
-				Insight: 10,
-				Medicine: 12,
-				Perception: 15,
-				Survival: 11,
-				Deception: 10,
-				Intimidation: 9,
-				Performance: 7,
-				Persuasion: 4,
-			},
-			Senses: {
-				Blindsight: 30,
-				Darkvision: 10,
-				Tremorsense: 15,
-				Truesight: 60,
-				PassivePerception: 13,
-				PassiveInvestigation: 14,
-				PassiveInsight: 16,
-			},
+			AbilityScores: null,
+			SavingThrows: null,
+			Skills: null,
+			Senses: null,
 			Languages: "Common and Draconic",
 			ChallengeRating: 2.5,
-			//abilities: [],
-			//actions: [],
 		};
 		monsterDetailsInstance = shallow(<MonsterDetails monster={monsterExample}/>);
 	})

@@ -137,6 +137,128 @@ describe('Monster SkillBonuses', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			monsterSkillBonusesInstance =
+				mount<MonsterSkillBonuses, IMonsterSkillBonusesProps, IMonsterSkillBonusesState>(
+					<MonsterSkillBonuses
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{
+							Athletics: 9,
+							"Sleight of Hand": 2,
+							"Animal Handling": 14,
+							Acrobatics: 10,
+							Stealth: 8,
+							Arcana: 7,
+							History: 7,
+							Investigation: 6,
+							Nature: 7,
+							Religion: 8,
+							Insight: 10,
+							Medicine: 12,
+							Perception: 15,
+							Survival: 11,
+							Deception: 10,
+							Intimidation: 9,
+							Performance: 7,
+							Persuasion: 4,
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterSkillBonusesInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterSkillBonusesInstance.setProps({
+				initial: {
+					Athletics: 5,
+					"Sleight of Hand": 12,
+					"Animal Handling": 4,
+					Acrobatics: 1,
+					Stealth: 18,
+					Arcana: 17,
+					History: 17,
+					Investigation: 36,
+					Nature: 47,
+					Religion: 82,
+					Insight: 12,
+					Medicine: 11,
+					Perception: 18,
+					Survival: 20,
+					Deception: 30,
+					Intimidation: 19,
+					Performance: 37,
+					Persuasion: 7,
+				}
+			})
+			expect(monsterSkillBonusesInstance.find('Input#Athletics').props().value).toEqual(5);
+			expect(monsterSkillBonusesInstance.find('Input[id="Sleight of Hand"]').props().value).toEqual(12);
+			expect(monsterSkillBonusesInstance.find('Input[id="Animal Handling"]').props().value).toEqual(4);
+			expect(monsterSkillBonusesInstance.find('Input#Acrobatics').props().value).toEqual(1);
+			expect(monsterSkillBonusesInstance.find('Input#Stealth').props().value).toEqual(18);
+			expect(monsterSkillBonusesInstance.find('Input#Arcana').props().value).toEqual(17);
+			expect(monsterSkillBonusesInstance.find('Input#History').props().value).toEqual(17);
+			expect(monsterSkillBonusesInstance.find('Input#Investigation').props().value).toEqual(36);
+			expect(monsterSkillBonusesInstance.find('Input#Nature').props().value).toEqual(47);
+			expect(monsterSkillBonusesInstance.find('Input#Religion').props().value).toEqual(82);
+			expect(monsterSkillBonusesInstance.find('Input#Insight').props().value).toEqual(12);
+			expect(monsterSkillBonusesInstance.find('Input#Medicine').props().value).toEqual(11);
+			expect(monsterSkillBonusesInstance.find('Input#Perception').props().value).toEqual(18);
+			expect(monsterSkillBonusesInstance.find('Input#Survival').props().value).toEqual(20);
+			expect(monsterSkillBonusesInstance.find('Input#Deception').props().value).toEqual(30);
+			expect(monsterSkillBonusesInstance.find('Input#Intimidation').props().value).toEqual(19);
+			expect(monsterSkillBonusesInstance.find('Input#Performance').props().value).toEqual(37);
+			expect(monsterSkillBonusesInstance.find('Input#Persuasion').props().value).toEqual(7);
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterSkillBonusesInstance.setProps({
+				initial: {
+					Athletics: 9,
+					"Sleight of Hand": 2,
+					"Animal Handling": 14,
+					Acrobatics: 10,
+					Stealth: 8,
+					Arcana: 7,
+					History: 7,
+					Investigation: 6,
+					Nature: 7,
+					Religion: 8,
+					Insight: 10,
+					Medicine: 12,
+					Perception: 15,
+					Survival: 11,
+					Deception: 10,
+					Intimidation: 9,
+					Performance: 7,
+					Persuasion: 4,
+				}
+			});
+			expect(monsterSkillBonusesInstance.find('Input#Athletics').props().value).toEqual(9);
+			expect(monsterSkillBonusesInstance.find('Input[id="Sleight of Hand"]').props().value).toEqual(2);
+			expect(monsterSkillBonusesInstance.find('Input[id="Animal Handling"]').props().value).toEqual(14);
+			expect(monsterSkillBonusesInstance.find('Input#Acrobatics').props().value).toEqual(10);
+			expect(monsterSkillBonusesInstance.find('Input#Stealth').props().value).toEqual(8);
+			expect(monsterSkillBonusesInstance.find('Input#Arcana').props().value).toEqual(7);
+			expect(monsterSkillBonusesInstance.find('Input#History').props().value).toEqual(7);
+			expect(monsterSkillBonusesInstance.find('Input#Investigation').props().value).toEqual(6);
+			expect(monsterSkillBonusesInstance.find('Input#Nature').props().value).toEqual(7);
+			expect(monsterSkillBonusesInstance.find('Input#Religion').props().value).toEqual(8);
+			expect(monsterSkillBonusesInstance.find('Input#Insight').props().value).toEqual(10);
+			expect(monsterSkillBonusesInstance.find('Input#Medicine').props().value).toEqual(12);
+			expect(monsterSkillBonusesInstance.find('Input#Perception').props().value).toEqual(15);
+			expect(monsterSkillBonusesInstance.find('Input#Survival').props().value).toEqual(11);
+			expect(monsterSkillBonusesInstance.find('Input#Deception').props().value).toEqual(10);
+			expect(monsterSkillBonusesInstance.find('Input#Intimidation').props().value).toEqual(9);
+			expect(monsterSkillBonusesInstance.find('Input#Performance').props().value).toEqual(7);
+			expect(monsterSkillBonusesInstance.find('Input#Persuasion').props().value).toEqual(4);
+		});
+	});
+
 	describe('Happy Path', () => {
 
 		beforeEach(() => {

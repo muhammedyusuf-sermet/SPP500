@@ -9,7 +9,7 @@ export class Sense {
 
 	static find(a: any) {
 		if (a.select) {
-			return this.TableRows;
+			return this.TableRows.slice(0);
 		}
 		var result = Sense.TableRows.slice(0);
 		for (let key in a) {

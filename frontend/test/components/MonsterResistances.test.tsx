@@ -64,6 +64,58 @@ describe('Monster Resistances', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			monsterResistancesInstance =
+				mount<MonsterResistances, IMonsterResistancesProps, IMonsterResistancesState>(
+					<MonsterResistances
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{
+							DamageResistances: 'This is test damage resistance',
+							DamageImmunities: 'This is test damage immunity',
+							DamageVulnerabilities: 'This is test damage vulnerabilities',
+							ConditionImmunities: 'This is test condition immunities'
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterResistancesInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterResistancesInstance.setProps({
+				initial: {
+					DamageResistances: 'This is test new damage resistance',
+					DamageImmunities: 'This is test new damage immunity',
+					DamageVulnerabilities: 'This is test new damage vulnerabilities',
+					ConditionImmunities: 'This is test new condition immunities'
+				}
+			})
+			expect(monsterResistancesInstance.find('Input#DamageResistances').props().value).toEqual('This is test new damage resistance');
+			expect(monsterResistancesInstance.find('Input#DamageImmunities').props().value).toEqual('This is test new damage immunity');
+			expect(monsterResistancesInstance.find('Input#DamageVulnerabilities').props().value).toEqual('This is test new damage vulnerabilities');
+			expect(monsterResistancesInstance.find('Input#ConditionImmunities').props().value).toEqual('This is test new condition immunities');
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterResistancesInstance.setProps({
+				initial: {
+					DamageResistances: 'This is test damage resistance',
+					DamageImmunities: 'This is test damage immunity',
+					DamageVulnerabilities: 'This is test damage vulnerabilities',
+					ConditionImmunities: 'This is test condition immunities'
+				}
+			});
+			expect(monsterResistancesInstance.find('Input#DamageResistances').props().value).toEqual('This is test damage resistance');
+			expect(monsterResistancesInstance.find('Input#DamageImmunities').props().value).toEqual('This is test damage immunity');
+			expect(monsterResistancesInstance.find('Input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
+			expect(monsterResistancesInstance.find('Input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
+		});
+	});
+
 	describe('Happy Path', () => {
 
 		beforeEach(() => {
