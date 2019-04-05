@@ -108,7 +108,7 @@ export class MonsterFactory {
 			Intelligence: Joi.number().integer().greater(0).label('Intelligence'),
 			Wisdom: Joi.number().integer().greater(0).label('Wisdom'),
 			Charisma: Joi.number().integer().greater(0).label('Charisma')
-		}).default({}),
+		}),
 		SavingThrows: Joi.object({
 			Strength: Joi.number().integer().label('Strength'),
 			Dexterity: Joi.number().integer().label('Dexterity'),
@@ -116,7 +116,7 @@ export class MonsterFactory {
 			Intelligence: Joi.number().integer().label('Intelligence'),
 			Wisdom: Joi.number().integer().label('Wisdom'),
 			Charisma: Joi.number().integer().label('Charisma')
-		}).default({}),
+		}),
 		/* This is the correct way to do this,
 			waiting for responce on github.
 			https://github.com/hapijs/joi/issues/1748
@@ -333,7 +333,7 @@ export class MonsterFactory {
 						error.message = "\"Skill Name\" must be one of " + skillMessage
 				}
 				return errors
-			}).default({})
+			})
 		});
 		let senseMessage = senseNames.join(',');
 		this.senseNameSchema = Joi.object({
@@ -346,7 +346,7 @@ export class MonsterFactory {
 						error.message = "\"Sense Name\" must be one of " + senseMessage
 				}
 				return errors
-			}).default({})
+			})
 		});
 		return await Joi.validate(
 			request.payload,
@@ -378,13 +378,12 @@ export class MonsterFactory {
 				}else{
 					var monsterId = +request.payload.Id;
 					let monsterFind: Monster[] = await Monster.find({
-						relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Senses.Sense'],
+						relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Senses.Sense', 'Skills.Monster', 'Senses.Monster'],
 						where: { Id: monsterId }
 					});
 					if(monsterFind.length > 0){
 						let monsterDb: Monster = monsterFind[0];
-						console.log(monsterFind);
-						console.log('EDIT -- EDIT -- EDIT -- EDIT -- EDIT -- EDIT -- EDIT -- EDIT');
+						let keep: Set<string>;
 						// link normal attributes
 						monsterDb.Name = value.Name;
     					monsterDb.Size = value.Size;
@@ -405,78 +404,81 @@ export class MonsterFactory {
     					monsterDb.DamageImmunities = value.DamageImmunities;
     					monsterDb.ConditionImmunities = value.ConditionImmunities;
 
-    					monsterDb.ChallengeRating = value.ChallengeRating;
-						// link ability score
-						monsterDb.AbilityScores.Strength = value.AbilityScores.Strength
-						monsterDb.AbilityScores.Dexterity = value.AbilityScores.Dexterity
-						monsterDb.AbilityScores.Charisma = value.AbilityScores.Charisma
-						monsterDb.AbilityScores.Constitution = value.AbilityScores.Constitution
-						monsterDb.AbilityScores.Intelligence = value.AbilityScores.Intelligence
-						monsterDb.AbilityScores.Wisdom = value.AbilityScores.Wisdom
-						await monsterDb.AbilityScores.save();
-						// link saving throw
-						monsterDb.SavingThrows.Strength = value.SavingThrows.Strength
-						monsterDb.SavingThrows.Charisma = value.SavingThrows.Charisma
-						monsterDb.SavingThrows.Constitution = value.SavingThrows.Constitution
-						monsterDb.SavingThrows.Dexterity = value.SavingThrows.Dexterity
-						monsterDb.SavingThrows.Intelligence = value.SavingThrows.Intelligence
-						monsterDb.SavingThrows.Wisdom = value.SavingThrows.Wisdom
-						await monsterDb.SavingThrows.save();
-						// link skills to monster
-						console.log("LINK SKILLS")
+						monsterDb.ChallengeRating = value.ChallengeRating;
 						
-						for (let skillName in value.Skills) {
-							let missing = true;
-							for (let index in monsterDb.Skills) {
-								if (monsterDb.Skills[index].Skill.Name == skillName) {
-									monsterDb.Skills[index].Bonus = value.Skills[skillName];
-									monsterDb.Skills[index].Skill = skillLookup[skillName];
-									monsterDb.Skills[index].Monster = monsterDb;
-									missing = false;
-									break;
+						// link ability score
+						if(value.AbilityScores){
+							monsterDb.AbilityScores.Strength = value.AbilityScores.Strength
+							monsterDb.AbilityScores.Dexterity = value.AbilityScores.Dexterity
+							monsterDb.AbilityScores.Charisma = value.AbilityScores.Charisma
+							monsterDb.AbilityScores.Constitution = value.AbilityScores.Constitution
+							monsterDb.AbilityScores.Intelligence = value.AbilityScores.Intelligence
+							monsterDb.AbilityScores.Wisdom = value.AbilityScores.Wisdom
+							await monsterDb.AbilityScores.save();
+						}
+						// link saving throw
+						if(value.SavingThrows) {
+							monsterDb.SavingThrows.Strength = value.SavingThrows.Strength
+							monsterDb.SavingThrows.Charisma = value.SavingThrows.Charisma
+							monsterDb.SavingThrows.Constitution = value.SavingThrows.Constitution
+							monsterDb.SavingThrows.Dexterity = value.SavingThrows.Dexterity
+							monsterDb.SavingThrows.Intelligence = value.SavingThrows.Intelligence
+							monsterDb.SavingThrows.Wisdom = value.SavingThrows.Wisdom
+							await monsterDb.SavingThrows.save();
+						}
+
+						// link skills to monster
+						if(value.Skills){
+							for (const [skillName, bonus] of Object.entries<number>(value.Skills)) {
+								let missing = true;
+								for (let index in monsterDb.Skills) {
+									if (monsterDb.Skills[index].Skill.Name == skillName) {
+										monsterDb.Skills[index].Bonus = bonus;
+										missing = false;
+										break;
+									}
+								}
+								if (missing) {
+									const monsterSkill: MonsterSkill = new MonsterSkill();
+									monsterSkill.Bonus = bonus
+									monsterSkill.Skill = skillLookup[skillName];
+									monsterSkill.Monster = monsterDb;
+									monsterDb.Skills.push(monsterSkill);
 								}
 							}
-							if (missing) {
-								const monsterSkill: MonsterSkill = new MonsterSkill();
-								monsterSkill.Bonus = value.Skills[skillName];
-								monsterSkill.Skill = skillLookup[skillName];
-								monsterSkill.Monster = monsterDb;
-								monsterDb.Skills.push(monsterSkill);
-							}
+							keep = new Set(Object.keys(value.Skills));
+							const remove = monsterDb.Skills.filter((skill) => keep.has(skill.Skill.Name) == false)
+							const save = monsterDb.Skills.filter((skill) => keep.has(skill.Skill.Name))
+							await MonsterSkill.remove(remove);
+							await MonsterSkill.save(save);
 						}
-						const removeSkills: MonsterSkill[] = monsterDb.Skills.filter((skill) => skill.Monster == undefined);
-						for (let skill of removeSkills) {
-							skill.Monster = monsterDb;
-						}
-						await MonsterSkill.remove(removeSkills)
-						await MonsterSkill.save(monsterDb.Skills.filter((skill) => skill.Monster));
-						console.log("LINK SENSES")
+
 						// link senses to monster
-						for (let senseName in value.Senses) {
-							let missing = true;
-							for (let index in monsterDb.Senses) {
-								if (monsterDb.Senses[index].Sense.Name == senseName) {
-									monsterDb.Senses[index].Bonus = value.Senses[senseName];
-									monsterDb.Senses[index].Sense = senseLookup[senseName];
-									monsterDb.Senses[index].Monster = monsterDb;
-									missing = false;
-									break;
+						if(value.Senses){
+							for (const [senseName, bonus] of Object.entries<number>(value.Senses)) {
+								let missing = true;
+								for (let index in monsterDb.Senses) {
+									if (monsterDb.Senses[index].Sense.Name == senseName) {
+										monsterDb.Senses[index].Bonus = bonus;
+										missing = false;
+										break;
+									}
+								}
+								if (missing) {
+									const monsterSense: MonsterSense = new MonsterSense();
+									monsterSense.Bonus = bonus
+									monsterSense.Sense = senseLookup[senseName];
+									monsterSense.Monster = monsterDb;
+									monsterDb.Senses.push(monsterSense);
 								}
 							}
-							if (missing) {
-								const monsterSense: MonsterSense = new MonsterSense();
-								monsterSense.Bonus = value.Senses[senseName];
-								monsterSense.Sense = senseLookup[senseName];
-								monsterSense.Monster = monsterDb;
-								monsterDb.Senses.push(monsterSense);
-							}
+							keep = new Set(Object.keys(value.Senses));
+							const remove = monsterDb.Senses.filter((sense) => keep.has(sense.Sense.Name) == false)
+							const save = monsterDb.Senses.filter((sense) => keep.has(sense.Sense.Name))
+							await MonsterSense.remove(remove);
+							await MonsterSense.save(save);
 						}
-						const removeSenses: MonsterSense[] = monsterDb.Senses.filter((sense) => sense.Monster == undefined);
-						for (let sense of removeSenses) {
-							sense.Monster = monsterDb;
-						}
-						await MonsterSense.remove(removeSenses)
-						await MonsterSense.save(monsterDb.Senses.filter((sense) => sense.Monster));
+
 						// link actions to monster
 						/*for (let index in value.Actions) {
 							let missing = true;
@@ -512,30 +514,21 @@ export class MonsterFactory {
 	}
 
 	public async Delete(request: any){
-		console.log('DELETE')
 		const monsterId = +request.params.monsterId;
 		const messages: string[] = [];
 		
 		if (isNaN(monsterId)) {
 			messages.push("Parameter 'monsterId' must be a number.")
-			console.log('????????')
 		}
 
 		if (messages.length == 0) {
 			let monster: Monster[] | undefined = await Monster.find({
-				relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Senses.Sense', 'Actions', 'Encounters'], 
+				relations: ['AbilityScores', 'SavingThrows', 'Skills', 'Senses', 'Skills.Skill', 'Skills.Monster', 'Senses.Sense', 'Senses.Monster', 'Actions', 'Encounters'], 
 				where: { Id: monsterId }
 			});
 			if (monster && monster.length > 0) {
 				const monsterDb: Monster = monster[0];
-				console.log(monsterDb);
-				for (let skill of monsterDb.Skills) {
-					skill.Monster = monsterDb;
-				}
 				await MonsterSkill.remove(monsterDb.Skills)
-				for (let sense of monsterDb.Senses) {
-					sense.Monster = monsterDb;
-				}
 				await MonsterSense.remove(monsterDb.Senses)
 				await Action.remove(monsterDb.Actions)
 
