@@ -130,6 +130,15 @@ export const initServer = async () => {
 	},
 	{
 		method: 'GET',
+		path: '/campaign/get/{page}/{size}', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.GetAll(request);
+		}
+	},
+	{
+		method: 'GET',
 		path: '/verify', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
