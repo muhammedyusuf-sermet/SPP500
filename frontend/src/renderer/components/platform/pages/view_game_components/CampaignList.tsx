@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-// import {CampaignDetails} from './CampaignDetails';
+import {CampaignDetails} from './CampaignDetails';
 import {Pagination} from '../../../helpers/Pagination';
 
 import * as CampaignInterface from '../../../../../campaign';
@@ -107,7 +107,7 @@ export class CampaignList extends React.Component<any, ICampaignListState> {
 	}
 
 	render() {
-		// if(!this.state.viewCampaign && !this.state.editCampaign){
+		if(!this.state.viewCampaign && !this.state.editCampaign){
 			return (
 				<div id="view-campaign-container" className= "layout card-grid">
 					<Pagination getTotalPages={this.getTotalPages} onPageChange={this.updatePage} ></Pagination>
@@ -142,14 +142,14 @@ export class CampaignList extends React.Component<any, ICampaignListState> {
 					</Grid>
 				</div>
 			)
-		// }
-		// else if(this.state.viewCampaign){
-		// 	return (<CampaignDetails campaign={this.state.selectedCampaign} resetParentState={this.resetState}/>);
-		// }
-		// else{
-		// 	// Todo: To enable editing, just use the same component as CampaignDetails:
-		// 	// enable edit button, remove readOnly, and add the code to submit the changes
-		// 	return (<div>Editing Feature is not yet enabled. Please check again later.</div>);
-		// }
+		}
+		else if(this.state.viewCampaign){
+			return (<CampaignDetails campaign={this.state.selectedCampaign} resetParentState={this.resetState}/>);
+		}
+		else{
+			// Todo: To enable editing, just use the same component as CampaignDetails:
+			// enable edit button, remove readOnly, and add the code to submit the changes
+			return (<div>Editing Feature is not yet enabled. Please check again later.</div>);
+		}
 	}
 }
