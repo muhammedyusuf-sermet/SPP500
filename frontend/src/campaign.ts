@@ -1,6 +1,9 @@
+import * as Encounter from "./encounter";
+
 export interface ICampaignState {
 	Id?: string,
 	Name: string,
-	Description: string;
-	// Monsters: Monster.IMonsterState[];
+	Summary: string;
+	Notes: string;
+	Encounters: Encounter.IEncounterState[];
 }

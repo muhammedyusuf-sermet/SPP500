@@ -125,7 +125,7 @@ export class CampaignList extends React.Component<any, ICampaignListState> {
 									  {campaign.Name} {campaign.Id}
 									</Typography>
 									<Typography>
-									  {campaign.Description}.
+									  {campaign.Summary}.
 									</Typography>
 								  </CardContent>
 								  <CardActions>
