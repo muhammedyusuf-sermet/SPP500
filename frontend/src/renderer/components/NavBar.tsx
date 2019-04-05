@@ -48,7 +48,7 @@ export class NavBar extends React.Component<any, INavBarState> {
 									<Link className='navbar-item' to="/encounter_creation">Create Encounter</Link>
 									<Link className='navbar-item' to="/monster_creation">Create Monster</Link>
 									<Link className='navbar-item' to="/campaign/create">Create Campaign</Link>
-									<Link className='navbar-item' to="/campaign/view/23">View Campaign 3</Link>
+									<Link className='navbar-item' to="/campaign/view/3">View Campaign 3</Link>
 									<Link className='navbar-item' to="/catalog">View Catalog</Link>
 									<Link className='navbar-item' to="/game_components">View Game Components</Link>
 								</NavbarStart>
