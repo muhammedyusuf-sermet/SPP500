@@ -4,13 +4,12 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 import { Field, Label, Control, Input, TextArea, Checkbox } from 'bloomer';
-import { IEncounterState } from '../../../../../../encounter';
+//import { IEncounterState } from '../../../../../../encounter';
 
-const encounters = [{"Id": "1", "Name": "Encounter 1"},
-					{"Id": "2", "Name": "Encounter 2"},
-					{"Id": "3", "Name": "Encounter 3"}
-                ];
-                
+export interface IEncounterState {
+	Id?: number
+}
+              
 export interface ICampaignDetailsProps {
 	disabled?: boolean,
 	// validation
@@ -22,8 +21,8 @@ export interface ICampaignDetailsProps {
         Name?: string;
         Summary?: string;
         Notes?: string;
-        Encounters?: IEncounterState[];
-	}
+        Encounters?: IEncounterState[];  
+    }
 }
 
 export interface ICampaignDetailsState {
@@ -44,8 +43,12 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 	constructor(props: ICampaignDetailsProps) {
 		super(props);
 		this.state = {
-			...props.initial
-		};
+            ...props.initial
+        };
+    }
+
+    stringToNumber = (toConvert : string) => {
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
     }
     
     handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,15 +78,27 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 		this.setState({
             Notes: event.target.value
 		})
-	}
+    }
+    handleEncounterIdsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const encounters: {Id?: number}[] = []
+        const  numberPattern = /\d+/g;
+        const ids = event.target.value.match(numberPattern);
+        if (ids != null) {
+            ids.forEach((value: any) => {
+                encounters.push({ Id: this.stringToNumber(value)})
+            });
+        }
+		this.setState({  
+            Encounters: encounters
+        })
+    }
     // TODO: Validate encounters (check if in db).
 	handleEncounterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		event.persist();
+		//event.persist();
 		//const id = event.target.attributes['data-id'].value;
 		//const id = event.target.name;
 		//const isChecked = event.target.checked;
-
-		//this.setState(prevState => ({ checkedEncounters: prevState.checkedEncounters.set(id, isChecked)}));
+        //this.setState(prevState => ({ checkedEncounters: prevState.checkedEncounters.set(id, isChecked)}));
     }
     
     // Fix styling with bloom.
@@ -123,15 +138,12 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
         </Field>
 
         <Field>
+            <Label>Encounters</Label>
             <Control>
-                {encounters.map(encounter => (
-                    <Checkbox 	key={encounter.Id}
-                                name={encounter.Id}
-                                //checked={this.state.checkedEncounters.get(encounter.Id)}
-                                onChange={this.handleEncounterCheckboxChange}>
-                        {encounter.Name}
-                    </Checkbox>
-                ))}
+                <TextArea
+                            id="encounter_ids"
+                            placeholder={'Please write the encounter IDs here.'}
+                            onChange={this.handleEncounterIdsChange} />
             </Control>
         </Field>
 
