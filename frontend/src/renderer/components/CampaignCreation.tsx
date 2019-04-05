@@ -11,25 +11,46 @@ import { Redirect } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
 import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
+import { ICampaignState } from '../../campaign';
 
 interface ICampaignResponse {
 	status: number,
 	messages: string[]
 }
 
+export enum CampaignCRUDState {
+	Create = 'Create',
+	Read = 'Read',
+	Edit = 'Edit'
+}
+
+export interface IMonsterCRUDProps {
+	Process: CampaignCRUDState;
+	Id?: number;
+}
+export interface IMonsterGetOneResponse {
+	status: number,
+	messages: string[],
+	content: ICampaignState,
+}
 export interface ICampaignCreationState {
+	Process: CampaignCRUDState;
+	Id?: number;
 	submitted: boolean,
 	modal: {
 		open: boolean,
 		message: string
 	}
+	Campaign: ICampaignState;
 }
 
 export class CampaignCreation extends React.Component<any, ICampaignCreationState> {
+
 	private payloadSchema = Joi.object({
+		Id: Joi.number().greater(0),
 		Name: Joi.string().required().max(50),
 		Summary: Joi.string().required().max(1000),
-		Notes: Joi.string().max(2000),
+		Notes: Joi.string().required().max(2000),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([])
@@ -47,13 +68,57 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 	constructor(props: any) {
 		super(props);
 		this.state = {
+			Process: props.Process,
+			Id: props.Id,
 			submitted: false,
 			modal: {
 				open: false,
 				message: ""
+			},
+			Campaign: {
+				Name: '',
+				Summary: '',
+				Notes: '',
+				Encounters: []
 			}
 		}
 		this.CampaignDetails = React.createRef<CampaignDetails>();
+	}
+
+	componentDidMount() {
+		if (this.props.Process != CampaignCRUDState.Create){
+			const options = { method: 'GET',
+				url: API_URL + '/monster/' + this.props.Id,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				json: true
+			};
+
+			request(options)
+				.then((body: IMonsterGetOneResponse) => {
+					if (body.status == 201) { // success
+						this.setState({
+							Campaign: body.content
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal("Error finding monster: "+body.messages.toString());
+					}else{
+						this.openModal("There was an error retreiving the monster. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					console.log(error)
+					this.openModal("There was an error sending your request.")
+				})
+		}
 	}
 
 	openModal = (messageText: string) => {
@@ -89,7 +154,8 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 		//});
 		const campaignDetailsState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
 		const campaignPayload = {
-			... this.stateWithoutErrors(campaignDetailsState)
+			Id: this.state.Id,
+			...this.stateWithoutErrors(campaignDetailsState)
 		};
 		let validationErrors = Joi.validate(
 			campaignPayload,
@@ -108,27 +174,35 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 			}
 		);
 
-
-		const options = { method: 'POST',
-			url: API_URL + '/campaign/create',
-			timeout: 2000,
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json',
-				'Authorization': CookieManager.UserToken('session_token')
-			},
-			body: campaignPayload,
-			json: true
-		};
 		if (validationErrors) {
 			// These errors are from validation and may be irrelevent or out of date.
 			this.openModal(validationErrors.toString());
 		} else {
+			let route = '/campaign';
+			if (this.state.Process == CampaignCRUDState.Create) {
+				route += '/create';
+			} else {//if (this.state.Process == CampaignCRUDState.Edit) {
+				route += '/edit'
+			}
+			const options = { method: 'POST',
+				url: API_URL + route,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Content-Type': 'application/json' ,
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				body: campaignPayload,
+				json: true
+			};
 			await request(options)
 				.then((body: ICampaignResponse) => {
 					if (body.status == 201) { // success
-						this.openModal("Campaign successfully created.");
+						if (this.state.Process == CampaignCRUDState.Create) {
+							this.openModal("Campaign successfully created.");
+						} else {
+							this.openModal("Campaign successfully updated.");
+						}
 						this.setState({
 							submitted: true
 						});
@@ -172,7 +246,10 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 							}}/>
 					<Field isGrouped>
 					    <Control>
-					        <Button isColor='primary' type="submit">Submit</Button>
+							{
+								this.state.Process == CampaignCRUDState.Read ? null :
+								<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
+							}
 					    </Control>
 					    <Control>
 					        <Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
