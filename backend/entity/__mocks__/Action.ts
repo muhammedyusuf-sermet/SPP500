@@ -31,6 +31,17 @@ export class Action {
         return this.find(a)[0];
     }
 
+    static remove(actions: Action[]) {
+        for( var i = 0; i < Action.TableRows.length; i++){ 
+			for (let action of actions) {
+				if (action.Id == Action.TableRows[i].Id)
+				    Action.TableRows.splice(i, 1);
+					i--;
+					break;
+			}
+		}
+    }
+
     static save(actions: Action[]) {
         Action.TableRows.push(...actions);
     }
