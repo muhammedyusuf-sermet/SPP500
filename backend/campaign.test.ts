@@ -378,16 +378,121 @@ describe('campaign tests', async () => {
 			expect(response['messages'][0]).toBe("success");
 		});
 	});
+
+	describe('campaign get tests', async () => {
+		beforeAll( async () => {
+			Campaign.clear();
+
+			const user = new User();
+			user.Name = "John Doe";
+			user.Id = 1;
+			await user.save();
+
+			const campaign = new Campaign();
+			campaign.Id = 1;
+			campaign.Name = "Test Name";
+			campaign.Summary = "Test Summary";
+			campaign.Creator = user;
+			await campaign.save();
+
+	 		const campaign2 = new Campaign();
+			campaign2.Id = 2;
+			campaign2.Name = "Test Name";
+			campaign2.Summary = "Test Summary";
+			campaign2.Creator = user;
+			await campaign2.save();
+
+			const campaign3 = new Campaign();
+			campaign3.Id = 3;
+			campaign3.Name = "Test Name";
+			campaign3.Summary = "Test Summary";
+			campaign3.Creator = user;
+			await campaign3.save();
+		});
+
+		var campaignFactory = new CampaignFactory();
+
+		test('when page number and page size is given properly for first page', async () => {
+			const response = await campaignFactory.GetAll({
+				params: {
+					page: 0,
+					size: 2
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+	 		expect.assertions(6);
+			expect(response['status']).toBe(201);
+			expect(response['total']).toBe(3);
+			expect(response['messages'].length).toBe(0);
+			expect(response['content'].length).toBe(2);
+			expect(response['content'][0].Id).toBe(1);
+			expect(response['content'][1].Id).toBe(2);
+		});
+
+	 	test('when page number and page size is given properly for last page', async () => {
+			const response = await campaignFactory.GetAll({
+				params: {
+					page: 1,
+					size: 2
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+	 		expect.assertions(5);
+			expect(response['status']).toBe(201);
+			expect(response['total']).toBe(3);
+			expect(response['messages'].length).toBe(0);
+			expect(response['content'].length).toBe(1);
+			expect(response['content'][0].Id).toBe(3);
+		});
+
+	 	test('when page parameter is not number', async () => {
+			const response = await campaignFactory.GetAll({
+				params: {
+					page: "test",
+					size: 2
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+	 		expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1);
+			expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
+		});
+
+	 	test('when size parameter is not number', async () => {
+			const response = await campaignFactory.GetAll({
+				params: {
+					page: 0,
+					size: "test"
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+	 		expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1);
+			expect(response['messages'][0]).toBe("Parameter 'size' must be a number.");
+		});
+	  	
+
+	});
 });
-/*
-
-When all info provided correctly
-Save the campaign
-
-When invalid encounter is provided
-raise an error
-
-When name summary or Notes are invalid
-raise an error
-
-*/

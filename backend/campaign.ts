@@ -167,4 +167,44 @@ export class CampaignFactory {
 			};
 		}
 	}
+
+	public async GetAll(request: {params: any, auth: any}) {
+		const authInfo = request.auth;
+		var pageNumber = +request.params.page;
+		var pageSize = +request.params.size;
+
+ 		var messages = [];
+
+ 		if (isNaN(pageNumber)) {
+			messages.push("Parameter 'page' must be a number.")
+		}
+
+ 		if (isNaN(pageSize)) {
+			messages.push("Parameter 'size' must be a number.")
+		}
+
+
+		if (messages.length == 0) {
+			var allCampaigns = await Campaign.find({
+				relations: ['Encounters'],
+				where: {Creator : { Id: authInfo.credentials.id}},
+			});
+
+			var respond = allCampaigns.slice(pageSize*pageNumber, pageSize*(pageNumber+1))
+
+			return {
+				"status": 201,
+				"messages": messages,
+				"content": respond,
+				"total": allCampaigns.length
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": [],
+				"total": 0
+			}
+		}
+	}
 }
