@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the Campaign View Details Per Campaign renders correctly when the page is loaded 1`] = `
+<div>
+  <form>
+    <h1
+      className="page-title"
+    >
+      Campaign Details
+    </h1>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Campaign Name
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
+        id="name"
+        label="Campaign Name"
+        readOnly={true}
+        value="Campaign"
+      />
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Campaign Summary
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
+        id="description"
+        label="Campaign Summary"
+        readOnly={true}
+        value="This is a fierce campaign..."
+      />
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Control)>
+      <withHelpersModifiers(Label)>
+        Campaign Notes
+      </withHelpersModifiers(Label)>
+      <withHelpersModifiers(Input)
+        id="description"
+        label="Campaign Notes"
+        readOnly={true}
+        value="Notes"
+      />
+    </withHelpersModifiers(Control)>
+    <withHelpersModifiers(Tile)
+      className="box"
+      isVertical={true}
+    >
+      <withHelpersModifiers(Subtitle)>
+        Encounters
+      </withHelpersModifiers(Subtitle)>
+      <withHelpersModifiers(Control)
+        key="0"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          0
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="1"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          1
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="2"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          2
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="3"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          3
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="4"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          4
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="5"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          5
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="6"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          6
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="7"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          7
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="8"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          8
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="9"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          9
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="10"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          10
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        key="11"
+      >
+        <withHelpersModifiers(Label)>
+          Encounter
+           
+          11
+        </withHelpersModifiers(Label)>
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Tile)>
+    <withHelpersModifiers(Button)
+      className="button"
+      id="deleteCampaignButton"
+      onClick={[Function]}
+    >
+       Delete Campaign 
+    </withHelpersModifiers(Button)>
+    <withHelpersModifiers(Button)
+      className="button"
+      disabled={true}
+      type="submit"
+    >
+       Edit Campaign 
+    </withHelpersModifiers(Button)>
+    <withHelpersModifiers(Button)
+      className="button"
+      onClick={[Function]}
+    >
+       Return to Game Components 
+    </withHelpersModifiers(Button)>
+  </form>
+  <withHelpersModifiers(Modal)
+    id="campaignDeletionModal"
+    isActive={false}
+  >
+    <withHelpersModifiers(ModalBackground)
+      id="modalBackground"
+      onClick={[Function]}
+    />
+    <withHelpersModifiers(ModalContent)>
+      <withHelpersModifiers(Box)>
+        <span
+          id="ModalMessage"
+        />
+      </withHelpersModifiers(Box)>
+    </withHelpersModifiers(ModalContent)>
+  </withHelpersModifiers(Modal)>
+</div>
+`;
