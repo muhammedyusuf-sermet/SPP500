@@ -194,6 +194,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 			request(options)
 				.then((body: IMonsterGetOneResponse) => {
 					if (body.status == 201) { // success
+						console.log(body)
 						this.setState({
 							Name: body.content.Name,
 							ChallengeRating: body.content.ChallengeRating,

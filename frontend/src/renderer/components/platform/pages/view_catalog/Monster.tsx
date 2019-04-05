@@ -11,8 +11,6 @@ import {Pagination} from '../../../helpers/Pagination';
 
 import { CookieManager } from '../../../../../cookie';
 import { API_URL } from '../../../../../config';
-
-import '../../../../css/platform/pages/view-catalog/view_monster.css';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -59,7 +57,6 @@ export class Monster extends React.Component<any, IMonsterState> {
 	}
 
 	deleteMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
-		console.log(event.currentTarget.value)
 		var options = { method: 'DELETE',
 			url: API_URL + '/monster/' + event.currentTarget.value,
 			headers:
