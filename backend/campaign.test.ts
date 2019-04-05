@@ -425,8 +425,6 @@ describe('campaign tests', async () => {
 			expect(response['messages'][0]).toBe("There is no such campaign saved.");
 		});
 	});
-});
-
 
 	describe('campaign get tests', async () => {
 		beforeAll( async () => {
