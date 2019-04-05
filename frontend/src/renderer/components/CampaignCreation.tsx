@@ -24,16 +24,16 @@ export enum CampaignCRUDState {
 	Edit = 'Edit'
 }
 
-export interface IMonsterCRUDProps {
+export interface ICampaignCRUDProps {
 	Process: CampaignCRUDState;
 	Id?: number;
 }
-export interface IMonsterGetOneResponse {
+export interface ICampaignGetOneResponse {
 	status: number,
 	messages: string[],
 	content: ICampaignState,
 }
-export interface ICampaignCreationState {
+export interface ICampaignCRUDState {
 	Process: CampaignCRUDState;
 	Id?: number;
 	submitted: boolean,
@@ -44,7 +44,7 @@ export interface ICampaignCreationState {
 	Campaign: ICampaignState;
 }
 
-export class CampaignCreation extends React.Component<any, ICampaignCreationState> {
+export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignCRUDState> {
 
 	private payloadSchema = Joi.object({
 		Id: Joi.number().greater(0),
@@ -65,7 +65,7 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 		}
 	};
 	private CampaignDetails: React.RefObject<CampaignDetails>;
-	constructor(props: any) {
+	constructor(props: ICampaignCRUDProps) {
 		super(props);
 		this.state = {
 			Process: props.Process,
@@ -88,7 +88,7 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 	componentDidMount() {
 		if (this.props.Process != CampaignCRUDState.Create){
 			const options = { method: 'GET',
-				url: API_URL + '/monster/' + this.props.Id,
+				url: API_URL + '/campaign/' + this.props.Id,
 				headers:
 				{
 					'Cache-Control': 'no-cache',
@@ -98,7 +98,7 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 			};
 
 			request(options)
-				.then((body: IMonsterGetOneResponse) => {
+				.then((body: ICampaignGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
 							Campaign: body.content
@@ -109,9 +109,9 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
-						this.openModal("Error finding monster: "+body.messages.toString());
+						this.openModal("Error finding campaign: "+body.messages.toString());
 					}else{
-						this.openModal("There was an error retreiving the monster. Please try again later.")
+						this.openModal("There was an error retreiving the campaign. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
@@ -256,7 +256,7 @@ export class CampaignCreation extends React.Component<any, ICampaignCreationStat
 					    </Control>
 					</Field>
 				</form>
-				<Modal id='campaignCreationModal' isActive={this.state.modal.open}>
+				<Modal id='CampaignCRUDModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
 					}}/>
