@@ -112,6 +112,15 @@ export const initServer = async () => {
 	},
 	{
 		method: 'POST',
+		path: '/campaign/delete', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.Delete(request);
+		}
+	},
+	{
+		method: 'POST',
 		path: '/campaign/create', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
