@@ -200,18 +200,6 @@ describe('campaign tests', async () => {
 
 	});
 
-	/*
-	Edit campaign tests
-
-	When data is valid
-	Return success
-
-	When invalid encounter is added
-	Return error
-
-	When unauthorized user requests change
-	Return error
-	*/
 	describe('campaign creation tests', async () => {
 
 		var campaign = new CampaignFactory();
@@ -376,6 +364,64 @@ describe('campaign tests', async () => {
 			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
 			expect(response['messages'][0]).toBe("success");
+		});
+	});
+
+	describe('campaign delete tests', async () => {
+	 	var campaignFactory = new CampaignFactory();
+
+	 	test('When another user requests a campaign to be deleted when they are not the owner', async () => {
+			const response = await campaignFactory.Delete({
+				payload: {
+					"Id": 1
+				},
+				auth: {
+					credentials: {
+						id: 2
+					}
+				}
+			});
+
+			
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Requester is not the creator of this campaign.");
+		});
+
+	 	test('When owner of an campaign requests delete', async () => {
+			const response = await campaignFactory.Delete({
+				payload: {
+					"Id": 1
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(3);
+			expect(response['status']).toBe(201);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("success");
+		});
+
+		test('When an invalid campaign is given', async () => {
+			const response = await campaignFactory.Delete({
+				payload: {
+					"Id": 2
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("There is no such campaign saved.");
 		});
 	});
 });
