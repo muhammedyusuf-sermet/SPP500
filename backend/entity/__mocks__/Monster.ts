@@ -2,35 +2,43 @@ import { MonsterAbilityScore } from "./MonsterAbilityScore";
 import { MonsterSkill } from "./MonsterSkill";
 import { MonsterSavingThrow } from "./MonsterSavingThrow";
 import { Action } from "./Action";
-import { Size, MonsterType, MonsterRace, Alignment } from "../MonsterEnums";
+import { Size, MonsterType, MonsterRace, Alignment, Environment } from "../MonsterEnums";
+import { MonsterSense } from "../MonsterSense";
 
 export class Monster {
+	Id: number;
 	Name: string;
-	Size: Size;
-	Type: MonsterType;
-	Race: MonsterRace;
-	Alignment: Alignment;
-	ArmorClass: number;
-	HitPoints: number;
-	Damage: string;
-	Speed: string;
-	Senses: string;
-	Languages: string;
-	DamageVulnerabilities: string;
-	DamageResistances: string;
-	DamageImmunities: string;
-	ConditionImmunities: string;
-    ChallengeRating: number;
+	Size: Size = Size.Medium;
+	Type: MonsterType = MonsterType.Beast;
+	Race: MonsterRace = MonsterRace.AnyRace;
+	Alignment: Alignment = Alignment.Unaligned;
+	Environment: Environment = Environment.Grassland
+	ArmorClass: number = 12;
+	HitPoints: number = 12;
+	HitPointDistribution: string = "2d8";
+	Speed: string = "30 ft.";
+	Languages: string = '';
+	DamageVulnerabilities: string = '';
+	DamageResistances: string = '';
+	DamageImmunities: string = '';
+	ConditionImmunities: string = '';
+    ChallengeRating: number = 1;
 	AbilityScores: MonsterAbilityScore;
-	Skills: MonsterSkill[];
+	Skills: MonsterSkill[] = [];
+	Senses: MonsterSense[] = [];
 	SavingThrows: MonsterSavingThrow;
-	Actions: Action[];
+	Actions: Action[] = [];
 
-	[key: string]: string|number|MonsterAbilityScore|MonsterSkill[]|MonsterSavingThrow|Action[]|(()=>void);
+	[key: string]: string|number|MonsterAbilityScore|MonsterSkill[]|MonsterSense[]|MonsterSavingThrow|Action[]|(()=>void);
+
+	constructor(){
+		this.AbilityScores = new MonsterAbilityScore(this);
+		this.SavingThrows = new MonsterSavingThrow(this);
+	}
 
 	static TableRows: Monster[] = [];
 
-	static find(a: any) {
+	static find(a: any): Monster[] {
 		var result = Monster.TableRows.slice(0);
 		var skip = -1;
 		var take = -1;
@@ -42,6 +50,10 @@ export class Monster {
 				skip = value;
 			} else if (key == "take") {
 				take = value;
+			} else if (key == 'where') {
+				return Monster.find(value);
+			} else if (key == 'relations') {
+				// skip this key
 			} else {
 				result = result.filter(function (el: Monster) {
 					return el[key] == value;
@@ -64,8 +76,18 @@ export class Monster {
 		return this.find(a)[0]
 	}
 
+	remove() {
+		Monster.TableRows.splice(Monster.TableRows.lastIndexOf(this),1);
+	}
+
 	save() {
-		Monster.TableRows.push(this)
+		for(let monster of Monster.TableRows) {
+			if(monster.Id == this.Id){
+				Object.assign(monster, this);
+				return
+			}
+		}
+		Monster.TableRows.push(this);
 	}
 
 	static clear() {
