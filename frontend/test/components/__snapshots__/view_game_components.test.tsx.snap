@@ -22,6 +22,9 @@ exports[`Test the View Game Components Page renders correctly when the page is l
         <WithStyles(Tab)
           label="Encounters"
         />
+        <WithStyles(Tab)
+          label="Campaigns"
+        />
       </WithStyles(Tabs)>
     </WithStyles(AppBar)>
     <TabContainer>
