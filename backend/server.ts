@@ -57,6 +57,33 @@ export const initServer = async () => {
 		}
 	},
 	{
+		method: 'POST',
+		path: '/monster/edit',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.Edit(request);
+		}
+	},
+	{
+		method: 'DELETE',
+		path: '/monster/{monsterId}',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.Delete(request);
+		}
+	},
+	{
+		method: 'GET',
+		path: '/monster/{monsterId}',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var monster = new MonsterFactory();
+			return monster.GetOne(request);
+		}
+	},
+	{
 		method: 'GET',
 		path: '/monster/get/{page}/{size}', 
 		options: { auth: 'jwt' },

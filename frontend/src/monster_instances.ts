@@ -2,7 +2,7 @@ import * as Monster from "./monster";
 
 let monsterExample: Monster.IMonsterState;
 monsterExample = {
-	Id: "",
+	Id: 0,
 	Name: "Hello",
 	Type: Monster.MonsterType.Celestial,
 	Alignment: Monster.Alignment.AnyGoodAlignment,
@@ -73,7 +73,7 @@ let MonsterInstances = new Array();
 for (var i = 0; i < 12; i++) {
 	let monster = {} as Monster.IMonsterState;
 	Object.assign(monster, monsterExample);
-	monster['Id'] = i.toString();
+	monster['Id'] = i
 	MonsterInstances.push(monster);
 }
 

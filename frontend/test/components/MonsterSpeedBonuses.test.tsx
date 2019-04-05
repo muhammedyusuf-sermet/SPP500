@@ -55,6 +55,48 @@ describe('Monster SpeedBonuses', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			monsterSpeedBonusesInstance =
+				mount<MonsterSpeedBonuses, IMonsterSpeedBonusesProps, IMonsterSpeedBonusesState>(
+					<MonsterSpeedBonuses
+						disabled={false}
+						//PayloadSchema={payloadSchema}
+						//ValidationOptions={validateOptions}
+						initial={{
+							"SpeedLand": 20,
+							"SpeedSwim": 40,
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterSpeedBonusesInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterSpeedBonusesInstance.setProps({
+				initial: {
+					"SpeedLand": 15,
+					"SpeedSwim": 30,
+				}
+			})
+			expect(monsterSpeedBonusesInstance.find('Input#SpeedLand').props().value).toEqual(15);
+			expect(monsterSpeedBonusesInstance.find('Input#SpeedSwim').props().value).toEqual(30);
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterSpeedBonusesInstance.setProps({
+				initial: {
+					"SpeedLand": 20,
+					"SpeedSwim": 40,
+				}
+			});
+			expect(monsterSpeedBonusesInstance.find('Input#SpeedLand').props().value).toEqual(20);
+			expect(monsterSpeedBonusesInstance.find('Input#SpeedSwim').props().value).toEqual(40);
+		});
+	});
+
 	describe('Happy Path', () => {
 
 		beforeEach(() => {

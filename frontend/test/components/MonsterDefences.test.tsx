@@ -59,6 +59,53 @@ describe('Monster Defences', () => {
 		});
 	});
 
+	describe('componentWillReceiveProps()', () => {
+		beforeEach(() => {
+			monsterDefencesInstance =
+				mount<MonsterDefences, IMonsterDefencesProps, IMonsterDefencesState>(
+					<MonsterDefences
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{
+							ArmorClass: 124,
+							HitPoints: 623,
+							HitPointDistribution: '5d12+34'
+						}} />
+				);
+		})
+
+		it('renders without crashing', () => {
+			expect(monsterDefencesInstance).toBeDefined();
+		});
+
+		it('renders new props', () => {
+			monsterDefencesInstance.setProps({
+				initial: {
+					ArmorClass: 100,
+					HitPoints: 32,
+					HitPointDistribution: '3d9-14'
+				}
+			})
+			expect(monsterDefencesInstance.find('Input#ArmorClass').props().value).toEqual(100);
+			expect(monsterDefencesInstance.find('Input#HitPoints').props().value).toEqual(32);
+			expect(monsterDefencesInstance.find('Input#HitPointDistribution').props().value).toEqual('3d9-14');
+		});
+
+		it('renders without crashing with same props', () => {
+			monsterDefencesInstance.setProps({
+				initial: {
+					ArmorClass: 124,
+					HitPoints: 623,
+					HitPointDistribution: '5d12+34'
+				}
+			})
+			expect(monsterDefencesInstance.find('Input#ArmorClass').props().value).toEqual(124);
+			expect(monsterDefencesInstance.find('Input#HitPoints').props().value).toEqual(623);
+			expect(monsterDefencesInstance.find('Input#HitPointDistribution').props().value).toEqual('5d12+34');
+		});
+	});
+
 	describe('Happy Path', () => {
 
 		beforeEach(() => {

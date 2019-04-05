@@ -8,9 +8,9 @@ import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } fr
 
 import 'bulma/css/bulma.css';
 
-import {Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
-import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState, IMonsterErrorState } from '../../monster';
+import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
 import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
@@ -19,31 +19,51 @@ import { MonsterStats } from './platform/pages/view_catalog/monster/MonsterStats
 import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/MonsterSkillBonuses';
 import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/MonsterSpeedBonuses';
 import { MonsterSenseBonuses } from './platform/pages/view_catalog/monster/MonsterSenseBonuses';
+import { MonsterLanguages } from './platform/pages/view_catalog/monster/MonsterLanguages';
 
-export interface IMonsterCreationProps {
-	defaultMonster?: IMonsterState
+export enum MonsterCRUDState {
+	Create = 'Create',
+	Read = 'Read',
+	Edit = 'Edit'
 }
 
-export interface IMonsterCreationState {
-	monster: IMonsterState,
-	monsterErrors: IMonsterErrorState,
-	SpeedLand?: number,
-	SpeedSwim?: number,
-	ExperiencePoints?: number,
-	submitted: boolean,
+export interface IMonsterCRUDProps {
+	Process: MonsterCRUDState;
+	Id?: number;
+}
+
+export interface IMonsterCRUDState {
+	Process: MonsterCRUDState;
+	Id?: number;
+	submitted: boolean;
 	modal: {
-		open: boolean,
-		message: string
-	}
+		open: boolean;
+		message: string;
+	};
+	Name: string;
+	NameError?: string;
+	ChallengeRating?: number;
+	ChallengeRatingError?: string;
+	// TODO: Move experience points into the monster state when
+	//  the backend server actually accepts it.
+	ExperiencePoints?: number;
+	ExperiencePointsError?: string;
+	// Monster from the server request
+	Monster: IMonsterState;
 }
 
-interface IMonsterCreationResponse {
+interface IMonsterCRUDResponse {
 	status: number,
 	messages: string[],
 }
 
-export class MonsterCreation extends React.Component<IMonsterCreationProps, IMonsterCreationState> {
-	// TODO move skillNames, senseNames, abilityScoreNames, savingThrowNames to the monster file.
+export interface IMonsterGetOneResponse {
+	status: number,
+	messages: string[],
+	content: IMonsterState,
+}
+
+export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUDState> {
 	private skillNames = [
 		"Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight",
 		"Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance",
@@ -52,6 +72,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		"Blind", "Blindsight", "Darkvision", "Tremorsense", "Truesight",
 		"Passive Perception", "Passive Investigation", "Passive Insight" ];
 	private payloadSchema = Joi.object({
+		Id: Joi.number().integer().label('Id'),
 		Name: Joi.string().required().max(50).label('Name'),
 		Size: Joi.string().valid(Joi.ref('$SizeOptions')),
 		Type: Joi.string().valid(Joi.ref('$TypeOptions')),
@@ -63,7 +84,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		// (rolls 'd' dice [+ - * /] operation) one or more times then rolls 'd' dice
 		HitPointDistribution: Joi.string().max(20).regex(/^((\d+d\d+)[\+\-\*\/])*(\d+d\d+)([\+\-\*\/]\d+)?$/, '#d# OR (#d# operator (#d# or number)) NO spaces').label('HitPointDistribution'),
 		Speed: Joi.string().max(100),
-		Languages: Joi.string().max(100).label('Languages'),
+		Languages: Joi.string().allow('').max(100).label('Languages'),
 		DamageVulnerabilities: Joi.string().allow('').max(200).label('DamageVulnerabilities'),
 		DamageResistances: Joi.string().allow('').max(200).label('DamageResistances'),
 		DamageImmunities: Joi.string().allow('').max(200).label('DamageImmunities'),
@@ -85,16 +106,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			Wisdom: Joi.number().integer().label('Wisdom'),
 			Charisma: Joi.number().integer().label('Charisma')
 		}).default({}),
-		/* This is how to send skills as a dictionary. */
 		Skills: Joi.object().pattern(
 			Joi.symbol().valid(this.skillNames),
 			Joi.number().integer().greater(0).allow(0)
 		).default({}),
-		/* This is how to send skills as an array of objects.
-		Skills: Joi.array().items(Joi.object({
-			Name: Joi.string().required().valid(Joi.ref('$SkillOptions')).label('Skill Name'),
-			Bonus: Joi.number().integer().greater(0).allow(0).required().label('Skill Bonus')
-		})).default([]),*/
 		Senses: Joi.object().pattern(
 			Joi.symbol().valid(this.senseNames),
 			Joi.number().integer().greater(0).allow(0)
@@ -130,28 +145,10 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	private SkillBonuses: React.RefObject<MonsterSkillBonuses>;
 	private SpeedBonuses: React.RefObject<MonsterSpeedBonuses>;
 	private SenseBonuses: React.RefObject<MonsterSenseBonuses>;
-	constructor(props: IMonsterCreationProps) {
+	private Languages: React.RefObject<MonsterLanguages>;
+	constructor(props: IMonsterCRUDProps) {
 		super(props);
-		this.state = {
-			submitted: false,
-			modal: {
-				open: false,
-				message: ""
-			},
-			monster: props.defaultMonster == undefined ? {
-				Name: '',
-				AbilityScores: {},
-				SavingThrows: {},
-				Senses: {},
-				Skills: {},
-			} : props.defaultMonster,
-			monsterErrors: {
-				AbilityScores: {},
-				SavingThrows: {},
-				Skills: {},
-				Senses: {}
-			}
-		};
+
 		this.EnumConfiguration = React.createRef<MonsterEnumConfiguration>();
 		this.Resistances = React.createRef<MonsterResistances>();
 		this.Defences = React.createRef<MonsterDefences>();
@@ -160,6 +157,63 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		this.SkillBonuses = React.createRef<MonsterSkillBonuses>();
 		this.SpeedBonuses = React.createRef<MonsterSpeedBonuses>();
 		this.SenseBonuses = React.createRef<MonsterSenseBonuses>();
+		this.Languages = React.createRef<MonsterLanguages>();
+
+		this.state = {
+			Process: props.Process,
+			Id: props.Id,
+			submitted: false,
+			modal: {
+				open: false,
+				message: '',
+			},
+			Name: '',
+			// Monster data fields
+			Monster: {
+				Name: '',
+				AbilityScores: {},
+				SavingThrows: {},
+				Skills: {},
+				Senses: {}
+			}
+		};
+	}
+
+	componentDidMount() {
+		if (this.props.Process != MonsterCRUDState.Create){
+			const options = { method: 'GET',
+				url: API_URL + '/monster/' + this.props.Id,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				json: true
+			};
+
+			request(options)
+				.then((body: IMonsterGetOneResponse) => {
+					if (body.status == 201) { // success
+						this.setState({
+							Name: body.content.Name,
+							ChallengeRating: body.content.ChallengeRating,
+							Monster: body.content
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal("Error finding monster: "+body.messages.toString());
+					}else{
+						this.openModal("There was an error retreiving the monster. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request.")
+				})
+		}
 	}
 
 	openModal = (messageText: string) => {
@@ -180,36 +234,36 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		return toConvert == '' ? undefined : parseFloat(toConvert);
 	}
 
-	handleBaseMonsterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
+	handleMonsterNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
 		Joi.validate(
-			event.target.value,
-			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			value,
+			Joi.reach(this.payloadSchema, ['Name']),
 			this.validateOptions,
-			(errors: ValidationError, value: any) => {
+			(errors: ValidationError) => {
 				this.setState({
-					monster: { ...monster, [event.currentTarget.name]: event.target.value },
-					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
+					Name: value,
+					NameError: errors ? errors.details[0].message : undefined
 				});
 			});
 	}
 
-	handleMonsterFloatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { monster, monsterErrors } = this.state
+	handleMonsterChallengeRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = this.stringToFloat(event.target.value);
 		Joi.validate(
 			value,
-			Joi.reach(this.payloadSchema, [event.currentTarget.name]),
+			Joi.reach(this.payloadSchema, ['ChallengeRating']),
 			this.validateOptions,
 			(errors: ValidationError) => {
 				this.setState({
-					monster: { ...monster, [event.currentTarget.name]: value },
-					monsterErrors: { ...monsterErrors, [event.currentTarget.name]: errors ? errors.details[0].message : undefined}
+					ChallengeRating: value,
+					ChallengeRatingError: errors ? errors.details[0].message : undefined
 				});
 			});
 	}
 
 	handleMonsterExperiencePointsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		// TODO: validate experience points
 		this.setState({
 			ExperiencePoints: this.stringToNumber(event.target.value)
 		})
@@ -243,8 +297,12 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		return newState;
 	}
 
-	validateForm = async (event: React.FormEvent) => {
+	submitForm = (event: React.FormEvent) => {
 		event.preventDefault();
+		this.validateForm();
+	}
+
+	validateForm = async () => {
 		const enumState = this.EnumConfiguration.current ? this.EnumConfiguration.current.state : {};
 		const resistancesState = this.Resistances.current ? this.Resistances.current.state : {};
 		const defencesState = this.Defences.current ? this.Defences.current.state : {};
@@ -253,21 +311,22 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 		const skillBonusesState = this.SkillBonuses.current ? this.SkillBonuses.current.state : {};
 		const speedBonusesState = this.SpeedBonuses.current ? this.SpeedBonuses.current.state : {};
 		const senseBonusesState = this.SenseBonuses.current ? this.SenseBonuses.current.state : {};
+		const languagesState = this.Languages.current ? this.Languages.current.state : {};
 
 		// need to convert speed to single string
 		let monsterSpeed: string|undefined = speedBonusesState.SpeedLand ? speedBonusesState.SpeedLand + "ft." : ""
 		monsterSpeed = speedBonusesState.SpeedSwim ? monsterSpeed + " Swimming Speed: " + speedBonusesState.SpeedSwim + " ft." : monsterSpeed
 		if(monsterSpeed.length == 0)
 			monsterSpeed = undefined;
-		const monsterPayload: IMonsterState = {
-			//...this.state.monster,
-			Name: this.state.monster.Name,
-			Languages: this.state.monster.Languages,
-			ChallengeRating: this.state.monster.ChallengeRating,
+		let monsterPayload: IMonsterState = {
+			Id: this.state.Id,
+			Name: this.state.Name,
+			ChallengeRating: this.state.ChallengeRating,
 			...this.stateWithoutErrors(enumState),
 			Speed: monsterSpeed,
 			...this.stateWithoutErrors(resistancesState),
 			...this.stateWithoutErrors(defencesState),
+			...this.stateWithoutErrors(languagesState),
 			AbilityScores: {
 				...this.stateWithoutErrors(abilityScoreState)
 			},
@@ -313,8 +372,14 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 			// These errors are from validation and may be irrelevent or out of date.
 			this.openModal(validationErrors.toString());
 		} else {
+			let route = '/monster';
+			if (this.state.Process == MonsterCRUDState.Create) {
+				route += '/create';
+			} else {//if (this.state.Process == MonsterCRUDState.Edit) {
+				route += '/edit'
+			}
 			var options = { method: 'POST',
-				url: API_URL + '/monster/create',
+				url: API_URL + route,
 				headers:
 				{
 					'Cache-Control': 'no-cache',
@@ -325,9 +390,13 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 				json: true
 			};
 			await request(options)
-				.then((body: IMonsterCreationResponse) => {
+				.then((body: IMonsterCRUDResponse) => {
 					if (body.status == 201) { // success
-						this.openModal("Monster successfully created.");
+						if (this.state.Process == MonsterCRUDState.Create) {
+							this.openModal("Monster successfully created.");
+						} else {
+							this.openModal("Monster successfully updated.");
+						}
 						this.setState({
 							submitted: true
 						});
@@ -351,62 +420,63 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 	render() {
 		return (
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
-			<div className="monster-creation-container">
-				<form onSubmit={this.validateForm}>
+			<div className="monster-CRUD-container">
+				<form onSubmit={this.submitForm}>
 					<Tile isParent isVertical>
-					<Title className="page-title">Create a Monster</Title>
+					<Title className="page-title">{this.state.Process} a Monster</Title>
 					<Tile className="box" isVertical>
 						<Subtitle>Monster Name</Subtitle>
 						<Field>
 							<Control>
 								<Input
+									disabled={this.state.Process == MonsterCRUDState.Read}
 									id='Name'
 									type='text'
 									placeholder='Monster Name'
 									autoComplete='Name'
 									name='Name'
-									value={this.state.monster.Name}
-									onChange={this.handleBaseMonsterChange}
+									value={this.state.Name}
+									onChange={this.handleMonsterNameChange}
 									required />
 							</Control>
-							<Help isColor='danger'>{this.state.monsterErrors.Name}</Help>
+							<Help id='Name' isColor='danger'>{this.state.NameError}</Help>
 						</Field>
 					</Tile>
 					<MonsterEnumConfiguration
-						disabled={false}
+						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.EnumConfiguration}
 						initial= {{
-							Size: this.state.monster.Size,
-							Type: this.state.monster.Type,
-							Race: this.state.monster.Race,
-							Alignment: this.state.monster.Alignment,
-							Environment: this.state.monster.Alignment
+							Size: this.state.Monster.Size,
+							Type: this.state.Monster.Type,
+							Race: this.state.Monster.Race,
+							Alignment: this.state.Monster.Alignment,
+							Environment: this.state.Monster.Environment
 						}} />
 					<MonsterResistances
-						disabled={false}
+						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.Resistances}
 						initial={{
-							DamageResistances: this.state.monster.DamageResistances,
-							DamageImmunities: this.state.monster.DamageImmunities,
-							DamageVulnerabilities: this.state.monster.DamageVulnerabilities,
-							ConditionImmunities: this.state.monster.ConditionImmunities
+							DamageResistances: this.state.Monster.DamageResistances,
+							DamageImmunities: this.state.Monster.DamageImmunities,
+							DamageVulnerabilities: this.state.Monster.DamageVulnerabilities,
+							ConditionImmunities: this.state.Monster.ConditionImmunities
 						}} />
 					<MonsterDefences
-						disabled={false}
+						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.Defences}
 						initial={{
-							ArmorClass: this.state.monster.ArmorClass,
-							HitPoints: this.state.monster.HitPoints,
-							HitPointDistribution: this.state.monster.HitPointDistribution
+							ArmorClass: this.state.Monster.ArmorClass,
+							HitPoints: this.state.Monster.HitPoints,
+							HitPointDistribution: this.state.Monster.HitPointDistribution
 						}} />
 					<MonsterSpeedBonuses
-						disabled={false}
+						disabled={this.state.Process == MonsterCRUDState.Read}
 						// TODO: use validation for speeds
 						//PayloadSchema={this.payloadSchema}
 						//ValidationOptions={this.validateOptions}
@@ -417,65 +487,53 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 					<Tile isSize={12} >
 						<Tile isSize={6} isParent >
 							<MonsterStats
-								disabled={false}
+								disabled={this.state.Process == MonsterCRUDState.Read}
 								PayloadSchema={this.payloadSchema}
 								ValidationOptions={this.validateOptions}
 								ref={this.AbilityScores}
 								Parent={'AbilityScores'}
 								initial={{
-									...this.state.monster.AbilityScores
+									...this.state.Monster.AbilityScores
 								}} />
 						</Tile>
 						<Tile isSize={6} isParent >
 							<MonsterStats
-								disabled={false}
+								disabled={this.state.Process == MonsterCRUDState.Read}
 								PayloadSchema={this.payloadSchema}
 								ValidationOptions={this.validateOptions}
 								ref={this.SavingThrows}
 								Parent={'SavingThrows'}
 								initial={{
-									...this.state.monster.SavingThrows
+									...this.state.Monster.SavingThrows
 								}} />
 						</Tile>
 					</Tile>
 					<MonsterSkillBonuses
-						disabled={false}
+						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.SkillBonuses}
 						initial={{
-							...this.state.monster.Skills
+							...this.state.Monster.Skills
 						}} />
 					<MonsterSenseBonuses
-						disabled={false}
+						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.SenseBonuses}
 						initial={{
-							...this.state.monster.Senses
+							...this.state.Monster.Senses
 						}} />
 					<Tile className="box" isVertical>
 						<Subtitle>Final Touches</Subtitle>
-						<Field isHorizontal>
-							<FieldLabel isNormal>
-								<Label>Languages</Label>
-							</FieldLabel>
-							<FieldBody>
-								<Field>
-									<Control>
-										<Input
-											id='Languages'
-											type='text'
-											placeholder='Languages'
-											autoComplete='Languages'
-											value={this.state.monster.Languages || ''}
-											name='Languages'
-											onChange={this.handleBaseMonsterChange} />
-									</Control>
-									<Help isColor='danger'>{this.state.monsterErrors.Languages}</Help>
-								</Field>
-							</FieldBody>
-						</Field>
+						<MonsterLanguages
+							disabled={this.state.Process == MonsterCRUDState.Read}
+							PayloadSchema={this.payloadSchema}
+							ValidationOptions={this.validateOptions}
+							ref={this.Languages}
+							initial={{
+								Languages: this.state.Monster.Languages
+							}} />
 						<Field isHorizontal>
 							<FieldLabel isNormal>
 								<Label>Challenge Rating</Label>
@@ -484,15 +542,16 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								<Field>
 									<Control>
 										<Input
+											disabled={this.state.Process == MonsterCRUDState.Read}
 											id='ChallengeRating'
 											type='number'
 											placeholder='Challenge Rating'
 											autoComplete='ChallengeRating'
-											value={this.state.monster.ChallengeRating != undefined ? this.state.monster.ChallengeRating : ''}
+											value={this.state.ChallengeRating != undefined ? this.state.ChallengeRating : ''}
 											name='ChallengeRating'
-											onChange={this.handleMonsterFloatChange} />
+											onChange={this.handleMonsterChallengeRatingChange} />
 									</Control>
-									<Help isColor='danger'>{this.state.monsterErrors.ChallengeRating}</Help>
+									<Help isColor='danger'>{this.state.ChallengeRatingError}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -504,6 +563,7 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 								<Field>
 									<Control>
 										<Input
+											disabled={this.state.Process == MonsterCRUDState.Read}
 											id='ExperiencePoints'
 											type='number'
 											placeholder='Experience Points'
@@ -511,16 +571,25 @@ export class MonsterCreation extends React.Component<IMonsterCreationProps, IMon
 											value={this.state.ExperiencePoints != undefined ? this.state.ExperiencePoints : ''}
 											onChange={this.handleMonsterExperiencePointsChange} />
 									</Control>
+									<Help isColor='danger'>{this.state.ExperiencePointsError}</Help>
 								</Field>
 							</FieldBody>
 						</Field>
 					</Tile>
+					{
+						this.state.Process == MonsterCRUDState.Read ? null :
+						<Field>
+							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Monster</Button>
+						</Field>
+					}
 					<Field>
-						<Button isColor='primary' type="submit" isLoading={false}>Create Monster</Button>
+						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
+							history.back();
+						}}>{this.state.Process == MonsterCRUDState.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 					</Tile>
 				</form>
-				<Modal id='monsterCreationModal' isActive={this.state.modal.open}>
+				<Modal id='monsterCRUDModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
 					}}/>
