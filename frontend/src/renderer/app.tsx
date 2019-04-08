@@ -5,6 +5,9 @@ import { Route, Switch } from 'react-router-dom';
 
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
+import { MonsterCreation } from './components/MonsterCreation';
+import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCreation';
+
 import { EncounterCreation } from './components/EncounterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 import { ViewGameComponents } from './components/platform/pages/ViewGameComponents';
@@ -32,6 +35,15 @@ export class App extends React.Component<IAppProps> {
 							<Switch>
 								<Route exact path="/" component={Platform} />
 								<Route path="/encounter_creation" component={EncounterCreation} />
+
+								<Route path="/campaign/create" render={(props) => {
+									return (
+										<CampaignCRUD Process={CampaignCRUDState.Create} />
+									);}} />
+								<Route path="/campaign/view/:Id" render={(props) => {
+									return (
+										<CampaignCRUD Process={CampaignCRUDState.Read} Id={props.match.params.Id} />
+									);}} />
 								<Route path="/monster/create" render={() => {
 									return (
 										<MonsterCRUD Process={MonsterCRUDState.Create} />
@@ -43,6 +55,7 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/monster/edit/:Id" render={(props) => {
 									return (
 										<MonsterCRUD Process={MonsterCRUDState.Edit} Id={props.match.params.Id} />
+
 									);}} />
 								<Route path="/catalog" component={ViewCatalog} />
 								<Route path="/game_components" component={ViewGameComponents} />
