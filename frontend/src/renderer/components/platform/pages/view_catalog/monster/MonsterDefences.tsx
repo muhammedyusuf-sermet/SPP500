@@ -3,8 +3,10 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Tile, Subtitle, Field, Control, Label, Input, Help } from 'bloomer';
+
 import { isDeepStrictEqual } from 'util';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export interface IMonsterDefencesProps {
 	disabled?: boolean,
@@ -82,52 +84,54 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 
 	render() {
 		return (
-			<Tile className="box" isVertical>
-				<Subtitle>Armor Class and Hit Points</Subtitle>
-				<Field>
-					<Control>
-						<Label>Armor Class</Label>
-						<Input
-							disabled={this.props.disabled}
-							id='ArmorClass'
-							type='number'
-							placeholder='Armor Class'
-							autoComplete='ArmorClass'
-							value={this.state.ArmorClass != undefined ? this.state.ArmorClass : ''}
-							name='ArmorClass'
-							onChange={this.handleNumberChange} />
-						<Help id='ArmorClass' isColor='danger'>{this.state.ArmorClassError}</Help>
-					</Control>
-				</Field>
-				<Field isGrouped='centered' isHorizontal>
-					<Control isExpanded>
-						<Label>Hit Points</Label>
-						<Input
-							disabled={this.props.disabled}
-							id='HitPoints'
-							type='number'
-							placeholder='Hit Points'
-							autoComplete='HitPoints'
-							value={this.state.HitPoints != undefined ? this.state.HitPoints : ''}
-							name='HitPoints'
-							onChange={this.handleNumberChange} />
-						<Help id='HitPoints' isColor='danger'>{this.state.HitPointsError}</Help>
-					</Control>
-					<Control isExpanded>
-						<Label>Hit Point Distribution</Label>
-						<Input
-							disabled={this.props.disabled}
-							id='HitPointDistribution'
-							type='string'
-							placeholder='Hit Points Distribution'
-							autoComplete='HitPointDistribution'
-							value={this.state.HitPointDistribution || ''}
-							name='HitPointDistribution'
-							onChange={this.handleStringChange} />
-						<Help id='HitPointDistribution' isColor='danger'>{this.state.HitPointDistributionError}</Help>
-					</Control>
-				</Field>
-			</Tile>
+			<ExpansionPanel defaultExpanded >
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography className='heading' >Armor Class and Hit Points</Typography>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<Grid container spacing={8} >
+						<Grid item xs={12}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="ArmorClass">Armor Class</InputLabel>
+								<Input
+									id='ArmorClass'
+									type='number'
+									value={this.state.ArmorClass != undefined ? this.state.ArmorClass : ''}
+									name='ArmorClass'
+									onChange={this.handleNumberChange}
+									aria-describedby="ArmorClass-helper-text" />
+								<FormHelperText error id="ArmorClass-helper-text">{this.state.ArmorClassError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="HitPoints">Hit Points</InputLabel>
+								<Input
+									id='HitPoints'
+									type='number'
+									value={this.state.HitPoints != undefined ? this.state.HitPoints : ''}
+									name='HitPoints'
+									onChange={this.handleNumberChange}
+									aria-describedby="HitPoints-helper-text" />
+								<FormHelperText error id="HitPoints-helper-text">{this.state.HitPointsError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="HitPointDistribution">Hit Point Distribution</InputLabel>
+								<Input
+									id='HitPointDistribution'
+									type='text'
+									value={this.state.HitPointDistribution || ''}
+									name='HitPointDistribution'
+									onChange={this.handleStringChange}
+									aria-describedby="HitPointDistribution-helper-text" />
+								<FormHelperText error id="HitPointDistribution-helper-text">{this.state.HitPointDistributionError}</FormHelperText>
+							</FormControl>
+						</Grid>
+					</Grid>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
 		);
 	}
 }
