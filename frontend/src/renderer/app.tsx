@@ -5,7 +5,6 @@ import { Route, Switch } from 'react-router-dom';
 
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
-import { MonsterCreation } from './components/MonsterCreation';
 import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCreation';
 
 import { EncounterCreation } from './components/EncounterCreation';
