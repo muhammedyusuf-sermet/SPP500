@@ -148,7 +148,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.email}
 								onChange={this.handleEmailChange}
 								required />
-								<Help>Emails must be provided in the x@y.z format</Help>
+								<Help>Emails must be provided in the x@y.z format and must be unique.</Help>
 						</Control>
 					</Field>
 					<Field isGrouped='centered' isHorizontal>
@@ -161,6 +161,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.username}
 								onChange={this.handleUsernameChange}
 								required />
+							<Help>Usernames must be unique and have at least 1 character.</Help>
 						</Control>
 						<Control isExpanded>
 							<Input
@@ -171,6 +172,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.password}
 								onChange={this.handlePasswordChange}
 								required />
+							<Help>Passwords must be over 7 characters long.</Help>
 						</Control>
 					</Field>
 					<Field>
