@@ -23,8 +23,8 @@ import Joi, { ValidationError, ValidationErrorItem } from 'joi';
 export class CampaignFactory {
 	private payloadSchema = Joi.object({
 		Name: Joi.string().required().max(50),
-		Summary: Joi.string().required().max(1000),
-		Notes: Joi.string().max(2000),
+		Summary: Joi.string().valid('').max(1000),
+		Notes: Joi.string().valid('').max(2000),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([])
@@ -113,8 +113,8 @@ export class CampaignFactory {
 				campaign.Name = data.Name;
 			}
 
-	 		if (!data.Summary || data.Summary == "") {
-				messages.push("Summary should not be an empty string.");
+	 		if (!data.Summary) {
+				Campaign.Summary = "";
 			} else {
 				campaign.Summary = data.Summary;
 			}
