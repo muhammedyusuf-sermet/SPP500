@@ -5,9 +5,9 @@ import { User, IUserData } from "./User";
 export interface ICampaignData {
     Creator: IUserData;
     Name: string;
-    Summary: string;
-    Notes: string;
-    Encounters: IEncounterData[];
+    Summary?: string;
+    Notes?: string;
+    Encounters?: IEncounterData[];
 }
 
 @Entity()
