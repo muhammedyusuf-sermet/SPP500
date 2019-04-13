@@ -20,6 +20,7 @@ import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/Monst
 import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/MonsterSpeedBonuses';
 import { MonsterSenseBonuses } from './platform/pages/view_catalog/monster/MonsterSenseBonuses';
 import { MonsterLanguages } from './platform/pages/view_catalog/monster/MonsterLanguages';
+import { stateWithoutErrors } from '../../utils/StateSelection';
 
 export enum MonsterCRUDState {
 	Create = 'Create',
@@ -285,18 +286,6 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 	}
 	*/
 
-	private stateWithoutErrors(state: any): any
-	{
-		let newState: { [key: string]: number | string } = {};
-		for (let field in state) {
-			if (field.endsWith('Error'))
-				continue
-			if (state[field] != undefined)
-				newState[field] = state[field];
-		}
-		return newState;
-	}
-
 	submitForm = (event: React.FormEvent) => {
 		event.preventDefault();
 		this.validateForm();
@@ -322,22 +311,22 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 			Id: this.state.Id,
 			Name: this.state.Name,
 			ChallengeRating: this.state.ChallengeRating,
-			...this.stateWithoutErrors(enumState),
+			...stateWithoutErrors(enumState),
 			Speed: monsterSpeed,
-			...this.stateWithoutErrors(resistancesState),
-			...this.stateWithoutErrors(defencesState),
-			...this.stateWithoutErrors(languagesState),
+			...stateWithoutErrors(resistancesState),
+			...stateWithoutErrors(defencesState),
+			...stateWithoutErrors(languagesState),
 			AbilityScores: {
-				...this.stateWithoutErrors(abilityScoreState)
+				...stateWithoutErrors(abilityScoreState)
 			},
 			SavingThrows: {
-				...this.stateWithoutErrors(savingThrowState)
+				...stateWithoutErrors(savingThrowState)
 			},
 			Skills: {
-				...this.stateWithoutErrors(skillBonusesState)
+				...stateWithoutErrors(skillBonusesState)
 			},
 			Senses: {
-				...this.stateWithoutErrors(senseBonusesState)
+				...stateWithoutErrors(senseBonusesState)
 			}
 		}
 
