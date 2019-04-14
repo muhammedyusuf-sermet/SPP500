@@ -83,7 +83,7 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography className='heading' >{this.props.Parent.replace(/([A-Z])/g, ' $1').trim()}</Typography>
 				</ExpansionPanelSummary>

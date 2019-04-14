@@ -68,7 +68,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography className='heading' >Vulnerability, Resistance, and Immunity</Typography>
 				</ExpansionPanelSummary>

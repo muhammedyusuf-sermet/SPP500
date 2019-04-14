@@ -147,7 +147,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography className='heading' >Basic Configurations</Typography>
 				</ExpansionPanelSummary>

@@ -64,7 +64,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography className='heading' >Skill Bonuses</Typography>
 				</ExpansionPanelSummary>

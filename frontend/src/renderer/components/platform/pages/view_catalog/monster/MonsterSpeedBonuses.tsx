@@ -67,8 +67,8 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
-				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
 					<Typography className='heading' >Speed Bonuses</Typography>
 				</ExpansionPanelSummary>
 				<ExpansionPanelDetails>

@@ -84,7 +84,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography className='heading' >Armor Class and Hit Points</Typography>
 				</ExpansionPanelSummary>

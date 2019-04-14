@@ -63,7 +63,7 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 
 	render() {
 		return (
-			<ExpansionPanel defaultExpanded >
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography className='heading' >Sense Bonuses</Typography>
 				</ExpansionPanelSummary>
