@@ -24,42 +24,6 @@ describe('Monster CRUD', () => {
 		content: { Name: 'Basic Monster', AbilityScores:{}, SavingThrows:{}, Skills:{}, Senses:{} }
 	}
 
-	// TODO: break the read tests into its own test and make sure all inputs are disabled.
-	describe('Read should be slightly different', () => {
-		beforeEach(async (done) => {
-			nock.disableNetConnect();
-			CookieManagerMock.SetStringCookie("session_token", "testToken");
-			// bind the normal user token function to the mock.
-			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
-			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
-			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			nock(API_URL)
-			.get('/monster/0')
-			.reply(200, basicResponse);
-			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={MonsterCRUDState.Read} Id={0} />);
-			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			// expect the MonsterCRUD to request the mosnter from the database.
-			expect(nock.isDone()).toEqual(true);
-			done();
-		});
-
-		afterEach( () => {
-			nock.cleanAll();
-		});
-
-		it('renders without crashing', () => {
-			expect(monsterCRUDInstance).toBeDefined();
-			expect(monsterCRUDInstance.state().Name).toEqual('Basic Monster');
-		});
-
-		it('should not render the submit button', () => {
-			expect(monsterCRUDInstance.find('Button#SubmitButton')).toHaveLength(0);
-		});
-	})
-
 	describe('Redirect if submitted', () => {
 		beforeEach(async (done) => {
 			nock.disableNetConnect();
