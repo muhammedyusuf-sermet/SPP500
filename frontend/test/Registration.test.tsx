@@ -13,6 +13,10 @@ describe('Register Component', () => {
 		registerInstance = shallow(<Registration/>);
 	});
 
+	it ('matches snapshot', () => {
+		expect(registerInstance).toMatchSnapshot();
+	});
+
 	it('renders without crashing', () => {
 		expect(registerInstance).toBeDefined();
 	});

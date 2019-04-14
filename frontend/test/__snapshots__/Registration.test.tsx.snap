@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Register Component matches snapshot 1`] = `
+<Fragment>
+  <form
+    onSubmit={[Function]}
+  >
+    <withHelpersModifiers(Title)>
+      Register Now!
+    </withHelpersModifiers(Title)>
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Input)
+          autoComplete="name"
+          id="name"
+          onChange={[Function]}
+          placeholder="Name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Input)
+          autoComplete="email"
+          id="email"
+          onChange={[Function]}
+          placeholder="E-mail Address"
+          required={true}
+          type="email"
+          value=""
+        />
+        <withHelpersModifiers(Help)>
+          Emails must be provided in the x@y.z format and must be unique.
+        </withHelpersModifiers(Help)>
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+    <withHelpersModifiers(Field)
+      isGrouped="centered"
+      isHorizontal={true}
+    >
+      <withHelpersModifiers(Control)
+        isExpanded={true}
+      >
+        <withHelpersModifiers(Input)
+          autoComplete="username"
+          id="username"
+          onChange={[Function]}
+          placeholder="Username"
+          required={true}
+          type="username"
+          value=""
+        />
+        <withHelpersModifiers(Help)>
+          Usernames must be unique and have at least 1 character.
+        </withHelpersModifiers(Help)>
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Control)
+        isExpanded={true}
+      >
+        <withHelpersModifiers(Input)
+          autoComplete="password"
+          id="password"
+          onChange={[Function]}
+          placeholder="Password"
+          required={true}
+          type="password"
+          value=""
+        />
+        <withHelpersModifiers(Help)>
+          Passwords must be over 7 characters long.
+        </withHelpersModifiers(Help)>
+      </withHelpersModifiers(Control)>
+    </withHelpersModifiers(Field)>
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Button)
+        isColor="primary"
+        isLoading={false}
+        type="submit"
+      >
+        Register
+      </withHelpersModifiers(Button)>
+    </withHelpersModifiers(Field)>
+  </form>
+  <withHelpersModifiers(Modal)
+    id="registerModal"
+    isActive={false}
+  >
+    <withHelpersModifiers(ModalBackground)
+      id="modalBackground"
+      onClick={[Function]}
+    />
+    <withHelpersModifiers(ModalContent)>
+      <withHelpersModifiers(Box)>
+        <span
+          id="ModalMessage"
+        />
+      </withHelpersModifiers(Box)>
+    </withHelpersModifiers(ModalContent)>
+  </withHelpersModifiers(Modal)>
+</Fragment>
+`;
