@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterSkillBonusesProps, IMonsterSkillBonusesState, MonsterSkillBonuses } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterSkillBonuses';
 const Joi = require('joi');
@@ -256,6 +256,20 @@ describe('Monster SkillBonuses', () => {
 			expect(monsterSkillBonusesInstance.find('input#Intimidation').props().value).toEqual(9);
 			expect(monsterSkillBonusesInstance.find('input#Performance').props().value).toEqual(7);
 			expect(monsterSkillBonusesInstance.find('input#Persuasion').props().value).toEqual(4);
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterSkillBonusesInstance =
+				shallow<MonsterSkillBonuses, IMonsterSkillBonusesProps, IMonsterSkillBonusesState>(
+					<MonsterSkillBonuses
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterSkillBonusesInstance).toMatchSnapshot();
 		});
 	});
 

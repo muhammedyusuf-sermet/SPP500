@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterStatsProps, IMonsterStatsState, MonsterStats } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterStats';
 const Joi = require('joi');
@@ -149,6 +149,31 @@ describe('Monster Stats', () => {
 			expect(monsterStatsInstance.find('input#AbilityScoresIntelligence').props().value).toEqual(85);
 			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().value).toEqual(43);
 			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().value).toEqual(32);
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const payloadSchema = Joi.object({
+				SavingThrows: Joi.object({
+					Strength: Joi.number().integer().greater(0).allow(0).label('Strength'),
+					Dexterity: Joi.number().integer().greater(0).allow(0).label('Dexterity'),
+					Constitution: Joi.number().integer().greater(0).allow(0).label('Constitution'),
+					Intelligence: Joi.number().integer().greater(0).allow(0).label('Intelligence'),
+					Wisdom: Joi.number().integer().greater(0).allow(0).label('Wisdom'),
+					Charisma: Joi.number().integer().greater(0).allow(0).label('Charisma')
+				})
+			});
+			const shallowMonsterStatsInstance =
+				shallow<MonsterStats, IMonsterStatsProps, IMonsterStatsState>(
+					<MonsterStats
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						Parent='SavingThrows'
+						initial={{}}/>
+				);
+			expect(shallowMonsterStatsInstance).toMatchSnapshot();
 		});
 	});
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterSenseBonusesProps, IMonsterSenseBonusesState, MonsterSenseBonuses } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterSenseBonuses';
 const Joi = require('joi');
@@ -155,6 +155,20 @@ describe('Monster SenseBonuses', () => {
 			expect(monsterSenseBonusesInstance.find('input[id="Passive Perception"]').props().value).toEqual(13);
 			expect(monsterSenseBonusesInstance.find('input[id="Passive Investigation"]').props().value).toEqual(14);
 			expect(monsterSenseBonusesInstance.find('input[id="Passive Insight"]').props().value).toEqual(16);
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterSenseBonusesInstance =
+				shallow<MonsterSenseBonuses, IMonsterSenseBonusesProps, IMonsterSenseBonusesState>(
+					<MonsterSenseBonuses
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterSenseBonusesInstance).toMatchSnapshot();
 		});
 	});
 

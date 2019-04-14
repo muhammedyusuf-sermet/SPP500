@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { MonsterType, Alignment, Size, MonsterRace, Environment } from "../../src/monster";
 import { IMonsterEnumConfigurationProps, IMonsterEnumConfigurationState, MonsterEnumConfiguration } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterEnumConfiguration';
@@ -129,6 +129,20 @@ describe('Monster Creation', () => {
 			expect(monsterEnumConfigurationInstance.find('select#Race').props().value).toEqual('Dwarf');
 			expect(monsterEnumConfigurationInstance.find('select#Environment').props().value).toEqual('Coastal');
 			expect(monsterEnumConfigurationInstance.find('select#Alignment').props().value).toEqual('AnyEvilAlignment');
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterEnumConfigurationInstance =
+				shallow<MonsterEnumConfiguration, IMonsterEnumConfigurationProps, IMonsterEnumConfigurationState>(
+					<MonsterEnumConfiguration
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterEnumConfigurationInstance).toMatchSnapshot();
 		});
 	});
 

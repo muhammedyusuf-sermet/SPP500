@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterDefencesProps, IMonsterDefencesState, MonsterDefences } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterDefences';
 const Joi = require('joi');
@@ -103,6 +103,20 @@ describe('Monster Defences', () => {
 			expect(monsterDefencesInstance.find('input#ArmorClass').props().value).toEqual(124);
 			expect(monsterDefencesInstance.find('input#HitPoints').props().value).toEqual(623);
 			expect(monsterDefencesInstance.find('input#HitPointDistribution').props().value).toEqual('5d12+34');
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterDefencesInstance =
+				shallow<MonsterDefences, IMonsterDefencesProps, IMonsterDefencesState>(
+					<MonsterDefences
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterDefencesInstance).toMatchSnapshot();
 		});
 	});
 

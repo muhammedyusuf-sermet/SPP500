@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterSpeedBonusesProps, IMonsterSpeedBonusesState, MonsterSpeedBonuses } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterSpeedBonuses';
 // TODO: test for validation when the speed component actually uses it.
@@ -94,6 +94,20 @@ describe('Monster SpeedBonuses', () => {
 			});
 			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().value).toEqual(20);
 			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().value).toEqual(40);
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterSpeedBonusesInstance =
+				shallow<MonsterSpeedBonuses, IMonsterSpeedBonusesProps, IMonsterSpeedBonusesState>(
+					<MonsterSpeedBonuses
+						disabled={false}
+						//PayloadSchema={payloadSchema}
+						//ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterSpeedBonusesInstance).toMatchSnapshot();
 		});
 	});
 

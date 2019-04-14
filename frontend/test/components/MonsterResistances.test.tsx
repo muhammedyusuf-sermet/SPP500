@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterResistancesProps, IMonsterResistancesState, MonsterResistances } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterResistances';
 const Joi = require('joi');
@@ -113,6 +113,20 @@ describe('Monster Resistances', () => {
 			expect(monsterResistancesInstance.find('input#DamageImmunities').props().value).toEqual('This is test damage immunity');
 			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
 			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterResistancesInstance =
+				shallow<MonsterResistances, IMonsterResistancesProps, IMonsterResistancesState>(
+					<MonsterResistances
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterResistancesInstance).toMatchSnapshot();
 		});
 	});
 
