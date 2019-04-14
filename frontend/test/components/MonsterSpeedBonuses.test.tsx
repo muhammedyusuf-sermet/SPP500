@@ -47,11 +47,11 @@ describe('Monster SpeedBonuses', () => {
 		});
 
 		it('should have the correct number for SpeedLand', () => {
-			expect(monsterSpeedBonusesInstance.find('Input#SpeedLand').props().value).toEqual(20);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().value).toEqual(20);
 		});
 
 		it('should have the correct number for SpeedSwim', () => {
-			expect(monsterSpeedBonusesInstance.find('Input#SpeedSwim').props().value).toEqual(40);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().value).toEqual(40);
 		});
 	});
 
@@ -81,8 +81,8 @@ describe('Monster SpeedBonuses', () => {
 					"SpeedSwim": 30,
 				}
 			})
-			expect(monsterSpeedBonusesInstance.find('Input#SpeedLand').props().value).toEqual(15);
-			expect(monsterSpeedBonusesInstance.find('Input#SpeedSwim').props().value).toEqual(30);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().value).toEqual(15);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().value).toEqual(30);
 		});
 
 		it('renders without crashing with same props', () => {
@@ -92,8 +92,8 @@ describe('Monster SpeedBonuses', () => {
 					"SpeedSwim": 40,
 				}
 			});
-			expect(monsterSpeedBonusesInstance.find('Input#SpeedLand').props().value).toEqual(20);
-			expect(monsterSpeedBonusesInstance.find('Input#SpeedSwim').props().value).toEqual(40);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().value).toEqual(20);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().value).toEqual(40);
 		});
 	});
 
@@ -115,8 +115,8 @@ describe('Monster SpeedBonuses', () => {
 		});
 
 		it('should be able to update state', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedLand').simulate('change', { target: { value: 30 } })
-			monsterSpeedBonusesInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 45 } })
+			monsterSpeedBonusesInstance.find('input#SpeedLand').simulate('change', { target: { value: 30 } })
+			monsterSpeedBonusesInstance.find('input#SpeedSwim').simulate('change', { target: { value: 45 } })
 			expect(monsterSpeedBonusesInstance.state()).toEqual({
 				// data
 				SpeedLand: 30,
@@ -128,36 +128,36 @@ describe('Monster SpeedBonuses', () => {
 		});
 		// STATE CHANGE
 		it('should change only SpeedLand when SpeedLand is changed', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedLand').simulate('change', { target: { value: '15' } })
+			monsterSpeedBonusesInstance.find('input#SpeedLand').simulate('change', { target: { value: '15' } })
 			expect(monsterSpeedBonusesInstance.state().SpeedLand).toEqual(15);
 		})
 
 		it('should change only SpeedSwim when SpeedSwim is changed', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedSwim').simulate('change', { target: { value: '25' } })
+			monsterSpeedBonusesInstance.find('input#SpeedSwim').simulate('change', { target: { value: '25' } })
 			expect(monsterSpeedBonusesInstance.state().SpeedSwim).toEqual(25);
 		})
 
 		// DEFAULTS
 		it('should change SpeedLand back to undefined when input is empty', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedLand').simulate('change', { target: { value: '' } })
+			monsterSpeedBonusesInstance.find('input#SpeedLand').simulate('change', { target: { value: '' } })
 			expect(monsterSpeedBonusesInstance.state().SpeedLand).toEqual(undefined);
 		})
 
 		it('should change SpeedSwim back to undefined when input is empty', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedSwim').simulate('change', { target: { value: '' } })
+			monsterSpeedBonusesInstance.find('input#SpeedSwim').simulate('change', { target: { value: '' } })
 			expect(monsterSpeedBonusesInstance.state().SpeedSwim).toEqual(undefined);
 		})
 
 		// TODO: test validation when its actually implemented
 		// VALIDATION
 		/*it('should validate SpeedLand when SpeedLand is changed', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedLand').simulate('change', { target: { value: '-1'  } })
+			monsterSpeedBonusesInstance.find('input#SpeedLand').simulate('change', { target: { value: '-1'  } })
 			expect(monsterSpeedBonusesInstance.state().SpeedLand).toEqual(-1);
 			expect(monsterSpeedBonusesInstance.find('Help#SpeedLand').text()).toEqual('\"SpeedLand\" must be greater than 0');
 		})
 
 		it('should validate SpeedSwim when SpeedSwim is changed', () => {
-			monsterSpeedBonusesInstance.find('Input#SpeedSwim').simulate('change', { target: { value: '-9'  } })
+			monsterSpeedBonusesInstance.find('input#SpeedSwim').simulate('change', { target: { value: '-9'  } })
 			expect(monsterSpeedBonusesInstance.state().SpeedSwim).toEqual(-9);
 			expect(monsterSpeedBonusesInstance.find('Help#SpeedSwim').text()).toEqual('\"SpeedSwim\" must be greater than 0');
 		})*/
