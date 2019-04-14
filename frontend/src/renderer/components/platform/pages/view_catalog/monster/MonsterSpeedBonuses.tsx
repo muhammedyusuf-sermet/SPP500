@@ -4,8 +4,10 @@ import * as React from 'react';
 //import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Tile, Subtitle, Field, Label, Control, Input } from 'bloomer';
+
 import { isDeepStrictEqual } from 'util';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export interface IMonsterSpeedBonusesProps {
 	disabled?: boolean;
@@ -38,7 +40,7 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 	}
 
 	//TODO: Make speed its own dictionary of all the different monvement options.
-	//private keyNames: string[] = ["SpeedLand", "SpeedSwim"];
+	private keyNames: string[] = ["SpeedLand", "SpeedSwim"];
 
 	stringToNumber = (toConvert : string) => {
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
@@ -65,7 +67,31 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 
 	render() {
 		return (
-			<Tile className="box" isVertical>
+			<ExpansionPanel defaultExpanded >
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography className='heading' >Speed Bonuses</Typography>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<Grid container spacing={8} >
+						{this.keyNames.map(speedName =>
+							<Grid item xs={6} key={speedName} >
+								<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+									<InputLabel htmlFor={speedName}>{speedName.replace(/([A-Z])/g, ' $1').trim()}</InputLabel>
+									<Input
+										id={speedName}
+										type='number'
+										value={this.state[speedName] != undefined ? this.state[speedName] : ''}
+										name={speedName}
+										onChange={this.handleMonsterSpeedChange}
+										aria-describedby={speedName+'-helper-text'} />
+									<FormHelperText error id={speedName+'-helper-text'}>{this.state[speedName+'Error']}</FormHelperText>
+								</FormControl>
+							</Grid>
+						)}
+					</Grid>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
+			/*<Tile className="box" isVertical>
 				<Subtitle>Movement Speed</Subtitle>
 				<Field isGrouped='centered' isHorizontal>
 					<Control isExpanded>
@@ -93,7 +119,7 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 							onChange={this.handleMonsterSpeedChange} />
 					</Control>
 				</Field>
-			</Tile>
+			</Tile>*/
 		);
 	}
 }
