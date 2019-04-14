@@ -4,9 +4,10 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 
-import { Select, Tile, Field, Control, Subtitle, Label, Help } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment } from '../../../../../../monster';
 import { isDeepStrictEqual } from 'util';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Select } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const types = Object.values(MonsterType);
 const sizes = Object.values(Size);
@@ -43,20 +44,22 @@ export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMon
 
 	handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		this.setState({selected: event.target.value});
-		if(event.target.value == 'Default'){
-			this.props.onChange(this.props.name, undefined);
-		}else{
-			this.props.onChange(this.props.name, event.target.value);
-		}
+		this.props.onChange(this.props.name, event.target.value);
 	}
 
 	render() {
 		return (
-			<Select disabled={this.props.disabled} id={this.props.name} onChange={this.handleChange} value={this.state.selected} className="is-fullwidth">
+			<Select
+				native={true}
+				id={this.props.name}
+				disabled={this.props.disabled}
+				onChange={this.handleChange}
+				value={this.state.selected}
+				input={<Input name={this.props.name} id={this.props.name} />} >
 				<option
 					id={this.props.name+'.'+'Default'}
-					value={'Default'}>
-					{'Default'}
+					value='' >
+					Default
 				</option>
 				{this.props.options.map(option =>
 					<option
@@ -64,7 +67,8 @@ export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMon
 						id={this.props.name+'.'+option}
 						value={option}>
 						{option.replace(/([A-Z])/g, ' $1').trim()}
-					</option>)}
+					</option>
+				)}
 			</Select>
 		);
 	}
@@ -143,38 +147,75 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 
 	render() {
 		return (
-			<Tile className="box" isVertical>
-				<Subtitle>Basic Configurations</Subtitle>
-				<Field isGrouped='centered' isHorizontal>
-					<Control isExpanded>
-						<Label>Type</Label>
-						<MonsterDropdown disabled={this.props.disabled} selected={this.state.Type} name='Type' options={types} onChange={this.handleMonsterEnumChange} />
-						<Help isColor='danger'>{this.state.TypeError}</Help>
-					</Control>
-					<Control isExpanded>
-						<Label>Size</Label>
-						<MonsterDropdown disabled={this.props.disabled} selected={this.state.Size} name='Size' options={sizes} onChange={this.handleMonsterEnumChange} />
-						<Help isColor='danger'>{this.state.SizeError}</Help>
-					</Control>
-					<Control isExpanded>
-						<Label>Race</Label>
-						<MonsterDropdown disabled={this.props.disabled} selected={this.state.Race} name='Race' options={races} onChange={this.handleMonsterEnumChange} />
-						<Help isColor='danger'>{this.state.RaceError}</Help>
-					</Control>
-				</Field>
-				<Field isGrouped='centered' isHorizontal>
-					<Control isExpanded>
-						<Label>Alignment</Label>
-						<MonsterDropdown disabled={this.props.disabled} selected={this.state.Alignment} name='Alignment' options={alignments} onChange={this.handleMonsterEnumChange} />
-						<Help isColor='danger'>{this.state.AlignmentError}</Help>
-					</Control>
-					<Control isExpanded>
-						<Label>Environment</Label>
-						<MonsterDropdown disabled={this.props.disabled} selected={this.state.Environment} name='Environment' options={environments} onChange={this.handleMonsterEnumChange} />
-						<Help isColor='danger'>{this.state.EnvironmentError}</Help>
-					</Control>
-				</Field>
-			</Tile>
+			<ExpansionPanel defaultExpanded >
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography className='heading' >Basic Configurations</Typography>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<Grid container spacing={8} >
+						<Grid item xs={4} >
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor='Type' >Type</InputLabel>
+								<MonsterDropdown
+									disabled={this.props.disabled}
+									selected={this.state.Type}
+									name='Type'
+									options={types}
+									onChange={this.handleMonsterEnumChange} />
+								<FormHelperText error id='Type-helper-text' >{this.state.TypeError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={4} >
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor='Size' >Size</InputLabel>
+								<MonsterDropdown
+									disabled={this.props.disabled}
+									selected={this.state.Size}
+									name='Size'
+									options={sizes}
+									onChange={this.handleMonsterEnumChange} />
+								<FormHelperText error id='Size-helper-text' >{this.state.SizeError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={4} >
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor='Race' >Race</InputLabel>
+								<MonsterDropdown
+									disabled={this.props.disabled}
+									selected={this.state.Race}
+									name='Race'
+									options={races}
+									onChange={this.handleMonsterEnumChange} />
+								<FormHelperText error id='Race-helper-text' >{this.state.RaceError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6} >
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor='Alignment' >Alignment</InputLabel>
+								<MonsterDropdown
+									disabled={this.props.disabled}
+									selected={this.state.Alignment}
+									name='Alignment'
+									options={alignments}
+									onChange={this.handleMonsterEnumChange} />
+								<FormHelperText error id='Alignment-helper-text' >{this.state.AlignmentError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6} >
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor='Environment' >Environment</InputLabel>
+								<MonsterDropdown
+									disabled={this.props.disabled}
+									selected={this.state.Environment}
+									name='Environment'
+									options={environments}
+									onChange={this.handleMonsterEnumChange} />
+								<FormHelperText error id='Environment-helper-text' >{this.state.EnvironmentError}</FormHelperText>
+							</FormControl>
+						</Grid>
+					</Grid>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
 		);
 	}
 }
