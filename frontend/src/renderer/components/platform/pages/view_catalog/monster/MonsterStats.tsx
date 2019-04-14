@@ -3,8 +3,11 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Tile, Subtitle, Field, FieldLabel, Label, FieldBody, Control, Input, Help } from 'bloomer';
+
 import { isDeepStrictEqual } from 'util';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+//import { stateWithoutErrors } from '../../../../../../utils/StateSelection';
 
 export interface IMonsterStatsProps {
 	disabled?: boolean,
@@ -80,36 +83,30 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 
 	render() {
 		return (
-			<Tile className="box" isVertical isParent >
-				<Tile isChild render={ (props: any) =>
-					<React.Fragment>
-						<Subtitle>{this.props.Parent.replace(/([A-Z])/g, ' $1').trim()}</Subtitle>
-						{this.keyNames.map((value: string) =>
-							<Field isHorizontal key={this.props.Parent+value}>
-								<FieldLabel isNormal>
-									<Label>{value}</Label>
-								</FieldLabel>
-								<FieldBody>
-									<Field>
-										<Control>
-											<Input
-												disabled={this.props.disabled}
-												id={this.props.Parent+value}
-												type='number'
-												placeholder={value}
-												autoComplete={value}
-												value={this.state[value] != undefined ? this.state[value] : ''}
-												name={value}
-												onChange={this.handleMonsterNumberChange} />
-										</Control>
-										<Help isColor='danger' id={this.props.Parent+value}>{this.state[value+'Error']}</Help>
-									</Field>
-								</FieldBody>
-							</Field>
+			<ExpansionPanel defaultExpanded >
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography className='heading' >{this.props.Parent.replace(/([A-Z])/g, ' $1').trim()}</Typography>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<Grid container spacing={8} >
+						{this.keyNames.map(value =>
+							<Grid item xs={12} key={this.props.Parent+value} >
+								<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+									<InputLabel htmlFor={this.props.Parent+value}>{value}</InputLabel>
+									<Input
+										id={this.props.Parent+value}
+										type='number'
+										value={this.state[value] != undefined ? this.state[value] : ''}
+										name={value}
+										onChange={this.handleMonsterNumberChange}
+										aria-describedby={value+'-helper-text'} />
+									<FormHelperText error id={this.props.Parent+value+'-helper-text'}>{this.state[value+'Error']}</FormHelperText>
+								</FormControl>
+							</Grid>
 						)}
-					</React.Fragment>
-				} />
-			</Tile>
+					</Grid>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
 		);
 	}
 }
