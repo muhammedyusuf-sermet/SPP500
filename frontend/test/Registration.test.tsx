@@ -71,7 +71,7 @@ describe('Register Component', () => {
 
 	describe('makes a server request to register the user', () => {
 
-		beforeEach(() => {
+		beforeEach(async (done) => {
 			nock.disableNetConnect();
 			//let scope: nock.Scope;
 			nock(API_URL)
@@ -84,6 +84,7 @@ describe('Register Component', () => {
 			.reply(201,
 				{ status: 201, messages: 'success' },
 			);
+			
 		});
 
 		afterEach(() => {
@@ -96,12 +97,12 @@ describe('Register Component', () => {
 			*/
 		})
 
-		it('successfully register with correct credentials', () => {
+		it('successfully register with correct credentials', async (done) => {
 			var usernameBox = registerInstance.find('#username');
 			var passwordBox = registerInstance.find('#password');
 			var emailBox = registerInstance.find('#email');
 			var nameBox = registerInstance.find('#name');
-			var registerForm = registerInstance.find('form');
+			//var registerForm = registerInstance.find('form');
 
 			usernameBox.simulate('change', {target: {name: 'username', value: 'test_username'}});
 			passwordBox.simulate('change', {target: {name: 'password', value: 'test_password'}});
@@ -118,7 +119,17 @@ describe('Register Component', () => {
 				.reply(201, {
 					body: [{ status: 201, messages: 'success' }],
 				});
-			registerForm.simulate('submit', {preventDefault: () => {}});
+
+				// requestRegister
+			registerInstance.instance().requestRegister({ preventDefault() {} } as React.FormEvent);
+			//registerForm.simulate('submit', {preventDefault: () => {}});
+			await new Promise(resolve => setImmediate(resolve));
+			registerInstance.update();
+			//expect(monsterCRUDInstance.find('#ModalMessage').text()).toEqual("Monster successfully updated.");
+			//expect(monsterCRUDInstance.find('Modal#monsterCRUDModal').prop('isActive')).toEqual(true);
+			expect(nock.isDone()).toEqual(true);
+			done();
+			
 		});
 	});
 });
