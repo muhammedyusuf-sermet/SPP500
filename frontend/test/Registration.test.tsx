@@ -72,6 +72,9 @@ describe('Register Component', () => {
 	describe('makes a server request to register the user', () => {
 
 		beforeEach(async (done) => {
+
+			jest.setTimeout(10000);
+
 			nock.disableNetConnect();
 			//let scope: nock.Scope;
 			nock(API_URL)
@@ -85,6 +88,7 @@ describe('Register Component', () => {
 				{ status: 201, messages: 'success' },
 			);
 			
+			done();
 		});
 
 		afterEach(() => {
@@ -95,6 +99,11 @@ describe('Register Component', () => {
 			if(scope)
 				expect(scope.pendingMocks()).toEqual([]);
 			*/
+			
+			console.log(nock.pendingMocks());
+			nock.cleanAll();
+			nock.restore();
+			console.log(nock.pendingMocks());
 		})
 
 		it('successfully register with correct credentials', async (done) => {
@@ -106,10 +115,10 @@ describe('Register Component', () => {
 
 			usernameBox.simulate('change', {target: {name: 'username', value: 'test_username'}});
 			passwordBox.simulate('change', {target: {name: 'password', value: 'test_password'}});
-			emailBox.simulate('change', {target: {name: 'username', value: 'test_email'}});
-			nameBox.simulate('change', {target: {name: 'password', value: 'test_name'}});
+			emailBox.simulate('change', {target: {name: 'email', value: 'test_email'}});
+			nameBox.simulate('change', {target: {name: 'name', value: 'test_name'}});
 
-			nock(API_URL)
+			/*nock(API_URL)
 				.post('/register', {
 						"username": "test_username",
 						"password": "test_password",
@@ -119,14 +128,16 @@ describe('Register Component', () => {
 				.reply(201, {
 					body: [{ status: 201, messages: 'success' }],
 				});
-
+*/
 				// requestRegister
 			registerInstance.instance().requestRegister({ preventDefault() {} } as React.FormEvent);
 			//registerForm.simulate('submit', {preventDefault: () => {}});
 			await new Promise(resolve => setImmediate(resolve));
+			await new Promise(resolve => setImmediate(resolve));
+			await new Promise(resolve => setImmediate(resolve));
 			registerInstance.update();
-			//expect(monsterCRUDInstance.find('#ModalMessage').text()).toEqual("Monster successfully updated.");
-			//expect(monsterCRUDInstance.find('Modal#monsterCRUDModal').prop('isActive')).toEqual(true);
+			expect(registerInstance.find('#ModalMessage').text()).toEqual("Welcome aboard! You can now login with your username and password.");
+			//expect(registerInstance.find('Modal#registerModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 			
