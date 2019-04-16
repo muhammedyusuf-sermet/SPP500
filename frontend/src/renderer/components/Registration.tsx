@@ -113,7 +113,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 					} else if (body.messages) {
 						this.openModal("Error registering: " + body.messages.toString());
 					}else{
-						this.openModal("There was an error retreiving the monster. Please try again later.")
+						this.openModal("There was an error creating your account. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
