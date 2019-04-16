@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monster Resistances Small snapshot matches snapshot 1`] = `
+<WithStyles(ExpansionPanel)
+  CollapseProps={
+    Object {
+      "timeout": 100,
+    }
+  }
+  defaultExpanded={true}
+>
+  <WithStyles(ExpansionPanelSummary)
+    expandIcon={<pure(ExpandMoreIcon) />}
+  >
+    <WithStyles(Typography)
+      className="heading"
+    >
+      Vulnerability, Resistance, and Immunity
+    </WithStyles(Typography)>
+  </WithStyles(ExpansionPanelSummary)>
+  <WithStyles(ExpansionPanelDetails)>
+    <WithStyles(Grid)
+      container={true}
+      spacing={8}
+    >
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="DamageVulnerabilities"
+          >
+            Damage Vulnerabilities
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="DamageVulnerabilities-helper-text"
+            id="DamageVulnerabilities"
+            name="DamageVulnerabilities"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="DamageVulnerabilities-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="DamageResistances"
+          >
+            Damage Resistances
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="DamageResistances-helper-text"
+            id="DamageResistances"
+            name="DamageResistances"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="DamageResistances-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="DamageImmunities"
+          >
+            Damage Immunities
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="DamageImmunities-helper-text"
+            id="DamageImmunities"
+            name="DamageImmunities"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="DamageImmunities-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="ConditionImmunities"
+          >
+            Condition Immunities
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="ConditionImmunities-helper-text"
+            id="ConditionImmunities"
+            name="ConditionImmunities"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="ConditionImmunities-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+  </WithStyles(ExpansionPanelDetails)>
+</WithStyles(ExpansionPanel)>
+`;

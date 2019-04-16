@@ -24,42 +24,6 @@ describe('Monster CRUD', () => {
 		content: { Name: 'Basic Monster', AbilityScores:{}, SavingThrows:{}, Skills:{}, Senses:{} }
 	}
 
-	// TODO: break the read tests into its own test and make sure all inputs are disabled.
-	describe('Read should be slightly different', () => {
-		beforeEach(async (done) => {
-			nock.disableNetConnect();
-			CookieManagerMock.SetStringCookie("session_token", "testToken");
-			// bind the normal user token function to the mock.
-			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
-			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
-			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			nock(API_URL)
-			.get('/monster/0')
-			.reply(200, basicResponse);
-			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={MonsterCRUDState.Read} Id={0} />);
-			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			// expect the MonsterCRUD to request the mosnter from the database.
-			expect(nock.isDone()).toEqual(true);
-			done();
-		});
-
-		afterEach( () => {
-			nock.cleanAll();
-		});
-
-		it('renders without crashing', () => {
-			expect(monsterCRUDInstance).toBeDefined();
-			expect(monsterCRUDInstance.state().Name).toEqual('Basic Monster');
-		});
-
-		it('should not render the submit button', () => {
-			expect(monsterCRUDInstance.find('Button#SubmitButton')).toHaveLength(0);
-		});
-	})
-
 	describe('Redirect if submitted', () => {
 		beforeEach(async (done) => {
 			nock.disableNetConnect();
@@ -492,7 +456,7 @@ describe('Monster CRUD', () => {
 
 		it('should show payload error message when monster is not properly formed', async (done) => {
 			monsterCRUDInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })
-			monsterCRUDInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: -1 } })
+			monsterCRUDInstance.find('input#AbilityScoresStrength').simulate('change', { target: { value: -1 } })
 			monsterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -568,53 +532,53 @@ describe('Monster CRUD', () => {
 			monsterCRUDInstance.find('select#Race').simulate('change', { target: { value: "Titan" } })
 			monsterCRUDInstance.find('select#Environment').simulate('change', { target: { value: "Coastal" } })
 			monsterCRUDInstance.find('select#Alignment').simulate('change', { target: { value: "AnyNonLawfulAlignment" } })
-			monsterCRUDInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: 'New Everything' } })
-			monsterCRUDInstance.find('Input#DamageResistances').simulate('change', { target: { value: 'New None at all' } })
-			monsterCRUDInstance.find('Input#DamageImmunities').simulate('change', { target: { value: 'New Nada' } })
-			monsterCRUDInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: 'New Nothing' } })
-			monsterCRUDInstance.find('Input#ArmorClass').simulate('change', { target: { value: 20 } })
-			monsterCRUDInstance.find('Input#HitPoints').simulate('change', { target: { value: 45 } })
-			monsterCRUDInstance.find('Input#HitPointDistribution').simulate('change', { target: { value: '9d5-10' } })
-			monsterCRUDInstance.find('Input#SpeedLand').simulate('change', { target: { value: 30 } })
-			monsterCRUDInstance.find('Input#SpeedSwim').simulate('change', { target: { value: 20 } })
-			monsterCRUDInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: 23 } })
-			monsterCRUDInstance.find('Input#AbilityScoresDexterity').simulate('change', { target: { value: 20 } })
-			monsterCRUDInstance.find('Input#AbilityScoresConstitution').simulate('change', { target: { value: 18 } })
-			monsterCRUDInstance.find('Input#AbilityScoresIntelligence').simulate('change', { target: { value: 17 } })
-			monsterCRUDInstance.find('Input#AbilityScoresWisdom').simulate('change', { target: { value: 21 } })
-			monsterCRUDInstance.find('Input#AbilityScoresCharisma').simulate('change', { target: { value: 20 } })
-			monsterCRUDInstance.find('Input#SavingThrowsStrength').simulate('change', { target: { value: -8 } })
-			monsterCRUDInstance.find('Input#SavingThrowsDexterity').simulate('change', { target: { value: -5 } })
-			monsterCRUDInstance.find('Input#SavingThrowsConstitution').simulate('change', { target: { value: -6 } })
-			monsterCRUDInstance.find('Input#SavingThrowsIntelligence').simulate('change', { target: { value: -7 } })
-			monsterCRUDInstance.find('Input#SavingThrowsWisdom').simulate('change', { target: { value: 3 } })
-			monsterCRUDInstance.find('Input#SavingThrowsCharisma').simulate('change', { target: { value: 4 } })
-			monsterCRUDInstance.find('Input#Athletics').simulate('change', { target: { value: 14 } })
-			monsterCRUDInstance.find('Input#Acrobatics').simulate('change', { target: { value: 15 } })
-			monsterCRUDInstance.find('Input[id="Sleight of Hand"]').simulate('change', { target: { value: 14 } })
-			monsterCRUDInstance.find('Input#Stealth').simulate('change', { target: { value: 13 } })
-			monsterCRUDInstance.find('Input#Arcana').simulate('change', { target: { value: 12 } })
-			monsterCRUDInstance.find('Input#History').simulate('change', { target: { value: 12 } })
-			monsterCRUDInstance.find('Input#Investigation').simulate('change', { target: { value: 11 } })
-			monsterCRUDInstance.find('Input#Nature').simulate('change', { target: { value: 12 } })
-			monsterCRUDInstance.find('Input#Religion').simulate('change', { target: { value: 13 } })
-			monsterCRUDInstance.find('Input[id="Animal Handling"]').simulate('change', { target: { value: 14 } })
-			monsterCRUDInstance.find('Input#Insight').simulate('change', { target: { value: 15 } })
-			monsterCRUDInstance.find('Input#Medicine').simulate('change', { target: { value: 17 } })
-			monsterCRUDInstance.find('Input#Perception').simulate('change', { target: { value: 20 } })
-			monsterCRUDInstance.find('Input#Survival').simulate('change', { target: { value: 16 } })
-			monsterCRUDInstance.find('Input#Deception').simulate('change', { target: { value: 15 } })
-			monsterCRUDInstance.find('Input#Intimidation').simulate('change', { target: { value: 14 } })
-			monsterCRUDInstance.find('Input#Performance').simulate('change', { target: { value: 12 } })
-			monsterCRUDInstance.find('Input#Persuasion').simulate('change', { target: { value: 9 } })
-			monsterCRUDInstance.find('Input#Blind').simulate('change', { target: { value: 35 } })
-			monsterCRUDInstance.find('Input#Blindsight').simulate('change', { target: { value: 35 } })
-			monsterCRUDInstance.find('Input#Darkvision').simulate('change', { target: { value: 15} })
-			monsterCRUDInstance.find('Input#Tremorsense').simulate('change', { target: { value: 20 } })
-			monsterCRUDInstance.find('Input#Truesight').simulate('change', { target: { value: 65 } })
-			monsterCRUDInstance.find('Input[id="Passive Perception"]').simulate('change', { target: { value: 18 } })
-			monsterCRUDInstance.find('Input[id="Passive Investigation"]').simulate('change', { target: { value: 19 } })
-			monsterCRUDInstance.find('Input[id="Passive Insight"]').simulate('change', { target: { value: 21 } })
+			monsterCRUDInstance.find('input#DamageVulnerabilities').simulate('change', { target: { value: 'New Everything' } })
+			monsterCRUDInstance.find('input#DamageResistances').simulate('change', { target: { value: 'New None at all' } })
+			monsterCRUDInstance.find('input#DamageImmunities').simulate('change', { target: { value: 'New Nada' } })
+			monsterCRUDInstance.find('input#ConditionImmunities').simulate('change', { target: { value: 'New Nothing' } })
+			monsterCRUDInstance.find('input#ArmorClass').simulate('change', { target: { value: 20 } })
+			monsterCRUDInstance.find('input#HitPoints').simulate('change', { target: { value: 45 } })
+			monsterCRUDInstance.find('input#HitPointDistribution').simulate('change', { target: { value: '9d5-10' } })
+			monsterCRUDInstance.find('input#SpeedLand').simulate('change', { target: { value: 30 } })
+			monsterCRUDInstance.find('input#SpeedSwim').simulate('change', { target: { value: 20 } })
+			monsterCRUDInstance.find('input#AbilityScoresStrength').simulate('change', { target: { value: 23 } })
+			monsterCRUDInstance.find('input#AbilityScoresDexterity').simulate('change', { target: { value: 20 } })
+			monsterCRUDInstance.find('input#AbilityScoresConstitution').simulate('change', { target: { value: 18 } })
+			monsterCRUDInstance.find('input#AbilityScoresIntelligence').simulate('change', { target: { value: 17 } })
+			monsterCRUDInstance.find('input#AbilityScoresWisdom').simulate('change', { target: { value: 21 } })
+			monsterCRUDInstance.find('input#AbilityScoresCharisma').simulate('change', { target: { value: 20 } })
+			monsterCRUDInstance.find('input#SavingThrowsStrength').simulate('change', { target: { value: -8 } })
+			monsterCRUDInstance.find('input#SavingThrowsDexterity').simulate('change', { target: { value: -5 } })
+			monsterCRUDInstance.find('input#SavingThrowsConstitution').simulate('change', { target: { value: -6 } })
+			monsterCRUDInstance.find('input#SavingThrowsIntelligence').simulate('change', { target: { value: -7 } })
+			monsterCRUDInstance.find('input#SavingThrowsWisdom').simulate('change', { target: { value: 3 } })
+			monsterCRUDInstance.find('input#SavingThrowsCharisma').simulate('change', { target: { value: 4 } })
+			monsterCRUDInstance.find('input#Athletics').simulate('change', { target: { value: 14 } })
+			monsterCRUDInstance.find('input#Acrobatics').simulate('change', { target: { value: 15 } })
+			monsterCRUDInstance.find('input[id="Sleight of Hand"]').simulate('change', { target: { value: 14 } })
+			monsterCRUDInstance.find('input#Stealth').simulate('change', { target: { value: 13 } })
+			monsterCRUDInstance.find('input#Arcana').simulate('change', { target: { value: 12 } })
+			monsterCRUDInstance.find('input#History').simulate('change', { target: { value: 12 } })
+			monsterCRUDInstance.find('input#Investigation').simulate('change', { target: { value: 11 } })
+			monsterCRUDInstance.find('input#Nature').simulate('change', { target: { value: 12 } })
+			monsterCRUDInstance.find('input#Religion').simulate('change', { target: { value: 13 } })
+			monsterCRUDInstance.find('input[id="Animal Handling"]').simulate('change', { target: { value: 14 } })
+			monsterCRUDInstance.find('input#Insight').simulate('change', { target: { value: 15 } })
+			monsterCRUDInstance.find('input#Medicine').simulate('change', { target: { value: 17 } })
+			monsterCRUDInstance.find('input#Perception').simulate('change', { target: { value: 20 } })
+			monsterCRUDInstance.find('input#Survival').simulate('change', { target: { value: 16 } })
+			monsterCRUDInstance.find('input#Deception').simulate('change', { target: { value: 15 } })
+			monsterCRUDInstance.find('input#Intimidation').simulate('change', { target: { value: 14 } })
+			monsterCRUDInstance.find('input#Performance').simulate('change', { target: { value: 12 } })
+			monsterCRUDInstance.find('input#Persuasion').simulate('change', { target: { value: 9 } })
+			monsterCRUDInstance.find('input#Blind').simulate('change', { target: { value: 35 } })
+			monsterCRUDInstance.find('input#Blindsight').simulate('change', { target: { value: 35 } })
+			monsterCRUDInstance.find('input#Darkvision').simulate('change', { target: { value: 15} })
+			monsterCRUDInstance.find('input#Tremorsense').simulate('change', { target: { value: 20 } })
+			monsterCRUDInstance.find('input#Truesight').simulate('change', { target: { value: 65 } })
+			monsterCRUDInstance.find('input[id="Passive Perception"]').simulate('change', { target: { value: 18 } })
+			monsterCRUDInstance.find('input[id="Passive Investigation"]').simulate('change', { target: { value: 19 } })
+			monsterCRUDInstance.find('input[id="Passive Insight"]').simulate('change', { target: { value: 21 } })
 			monsterCRUDInstance.find('Input#Languages').simulate('change', { target: { value: 'New Common and Draconic' } })
 			monsterCRUDInstance.find('Input#ChallengeRating').simulate('change', { target: { value: 7.5 } })
 			monsterCRUDInstance.find('Input#ExperiencePoints').simulate('change', { target: { value: 195 } })

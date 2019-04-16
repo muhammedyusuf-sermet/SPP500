@@ -1,0 +1,269 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
+<WithStyles(ExpansionPanel)
+  CollapseProps={
+    Object {
+      "timeout": 100,
+    }
+  }
+  defaultExpanded={true}
+>
+  <WithStyles(ExpansionPanelSummary)
+    expandIcon={<pure(ExpandMoreIcon) />}
+  >
+    <WithStyles(Typography)
+      className="heading"
+    >
+      Sense Bonuses
+    </WithStyles(Typography)>
+  </WithStyles(ExpansionPanelSummary)>
+  <WithStyles(ExpansionPanelDetails)>
+    <WithStyles(Grid)
+      container={true}
+      spacing={8}
+    >
+      <WithStyles(Grid)
+        item={true}
+        key="Blind"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Blind"
+          >
+            Blind
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Blind-helper-text"
+            id="Blind"
+            name="Blind"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Blind-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Blindsight"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Blindsight"
+          >
+            Blindsight
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Blindsight-helper-text"
+            id="Blindsight"
+            name="Blindsight"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Blindsight-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Darkvision"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Darkvision"
+          >
+            Darkvision
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Darkvision-helper-text"
+            id="Darkvision"
+            name="Darkvision"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Darkvision-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Tremorsense"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Tremorsense"
+          >
+            Tremorsense
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Tremorsense-helper-text"
+            id="Tremorsense"
+            name="Tremorsense"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Tremorsense-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Truesight"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Truesight"
+          >
+            Truesight
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Truesight-helper-text"
+            id="Truesight"
+            name="Truesight"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Truesight-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Passive Perception"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Passive Perception"
+          >
+            Passive Perception
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Passive Perception-helper-text"
+            id="Passive Perception"
+            name="Passive Perception"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Passive Perception-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Passive Investigation"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Passive Investigation"
+          >
+            Passive Investigation
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Passive Investigation-helper-text"
+            id="Passive Investigation"
+            name="Passive Investigation"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Passive Investigation-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="Passive Insight"
+        sm={4}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Passive Insight"
+          >
+            Passive Insight
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="Passive Insight-helper-text"
+            id="Passive Insight"
+            name="Passive Insight"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="Passive Insight-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+  </WithStyles(ExpansionPanelDetails)>
+</WithStyles(ExpansionPanel)>
+`;

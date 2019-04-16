@@ -9,7 +9,7 @@ import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } fr
 import 'bulma/css/bulma.css';
 
 import { Redirect } from "react-router-dom"
-import { Modal, ModalContent, Box, ModalBackground, Button, Tile, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Button, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
 import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
@@ -20,6 +20,8 @@ import { MonsterSkillBonuses } from './platform/pages/view_catalog/monster/Monst
 import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/MonsterSpeedBonuses';
 import { MonsterSenseBonuses } from './platform/pages/view_catalog/monster/MonsterSenseBonuses';
 import { MonsterLanguages } from './platform/pages/view_catalog/monster/MonsterLanguages';
+import { stateWithoutErrors } from '../../utils/StateSelection';
+import { Grid } from '@material-ui/core';
 
 export enum MonsterCRUDState {
 	Create = 'Create',
@@ -285,18 +287,6 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 	}
 	*/
 
-	private stateWithoutErrors(state: any): any
-	{
-		let newState: { [key: string]: number | string } = {};
-		for (let field in state) {
-			if (field.endsWith('Error'))
-				continue
-			if (state[field] != undefined)
-				newState[field] = state[field];
-		}
-		return newState;
-	}
-
 	submitForm = (event: React.FormEvent) => {
 		event.preventDefault();
 		this.validateForm();
@@ -322,22 +312,22 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 			Id: this.state.Id,
 			Name: this.state.Name,
 			ChallengeRating: this.state.ChallengeRating,
-			...this.stateWithoutErrors(enumState),
+			...stateWithoutErrors(enumState),
 			Speed: monsterSpeed,
-			...this.stateWithoutErrors(resistancesState),
-			...this.stateWithoutErrors(defencesState),
-			...this.stateWithoutErrors(languagesState),
+			...stateWithoutErrors(resistancesState),
+			...stateWithoutErrors(defencesState),
+			...stateWithoutErrors(languagesState),
 			AbilityScores: {
-				...this.stateWithoutErrors(abilityScoreState)
+				...stateWithoutErrors(abilityScoreState)
 			},
 			SavingThrows: {
-				...this.stateWithoutErrors(savingThrowState)
+				...stateWithoutErrors(savingThrowState)
 			},
 			Skills: {
-				...this.stateWithoutErrors(skillBonusesState)
+				...stateWithoutErrors(skillBonusesState)
 			},
 			Senses: {
-				...this.stateWithoutErrors(senseBonusesState)
+				...stateWithoutErrors(senseBonusesState)
 			}
 		}
 
@@ -422,9 +412,11 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
 			<div className="monster-CRUD-container">
 				<form onSubmit={this.submitForm}>
-					<Tile isParent isVertical>
-					<Title className="page-title">{this.state.Process} a Monster</Title>
-					<Tile className="box" isVertical>
+				<Grid container spacing={8} >
+					<Grid item xs={12} >
+						<Title className="page-title">{this.state.Process} a Monster</Title>
+					</Grid>
+					<Grid item xs={12} >
 						<Subtitle>Monster Name</Subtitle>
 						<Field>
 							<Control>
@@ -441,7 +433,8 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							</Control>
 							<Help id='Name' isColor='danger'>{this.state.NameError}</Help>
 						</Field>
-					</Tile>
+					</Grid>
+					<Grid item xs={12} >
 					<MonsterEnumConfiguration
 						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
@@ -454,6 +447,8 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							Alignment: this.state.Monster.Alignment,
 							Environment: this.state.Monster.Environment
 						}} />
+					</Grid>
+					<Grid item xs={12} >
 					<MonsterResistances
 						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
@@ -465,6 +460,8 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							DamageVulnerabilities: this.state.Monster.DamageVulnerabilities,
 							ConditionImmunities: this.state.Monster.ConditionImmunities
 						}} />
+					</Grid>
+					<Grid item xs={12} >
 					<MonsterDefences
 						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
@@ -475,6 +472,8 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							HitPoints: this.state.Monster.HitPoints,
 							HitPointDistribution: this.state.Monster.HitPointDistribution
 						}} />
+					</Grid>
+					<Grid item xs={12} >
 					<MonsterSpeedBonuses
 						disabled={this.state.Process == MonsterCRUDState.Read}
 						// TODO: use validation for speeds
@@ -484,30 +483,30 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						initial={{
 							// TODO: parse the speed string into SpeedLand and SpeedSwim
 						}} />
-					<Tile isSize={12} >
-						<Tile isSize={6} isParent >
-							<MonsterStats
-								disabled={this.state.Process == MonsterCRUDState.Read}
-								PayloadSchema={this.payloadSchema}
-								ValidationOptions={this.validateOptions}
-								ref={this.AbilityScores}
-								Parent={'AbilityScores'}
-								initial={{
-									...this.state.Monster.AbilityScores
-								}} />
-						</Tile>
-						<Tile isSize={6} isParent >
-							<MonsterStats
-								disabled={this.state.Process == MonsterCRUDState.Read}
-								PayloadSchema={this.payloadSchema}
-								ValidationOptions={this.validateOptions}
-								ref={this.SavingThrows}
-								Parent={'SavingThrows'}
-								initial={{
-									...this.state.Monster.SavingThrows
-								}} />
-						</Tile>
-					</Tile>
+					</Grid>
+					<Grid item xs={12} sm={6} >
+						<MonsterStats
+							disabled={this.state.Process == MonsterCRUDState.Read}
+							PayloadSchema={this.payloadSchema}
+							ValidationOptions={this.validateOptions}
+							ref={this.AbilityScores}
+							Parent={'AbilityScores'}
+							initial={{
+								...this.state.Monster.AbilityScores
+							}} />
+					</Grid>
+					<Grid item xs={12} sm={6} >
+						<MonsterStats
+							disabled={this.state.Process == MonsterCRUDState.Read}
+							PayloadSchema={this.payloadSchema}
+							ValidationOptions={this.validateOptions}
+							ref={this.SavingThrows}
+							Parent={'SavingThrows'}
+							initial={{
+								...this.state.Monster.SavingThrows
+							}} />
+					</Grid>
+					<Grid item xs={12} >
 					<MonsterSkillBonuses
 						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
@@ -516,6 +515,8 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						initial={{
 							...this.state.Monster.Skills
 						}} />
+					</Grid>
+					<Grid item xs={12} >
 					<MonsterSenseBonuses
 						disabled={this.state.Process == MonsterCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
@@ -524,7 +525,8 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						initial={{
 							...this.state.Monster.Senses
 						}} />
-					<Tile className="box" isVertical>
+					</Grid>
+					<Grid item xs={12} >
 						<Subtitle>Final Touches</Subtitle>
 						<MonsterLanguages
 							disabled={this.state.Process == MonsterCRUDState.Read}
@@ -575,7 +577,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 								</Field>
 							</FieldBody>
 						</Field>
-					</Tile>
+					</Grid>
 					{
 						this.state.Process == MonsterCRUDState.Read ? null :
 						<Field>
@@ -587,7 +589,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							history.back();
 						}}>{this.state.Process == MonsterCRUDState.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
-					</Tile>
+					</Grid>
 				</form>
 				<Modal id='monsterCRUDModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{

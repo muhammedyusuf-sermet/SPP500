@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monster Languages Small snapshot matches snapshot 1`] = `
+<withHelpersModifiers(Field)
+  isHorizontal={true}
+>
+  <withHelpersModifiers(FieldLabel)
+    isNormal={true}
+  >
+    <withHelpersModifiers(Label)>
+      Languages
+    </withHelpersModifiers(Label)>
+  </withHelpersModifiers(FieldLabel)>
+  <withHelpersModifiers(FieldBody)>
+    <withHelpersModifiers(Field)>
+      <withHelpersModifiers(Control)>
+        <withHelpersModifiers(Input)
+          autoComplete="Languages"
+          disabled={false}
+          id="Languages"
+          name="Languages"
+          onChange={[Function]}
+          placeholder="Languages"
+          type="text"
+          value=""
+        />
+      </withHelpersModifiers(Control)>
+      <withHelpersModifiers(Help)
+        id="Languages"
+        isColor="danger"
+      />
+    </withHelpersModifiers(Field)>
+  </withHelpersModifiers(FieldBody)>
+</withHelpersModifiers(Field)>
+`;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterStatsProps, IMonsterStatsState, MonsterStats } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterStats';
 const Joi = require('joi');
@@ -55,27 +55,27 @@ describe('Monster Stats', () => {
 		});
 
 		it('should have the correct number for Strength', () => {
-			expect(monsterStatsInstance.find('Input#AbilityScoresStrength').props().value).toEqual(123);
+			expect(monsterStatsInstance.find('input#AbilityScoresStrength').props().value).toEqual(123);
 		});
 
 		it('should have the correct number for Dexterity', () => {
-			expect(monsterStatsInstance.find('Input#AbilityScoresDexterity').props().value).toEqual(53);
+			expect(monsterStatsInstance.find('input#AbilityScoresDexterity').props().value).toEqual(53);
 		});
 
 		it('should have the correct number for Constitution', () => {
-			expect(monsterStatsInstance.find('Input#AbilityScoresConstitution').props().value).toEqual(25);
+			expect(monsterStatsInstance.find('input#AbilityScoresConstitution').props().value).toEqual(25);
 		});
 
 		it('should have the correct number for Intelligence', () => {
-			expect(monsterStatsInstance.find('Input#AbilityScoresIntelligence').props().value).toEqual(85);
+			expect(monsterStatsInstance.find('input#AbilityScoresIntelligence').props().value).toEqual(85);
 		});
 
 		it('should have the correct number for Wisdom', () => {
-			expect(monsterStatsInstance.find('Input#AbilityScoresWisdom').props().value).toEqual(43);
+			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().value).toEqual(43);
 		});
 
 		it('should have the correct number for Charisma', () => {
-			expect(monsterStatsInstance.find('Input#AbilityScoresCharisma').props().value).toEqual(32);
+			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().value).toEqual(32);
 		});
 	});
 
@@ -124,12 +124,12 @@ describe('Monster Stats', () => {
 					Charisma: 14
 				}
 			})
-			expect(monsterStatsInstance.find('Input#AbilityScoresStrength').props().value).toEqual(12);
-			expect(monsterStatsInstance.find('Input#AbilityScoresDexterity').props().value).toEqual(36);
-			expect(monsterStatsInstance.find('Input#AbilityScoresConstitution').props().value).toEqual(5);
-			expect(monsterStatsInstance.find('Input#AbilityScoresIntelligence').props().value).toEqual(52);
-			expect(monsterStatsInstance.find('Input#AbilityScoresWisdom').props().value).toEqual(71);
-			expect(monsterStatsInstance.find('Input#AbilityScoresCharisma').props().value).toEqual(14);
+			expect(monsterStatsInstance.find('input#AbilityScoresStrength').props().value).toEqual(12);
+			expect(monsterStatsInstance.find('input#AbilityScoresDexterity').props().value).toEqual(36);
+			expect(monsterStatsInstance.find('input#AbilityScoresConstitution').props().value).toEqual(5);
+			expect(monsterStatsInstance.find('input#AbilityScoresIntelligence').props().value).toEqual(52);
+			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().value).toEqual(71);
+			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().value).toEqual(14);
 		});
 
 		it('renders without crashing with same props', () => {
@@ -143,12 +143,37 @@ describe('Monster Stats', () => {
 					Charisma: 32
 				}
 			});
-			expect(monsterStatsInstance.find('Input#AbilityScoresStrength').props().value).toEqual(123);
-			expect(monsterStatsInstance.find('Input#AbilityScoresDexterity').props().value).toEqual(53);
-			expect(monsterStatsInstance.find('Input#AbilityScoresConstitution').props().value).toEqual(25);
-			expect(monsterStatsInstance.find('Input#AbilityScoresIntelligence').props().value).toEqual(85);
-			expect(monsterStatsInstance.find('Input#AbilityScoresWisdom').props().value).toEqual(43);
-			expect(monsterStatsInstance.find('Input#AbilityScoresCharisma').props().value).toEqual(32);
+			expect(monsterStatsInstance.find('input#AbilityScoresStrength').props().value).toEqual(123);
+			expect(monsterStatsInstance.find('input#AbilityScoresDexterity').props().value).toEqual(53);
+			expect(monsterStatsInstance.find('input#AbilityScoresConstitution').props().value).toEqual(25);
+			expect(monsterStatsInstance.find('input#AbilityScoresIntelligence').props().value).toEqual(85);
+			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().value).toEqual(43);
+			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().value).toEqual(32);
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const payloadSchema = Joi.object({
+				SavingThrows: Joi.object({
+					Strength: Joi.number().integer().greater(0).allow(0).label('Strength'),
+					Dexterity: Joi.number().integer().greater(0).allow(0).label('Dexterity'),
+					Constitution: Joi.number().integer().greater(0).allow(0).label('Constitution'),
+					Intelligence: Joi.number().integer().greater(0).allow(0).label('Intelligence'),
+					Wisdom: Joi.number().integer().greater(0).allow(0).label('Wisdom'),
+					Charisma: Joi.number().integer().greater(0).allow(0).label('Charisma')
+				})
+			});
+			const shallowMonsterStatsInstance =
+				shallow<MonsterStats, IMonsterStatsProps, IMonsterStatsState>(
+					<MonsterStats
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						Parent='SavingThrows'
+						initial={{}}/>
+				);
+			expect(shallowMonsterStatsInstance).toMatchSnapshot();
 		});
 	});
 
@@ -188,27 +213,27 @@ describe('Monster Stats', () => {
 		});
 
 		it('should have the correct number for Strength', () => {
-			expect(monsterStatsInstance.find('Input#SavingThrowsStrength').props().value).toEqual(56);
+			expect(monsterStatsInstance.find('input#SavingThrowsStrength').props().value).toEqual(56);
 		});
 
 		it('should have the correct number for Dexterity', () => {
-			expect(monsterStatsInstance.find('Input#SavingThrowsDexterity').props().value).toEqual(0);
+			expect(monsterStatsInstance.find('input#SavingThrowsDexterity').props().value).toEqual(0);
 		});
 
 		it('should have the correct number for Constitution', () => {
-			expect(monsterStatsInstance.find('Input#SavingThrowsConstitution').props().value).toEqual(76);
+			expect(monsterStatsInstance.find('input#SavingThrowsConstitution').props().value).toEqual(76);
 		});
 
 		it('should have the correct number for Intelligence', () => {
-			expect(monsterStatsInstance.find('Input#SavingThrowsIntelligence').props().value).toEqual(13);
+			expect(monsterStatsInstance.find('input#SavingThrowsIntelligence').props().value).toEqual(13);
 		});
 
 		it('should have the correct number for Wisdom', () => {
-			expect(monsterStatsInstance.find('Input#SavingThrowsWisdom').props().value).toEqual(54);
+			expect(monsterStatsInstance.find('input#SavingThrowsWisdom').props().value).toEqual(54);
 		});
 
 		it('should have the correct number for Charisma', () => {
-			expect(monsterStatsInstance.find('Input#SavingThrowsCharisma').props().value).toEqual(10);
+			expect(monsterStatsInstance.find('input#SavingThrowsCharisma').props().value).toEqual(10);
 		});
 	});
 
@@ -241,12 +266,12 @@ describe('Monster Stats', () => {
 		});
 
 		it('should be able to update state', () => {
-			monsterStatsInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: 17 } });
-			monsterStatsInstance.find('Input#AbilityScoresDexterity').simulate('change', { target: { value: 15 } });
-			monsterStatsInstance.find('Input#AbilityScoresConstitution').simulate('change', { target: { value: 13 } });
-			monsterStatsInstance.find('Input#AbilityScoresIntelligence').simulate('change', { target: { value: 12 } });
-			monsterStatsInstance.find('Input#AbilityScoresWisdom').simulate('change', { target: { value: 16 } });
-			monsterStatsInstance.find('Input#AbilityScoresCharisma').simulate('change', { target: { value: 15 } });
+			monsterStatsInstance.find('input#AbilityScoresStrength').simulate('change', { target: { value: 17 } });
+			monsterStatsInstance.find('input#AbilityScoresDexterity').simulate('change', { target: { value: 15 } });
+			monsterStatsInstance.find('input#AbilityScoresConstitution').simulate('change', { target: { value: 13 } });
+			monsterStatsInstance.find('input#AbilityScoresIntelligence').simulate('change', { target: { value: 12 } });
+			monsterStatsInstance.find('input#AbilityScoresWisdom').simulate('change', { target: { value: 16 } });
+			monsterStatsInstance.find('input#AbilityScoresCharisma').simulate('change', { target: { value: 15 } });
 			expect(monsterStatsInstance.state()).toEqual({
 				// data
 				Strength: 17,
@@ -266,101 +291,101 @@ describe('Monster Stats', () => {
 		});
 		// STATE CHANGE
 		it('should change only Strength when Strength is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: '22' } })
+			monsterStatsInstance.find('input#AbilityScoresStrength').simulate('change', { target: { value: '22' } })
 			expect(monsterStatsInstance.state().Strength).toEqual(22);
 		})
 
 		it('should change only Dexterity when Dexterity is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresDexterity').simulate('change', { target: { value: '74' } })
+			monsterStatsInstance.find('input#AbilityScoresDexterity').simulate('change', { target: { value: '74' } })
 			expect(monsterStatsInstance.state().Dexterity).toEqual(74);
 		})
 
 		it('should change only Constitution when Constitution is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresConstitution').simulate('change', { target: { value: '5' } })
+			monsterStatsInstance.find('input#AbilityScoresConstitution').simulate('change', { target: { value: '5' } })
 			expect(monsterStatsInstance.state().Constitution).toEqual(5);
 		})
 
 		it('should change only Intelligence when Intelligence is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresIntelligence').simulate('change', { target: { value: '91' } })
+			monsterStatsInstance.find('input#AbilityScoresIntelligence').simulate('change', { target: { value: '91' } })
 			expect(monsterStatsInstance.state().Intelligence).toEqual(91);
 		})
 
 		it('should change only Wisdom when Wisdom is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresWisdom').simulate('change', { target: { value: '24' } })
+			monsterStatsInstance.find('input#AbilityScoresWisdom').simulate('change', { target: { value: '24' } })
 			expect(monsterStatsInstance.state().Wisdom).toEqual(24);
 		})
 
 		it('should change only Charisma when Charisma is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresCharisma').simulate('change', { target: { value: '100' } })
+			monsterStatsInstance.find('input#AbilityScoresCharisma').simulate('change', { target: { value: '100' } })
 			expect(monsterStatsInstance.state().Charisma).toEqual(100);
 		})
 
 		// DEFAULTS
 		it('should change Strength back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#AbilityScoresStrength').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Strength).toEqual(undefined);
 		})
 
 		it('should change Dexterity back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#AbilityScoresDexterity').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#AbilityScoresDexterity').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Dexterity).toEqual(undefined);
 		})
 
 		it('should change Constitution back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#AbilityScoresConstitution').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#AbilityScoresConstitution').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Constitution).toEqual(undefined);
 		})
 
 		it('should change Intelligence back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#AbilityScoresIntelligence').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#AbilityScoresIntelligence').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Intelligence).toEqual(undefined);
 		})
 
 		it('should change Wisdom back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#AbilityScoresWisdom').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#AbilityScoresWisdom').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Wisdom).toEqual(undefined);
 		})
 
 		it('should change Charisma back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#AbilityScoresCharisma').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#AbilityScoresCharisma').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Charisma).toEqual(undefined);
 		})
 
 		// VALIDATION
 		it('should validate Strength when Strength is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresStrength').simulate('change', { target: { value: '-12'  } })
+			monsterStatsInstance.find('input#AbilityScoresStrength').simulate('change', { target: { value: '-12'  } })
 			expect(monsterStatsInstance.state().Strength).toEqual(-12);
-			expect(monsterStatsInstance.find('Help#AbilityScoresStrength').text()).toEqual('\"Strength\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#AbilityScoresStrength-helper-text').text()).toEqual('\"Strength\" must be greater than 0');
 		})
 
 		it('should validate Dexterity when Dexterity is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresDexterity').simulate('change', { target: { value: '-16'  } })
+			monsterStatsInstance.find('input#AbilityScoresDexterity').simulate('change', { target: { value: '-16'  } })
 			expect(monsterStatsInstance.state().Dexterity).toEqual(-16);
-			expect(monsterStatsInstance.find('Help#AbilityScoresDexterity').text()).toEqual('\"Dexterity\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#AbilityScoresDexterity-helper-text').text()).toEqual('\"Dexterity\" must be greater than 0');
 		})
 
 		it('should validate Constitution when Constitution is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresConstitution').simulate('change', { target: { value: '-6'  } })
+			monsterStatsInstance.find('input#AbilityScoresConstitution').simulate('change', { target: { value: '-6'  } })
 			expect(monsterStatsInstance.state().Constitution).toEqual(-6);
-			expect(monsterStatsInstance.find('Help#AbilityScoresConstitution').text()).toEqual('\"Constitution\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#AbilityScoresConstitution-helper-text').text()).toEqual('\"Constitution\" must be greater than 0');
 		})
 
 		it('should validate Intelligence when Intelligence is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresIntelligence').simulate('change', { target: { value: '-102'  } })
+			monsterStatsInstance.find('input#AbilityScoresIntelligence').simulate('change', { target: { value: '-102'  } })
 			expect(monsterStatsInstance.state().Intelligence).toEqual(-102);
-			expect(monsterStatsInstance.find('Help#AbilityScoresIntelligence').text()).toEqual('\"Intelligence\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#AbilityScoresIntelligence-helper-text').text()).toEqual('\"Intelligence\" must be greater than 0');
 		})
 
 		it('should validate Wisdom when Wisdom is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresWisdom').simulate('change', { target: { value: '0'  } })
+			monsterStatsInstance.find('input#AbilityScoresWisdom').simulate('change', { target: { value: '0'  } })
 			expect(monsterStatsInstance.state().Wisdom).toEqual(0);
-			expect(monsterStatsInstance.find('Help#AbilityScoresWisdom').text()).toEqual('\"Wisdom\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#AbilityScoresWisdom-helper-text').text()).toEqual('\"Wisdom\" must be greater than 0');
 		})
 
 		it('should validate Charisma when Charisma is changed', () => {
-			monsterStatsInstance.find('Input#AbilityScoresCharisma').simulate('change', { target: { value: '-9'  } })
+			monsterStatsInstance.find('input#AbilityScoresCharisma').simulate('change', { target: { value: '-9'  } })
 			expect(monsterStatsInstance.state().Charisma).toEqual(-9);
-			expect(monsterStatsInstance.find('Help#AbilityScoresCharisma').text()).toEqual('\"Charisma\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#AbilityScoresCharisma-helper-text').text()).toEqual('\"Charisma\" must be greater than 0');
 		})
 	});
 
@@ -393,12 +418,12 @@ describe('Monster Stats', () => {
 		});
 
 		it('should be able to update state', () => {
-			monsterStatsInstance.find('Input#SavingThrowsStrength').simulate('change', { target: { value: 23 } });
-			monsterStatsInstance.find('Input#SavingThrowsDexterity').simulate('change', { target: { value: 0 } });
-			monsterStatsInstance.find('Input#SavingThrowsConstitution').simulate('change', { target: { value: 1 } });
-			monsterStatsInstance.find('Input#SavingThrowsIntelligence').simulate('change', { target: { value: 100 } });
-			monsterStatsInstance.find('Input#SavingThrowsWisdom').simulate('change', { target: { value: 17 } });
-			monsterStatsInstance.find('Input#SavingThrowsCharisma').simulate('change', { target: { value: 0 } });
+			monsterStatsInstance.find('input#SavingThrowsStrength').simulate('change', { target: { value: 23 } });
+			monsterStatsInstance.find('input#SavingThrowsDexterity').simulate('change', { target: { value: 0 } });
+			monsterStatsInstance.find('input#SavingThrowsConstitution').simulate('change', { target: { value: 1 } });
+			monsterStatsInstance.find('input#SavingThrowsIntelligence').simulate('change', { target: { value: 100 } });
+			monsterStatsInstance.find('input#SavingThrowsWisdom').simulate('change', { target: { value: 17 } });
+			monsterStatsInstance.find('input#SavingThrowsCharisma').simulate('change', { target: { value: 0 } });
 			expect(monsterStatsInstance.state()).toEqual({
 				// data
 				Strength: 23,
@@ -418,101 +443,101 @@ describe('Monster Stats', () => {
 		});
 		// STATE CHANGE
 		it('should change only Strength when Strength is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsStrength').simulate('change', { target: { value: '22' } })
+			monsterStatsInstance.find('input#SavingThrowsStrength').simulate('change', { target: { value: '22' } })
 			expect(monsterStatsInstance.state().Strength).toEqual(22);
 		})
 
 		it('should change only Dexterity when Dexterity is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsDexterity').simulate('change', { target: { value: '0' } })
+			monsterStatsInstance.find('input#SavingThrowsDexterity').simulate('change', { target: { value: '0' } })
 			expect(monsterStatsInstance.state().Dexterity).toEqual(0);
 		})
 
 		it('should change only Constitution when Constitution is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsConstitution').simulate('change', { target: { value: '5' } })
+			monsterStatsInstance.find('input#SavingThrowsConstitution').simulate('change', { target: { value: '5' } })
 			expect(monsterStatsInstance.state().Constitution).toEqual(5);
 		})
 
 		it('should change only Intelligence when Intelligence is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsIntelligence').simulate('change', { target: { value: '0' } })
+			monsterStatsInstance.find('input#SavingThrowsIntelligence').simulate('change', { target: { value: '0' } })
 			expect(monsterStatsInstance.state().Intelligence).toEqual(0);
 		})
 
 		it('should change only Wisdom when Wisdom is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsWisdom').simulate('change', { target: { value: '24' } })
+			monsterStatsInstance.find('input#SavingThrowsWisdom').simulate('change', { target: { value: '24' } })
 			expect(monsterStatsInstance.state().Wisdom).toEqual(24);
 		})
 
 		it('should change only Charisma when Charisma is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsCharisma').simulate('change', { target: { value: '100' } })
+			monsterStatsInstance.find('input#SavingThrowsCharisma').simulate('change', { target: { value: '100' } })
 			expect(monsterStatsInstance.state().Charisma).toEqual(100);
 		})
 
 		// DEFAULTS
 		it('should change Strength back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#SavingThrowsStrength').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#SavingThrowsStrength').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Strength).toEqual(undefined);
 		})
 
 		it('should change Dexterity back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#SavingThrowsDexterity').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#SavingThrowsDexterity').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Dexterity).toEqual(undefined);
 		})
 
 		it('should change Constitution back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#SavingThrowsConstitution').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#SavingThrowsConstitution').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Constitution).toEqual(undefined);
 		})
 
 		it('should change Intelligence back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#SavingThrowsIntelligence').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#SavingThrowsIntelligence').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Intelligence).toEqual(undefined);
 		})
 
 		it('should change Wisdom back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#SavingThrowsWisdom').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#SavingThrowsWisdom').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Wisdom).toEqual(undefined);
 		})
 
 		it('should change Charisma back to undefined when input is empty', () => {
-			monsterStatsInstance.find('Input#SavingThrowsCharisma').simulate('change', { target: { value: '' } })
+			monsterStatsInstance.find('input#SavingThrowsCharisma').simulate('change', { target: { value: '' } })
 			expect(monsterStatsInstance.state().Charisma).toEqual(undefined);
 		})
 
 		// VALIDATION
 		it('should validate Strength when Strength is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsStrength').simulate('change', { target: { value: '-12'  } })
+			monsterStatsInstance.find('input#SavingThrowsStrength').simulate('change', { target: { value: '-12'  } })
 			expect(monsterStatsInstance.state().Strength).toEqual(-12);
-			expect(monsterStatsInstance.find('Help#SavingThrowsStrength').text()).toEqual('\"Strength\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#SavingThrowsStrength-helper-text').text()).toEqual('\"Strength\" must be greater than 0');
 		})
 
 		it('should validate Dexterity when Dexterity is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsDexterity').simulate('change', { target: { value: '-16'  } })
+			monsterStatsInstance.find('input#SavingThrowsDexterity').simulate('change', { target: { value: '-16'  } })
 			expect(monsterStatsInstance.state().Dexterity).toEqual(-16);
-			expect(monsterStatsInstance.find('Help#SavingThrowsDexterity').text()).toEqual('\"Dexterity\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#SavingThrowsDexterity-helper-text').text()).toEqual('\"Dexterity\" must be greater than 0');
 		})
 
 		it('should validate Constitution when Constitution is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsConstitution').simulate('change', { target: { value: '-6'  } })
+			monsterStatsInstance.find('input#SavingThrowsConstitution').simulate('change', { target: { value: '-6'  } })
 			expect(monsterStatsInstance.state().Constitution).toEqual(-6);
-			expect(monsterStatsInstance.find('Help#SavingThrowsConstitution').text()).toEqual('\"Constitution\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#SavingThrowsConstitution-helper-text').text()).toEqual('\"Constitution\" must be greater than 0');
 		})
 
 		it('should validate Intelligence when Intelligence is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsIntelligence').simulate('change', { target: { value: '-102'  } })
+			monsterStatsInstance.find('input#SavingThrowsIntelligence').simulate('change', { target: { value: '-102'  } })
 			expect(monsterStatsInstance.state().Intelligence).toEqual(-102);
-			expect(monsterStatsInstance.find('Help#SavingThrowsIntelligence').text()).toEqual('\"Intelligence\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#SavingThrowsIntelligence-helper-text').text()).toEqual('\"Intelligence\" must be greater than 0');
 		})
 
 		it('should validate Wisdom when Wisdom is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsWisdom').simulate('change', { target: { value: '-1'  } })
+			monsterStatsInstance.find('input#SavingThrowsWisdom').simulate('change', { target: { value: '-1'  } })
 			expect(monsterStatsInstance.state().Wisdom).toEqual(-1);
-			expect(monsterStatsInstance.find('Help#SavingThrowsWisdom').text()).toEqual('\"Wisdom\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#SavingThrowsWisdom-helper-text').text()).toEqual('\"Wisdom\" must be greater than 0');
 		})
 
 		it('should validate Charisma when Charisma is changed', () => {
-			monsterStatsInstance.find('Input#SavingThrowsCharisma').simulate('change', { target: { value: '-9'  } })
+			monsterStatsInstance.find('input#SavingThrowsCharisma').simulate('change', { target: { value: '-9'  } })
 			expect(monsterStatsInstance.state().Charisma).toEqual(-9);
-			expect(monsterStatsInstance.find('Help#SavingThrowsCharisma').text()).toEqual('\"Charisma\" must be greater than 0');
+			expect(monsterStatsInstance.find('FormHelperText#SavingThrowsCharisma-helper-text').text()).toEqual('\"Charisma\" must be greater than 0');
 		})
 	});
 });

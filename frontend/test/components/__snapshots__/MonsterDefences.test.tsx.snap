@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monster Defences Small snapshot matches snapshot 1`] = `
+<WithStyles(ExpansionPanel)
+  CollapseProps={
+    Object {
+      "timeout": 100,
+    }
+  }
+  defaultExpanded={true}
+>
+  <WithStyles(ExpansionPanelSummary)
+    expandIcon={<pure(ExpandMoreIcon) />}
+  >
+    <WithStyles(Typography)
+      className="heading"
+    >
+      Armor Class and Hit Points
+    </WithStyles(Typography)>
+  </WithStyles(ExpansionPanelSummary)>
+  <WithStyles(ExpansionPanelDetails)>
+    <WithStyles(Grid)
+      container={true}
+      spacing={8}
+    >
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="ArmorClass"
+          >
+            Armor Class
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="ArmorClass-helper-text"
+            id="ArmorClass"
+            name="ArmorClass"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="ArmorClass-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="HitPoints"
+          >
+            Hit Points
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="HitPoints-helper-text"
+            id="HitPoints"
+            name="HitPoints"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="HitPoints-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="HitPointDistribution"
+          >
+            Hit Point Distribution
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="HitPointDistribution-helper-text"
+            id="HitPointDistribution"
+            name="HitPointDistribution"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="HitPointDistribution-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+  </WithStyles(ExpansionPanelDetails)>
+</WithStyles(ExpansionPanel)>
+`;
