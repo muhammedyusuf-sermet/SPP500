@@ -181,6 +181,49 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 		};
 	}
 
+	componentWillReceiveProps(nextProps: IMonsterCRUDProps) {
+		if (nextProps.Process != MonsterCRUDState.Create && nextProps.Id != this.props.Id){
+			console.log('making request')
+			const options = { method: 'GET',
+				url: API_URL + '/monster/' + nextProps.Id,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				json: true
+			};
+
+			request(options)
+				.then((body: IMonsterGetOneResponse) => {
+					if (body.status == 201) { // success
+						this.setState({
+							Id: body.content.Id ? body.content.Id : -1,
+							Name: body.content.Name,
+							ChallengeRating: body.content.ChallengeRating,
+							Monster: body.content
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal("Error finding monster: "+body.messages.toString());
+					}else{
+						this.openModal("There was an error retreiving the monster. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request.")
+				})
+		} else if (nextProps.Process != this.props.Process) {
+			this.setState({
+				Process: nextProps.Process
+			});
+		}
+	}
+
 	componentDidMount() {
 		if (this.props.Process != MonsterCRUDState.Create){
 			const options = { method: 'GET',
@@ -585,6 +628,11 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						</Field>
 					}
 					<Field>
+						{
+							// TODO The back or cancel button shouldn't really be part of
+							//  this component Something else should be handling back
+							//  functionality so then this component can be used in more places.
+						}
 						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
 							history.back();
 						}}>{this.state.Process == MonsterCRUDState.Read ? 'Back' : 'Cancel'}</Button>
