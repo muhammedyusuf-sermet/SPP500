@@ -157,6 +157,15 @@ export const initServer = async () => {
 	},
 	{
 		method: 'GET',
+		path: '/campaign/{campaignId}',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.GetOne(request);
+		}
+	},
+	{
+		method: 'GET',
 		path: '/campaign/get/{page}/{size}', 
 		options: { auth: 'jwt' },
 		handler: function (request) {
@@ -187,6 +196,9 @@ export const initServer = async () => {
 			};
 		}
 	}]);
+
+	var table = Server.table()
+console.log(table);
 }
 
 
