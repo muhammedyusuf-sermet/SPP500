@@ -543,3 +543,14 @@ describe('campaign tests', async () => {
 
 	});
 });
+
+
+//get one campaign pseudo tests
+//when campaign Id parameter is not number
+//raise an error
+
+//when campaign Id is given properly but no campaign
+//raise an error
+
+//when campaign Id is given properly
+//return the campaign
