@@ -166,6 +166,43 @@ export class EncounterFactory {
 		}
 	}
 
+	public async GetOne(request: {params: any, auth: any}) {
+		const encounterId = +request.params.encounterId;
+		const messages: string[] = [];
+
+		if (isNaN(encounterId)) {
+			messages.push("Parameter 'encounterId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			let encounter: Encounter[] | undefined = await Encounter.find({
+				relations: ['Monsters'], 
+				where: { Id: encounterId }
+			});
+			if (encounter && encounter.length > 0) {
+				const firstEncounter: Encounter = encounter[0];
+				
+				return {
+					"status": 201,
+					"messages": messages,
+					"content": firstEncounter,
+				}
+			} else {
+				return {
+					"status": 400,
+					"messages": ['Encounter not found.'],
+					"content": {},
+				}
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": {},
+			}
+		}
+	}
+
 	public async GetAll(request: {params: any, auth: any}) {
 		const authInfo = request.auth;
 		var pageNumber = +request.params.page;
