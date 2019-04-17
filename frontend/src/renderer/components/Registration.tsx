@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input, Button } from 'bloomer';
+import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input, Button, Help } from 'bloomer';
 
 import '../css/registration.css';
 import { API_URL } from '../../config';
 import 'bulma/css/bulma.css';
+
 
 export interface IRegisterState {
 	user: {
@@ -119,20 +120,22 @@ export class Registration extends React.Component<any, IRegisterState> {
 	}
 
 	render() {
+		
 		return (
 			<React.Fragment>
 				<form onSubmit={this.requestRegister}>
 					<Title>Register Now!</Title>
 					<Field>
-						<Control>
+						<Control >
 							<Input
 								id='name'
 								type='text'
-								placeholder='First and Last name'
+								placeholder='Name'
 								autoComplete='name'
 								value={this.state.user.name}
 								onChange={this.handleNameChange}
 								required />
+
 						</Control>
 					</Field>
 					<Field>
@@ -145,6 +148,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.email}
 								onChange={this.handleEmailChange}
 								required />
+								<Help>Emails must be provided in the x@y.z format and must be unique.</Help>
 						</Control>
 					</Field>
 					<Field isGrouped='centered' isHorizontal>
@@ -157,6 +161,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.username}
 								onChange={this.handleUsernameChange}
 								required />
+							<Help>Usernames must be unique and have at least 1 character.</Help>
 						</Control>
 						<Control isExpanded>
 							<Input
@@ -167,6 +172,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.password}
 								onChange={this.handlePasswordChange}
 								required />
+							<Help>Passwords must be over 7 characters long.</Help>
 						</Control>
 					</Field>
 					<Field>
