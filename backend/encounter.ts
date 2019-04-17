@@ -166,6 +166,51 @@ export class EncounterFactory {
 		}
 	}
 
+	public async GetOne(request: {params: any, auth: any}) {
+  		const authInfo = request.auth;
+		var encounterId = +request.params.encounterId;
+
+ 		var messages: string[] = [];
+
+ 		if (isNaN(encounterId)) {
+			messages.push("Parameter 'encounterId' must be a number.")
+		}
+
+ 		if (messages.length == 0) {
+			let encounter = await Encounter.findOne({
+				relations: ['Monsters', 'Campaigns'], 
+				where: { Id: encounterId, Creator : { Id: authInfo.credentials.id} }
+			});
+			if (encounter) {
+ 				return {
+					"status": 201,
+					"messages": messages,
+					"content": encounter,
+				}
+			} else {
+				let encounter = await Encounter.findOne({
+					where: { Id: encounterId}
+				});
+				if(encounter) {
+					messages.push("Requester is not the owner.")
+				} else {
+					messages.push("Encounter is not found.")
+				}
+				return {
+					"status": 400,
+					"messages": messages,
+					"content": {},
+				}
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": {},
+			}
+		}
+	}
+
 	public async GetAll(request: {params: any, auth: any}) {
 		const authInfo = request.auth;
 		var pageNumber = +request.params.page;
