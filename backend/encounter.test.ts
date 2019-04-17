@@ -556,3 +556,12 @@ describe('encounter get all tests', async () => {
 
  });
 
+//get one encounter pseudo tests
+//when encounter Id parameter is not number
+//raise an error
+
+ //when encounter Id is given properly but no encounter
+//raise an error
+
+ //when encounter Id is given properly
+//return the encounter
