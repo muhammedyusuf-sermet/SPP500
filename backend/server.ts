@@ -121,7 +121,7 @@ export const initServer = async () => {
 	},
 	{
 		method: 'GET',
-		path: '/encounter/{encounterId}', 
+		path: '/encounter/{encounterId}',
 		options: { auth: 'jwt' },
 		handler: function (request) {
 			var encounter = new EncounterFactory();
@@ -162,6 +162,15 @@ export const initServer = async () => {
 		handler: function (request) {
 			var campaign = new CampaignFactory();
 			return campaign.Create(request);
+		}
+	},
+	{
+		method: 'GET',
+		path: '/campaign/{campaignId}',
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var campaign = new CampaignFactory();
+			return campaign.GetOne(request);
 		}
 	},
 	{

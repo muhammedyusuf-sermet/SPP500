@@ -167,32 +167,38 @@ export class EncounterFactory {
 	}
 
 	public async GetOne(request: {params: any, auth: any}) {
+  	const authInfo = request.auth;
 		const encounterId = +request.params.encounterId;
-		const messages: string[] = [];
 
-		if (isNaN(encounterId)) {
+ 		const messages: string[] = [];
+
+ 		if (isNaN(encounterId)) {
 			messages.push("Parameter 'encounterId' must be a number.")
 		}
 
-		if (messages.length == 0) {
-			let encounter: Encounter[] | undefined = await Encounter.find({
-				relations: ['Monsters'], 
+ 		if (messages.length == 0) {
+			const encounter = await Encounter.findOne<Encounter>({
+				relations: ['Monsters', 'Campaigns'],
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
 				where: { Id: encounterId }
 			});
-			if (encounter && encounter.length > 0) {
-				const firstEncounter: Encounter = encounter[0];
-				
-				return {
-					"status": 201,
-					"messages": messages,
-					"content": firstEncounter,
+			if (encounter) {
+				if (encounter.Creator.Id == authInfo.credentials.id) {
+ 					return {
+						"status": 201,
+						"messages": messages,
+						"content": encounter,
+					}
+				} else {
+					messages.push("Requester is not the owner.")
 				}
 			} else {
-				return {
-					"status": 400,
-					"messages": ['Encounter not found.'],
-					"content": {},
-				}
+				messages.push("Encounter is not found.")
+			}
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": {},
 			}
 		} else {
 			return {

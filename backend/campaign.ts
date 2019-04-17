@@ -201,6 +201,53 @@ export class CampaignFactory {
     }
   }
   
+  	public async GetOne(request: {params: any, auth: any}) {
+  		const authInfo = request.auth;
+		var campaignId = +request.params.campaignId;
+		
+		var messages: string[] = [];
+
+		if (isNaN(campaignId)) {
+			messages.push("Parameter 'campaignId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			let campaign = await Campaign.findOne({
+				relations: ['Encounters'], 
+				where: { Id: campaignId, Creator : { Id: authInfo.credentials.id} }
+			});
+			if (campaign) {
+			
+				return {
+					"status": 201,
+					"messages": messages,
+					"content": campaign,
+				}
+			} else {
+				let campaign = await Campaign.findOne({
+					relations: ['Encounters'], 
+					where: { Id: campaignId}
+				});
+				if(campaign) {
+					messages.push("Requester is not the owner.")
+				} else {
+					messages.push("Campaign is not found.")
+				}
+				return {
+					"status": 400,
+					"messages": messages,
+					"content": {},
+				}
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": {},
+			}
+		}
+	}
+
 	public async GetAll(request: {params: any, auth: any}) {
 		const authInfo = request.auth;
 		var pageNumber = +request.params.page;
