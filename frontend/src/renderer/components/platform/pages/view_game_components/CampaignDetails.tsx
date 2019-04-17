@@ -114,7 +114,7 @@ export class CampaignDetails extends React.Component<any, ICampaignDetailsState>
 					<form>
 						<h1 className="page-title">Campaign Details</h1>
 							<Control>
-								<Label>Campaign Name</Label>
+								<Label>Campaignnnnn Name</Label>
 								<Input  value={campaign.Name} id="name" label="Campaign Name" readOnly/>
 							</Control>
 							<Control>
