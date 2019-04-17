@@ -196,9 +196,6 @@ export const initServer = async () => {
 			};
 		}
 	}]);
-
-	var table = Server.table()
-console.log(table);
 }
 
 
