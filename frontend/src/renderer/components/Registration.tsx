@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input, Button } from 'bloomer';
+import { Title, Modal, ModalBackground, ModalContent, Box, Field, Control, Input, Button, Help } from 'bloomer';
 
 import '../css/registration.css';
 import { API_URL } from '../../config';
 import 'bulma/css/bulma.css';
+
 
 export interface IRegisterState {
 	user: {
@@ -82,10 +83,14 @@ export class Registration extends React.Component<any, IRegisterState> {
 
 	requestRegister = (event: React.FormEvent) => {
 		event.preventDefault();
-		var request = require("request");
+		this.processRegister();
+	}
+
+	processRegister = async () => {
+
+		var request = require('request-promise-native');
 		var options = { method: 'POST',
 			url: API_URL + '/register',
-			timeout: 2000,
 			headers:
 			{
 				'Cache-Control': 'no-cache',
@@ -100,39 +105,40 @@ export class Registration extends React.Component<any, IRegisterState> {
 			},
 			json: true
 		};
-		request(options, (error: string, response: string, body: IRegisterResponce) => {
-			if (error) {
-				this.openModal("There has been a server error. Please try again later.");
-				throw new Error(error);
-			}
 
-			let { status, messages } = body;
-			var finalMessage = "";
-			if (messages)
-				finalMessage = messages[0];
-
-			if (status == 201)
-				finalMessage = "Welcome aboard! You can now login with your username and password.";
-
-			this.openModal(finalMessage);
-		});
+		await request(options)
+				.then((body: IRegisterResponce) => {
+					if (body.status == 201) { // success
+						this.openModal("Welcome aboard! You can now login with your username and password.");
+					} else if (body.messages) {
+						this.openModal("Error registering: " + body.messages.toString());
+					}else{
+						this.openModal("There was an error creating your account. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request. Please try again later.");
+					// throw new Error(error);
+				});
 	}
 
 	render() {
+		
 		return (
 			<React.Fragment>
 				<form onSubmit={this.requestRegister}>
 					<Title>Register Now!</Title>
 					<Field>
-						<Control>
+						<Control >
 							<Input
 								id='name'
 								type='text'
-								placeholder='First and Last name'
+								placeholder='Name'
 								autoComplete='name'
 								value={this.state.user.name}
 								onChange={this.handleNameChange}
 								required />
+
 						</Control>
 					</Field>
 					<Field>
@@ -145,6 +151,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.email}
 								onChange={this.handleEmailChange}
 								required />
+								<Help>Emails must be provided in the x@y.z format and must be unique.</Help>
 						</Control>
 					</Field>
 					<Field isGrouped='centered' isHorizontal>
@@ -157,6 +164,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.username}
 								onChange={this.handleUsernameChange}
 								required />
+							<Help>Usernames must be unique and have at least 1 character.</Help>
 						</Control>
 						<Control isExpanded>
 							<Input
@@ -167,6 +175,7 @@ export class Registration extends React.Component<any, IRegisterState> {
 								value={this.state.user.password}
 								onChange={this.handlePasswordChange}
 								required />
+							<Help>Passwords must be over 7 characters long.</Help>
 						</Control>
 					</Field>
 					<Field>

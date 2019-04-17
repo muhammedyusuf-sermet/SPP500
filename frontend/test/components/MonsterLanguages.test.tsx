@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterLanguagesProps, IMonsterLanguagesState, MonsterLanguages } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterLanguages';
 const Joi = require('joi');
@@ -80,6 +80,20 @@ describe('Monster Languages', () => {
 				}
 			});
 			expect(monsterLanguagesInstance.find('Input#Languages').props().value).toEqual('This is test language');
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterLanguagesInstance =
+				shallow<MonsterLanguages, IMonsterLanguagesProps, IMonsterLanguagesState>(
+					<MonsterLanguages
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterLanguagesInstance).toMatchSnapshot();
 		});
 	});
 

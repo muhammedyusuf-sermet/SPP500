@@ -556,3 +556,102 @@ describe('encounter get all tests', async () => {
 
  });
 
+describe('encounter get one tests', async () => {
+	beforeAll( async () => {
+		Encounter.clear();
+
+ 		let user = new User();
+		user.Name = "John Doe";
+		user.Id = 1;
+		await user.save();
+
+ 		let user2 = new User();
+		user2.Name = "Jane Doe";
+		user2.Id = 2;
+		await user2.save();
+
+ 		let encounter = new Encounter();
+		encounter.Name = "John Doe's Encounter";
+		encounter.Id = 1;
+		encounter.Creator = user;
+		await encounter.save();
+
+ 		let encounter2 = new Encounter();
+		encounter2.Name = "Jane Doe's Encounter";
+		encounter2.Id = 2;
+		encounter2.Creator = user2;
+		await encounter2.save();
+
+ 	});
+
+ 	var encounter = new EncounterFactory();
+
+
+ 	test('when encounter Id is given properly', async () => {
+		const response = await encounter.GetOne({
+			params: {
+				encounterId: 1
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(0);
+	});
+
+ 	test('when encounter Id is nan', async () => {
+		const response = await encounter.GetOne({
+			params: {
+				encounterId: "test"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Parameter 'encounterId' must be a number.");
+	});
+
+ 	test('when there is no encounter with that encounter Id', async () => {
+		const response = await encounter.GetOne({
+			params: {
+				encounterId: 3
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Encounter is not found.");
+	});
+
+ 	test('when requester is not the owner', async () => {
+		const response = await encounter.GetOne({
+			params: {
+				encounterId: 2
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Requester is not the owner.");
+	});
+
+ });

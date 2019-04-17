@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monster SpeedBonuses Small snapshot matches snapshot 1`] = `
+<WithStyles(ExpansionPanel)
+  CollapseProps={
+    Object {
+      "timeout": 100,
+    }
+  }
+  defaultExpanded={true}
+>
+  <WithStyles(ExpansionPanelSummary)
+    expandIcon={<pure(ExpandMoreIcon) />}
+  >
+    <WithStyles(Typography)
+      className="heading"
+    >
+      Speed Bonuses
+    </WithStyles(Typography)>
+  </WithStyles(ExpansionPanelSummary)>
+  <WithStyles(ExpansionPanelDetails)>
+    <WithStyles(Grid)
+      container={true}
+      spacing={8}
+    >
+      <WithStyles(Grid)
+        item={true}
+        key="SpeedLand"
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="SpeedLand"
+          >
+            Speed Land
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="SpeedLand-helper-text"
+            id="SpeedLand"
+            name="SpeedLand"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="SpeedLand-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        key="SpeedSwim"
+        xs={6}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          disabled={false}
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="SpeedSwim"
+          >
+            Speed Swim
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            aria-describedby="SpeedSwim-helper-text"
+            id="SpeedSwim"
+            name="SpeedSwim"
+            onChange={[Function]}
+            type="number"
+            value=""
+          />
+          <WithStyles(WithFormControlContext(FormHelperText))
+            error={true}
+            id="SpeedSwim-helper-text"
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+    </WithStyles(Grid)>
+  </WithStyles(ExpansionPanelDetails)>
+</WithStyles(ExpansionPanel)>
+`;

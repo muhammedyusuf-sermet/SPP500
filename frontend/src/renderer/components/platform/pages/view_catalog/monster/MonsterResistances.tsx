@@ -3,8 +3,10 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Tile, Subtitle, Field, FieldLabel, Label, FieldBody, Control, Input, Help } from 'bloomer';
+
 import { isDeepStrictEqual } from 'util';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export interface IMonsterResistancesProps {
 	disabled?: boolean,
@@ -66,93 +68,67 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 
 	render() {
 		return (
-			<Tile className="box" isVertical>
-				<Subtitle>Vulnerability, Resistance, and Immunity</Subtitle>
-				<Field isHorizontal>
-					<FieldLabel isNormal>
-						<Label>Damage Vulnerabilities </Label>
-					</FieldLabel>
-					<FieldBody>
-						<Field>
-							<Control>
+			<ExpansionPanel defaultExpanded CollapseProps={{timeout: 100}} >
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography className='heading' >Vulnerability, Resistance, and Immunity</Typography>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<Grid container spacing={8} >
+						<Grid item xs={12}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="DamageVulnerabilities">Damage Vulnerabilities</InputLabel>
 								<Input
-									disabled={this.props.disabled}
 									id='DamageVulnerabilities'
 									type='text'
-									placeholder='Damage Vulnerabilities'
-									autoComplete='DamageVulnerabilities'
 									value={this.state.DamageVulnerabilities || ''}
 									name='DamageVulnerabilities'
-									onChange={this.handleResistancesChange} />
-							</Control>
-							<Help id='DamageVulnerabilities' isColor='danger'>{this.state.DamageVulnerabilitiesError}</Help>
-						</Field>
-					</FieldBody>
-				</Field>
-				<Field isHorizontal>
-					<FieldLabel isNormal>
-						<Label>Damage Resistances </Label>
-					</FieldLabel>
-					<FieldBody>
-						<Field>
-							<Control>
+									onChange={this.handleResistancesChange}
+									aria-describedby="DamageVulnerabilities-helper-text" />
+								<FormHelperText error id="DamageVulnerabilities-helper-text">{this.state.DamageVulnerabilitiesError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="DamageResistances">Damage Resistances</InputLabel>
 								<Input
-									disabled={this.props.disabled}
 									id='DamageResistances'
 									type='text'
-									placeholder='Damage Resistances'
-									autoComplete='DamageResistances'
 									value={this.state.DamageResistances || ''}
 									name='DamageResistances'
-									onChange={this.handleResistancesChange} />
-							</Control>
-							<Help id='DamageResistances' isColor='danger'>{this.state.DamageResistancesError}</Help>
-						</Field>
-					</FieldBody>
-				</Field>
-				<Field isHorizontal>
-					<FieldLabel isNormal>
-						<Label>Damage Immunities </Label>
-					</FieldLabel>
-					<FieldBody>
-						<Field>
-							<Control>
+									onChange={this.handleResistancesChange}
+									aria-describedby="DamageResistances-helper-text" />
+								<FormHelperText error id="DamageResistances-helper-text">{this.state.DamageResistancesError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="DamageImmunities">Damage Immunities</InputLabel>
 								<Input
-									disabled={this.props.disabled}
 									id='DamageImmunities'
 									type='text'
-									placeholder='Damage Immunities'
-									autoComplete='DamageImmunities'
 									value={this.state.DamageImmunities || ''}
 									name='DamageImmunities'
-									onChange={this.handleResistancesChange} />
-							</Control>
-							<Help id='DamageImmunities' isColor='danger'>{this.state.DamageImmunitiesError}</Help>
-						</Field>
-					</FieldBody>
-				</Field>
-				<Field isHorizontal>
-					<FieldLabel isNormal>
-						<Label>Condition Immunities </Label>
-					</FieldLabel>
-					<FieldBody>
-						<Field>
-							<Control>
+									onChange={this.handleResistancesChange}
+									aria-describedby="DamageImmunities-helper-text" />
+								<FormHelperText error id="DamageImmunities-helper-text">{this.state.DamageImmunitiesError}</FormHelperText>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+								<InputLabel htmlFor="ConditionImmunities">Condition Immunities</InputLabel>
 								<Input
-									disabled={this.props.disabled}
 									id='ConditionImmunities'
 									type='text'
-									placeholder='Condition Immunities'
-									autoComplete='ConditionImmunities'
 									value={this.state.ConditionImmunities || ''}
 									name='ConditionImmunities'
-									onChange={this.handleResistancesChange} />
-							</Control>
-							<Help id='ConditionImmunities' isColor='danger'>{this.state.ConditionImmunitiesError}</Help>
-						</Field>
-					</FieldBody>
-				</Field>
-			</Tile>
+									onChange={this.handleResistancesChange}
+									aria-describedby="ConditionImmunities-helper-text" />
+								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
+							</FormControl>
+						</Grid>
+					</Grid>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
 		);
 	}
 }

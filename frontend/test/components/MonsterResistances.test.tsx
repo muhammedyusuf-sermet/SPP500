@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 
 import { IMonsterResistancesProps, IMonsterResistancesState, MonsterResistances } from '../../src/renderer/components/platform/pages/view_catalog/monster/MonsterResistances';
 const Joi = require('joi');
@@ -48,19 +48,19 @@ describe('Monster Resistances', () => {
 		});
 
 		it('should have the correct string for DamageResistances', () => {
-			expect(monsterResistancesInstance.find('Input#DamageResistances').props().value).toEqual('This is test damage resistance');
+			expect(monsterResistancesInstance.find('input#DamageResistances').props().value).toEqual('This is test damage resistance');
 		});
 
 		it('should have the correct string for DamageImmunities', () => {
-			expect(monsterResistancesInstance.find('Input#DamageImmunities').props().value).toEqual('This is test damage immunity');
+			expect(monsterResistancesInstance.find('input#DamageImmunities').props().value).toEqual('This is test damage immunity');
 		});
 
 		it('should have the correct string for DamageVulnerabilities', () => {
-			expect(monsterResistancesInstance.find('Input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
+			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
 		});
 
 		it('should have the correct string for ConditionImmunities', () => {
-			expect(monsterResistancesInstance.find('Input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
+			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
 		});
 	});
 
@@ -94,10 +94,10 @@ describe('Monster Resistances', () => {
 					ConditionImmunities: 'This is test new condition immunities'
 				}
 			})
-			expect(monsterResistancesInstance.find('Input#DamageResistances').props().value).toEqual('This is test new damage resistance');
-			expect(monsterResistancesInstance.find('Input#DamageImmunities').props().value).toEqual('This is test new damage immunity');
-			expect(monsterResistancesInstance.find('Input#DamageVulnerabilities').props().value).toEqual('This is test new damage vulnerabilities');
-			expect(monsterResistancesInstance.find('Input#ConditionImmunities').props().value).toEqual('This is test new condition immunities');
+			expect(monsterResistancesInstance.find('input#DamageResistances').props().value).toEqual('This is test new damage resistance');
+			expect(monsterResistancesInstance.find('input#DamageImmunities').props().value).toEqual('This is test new damage immunity');
+			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().value).toEqual('This is test new damage vulnerabilities');
+			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().value).toEqual('This is test new condition immunities');
 		});
 
 		it('renders without crashing with same props', () => {
@@ -109,10 +109,24 @@ describe('Monster Resistances', () => {
 					ConditionImmunities: 'This is test condition immunities'
 				}
 			});
-			expect(monsterResistancesInstance.find('Input#DamageResistances').props().value).toEqual('This is test damage resistance');
-			expect(monsterResistancesInstance.find('Input#DamageImmunities').props().value).toEqual('This is test damage immunity');
-			expect(monsterResistancesInstance.find('Input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
-			expect(monsterResistancesInstance.find('Input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
+			expect(monsterResistancesInstance.find('input#DamageResistances').props().value).toEqual('This is test damage resistance');
+			expect(monsterResistancesInstance.find('input#DamageImmunities').props().value).toEqual('This is test damage immunity');
+			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
+			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
+		});
+	});
+
+	describe('Small snapshot', () => {
+		it ('matches snapshot', () => {
+			const shallowMonsterResistancesInstance =
+				shallow<MonsterResistances, IMonsterResistancesProps, IMonsterResistancesState>(
+					<MonsterResistances
+						disabled={false}
+						PayloadSchema={payloadSchema}
+						ValidationOptions={validateOptions}
+						initial={{}}/>
+				);
+			expect(shallowMonsterResistancesInstance).toMatchSnapshot();
 		});
 	});
 
@@ -134,10 +148,10 @@ describe('Monster Resistances', () => {
 		});
 
 		it('should be able to update state', () => {
-			monsterResistancesInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: 'Everything' } })
-			monsterResistancesInstance.find('Input#DamageResistances').simulate('change', { target: { value: 'None at all' } })
-			monsterResistancesInstance.find('Input#DamageImmunities').simulate('change', { target: { value: 'Nada' } })
-			monsterResistancesInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
+			monsterResistancesInstance.find('input#DamageVulnerabilities').simulate('change', { target: { value: 'Everything' } })
+			monsterResistancesInstance.find('input#DamageResistances').simulate('change', { target: { value: 'None at all' } })
+			monsterResistancesInstance.find('input#DamageImmunities').simulate('change', { target: { value: 'Nada' } })
+			monsterResistancesInstance.find('input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
 			expect(monsterResistancesInstance.state()).toEqual({
 				// data
 				DamageVulnerabilities: 'Everything',
@@ -153,42 +167,42 @@ describe('Monster Resistances', () => {
 		});
 		// STATE CHANGE
 		it('should change only DamageVulnerabilities when DamageVulnerabilities is changed', () => {
-			monsterResistancesInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: 'Everything' } })
+			monsterResistancesInstance.find('input#DamageVulnerabilities').simulate('change', { target: { value: 'Everything' } })
 			expect(monsterResistancesInstance.state().DamageVulnerabilities).toEqual('Everything');
 		})
 
 		it('should change only DamageResistances when DamageResistances is changed', () => {
-			monsterResistancesInstance.find('Input#DamageResistances').simulate('change', { target: { value: 'None at all' } })
+			monsterResistancesInstance.find('input#DamageResistances').simulate('change', { target: { value: 'None at all' } })
 			expect(monsterResistancesInstance.state().DamageResistances).toEqual('None at all');
 		})
 
 		it('should change only DamageImmunities when DamageImmunities is changed', () => {
-			monsterResistancesInstance.find('Input#DamageImmunities').simulate('change', { target: { value: 'Nada' } })
+			monsterResistancesInstance.find('input#DamageImmunities').simulate('change', { target: { value: 'Nada' } })
 			expect(monsterResistancesInstance.state().DamageImmunities).toEqual('Nada');
 		})
 
 		it('should change only ConditionImmunities when ConditionImmunities is changed', () => {
-			monsterResistancesInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
+			monsterResistancesInstance.find('input#ConditionImmunities').simulate('change', { target: { value: 'Nothing' } })
 			expect(monsterResistancesInstance.state().ConditionImmunities).toEqual('Nothing');
 		})
 		// DEFAULTS
 		it('should change Type back to undefined when input is empty', () => {
-			monsterResistancesInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: '' } })
+			monsterResistancesInstance.find('input#DamageVulnerabilities').simulate('change', { target: { value: '' } })
 			expect(monsterResistancesInstance.state().DamageVulnerabilities).toEqual(undefined);
 		})
 
 		it('should change Alignment back to undefined when input is empty', () => {
-			monsterResistancesInstance.find('Input#DamageResistances').simulate('change', { target: { value: '' } })
+			monsterResistancesInstance.find('input#DamageResistances').simulate('change', { target: { value: '' } })
 			expect(monsterResistancesInstance.state().DamageResistances).toEqual(undefined);
 		})
 
 		it('should change Size back to undefined when input is empty', () => {
-			monsterResistancesInstance.find('Input#DamageImmunities').simulate('change', { target: { value: '' } })
+			monsterResistancesInstance.find('input#DamageImmunities').simulate('change', { target: { value: '' } })
 			expect(monsterResistancesInstance.state().DamageImmunities).toEqual(undefined);
 		})
 
 		it('should change Race back to undefined when input is empty', () => {
-			monsterResistancesInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: '' } })
+			monsterResistancesInstance.find('input#ConditionImmunities').simulate('change', { target: { value: '' } })
 			expect(monsterResistancesInstance.state().ConditionImmunities).toEqual(undefined);
 		})
 		// VALIDATION
@@ -199,27 +213,27 @@ describe('Monster Resistances', () => {
 			01234567890123456789012345678901234567890123456789"
 
 		it('should validate DamageVulnerabilities when DamageVulnerabilities is changed', () => {
-			monsterResistancesInstance.find('Input#DamageVulnerabilities').simulate('change', { target: { value: moreThan200  } })
+			monsterResistancesInstance.find('input#DamageVulnerabilities').simulate('change', { target: { value: moreThan200 } })
 			expect(monsterResistancesInstance.state().DamageVulnerabilities).toEqual(moreThan200);
-			expect(monsterResistancesInstance.find('Help#DamageVulnerabilities').text()).toEqual('\"DamageVulnerabilities\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.find('FormHelperText#DamageVulnerabilities-helper-text').text()).toEqual('\"DamageVulnerabilities\" length must be less than or equal to 200 characters long');
 		})
 
 		it('should validate DamageResistances when DamageResistances is changed', () => {
-			monsterResistancesInstance.find('Input#DamageResistances').simulate('change', { target: { value: moreThan200 } })
+			monsterResistancesInstance.find('input#DamageResistances').simulate('change', { target: { value: moreThan200 } })
 			expect(monsterResistancesInstance.state().DamageResistances).toEqual(moreThan200);
-			expect(monsterResistancesInstance.find('Help#DamageResistances').text()).toEqual('\"DamageResistances\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.find('FormHelperText#DamageResistances-helper-text').text()).toEqual('\"DamageResistances\" length must be less than or equal to 200 characters long');
 		})
 
 		it('should validate DamageImmunities when DamageImmunities is changed', () => {
-			monsterResistancesInstance.find('Input#DamageImmunities').simulate('change', { target: { value: moreThan200 } })
+			monsterResistancesInstance.find('input#DamageImmunities').simulate('change', { target: { value: moreThan200 } })
 			expect(monsterResistancesInstance.state().DamageImmunities).toEqual(moreThan200);
-			expect(monsterResistancesInstance.find('Help#DamageImmunities').text()).toEqual('\"DamageImmunities\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.find('FormHelperText#DamageImmunities-helper-text').text()).toEqual('\"DamageImmunities\" length must be less than or equal to 200 characters long');
 		})
 
 		it('should validate ConditionImmunities when ConditionImmunities is changed', () => {
-			monsterResistancesInstance.find('Input#ConditionImmunities').simulate('change', { target: { value: moreThan200 } })
+			monsterResistancesInstance.find('input#ConditionImmunities').simulate('change', { target: { value: moreThan200 } })
 			expect(monsterResistancesInstance.state().ConditionImmunities).toEqual(moreThan200);
-			expect(monsterResistancesInstance.find('Help#ConditionImmunities').text()).toEqual('\"ConditionImmunities\" length must be less than or equal to 200 characters long');
+			expect(monsterResistancesInstance.find('FormHelperText#ConditionImmunities-helper-text').text()).toEqual('\"ConditionImmunities\" length must be less than or equal to 200 characters long');
 		})
 	});
 });
