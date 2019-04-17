@@ -54,10 +54,13 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterStatsProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	private keyNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];

@@ -33,10 +33,13 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterSpeedBonusesProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	//TODO: Make speed its own dictionary of all the different monvement options.

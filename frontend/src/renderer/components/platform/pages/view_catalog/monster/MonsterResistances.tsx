@@ -44,10 +44,13 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterResistancesProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	handleResistancesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
