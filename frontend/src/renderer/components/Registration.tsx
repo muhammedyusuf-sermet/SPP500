@@ -83,10 +83,14 @@ export class Registration extends React.Component<any, IRegisterState> {
 
 	requestRegister = (event: React.FormEvent) => {
 		event.preventDefault();
-		var request = require("request");
+		this.processRegister();
+	}
+
+	processRegister = async () => {
+
+		var request = require('request-promise-native');
 		var options = { method: 'POST',
 			url: API_URL + '/register',
-			timeout: 2000,
 			headers:
 			{
 				'Cache-Control': 'no-cache',
@@ -101,22 +105,21 @@ export class Registration extends React.Component<any, IRegisterState> {
 			},
 			json: true
 		};
-		request(options, (error: string, response: string, body: IRegisterResponce) => {
-			if (error) {
-				this.openModal("There has been a server error. Please try again later.");
-				throw new Error(error);
-			}
 
-			let { status, messages } = body;
-			var finalMessage = "";
-			if (messages)
-				finalMessage = messages[0];
-
-			if (status == 201)
-				finalMessage = "Welcome aboard! You can now login with your username and password.";
-
-			this.openModal(finalMessage);
-		});
+		await request(options)
+				.then((body: IRegisterResponce) => {
+					if (body.status == 201) { // success
+						this.openModal("Welcome aboard! You can now login with your username and password.");
+					} else if (body.messages) {
+						this.openModal("Error registering: " + body.messages.toString());
+					}else{
+						this.openModal("There was an error creating your account. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request. Please try again later.");
+					// throw new Error(error);
+				});
 	}
 
 	render() {
