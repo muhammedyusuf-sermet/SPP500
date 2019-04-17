@@ -570,13 +570,15 @@ export class MonsterFactory {
 				const firstMonster: Monster = monster[0];
 				let newMonster: any = Object.assign({}, firstMonster)
 				newMonster.Skills = {}
-				for(let skill of firstMonster.Skills){
-					newMonster.Skills[skill.Skill.Name] = skill.Bonus
-				}
+				if (firstMonster.Skills[0].Skill)
+					for(let skill of firstMonster.Skills){
+						newMonster.Skills[skill.Skill.Name] = skill.Bonus
+					}
 				newMonster.Senses = {}
-				for(let sense of firstMonster.Senses){
-					newMonster.Senses[sense.Sense.Name] = sense.Bonus
-				}
+				if (firstMonster.Senses[0].Sense)
+					for(let sense of firstMonster.Senses){
+						newMonster.Senses[sense.Sense.Name] = sense.Bonus
+					}
 				newMonster.AbilityScores.Id = undefined
 				newMonster.SavingThrows.Id = undefined
 			
