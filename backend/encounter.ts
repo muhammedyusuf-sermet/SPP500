@@ -167,40 +167,38 @@ export class EncounterFactory {
 	}
 
 	public async GetOne(request: {params: any, auth: any}) {
-  		const authInfo = request.auth;
-		var encounterId = +request.params.encounterId;
+  	const authInfo = request.auth;
+		const encounterId = +request.params.encounterId;
 
- 		var messages: string[] = [];
+ 		const messages: string[] = [];
 
  		if (isNaN(encounterId)) {
 			messages.push("Parameter 'encounterId' must be a number.")
 		}
 
  		if (messages.length == 0) {
-			let encounter = await Encounter.findOne({
-				relations: ['Monsters', 'Campaigns'], 
-				where: { Id: encounterId, Creator : { Id: authInfo.credentials.id} }
+			const encounter = await Encounter.findOne<Encounter>({
+				relations: ['Monsters', 'Campaigns'],
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+				where: { Id: encounterId }
 			});
 			if (encounter) {
- 				return {
-					"status": 201,
-					"messages": messages,
-					"content": encounter,
+				if (encounter.Creator.Id == authInfo.credentials.id) {
+ 					return {
+						"status": 201,
+						"messages": messages,
+						"content": encounter,
+					}
+				} else {
+					messages.push("Requester is not the owner.")
 				}
 			} else {
-				let encounter = await Encounter.findOne({
-					where: { Id: encounterId}
-				});
-				if(encounter) {
-					messages.push("Requester is not the owner.")
-				} else {
-					messages.push("Encounter is not found.")
-				}
-				return {
-					"status": 400,
-					"messages": messages,
-					"content": {},
-				}
+				messages.push("Encounter is not found.")
+			}
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": {},
 			}
 		} else {
 			return {
