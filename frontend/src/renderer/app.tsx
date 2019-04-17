@@ -15,6 +15,7 @@ import "bulma/css/bulma.css";
 import { NavBar } from './components/NavBar';
 import { AuthContext, IAuthProviderState } from './components/AuthContext';
 import { MonsterCRUD, MonsterCRUDState } from './components/MonsterCRUD';
+import { EncounterRun } from './components/platform/pages/run_encounter/EncounterRun';
 
 interface IAppProps { }
 
@@ -34,7 +35,10 @@ export class App extends React.Component<IAppProps> {
 							<Switch>
 								<Route exact path="/" component={Platform} />
 								<Route path="/encounter_creation" component={EncounterCreation} />
-
+								<Route path="/encounter/run/:Id" render={(props) => {
+									return (
+										<EncounterRun Id={props.match.params.Id} />
+									);}} />
 								<Route path="/campaign/create" render={(props) => {
 									return (
 										<CampaignCRUD Process={CampaignCRUDState.Create} />
