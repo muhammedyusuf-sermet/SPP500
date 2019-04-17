@@ -14,6 +14,7 @@ import {Pagination} from '../../../helpers/Pagination';
 import * as EncounterInterface from '../../../../../encounter';
 import { CookieManager } from '../../../../../cookie';
 import { API_URL } from '../../../../../config';
+import { Link } from 'react-router-dom';
 
 interface IEncounterGetResponse {
 	status: number,
@@ -135,6 +136,9 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 									<Button size="small" color="primary" onClick={() => this.edit(encounter)}>
 									  Edit
 									</Button>
+									<Link to={ "/encounter/run/"+encounter.Id }>
+										Run
+									</Link>
 								  </CardActions>
 								</Card>
 							</Grid>
