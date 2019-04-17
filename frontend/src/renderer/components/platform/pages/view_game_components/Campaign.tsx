@@ -124,9 +124,6 @@ export class Campaign extends React.Component<any, ICampaignState> {
 									<Typography gutterBottom variant="h5" component="h2">
 										{campaign.Name} {campaign.Id}
 									</Typography>
-									<Typography>
-										This is a {campaign.Summary} {campaign.Notes} campaigns.
-									</Typography>
 								</CardContent>
 								<CardActions>
 									<Link to={ "/campaign/view/"+campaign.Id }>
