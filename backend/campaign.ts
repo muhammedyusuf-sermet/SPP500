@@ -112,10 +112,13 @@ export class CampaignFactory {
 			} else {
 				campaign.Name = data.Name;
 			}
-
-	 		if (!data.Summary) {
-				Campaign.Summary = "";
-			} else {
+			// Should allow empty Summary
+	 		// if (!data.Summary) {
+			// 	Campaign.Summary = "";
+			// } else {
+			if (!data.Summary || data.Summary == "") {
+					messages.push("Name should not be an empty string.");
+			} else {	
 				campaign.Summary = data.Summary;
 			}
 

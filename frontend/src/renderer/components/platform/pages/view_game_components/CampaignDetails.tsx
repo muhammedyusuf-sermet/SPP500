@@ -97,6 +97,15 @@ export class CampaignDetails extends React.Component<any, ICampaignDetailsState>
 		});
 	}
 
+	isExists(attribute: string | number | undefined) {
+		if(attribute == undefined){
+			return "N/A";
+		}
+		else{
+			return attribute;
+		}
+	}
+
 	render() {
 		if(!this.isEmptyObject(this.state.campaign)) {
 			let campaign = this.state.campaign;
@@ -118,11 +127,11 @@ export class CampaignDetails extends React.Component<any, ICampaignDetailsState>
 							</Control>
 							<Tile className="box" isVertical>
 								<Subtitle>Encounters</Subtitle>
-								{campaign.Encounters.map(encounter => (
+								{/* {campaign.Encounters.map(encounter => (
 									<Control key={encounter.Id}>
-										<Label>{encounter.Name} {encounter.Id}</Label>
+										<Label>{this.isExists(encounter.Name)} {this.isExists(encounter.Id)}</Label>
 									</Control>
-								))}
+								))} */}
 							</Tile>
 						<Button className="button" id="deleteCampaignButton" onClick = {this.deleteCampaign}> Delete Campaign </Button>
 						<Button className="button" type="submit" disabled> Edit Campaign </Button>
