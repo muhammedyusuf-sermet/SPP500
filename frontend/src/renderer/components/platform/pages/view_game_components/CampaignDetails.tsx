@@ -5,7 +5,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
-import { Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 
 export interface IEncounterState {
 	Id?: number
@@ -30,7 +30,7 @@ export interface ICampaignDetailsState {
 	Name?: string;
     Summary?: string;
     Notes?: string;
-    Encounters?: IEncounterState[];
+    Encounters?: string;
 	// errors
 	NameError?: string;
     SummaryError?: string;
@@ -42,14 +42,16 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 	constructor(props: ICampaignDetailsProps) {
 		super(props);
 		this.state = {
-            ...props.initial
+            ...props.initial,
+            Encounters: props.initial.Encounters ? props.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
         };
     }
 
     componentWillReceiveProps(nextProps: ICampaignDetailsProps) {
 		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
 			this.setState({
-                ...nextProps.initial
+                ...nextProps.initial,
+                Encounters: nextProps.initial.Encounters ? nextProps.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
 			});
     }
     
@@ -73,16 +75,8 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 	}
 	
 	handleCampaignEncounterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const encounters: {Id?: number}[] = []
-		const  numberPattern = /\d+/g;
-		const ids = event.target.value.match(numberPattern);
-		if (ids != null) {
-			ids.forEach((value: any) => {
-				encounters.push({ Id: this.stringToNumber(value)})
-			});
-		}
 		this.setState({
-			Encounters: encounters
+			Encounters: event.target.value
 		})
 	}
 	
@@ -143,7 +137,7 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
                             multiline
                             rows={10}
                             rowsMax={10}
-							value={this.state.Encounters ? this.state.Encounters.map((value)=>value.Id).join(',') : ''}
+							value={this.state.Encounters || ''}
 							name='Encounters'
 							onChange={this.handleCampaignEncounterIdChange}
 							aria-describedby="Encounters-helper-text" />
