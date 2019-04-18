@@ -11,6 +11,7 @@ import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloome
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
 import { CampaignDetails } from './platform/pages/view_game_components/CampaignDetails';
+import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
 
 export interface IEncounterState{
@@ -191,18 +192,29 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		this.validateForm();
 	}
 
+	stringToNumber = (toConvert : string) => {
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
+	}
+
 	validateForm = async () => {
 		
 		const campaignState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
 
 		const campaignPayload = {
 			Id: this.state.Id,
-			Name: campaignState.Name,
-			Summary: campaignState.Summary,
-			Notes: campaignState.Notes,
-			Encounters: campaignState.Encounters ? campaignState.Encounters : []
+			...stateWithoutErrors(campaignState)
 		};
+		const encounters: {Id?: number}[] = []
+		const numberPattern = /\d+/g;
+		const ids = campaignPayload.Encounters.match(numberPattern);
+		if (ids != null) {
+			ids.forEach((value: any) => {
+				encounters.push({ Id: this.stringToNumber(value)})
+			});
+		}
+		campaignPayload.Encounters = encounters
 
+		console.log(campaignPayload)
 		let validationErrors = Joi.validate(
 			campaignPayload,
 			this.payloadSchema,
@@ -231,6 +243,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		);
 
 		if (validationErrors) {
+			console.log('CLIENT')
 			// These errors are from validation and may be irrelevent or out of date.
 			this.openModal(validationErrors.toString());
 		} else {
@@ -268,12 +281,15 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
+						console.log('SERVER')
 						this.openModal(body.messages.toString());
 					}else{
+						console.log('SERVER')
 						this.openModal("There was an error submitting your request. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
+					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}
