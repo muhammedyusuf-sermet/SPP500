@@ -134,7 +134,7 @@ export class Campaign extends React.Component<any, ICampaignState> {
 									</Link>
 									<Button variant="contained" color="secondary" value={campaign.Id} onClick={this.deleteCampaign} >
 										Delete
-										<DeleteIcon/>
+									<DeleteIcon/>
 									</Button>
 								</CardActions>
 							</Card>
