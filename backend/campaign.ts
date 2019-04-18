@@ -197,9 +197,7 @@ export class CampaignFactory {
 			});
 			if (campaignDb) {
 				if (campaignDb.Creator.Id == request.auth.credentials.id) {
-					console.log(campaignDb)
 					await campaignDb.remove()
-
 					return {
 						"status": 201,
 						"messages": ['success'],
@@ -221,38 +219,7 @@ export class CampaignFactory {
 			}
 		}
 	}
-// 	public async Delete(request: {payload: any, auth: any}) {
-// 		var messages = [];
 
-// 		const authInfo = request.auth;
-// 		const payload = request.payload;
-//  		var campaign = await Campaign.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
-
-//  		if (!campaign) {
-//  			campaign = await Campaign.findOne({ Id: payload.Id});
-
-//  			if (campaign) {
-// 				messages.push("Requester is not the creator of this campaign.")	
-// 			} else {
-// 				messages.push("There is no such campaign saved.")
-// 			}
-//  		}
-
-//  		if (messages.length == 0 && campaign) {
-// 			await campaign.remove();
-
-//  			return {
-// 				"status": 201,
-// 				"messages": ["success"]
-// 			}
-//  		} else {
-// 			return {
-// 				"status": 400,
-// 				"messages": messages
-//       }
-//     }
-//   }
-  
   	public async GetOne(request: {params: any, auth: any}) {
   		const authInfo = request.auth;
 		var campaignId = +request.params.campaignId;
