@@ -3,19 +3,28 @@ var request = require('request-promise-native');
 
 // LEAVE THIS AS REQUIRE OR suffur from "TypeError: joi_1.default.string is not a function"
 const Joi = require('joi');
-import { ValidationError, ValidationOptions, ValidationErrorItem } from 'joi';
+import { ValidationError, ValidationOptions, ValidationErrorItem, Reference } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Button, Control, Field, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Button, Field, Control, Input, Title, Subtitle, Help } from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
-import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
-import { ICampaignState } from '../../campaign';
+////import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
+//import { ICampaignState } from '../../campaign';
+//import { stateWithoutErrors } from '../../utils/StateSelection';
+import { Grid } from '@material-ui/core';
 
-interface ICampaignResponse {
-	status: number,
-	messages: string[]
+export interface IEncounterState{
+	Id?: number
+}
+
+export interface ICampaignState{
+	Id?: number;
+	Name: string;
+	Summary?: string;
+	Notes?: string;
+	Encounters?: IEncounterState[];
 }
 
 export enum CampaignCRUDState {
@@ -28,21 +37,36 @@ export interface ICampaignCRUDProps {
 	Process: CampaignCRUDState;
 	Id?: number;
 }
+
+export interface ICampaignCRUDState {
+	Process: CampaignCRUDState;
+	submitted: boolean;
+	modal: {
+		open: boolean;
+		message: string;
+	};
+	Id?: number;
+	Name: string;
+	NameError?: string;	
+	Summary?: string;
+	SummaryError?: string;
+	Notes?: string;
+	NotesError?: string;
+	Encounters?: IEncounterState[];
+	EncountersError?: string;
+}
+
+interface ICampaignCRUDResponse {
+	status: number,
+	messages: string[]
+}
+
 export interface ICampaignGetOneResponse {
 	status: number,
 	messages: string[],
 	content: ICampaignState,
 }
-export interface ICampaignCRUDState {
-	Process: CampaignCRUDState;
-	Id?: number;
-	submitted: boolean,
-	modal: {
-		open: boolean,
-		message: string
-	}
-	Campaign: ICampaignState;
-}
+
 
 export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignCRUDState> {
 
@@ -64,7 +88,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 			EncounterOptions: [0,1,2,3,4,5,6,7,8,9,10,11]
 		}
 	};
-	private CampaignDetails: React.RefObject<CampaignDetails>;
+	////private CampaignDetails: React.RefObject<CampaignDetails>;
 	constructor(props: ICampaignCRUDProps) {
 		super(props);
 		this.state = {
@@ -75,14 +99,8 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				open: false,
 				message: ""
 			},
-			Campaign: {
-				Name: '',
-				Summary: '',
-				Notes: '',
-				Encounters: []
-			}
+			Name: '',
 		}
-		this.CampaignDetails = React.createRef<CampaignDetails>();
 	}
 
 	componentDidMount() {
@@ -101,7 +119,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				.then((body: ICampaignGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
-							Campaign: body.content
+							...body.content
 						});
 					} else if (body.messages) {
 						// TODO: change backend so it sends better error messages.
@@ -115,6 +133,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 					}
 				})
 				.catch((error: string) => {
+					console.log("CampaignCRUD ERROR:")
 					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
@@ -131,32 +150,70 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		this.setState({ modal: {...modal, open: false }});
 	};
 
-	createCampaign = (event: React.FormEvent) => {
-		event.preventDefault();
-		this.saveCampaign();
+	stringToNumber = (toConvert : string) => {
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
-	private stateWithoutErrors(state: any): any
-	{
-		let newState: { [key: string]: number | string } = {};
-		for (let field in state) {
-			if (field.endsWith('Error'))
-				continue
-			if (state[field] != undefined)
-				newState[field] = state[field];
+	
+	handleCampaignNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let value = event.target.value;
+		Joi.validate(
+			value,
+			Joi.reach(this.payloadSchema, ['Name']),
+			this.validateOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					Name: value,
+					NameError: errors ? errors.details[0].message : undefined
+				});
+		});
+	}
+
+	// TODO: Validate summary.
+	handleCampaignSummaryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let value = event.target.value;
+		this.setState({  
+			Summary: value
+		})
+	}
+	
+	// TODO: Validate notes.
+	handleCampaignNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let value = event.target.value;
+		this.setState({  
+			Notes: value
+		})
+		console.log(this.state)
+	}
+	
+	handleCampaignEncounterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const encounters: {Id?: number}[] = []
+		const  numberPattern = /\d+/g;
+		const ids = event.target.value.match(numberPattern);
+		if (ids != null) {
+			ids.forEach((value: any) => {
+				encounters.push({ Id: this.stringToNumber(value)})
+			});
 		}
-		return newState;
+		this.setState({  
+			Encounters: encounters
+		})
 	}
-	saveCampaign = async (callback?: (message: string) => void) => {
-		// Gather the selected encounters for this campaign
-		//const checkedEncounterIds = [ ...this.state.checkedEncounters.keys() ];
-		//const selectedEncounters = encounters.filter(function(encounter){
-		//	return checkedEncounterIds.indexOf(encounter['Id']) > -1;
-		//});
-		const campaignDetailsState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
+	
+	submitForm = (event: React.FormEvent) => {
+		event.preventDefault();
+		this.validateForm();
+	}
+
+	validateForm = async () => {
+		
 		const campaignPayload = {
 			Id: this.state.Id,
-			...this.stateWithoutErrors(campaignDetailsState)
+			Name: this.state.Name,
+			Summary: this.state.Summary,
+			Notes: this.state.Notes,
+			Encounters: this.state.Encounters ? this.state.Encounters.map((value) => ({ Id: value })) : []
 		};
+
 		let validationErrors = Joi.validate(
 			campaignPayload,
 			this.payloadSchema,
@@ -165,8 +222,18 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				if(errors){
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
-						messages.add(error.message);
-					});
+						let message: string = ''
+						if ((error.type == 'any.allowOnly') && error.context && this.validateOptions) {
+							for (let valid of error.context.valids){
+								if (Joi.isRef(valid)){
+									const reference = valid as Reference
+									message += reference(null, this.validateOptions) + ',';
+								}
+							}
+						}
+						message = error.message.split('[')[0] + message.substr(0,message.length-1);
+						messages.add(message);
+					})
 					return Array.from(messages.values());
 				}else{
 					return undefined;
@@ -196,7 +263,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				json: true
 			};
 			await request(options)
-				.then((body: ICampaignResponse) => {
+				.then((body: ICampaignCRUDResponse) => {
 					if (body.status == 201) { // success
 						if (this.state.Process == CampaignCRUDState.Create) {
 							this.openModal("Campaign successfully created.");
@@ -223,49 +290,126 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		}
 	}
 
-	cancel = (event: React.FormEvent) => {
-		event.preventDefault();
-		this.setState({ submitted: true});
-	}
+
+
+	// createCampaign = (event: React.FormEvent) => {
+	// 	event.preventDefault();
+	// 	this.saveCampaign();
+	// }
+
+	// saveCampaign = async (callback?: (message: string) => void) => {
+	// 	// Gather the selected encounters for this campaign
+	// 	//const checkedEncounterIds = [ ...this.state.checkedEncounters.keys() ];
+	// 	//const selectedEncounters = encounters.filter(function(encounter){
+	// 	//	return checkedEncounterIds.indexOf(encounter['Id']) > -1;
+	// 	//});
+	// 	const campaignDetailsState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
+	// 	const campaignPayload = {
+	// 		Id: this.state.Id,
+	// 		...this.stateWithoutErrors(campaignDetailsState)
+	// 	};
+	// }
+
+	// cancel = (event: React.FormEvent) => {
+	// 	event.preventDefault();
+	// 	this.setState({ submitted: true});
+	// }
 
 	render() {
 		return (
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
-			<div>
-				<form id="createCampaignForm" onSubmit={this.createCampaign}>
-					<CampaignDetails
-						disabled={false}
-						PayloadSchema={this.payloadSchema}
-						ValidationOptions={this.validateOptions}
-						ref={this.CampaignDetails}
-						initial= {{
-							//Name: undefined,
-							//Summary: undefined,
-							//Notes: undefined,
-							//Encounters: undefined
-							}}/>
-					<Field isGrouped>
-					    <Control>
-							{
-								this.state.Process == CampaignCRUDState.Read ? null :
+			<div className="campaign-CRUD-container" > 
+				<form onSubmit={this.submitForm}>
+					<Grid container spacing={8} >
+						<Grid item xs={12} >
+							<Title className="page-title">{this.state.Process} a Campaign</Title>
+						</Grid>
+						<Grid item xs={12} >
+							<Subtitle>Name</Subtitle>
+							<Field>
+								<Control>
+									<Input
+										disabled={this.state.Process == CampaignCRUDState.Read}
+										id='Name'
+										type='text'
+										placeholder='Campaign Name'
+										name='Name'
+										value={this.state.Name}
+										onChange={this.handleCampaignNameChange}
+										required />
+								</Control>
+								<Help id='Name' isColor='danger'>{this.state.NameError}</Help>
+							</Field>
+						</Grid>
+						<Grid item xs={12} >
+							<Subtitle>Summary</Subtitle>
+							<Field>
+								<Control>
+									<Input
+										disabled={this.state.Process == CampaignCRUDState.Read}
+										id='Summary'
+										type='text'
+										placeholder='Campaign Summary'
+										value={this.state.Summary ? this.state.Summary : ''}
+										onChange={this.handleCampaignSummaryChange}/>
+								</Control>
+								<Help id='Summary' isColor='danger'>{this.state.SummaryError}</Help>
+							</Field>
+						</Grid>
+						<Grid item xs={12} >
+							<Subtitle>Notes</Subtitle>
+							<Field>
+								<Control>
+									<Input
+										disabled={this.state.Process == CampaignCRUDState.Read}
+										id='Notes'
+										type='text'
+										placeholder='Campaign Notes'
+										value={this.state.Notes ? this.state.Notes : ''}
+										onChange={this.handleCampaignNotesChange}/>
+								</Control>
+								<Help id='Notes' isColor='danger'>{this.state.NotesError}</Help>
+							</Field>
+						</Grid>
+						
+						<Grid item xs={12} >
+							<Subtitle>Encounter Id</Subtitle>
+							<Field>
+								<Control>
+									<Input
+										disabled={this.state.Process == CampaignCRUDState.Read}
+										id='Encounters'
+										type='text'
+										placeholder='1,2,3'
+										value={this.state.Encounters ? this.state.Encounters.join(',') : ''}
+										onChange={this.handleCampaignEncounterIdChange}/>
+								</Control>
+								<Help id='Encounters' isColor='danger'>{this.state.EncountersError}</Help>
+							</Field>
+						</Grid>
+						{
+							this.state.Process == CampaignCRUDState.Read ? null :
+							<Field>
 								<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
-							}
-					    </Control>
-					    <Control>
-					        <Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
-					    </Control>
-					</Field>
+							</Field>
+						}
+						<Field>
+							<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
+								history.back();
+							}}>{this.state.Process == CampaignCRUDState.Read ? 'Back' : 'Cancel'}</Button>
+						</Field>
+					</Grid>
 				</form>
-				<Modal id='CampaignCRUDModal' isActive={this.state.modal.open}>
-					<ModalBackground id='modalBackground' onClick={()=>{
-						this.closeModal();
-					}}/>
-					<ModalContent>
-						<Box>
-							<span id="ModalMessage">{this.state.modal.message}</span>
-						</Box>
-					</ModalContent>
-				</Modal>
+					<Modal id='campaignCRUDModal' isActive={this.state.modal.open}>
+						<ModalBackground id='modalBackground' onClick={()=>{
+							this.closeModal();
+						}}/>
+						<ModalContent>
+							<Box>
+								<span id="ModalMessage">{this.state.modal.message}</span>
+							</Box>
+						</ModalContent>
+					</Modal>
 			</div>
 		);
 	}
