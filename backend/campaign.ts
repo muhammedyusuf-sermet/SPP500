@@ -22,6 +22,7 @@ import Joi, { ValidationError, ValidationErrorItem } from 'joi';
 
 export class CampaignFactory {
 	private payloadSchema = Joi.object({
+		Id: Joi.number().greater(0),
 		Name: Joi.string().required().max(50),
 		Summary: Joi.string().max(1000),
 		Notes: Joi.string().max(2000),
@@ -97,112 +98,160 @@ export class CampaignFactory {
 	}
 
 	public async Edit(request: {payload: any, auth: any}) {
-		var messages = [];
-
-		const authInfo = request.auth;
-		const payload = request.payload;
-
-		var campaign = await Campaign.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
-
-		if (campaign) {
-			var data = request.payload;
-
-			if (!data.Name || data.Name == "") {
-				messages.push("Name should not be an empty string.");
-			} else {
-				campaign.Name = data.Name;
+		const allEncounters: Encounter[] = await Encounter.find(
+			{
+				select: ["Id"],
+				where: {
+					Creator: {
+						Id: request.auth.credentials.id
+					}
+				}
+			});
+		const encounterIds: number[] = [];
+		const encounterLookup: { [Id: number]: Encounter } = {};
+		allEncounters.forEach((value) => {
+			encounterIds.push(value.Id);
+			encounterLookup[value.Id] = value;
+		})
+		const options: Joi.ValidationOptions = {
+			abortEarly: false,
+			convert: true,
+			allowUnknown: false,
+			context: {
+				EncounterOptions: encounterIds
 			}
-			// Should allow empty Summary
-	 		// if (!data.Summary) {
-			// 	Campaign.Summary = "";
-			// } else {
-			if (!data.Summary || data.Summary == "") {
-					messages.push("Name should not be an empty string.");
-			} else {	
-				campaign.Summary = data.Summary;
-			}
+		}
+		return await Joi.validate(
+			request.payload,
+			this.payloadSchema,
+			options,
+			async (errors: ValidationError, value: any) => {
+				if(errors) {
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						let message: string = ''
+						if ((error.type == 'any.allowOnly') && error.context && options) {
+							message = `"${error.context.label}" ${error.context.value} is invalid`
+						} else {
+							message = error.message
+						}
+						messages.add(message);
+					});
+					return {
+						"status": 400,
+						"messages": Array.from(messages.values())
+					};
+				} else {
+					console.log('TRYING TO SAVE')
+					const messages: string[] = [];
+					const campaignId = +request.payload.Id;
+					const campaignDb = await Campaign.findOne<Campaign>({
+						loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+						where: { Id: campaignId }
+					});
+					if (campaignDb) {
+						if (campaignDb.Creator.Id == request.auth.credentials.id) {
+							campaignDb.Name = value.Name;
+							campaignDb.Summary = value.Summary;
+							campaignDb.Notes = value.Notes;
+							campaignDb.Encounters = [];
+							if (value.Encounters) {
+								for (const encounter of value.Encounters) {
+									campaignDb.Encounters.push(encounterLookup[encounter.Id]);
+								}
+							}
 
-	 		if (!data.Notes) {
-				campaign.Notes = "";
-			} else {
-				campaign.Notes = data.Notes;
-			}
-
-			var encountersArray : Encounter[] = [];
-			var encounters = data.Encounters;
-
-			if (encounters) {
-				for (let encounterObject of encounters) {
-					var encounter = await Encounter.findOne({ Id: encounterObject.Id });
-
-					if (encounter) {
-						encountersArray.push(encounter);
+							await campaignDb.save();
+							return {
+								"status": 201,
+								"messages": ["success"]
+							}
+						} else {
+							messages.push("Requester is not the owner.")
+						}
 					} else {
-						messages.push("Encounter is invalid: " + encounterObject.Id);
+						messages.push("Campaign is not found.")
+					}
+					return {
+						"status": 400,
+						"messages": messages,
+						"content": {},
 					}
 				}
 			}
-
-			campaign.Encounters = encountersArray;
-
-		} else {
-			// check if the encounter is valid
-			campaign = await Campaign.findOne({ Id: payload.Id});
-
-			if (campaign) {
-				messages.push("Requester is not the creator of this campaign.")	
-			} else {
-				messages.push("There is no such campaign saved.")
-			}
-		}
-		
-		if (messages.length == 0 && campaign) {
-			await campaign.save();
-
-			return {
-				"status": 201,
-				"messages": ["success"]
-			};
-		} else {
-			return {
-				"status": 400,
-				"messages": messages
-			};
-		}
+		);
 	}
 
+	public async Delete(request: any){
+		const campaignId = +request.params.campaignId;
+		const messages: string[] = [];
+		
+		if (isNaN(campaignId)) {
+			messages.push("Parameter 'campaignId' must be a number.")
+		}
 
-	public async Delete(request: {payload: any, auth: any}) {
-		var messages = [];
+		if (messages.length == 0) {
+			const campaignDb = await Campaign.findOne<Campaign>({
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+				where: { Id: campaignId }
+			});
+			if (campaignDb) {
+				if (campaignDb.Creator.Id == request.auth.credentials.id) {
+					console.log(campaignDb)
+					await campaignDb.remove()
 
-		const authInfo = request.auth;
-		const payload = request.payload;
- 		var campaign = await Campaign.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
-
- 		if (!campaign) {
- 			campaign = await Campaign.findOne({ Id: payload.Id});
-
- 			if (campaign) {
-				messages.push("Requester is not the creator of this campaign.")	
+					return {
+						"status": 201,
+						"messages": ['success'],
+					}
+				} else {
+					messages.push("Requester is not the owner.")
+				}
 			} else {
-				messages.push("There is no such campaign saved.")
+				messages.push("Campaign is not found.")
 			}
- 		}
-
- 		if (messages.length == 0 && campaign) {
-			await campaign.remove();
-
- 			return {
-				"status": 201,
-				"messages": ["success"]
-			}
- 		} else {
 			return {
 				"status": 400,
-				"messages": messages
-      }
-    }
-  }
+				"messages": messages,
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+			}
+		}
+	}
+// 	public async Delete(request: {payload: any, auth: any}) {
+// 		var messages = [];
+
+// 		const authInfo = request.auth;
+// 		const payload = request.payload;
+//  		var campaign = await Campaign.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
+
+//  		if (!campaign) {
+//  			campaign = await Campaign.findOne({ Id: payload.Id});
+
+//  			if (campaign) {
+// 				messages.push("Requester is not the creator of this campaign.")	
+// 			} else {
+// 				messages.push("There is no such campaign saved.")
+// 			}
+//  		}
+
+//  		if (messages.length == 0 && campaign) {
+// 			await campaign.remove();
+
+//  			return {
+// 				"status": 201,
+// 				"messages": ["success"]
+// 			}
+//  		} else {
+// 			return {
+// 				"status": 400,
+// 				"messages": messages
+//       }
+//     }
+//   }
   
   	public async GetOne(request: {params: any, auth: any}) {
   		const authInfo = request.auth;
@@ -216,7 +265,7 @@ export class CampaignFactory {
 
 		if (messages.length == 0) {
 			let campaign = await Campaign.findOne({
-				relations: ['Encounters'], 
+				loadRelationIds: { relations: ['Encounters'], disableMixedMap: true },
 				where: { Id: campaignId, Creator : { Id: authInfo.credentials.id} }
 			});
 			if (campaign) {
