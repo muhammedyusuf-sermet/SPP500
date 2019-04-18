@@ -1,7 +1,7 @@
 import * as Encounter from "./encounter";
 
 export interface ICampaignState {
-	Id?: string,
+	Id?: number,
 	Name: string,
 	Summary?: string;
 	Notes?: string;
