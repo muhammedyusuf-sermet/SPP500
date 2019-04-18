@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import {EncounterDetails} from './EncounterDetails';
+// import {EncounterDetails} from './EncounterDetails';
 import {Pagination} from '../../../helpers/Pagination';
 
 import * as EncounterInterface from '../../../../../encounter';
@@ -84,7 +84,7 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 		this.setState({ editEncounter: true});
 	}
 
-	deleteEncounter = (event: React.FormEvent) => {
+	deleteEncounter = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 
 		var options = { method: 'POST',
@@ -103,7 +103,7 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 			json: true
 		};
 		request(options, (error: string, response: any, body: IEncounterDeleteResponse) => {
-			this.getPaginatedEncounters(this.state.page);
+			this.getPaginatedEncounters(0);
 		});
 	}
 
@@ -177,13 +177,11 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 				</div>
 			)
 		}
-		else if(this.state.viewEncounter){
-			return (<EncounterDetails encounter={this.state.selectedEncounter} resetParentState={this.resetState}/>);
-		}
+		// else if(this.state.viewEncounter){
+		// 	return (<EncounterDetails encounter={this.state.selectedEncounter} resetParentState={this.resetState}/>);
+		// }
 		else{
-			// Todo: To enable editing, just use the same component as EncounterDetails:
-			// enable edit button, remove readOnly, and add the code to submit the changes
-			return (<div>Editing Feature is not yet enabled. Please check again later.</div>);
+			return (<div>There has been an error on our side. Please check back later!</div>);
 		}
 	}
 }

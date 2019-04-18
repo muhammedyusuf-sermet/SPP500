@@ -1,3 +1,9 @@
+// Deprecated. but kept for records. We can remove these files after discussing
+// with all the teammates.
+it('deprecated', () => {
+	expect(100).toBe(100);
+})
+
 // import * as React from "react"
 // import { shallow, ShallowWrapper } from 'enzyme';
 // import { EncounterCreation, IEncounterCreationState, getMonsters } from "../src/renderer/components/EncounterCreation";

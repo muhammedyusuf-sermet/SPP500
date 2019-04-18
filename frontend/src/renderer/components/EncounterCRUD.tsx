@@ -90,7 +90,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 			Process: props.Process,
 			Id: props.Id,
 			redirectToHome: false,
-			checkedMonsters: new Map<string, boolean>(),
+			checkedMonsters: new Map<string, boolean>([]),
 			page: 0,
 			pageSize: 12,
 			totalMonsters: 0,
@@ -135,7 +135,8 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 						this.setState({encounter})
 
 						body.content.Monsters.forEach(monster => {
-							this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(monster.Id, true)}));
+							var monsterID = monster.Id as number;
+							this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(monsterID.toString(), true)}));
 						});
 
 					} else if (body.messages) {
