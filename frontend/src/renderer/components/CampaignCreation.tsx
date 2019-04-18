@@ -7,10 +7,11 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, ValidationErrorItem, Reference } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Modal, ModalContent, Box, ModalBackground } from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
 import { CampaignDetails } from './platform/pages/view_game_components/CampaignDetails';
+import { Typography } from '@material-ui/core';
 
 export interface IEncounterState{
 	Id?: number
@@ -199,7 +200,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 			Name: campaignState.Name,
 			Summary: campaignState.Summary,
 			Notes: campaignState.Notes,
-			Encounters: campaignState.Encounters ? campaignState.Encounters.map((value) => ({ Id: value })) : []
+			Encounters: campaignState.Encounters ? campaignState.Encounters : []
 		};
 
 		let validationErrors = Joi.validate(
@@ -282,14 +283,26 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		return (
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
 			<div className="campaign-CRUD-container" > 
+				<Typography variant='h6' >{this.state.Process} a Campaign</Typography>
 				<form onSubmit={this.submitForm}>
 					<CampaignDetails
+						ref={this.CampaignDetails}
 						disabled={this.state.Process == CampaignCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						initial={{
 							...this.state.Campaign
 						}} />
+					{this.state.Process == CampaignCRUDState.Read ? null :
+						<Field>
+							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
+						</Field>
+					}
+					<Field>
+						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
+							history.back();
+						}}>{this.state.Process == CampaignCRUDState.Read ? 'Back' : 'Cancel'}</Button>
+					</Field>
 				</form>
 				<Modal id='campaignCRUDModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
