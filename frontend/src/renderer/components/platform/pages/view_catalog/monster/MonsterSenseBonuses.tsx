@@ -3,6 +3,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
+import '../../../../../css/app';
 
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
@@ -94,7 +95,7 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 										aria-describedby={senseName+'-helper-text'} />
 									<FormHelperText error id={senseName+'-helper-text'}>{this.state[senseName+'Error']}</FormHelperText>
 									<Tooltip disableFocusListener title={this.helperTextOptions[senseName]}>
-										<Help>Hover for More About {senseName}</Help>
+										<Help className="tooltip">Hover for More About {senseName}</Help>
 									</Tooltip>
 								</FormControl>
 							</Grid>

@@ -3,6 +3,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
+import '../../../../../css/app';
 
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
@@ -103,7 +104,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									aria-describedby="ArmorClass-helper-text" />
 								<FormHelperText error id="ArmorClass-helper-text">{this.state.ArmorClassError}</FormHelperText>
 								<Tooltip disableFocusListener title={"Your Armor Class (AC) represents how hard it is for opponents to land a solid, damaging blow on you. It’s the attack roll result that an opponent needs to achieve to hit you. Your AC is equal to the following: 10 + armor bonus + shield bonus + Dexterity modifier + size modifier"}>
-										<Help>Hover for More About Armor Class</Help>
+										<Help className="tooltip">Hover for More About Armor Class</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>
@@ -119,7 +120,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									aria-describedby="HitPoints-helper-text" />
 								<FormHelperText error id="HitPoints-helper-text">{this.state.HitPointsError}</FormHelperText>
 								<Tooltip disableFocusListener title={"Hit points represent a combination of physical and mental durability, the will to live, and luck. Creatures with more hit points are more difficult to kill. Those with fewer hit points are more fragile. A creature's current hit points (usually just called hit points) can be any number from the creature's hit point maximum down to 0. This number changes frequently as a creature takes damage or receives healing."}>
-										<Help>Hover for More About Hit Points</Help>
+										<Help className="tooltip">Hover for More About Hit Points</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>
@@ -135,7 +136,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									aria-describedby="HitPointDistribution-helper-text" />
 								<FormHelperText error id="HitPointDistribution-helper-text">{this.state.HitPointDistributionError}</FormHelperText>
 								<Tooltip disableFocusListener title={"For randomized and dynamic encounters, you may choose to define the hit points of a monster by a hit point distribution. This value is how you calculate the monsters hit points at the start of the encounter. It is provided in # of dice * # of sides of dice + modifier in the normal #d#+# format."}>
-										<Help>Hover for More About Hit Point Distribution</Help>
+										<Help className="tooltip">Hover for More About Hit Point Distribution</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>

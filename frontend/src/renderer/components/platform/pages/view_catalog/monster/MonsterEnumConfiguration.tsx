@@ -3,6 +3,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
+import '../../../../../css/app';
 
 import { MonsterType, MonsterRace, Size, Environment, Alignment } from '../../../../../../monster';
 import { isDeepStrictEqual } from 'util';
@@ -165,7 +166,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Type-helper-text' >{this.state.TypeError}</FormHelperText>
 								<Tooltip disableFocusListener title={"Creature types are rough categories of creatures which determine the way game mechanics affect the creature. The choice of type is important, as all creatures which have a given type will share certain characteristics (with some exceptions)."}>
-										<Help>Hover for More About Monster Type</Help>
+										<Help className="tooltip">Hover for More About Monster Type</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>
@@ -180,7 +181,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Size-helper-text' >{this.state.SizeError}</FormHelperText>
 								<Tooltip disableFocusListener title={"A creature's size determines how much space it occupies on squares or hexes, as shown in the Creature Size and Space table. If the miniature you use for a monster takes up an amount of space different from what's on the table, that's fine, but treat the monster as its official size for all other rules."}>
-										<Help>Hover for More About Monster Size</Help>
+										<Help className="tooltip">Hover for More About Monster Size</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>
@@ -195,7 +196,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Race-helper-text' >{this.state.RaceError}</FormHelperText>
 								<Tooltip disableFocusListener title={"A character race is a fundamental part of the identity and nature of characters in the Dungeons & Dragons role-playing game. Each race has a distinct appearance, behavior and often range of statistics associated with it. See your DM handbook for more information."}>
-										<Help>Hover for More About Monster Race</Help>
+										<Help className="tooltip">Hover for More About Monster Race</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>
@@ -210,7 +211,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Alignment-helper-text' >{this.state.AlignmentError}</FormHelperText>
 								<Tooltip disableFocusListener title={"Alignment is a categorization of the ethical and moral perspective of player characters, non-player characters, and creatures. Most versions of the game feature a system in which players make two choices for characters. One is the character's views on 'law' vs 'chaos', the other on 'good' vs 'evil'."}>
-										<Help>Hover for More About Monster Alignment</Help>
+										<Help className="tooltip">Hover for More About Monster Alignment</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>
@@ -225,7 +226,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Environment-helper-text' >{this.state.EnvironmentError}</FormHelperText>
 								<Tooltip disableFocusListener title={"Monster environment is the type of environment that the monster is most likely to be found in."}>
-										<Help>Hover for More About Monster Environment</Help>
+										<Help className="tooltip">Hover for More About Monster Environment</Help>
 								</Tooltip>
 							</FormControl>
 						</Grid>

@@ -7,6 +7,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } from 'joi';
 
 import 'bulma/css/bulma.css';
+import '../css/app';
 
 import { Redirect } from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Button, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
@@ -556,7 +557,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 									</Control>
 									<Help isColor='danger'>{this.state.ChallengeRatingError}</Help>
 									<Tooltip disableFocusListener title={"Challenge Rating is a rating that is given to creatures, traps and certain other events and is used as an estimate of how dangerous that particular encounter is. Challenge Rating assumes that a party of a Fighter, a Cleric, a Wizard and a Rogue with an average level equal to the Challenge Rating will expend approximately 25% of their expendable resources during the encounter."}>
-										<Help>Hover for More About Challenge Rating</Help>
+										<Help className="tooltip">Hover for More About Challenge Rating</Help>
 								</Tooltip>
 								</Field>
 							</FieldBody>
