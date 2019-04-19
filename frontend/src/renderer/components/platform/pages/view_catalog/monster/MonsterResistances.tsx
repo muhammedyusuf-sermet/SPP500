@@ -86,7 +86,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageVulnerabilities-helper-text" />
 								<FormHelperText error id="DamageVulnerabilities-helper-text">{this.state.DamageVulnerabilitiesError}</FormHelperText>
-								<Tooltip disableFocusListener title={"Damage Vulnerabilities Helper"}>
+								<Tooltip disableFocusListener title={"If a creature or an object has vulnerability to a damage type, damage of that type is doubled against it."}>
 										<Help>Hover for More About Damage Vulnerabilities</Help>
 								</Tooltip>
 							</FormControl>
@@ -102,7 +102,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageResistances-helper-text" />
 								<FormHelperText error id="DamageResistances-helper-text">{this.state.DamageResistancesError}</FormHelperText>
-								<Tooltip disableFocusListener title={"Damage Resistance Helper"}>
+								<Tooltip disableFocusListener title={"If a creature or an object has resistance to a damage type, damage of that type is halved against it."}>
 										<Help>Hover for More About Damage Resistance</Help>
 								</Tooltip>
 							</FormControl>
@@ -118,7 +118,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageImmunities-helper-text" />
 								<FormHelperText error id="DamageImmunities-helper-text">{this.state.DamageImmunitiesError}</FormHelperText>
-								<Tooltip disableFocusListener title={"Damage Immunities Helper"}>
+								<Tooltip disableFocusListener title={"Creatures can be immune to damage types. A creature immune to a damage type doesn't take damage from that type of damage."}>
 										<Help>Hover for More About Damage Immunities</Help>
 								</Tooltip>
 							</FormControl>
@@ -134,7 +134,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="ConditionImmunities-helper-text" />
 								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
-								<Tooltip disableFocusListener title={"Condition Immunity Helper"}>
+								<Tooltip disableFocusListener title={"Creatures can be immune to conditions. If a creature is immune to fear, poison or illusion, it isn't affected by the non-damaging effects of power with those keywords. If a creature is immune to a condition, it cannot become afflicted by that condition."}>
 										<Help>Hover for More About Condition Immunity</Help>
 								</Tooltip>>
 							</FormControl>
