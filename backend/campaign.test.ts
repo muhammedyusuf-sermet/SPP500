@@ -101,9 +101,9 @@ describe('campaign tests', async () => {
 			});
 		
 			expect.assertions(3);
-			expect(response['status']).toBe(400);
+			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("\"Summary\" is not allowed to be empty");
+			expect(response['messages'][0]).toBe("\success");
 		});
 
 		test('When a new set of valid encounters is provided to change', async () => {
@@ -123,7 +123,7 @@ describe('campaign tests', async () => {
 				}
 			});
 
-			expect.assertions(1);
+			expect.assertions(3);
 	    	expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
 			expect(response['messages'][0]).toBe("success");
@@ -275,7 +275,7 @@ describe('campaign tests', async () => {
 				}
 			});
 
-			expect.assertions(1);
+			expect.assertions(3);
 			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
 			expect(response['messages'][0]).toBe("success");
