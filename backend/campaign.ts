@@ -185,7 +185,6 @@ export class CampaignFactory {
 	public async Delete(request: any){
 		const campaignId = +request.params.campaignId;
 		const messages: string[] = [];
-		console.log("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 		if (isNaN(campaignId)) {
 			messages.push("Parameter 'campaignId' must be a number.")
 		}
