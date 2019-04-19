@@ -320,7 +320,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						}}>{this.state.Process == CampaignCRUDState.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 				</form>
-				<Modal id='campaignCRUDModal' isActive={this.state.modal.open}>
+				<Modal id='CampaignCRUDModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
 					}}/>
