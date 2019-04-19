@@ -60,7 +60,7 @@ export interface IBaseEntityState {
 	Restrained?: boolean,
 	Stunned?: boolean,
 	Unconscious?: boolean,
-	CurrentHitPoints?: number;
+	CurrentHitPoints: number;
 }
 
 export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntityState> {
@@ -133,7 +133,7 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 								<Input
 									id='CurrentHitPoints'
 									type='number'
-									value={this.state.CurrentHitPoints != undefined ? this.state.CurrentHitPoints : ''}
+									value={this.state.CurrentHitPoints}
 									name='CurrentHitPoints'
 									onChange={this.handleNumberChange} />
 							</FormControl>
@@ -154,10 +154,10 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 							</Grid>
 						)}
 						<Grid item xs={12}>
-							<Button variant="contained" value={this.props.Entity.Id} onClick={this.props.View} >
+							<Button id={'View'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.View} >
 								View
 							</Button>
-							<Button variant="contained" value={this.props.Entity.Id} onClick={this.props.Edit} >
+							<Button id={'Edit'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.Edit} >
 								Edit
 							</Button>
 							{/*<Button variant="contained" color="secondary" value={this.props.Entity.Id} onClick={this.deleteMonster} >
