@@ -424,6 +424,7 @@ exports[`Monster Defences Small snapshot matches snapshot 1`] = `
         xs={12}
       >
         <WithStyles(Button)
+          id="View0"
           onClick={[MockFunction]}
           value={0}
           variant="contained"
@@ -431,6 +432,7 @@ exports[`Monster Defences Small snapshot matches snapshot 1`] = `
           View
         </WithStyles(Button)>
         <WithStyles(Button)
+          id="Edit0"
           onClick={[MockFunction]}
           value={0}
           variant="contained"
