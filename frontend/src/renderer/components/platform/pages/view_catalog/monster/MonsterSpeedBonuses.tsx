@@ -44,8 +44,8 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 	private keyNames: string[] = ["SpeedLand", "SpeedSwim"];
 
 	private helperText: {[id: string]: string;} = {
-		"SpeedLand": "Land Speed Hint",
-		"SpeedSwim": "Swimming Speed Hint",
+		"SpeedLand": "The distance in feet that the monster can walk in 1 round.",
+		"SpeedSwim": "The distance in feet that the monster can swim in 1 round.",
 	}
 
 	stringToNumber = (toConvert : string) => {
@@ -91,9 +91,7 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 										onChange={this.handleMonsterSpeedChange}
 										aria-describedby={speedName+'-helper-text'} />
 									<FormHelperText error id={speedName+'-helper-text'}>{this.state[speedName+'Error']}</FormHelperText>
-									<Tooltip disableFocusListener title={this.helperText[speedName]}>
-										<Help>Hover for More About {speedName}</Help>
-									</Tooltip>
+									<Help>{this.helperText[speedName]}</Help>
 								</FormControl>
 							</Grid>
 						)}
