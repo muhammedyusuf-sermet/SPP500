@@ -136,7 +136,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
 								<Tooltip disableFocusListener title={"Creatures can be immune to conditions. If a creature is immune to fear, poison or illusion, it isn't affected by the non-damaging effects of power with those keywords. If a creature is immune to a condition, it cannot become afflicted by that condition."}>
 										<Help>Hover for More About Condition Immunity</Help>
-								</Tooltip>>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 					</Grid>
