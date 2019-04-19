@@ -5,7 +5,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Help } from "bloomer";
 
@@ -102,7 +102,9 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleNumberChange}
 									aria-describedby="ArmorClass-helper-text" />
 								<FormHelperText error id="ArmorClass-helper-text">{this.state.ArmorClassError}</FormHelperText>
-								<Help>Armor class helper</Help>
+								<Tooltip disableFocusListener title={"Armor Class Helper"}>
+										<Help>Hover for More About Armor Class</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
@@ -116,7 +118,9 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleNumberChange}
 									aria-describedby="HitPoints-helper-text" />
 								<FormHelperText error id="HitPoints-helper-text">{this.state.HitPointsError}</FormHelperText>
-								<Help>Hit point helper</Help>
+								<Tooltip disableFocusListener title={"Hit Points Helper"}>
+										<Help>Hover for More About Hit Points</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
@@ -130,7 +134,9 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleStringChange}
 									aria-describedby="HitPointDistribution-helper-text" />
 								<FormHelperText error id="HitPointDistribution-helper-text">{this.state.HitPointDistributionError}</FormHelperText>
-								<Help>Hit point distribution helper</Help>
+								<Tooltip disableFocusListener title={"Hit Point Distribution Helper"}>
+										<Help>Hover for More About Hit Point Distribution</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 					</Grid>

@@ -5,7 +5,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Help} from "bloomer";
 
@@ -93,7 +93,9 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 										onChange={this.handleMonsterSenseChange}
 										aria-describedby={senseName+'-helper-text'} />
 									<FormHelperText error id={senseName+'-helper-text'}>{this.state[senseName+'Error']}</FormHelperText>
-									<Help>{this.helperTextOptions[senseName]}</Help>
+									<Tooltip disableFocusListener title={this.helperTextOptions[senseName]}>
+										<Help>Hover for More About {senseName}</Help>
+									</Tooltip>
 								</FormControl>
 							</Grid>
 						)}

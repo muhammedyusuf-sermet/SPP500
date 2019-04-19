@@ -21,7 +21,7 @@ import { MonsterSpeedBonuses } from './platform/pages/view_catalog/monster/Monst
 import { MonsterSenseBonuses } from './platform/pages/view_catalog/monster/MonsterSenseBonuses';
 import { MonsterLanguages } from './platform/pages/view_catalog/monster/MonsterLanguages';
 import { stateWithoutErrors } from '../../utils/StateSelection';
-import { Grid } from '@material-ui/core';
+import { Grid, Tooltip } from '@material-ui/core';
 
 export enum MonsterCRUDState {
 	Create = 'Create',
@@ -536,7 +536,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							initial={{
 								Languages: this.state.Monster.Languages
 							}} />
-							<Help>Language helper</Help>
+							<Help>Specify the languages that your monster is fluent in.</Help>
 						<Field isHorizontal>
 							<FieldLabel isNormal>
 								<Label>Challenge Rating</Label>
@@ -555,7 +555,9 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 											onChange={this.handleMonsterChallengeRatingChange} />
 									</Control>
 									<Help isColor='danger'>{this.state.ChallengeRatingError}</Help>
-									<Help>Challenge rating helper</Help>
+									<Tooltip disableFocusListener title={"Challenge Rating is a rating that is given to creatures, traps and certain other events and is used as an estimate of how dangerous that particular encounter is. Challenge Rating assumes that a party of a Fighter, a Cleric, a Wizard and a Rogue with an average level equal to the Challenge Rating will expend approximately 25% of their expendable resources during the encounter."}>
+										<Help>Hover for More About Challenge Rating</Help>
+								</Tooltip>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -576,7 +578,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 											onChange={this.handleMonsterExperiencePointsChange} />
 									</Control>
 									<Help isColor='danger'>{this.state.ExperiencePointsError}</Help>
-									<Help>Experience point helper</Help>
+									<Help>The experience points that should be awarded to the party for defeating this monster.</Help>
 								</Field>
 							</FieldBody>
 						</Field>

@@ -6,7 +6,7 @@ import * as React from 'react';
 import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Help} from "bloomer";
 
@@ -91,7 +91,9 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 										onChange={this.handleMonsterSpeedChange}
 										aria-describedby={speedName+'-helper-text'} />
 									<FormHelperText error id={speedName+'-helper-text'}>{this.state[speedName+'Error']}</FormHelperText>
-									<Help>{this.helperText[speedName]}</Help>
+									<Tooltip disableFocusListener title={this.helperText[speedName]}>
+										<Help>Hover for More About {speedName}</Help>
+									</Tooltip>
 								</FormControl>
 							</Grid>
 						)}

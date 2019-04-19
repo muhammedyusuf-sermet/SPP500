@@ -5,7 +5,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Help} from "bloomer";
 
@@ -86,7 +86,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageVulnerabilities-helper-text" />
 								<FormHelperText error id="DamageVulnerabilities-helper-text">{this.state.DamageVulnerabilitiesError}</FormHelperText>
-								<Help>Damage Vulnerabilities helper</Help>
+								<Tooltip disableFocusListener title={"Damage Vulnerabilities Helper"}>
+										<Help>Hover for More About Damage Vulnerabilities</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -100,7 +102,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageResistances-helper-text" />
 								<FormHelperText error id="DamageResistances-helper-text">{this.state.DamageResistancesError}</FormHelperText>
-								<Help>Damage resistances helper</Help>
+								<Tooltip disableFocusListener title={"Damage Resistance Helper"}>
+										<Help>Hover for More About Damage Resistance</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -114,7 +118,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageImmunities-helper-text" />
 								<FormHelperText error id="DamageImmunities-helper-text">{this.state.DamageImmunitiesError}</FormHelperText>
-								<Help>Damage immunities helper</Help>
+								<Tooltip disableFocusListener title={"Damage Immunities Helper"}>
+										<Help>Hover for More About Damage Immunities</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -128,7 +134,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="ConditionImmunities-helper-text" />
 								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
-								<Help>Conditions immunity helper</Help>
+								<Tooltip disableFocusListener title={"Condition Immunity Helper"}>
+										<Help>Hover for More About Condition Immunity</Help>
+								</Tooltip>>
 							</FormControl>
 						</Grid>
 					</Grid>

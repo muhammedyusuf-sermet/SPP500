@@ -6,7 +6,7 @@ import 'bulma/css/bulma.css';
 
 import { MonsterType, MonsterRace, Size, Environment, Alignment } from '../../../../../../monster';
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Select } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Select, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Help} from "bloomer";
 
@@ -164,7 +164,9 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									options={types}
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Type-helper-text' >{this.state.TypeError}</FormHelperText>
-								<Help>Monster type helper</Help>
+								<Tooltip disableFocusListener title={"Monster Type Helper"}>
+										<Help>Hover for More About Monster Type</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={4} >
@@ -177,7 +179,9 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									options={sizes}
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Size-helper-text' >{this.state.SizeError}</FormHelperText>
-								<Help>Monster size helper</Help>
+								<Tooltip disableFocusListener title={"Monster Size Helper"}>
+										<Help>Hover for More About Monster Size</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={4} >
@@ -190,7 +194,9 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									options={races}
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Race-helper-text' >{this.state.RaceError}</FormHelperText>
-								<Help>Monster race helper</Help>
+								<Tooltip disableFocusListener title={"Monster Race Helper"}>
+										<Help>Hover for More About Monster Race</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6} >
@@ -203,7 +209,9 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									options={alignments}
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Alignment-helper-text' >{this.state.AlignmentError}</FormHelperText>
-								<Help>Monster alignment helper</Help>
+								<Tooltip disableFocusListener title={"Monster Alignment Helper"}>
+										<Help>Hover for More About Monster Alignment</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6} >
@@ -216,7 +224,9 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 									options={environments}
 									onChange={this.handleMonsterEnumChange} />
 								<FormHelperText error id='Environment-helper-text' >{this.state.EnvironmentError}</FormHelperText>
-								<Help>Monster environment helper</Help>
+								<Tooltip disableFocusListener title={"Monster Environment Helper"}>
+										<Help>Hover for More About Monster Environment</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 					</Grid>
