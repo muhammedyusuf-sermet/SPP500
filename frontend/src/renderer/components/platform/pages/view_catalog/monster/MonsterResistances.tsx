@@ -86,7 +86,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageVulnerabilities-helper-text" />
 								<FormHelperText error id="DamageVulnerabilities-helper-text">{this.state.DamageVulnerabilitiesError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Damage Vulnerabilities helper</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -100,7 +100,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageResistances-helper-text" />
 								<FormHelperText error id="DamageResistances-helper-text">{this.state.DamageResistancesError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Damage resistances helper</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -114,7 +114,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageImmunities-helper-text" />
 								<FormHelperText error id="DamageImmunities-helper-text">{this.state.DamageImmunitiesError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Damage immunities helper</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -128,7 +128,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="ConditionImmunities-helper-text" />
 								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Conditions immunity helper</Help>
 							</FormControl>
 						</Grid>
 					</Grid>

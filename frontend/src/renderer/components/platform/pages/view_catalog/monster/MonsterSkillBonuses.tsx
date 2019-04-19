@@ -45,7 +45,24 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 		'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival' ];
 
 	private skillBonusesHints: {[id: string]: string;} = {
-		
+		'Acrobatics': "acrobatics hint",
+		'Animal Handling': "animal handling hint",
+		'Arcana': "arcana hint",
+		'Athletics': "athletics hint",
+		'Deception': "deception hint",
+		'History': "history hint",
+		'Insight': "insight hint",
+		'Intimidation': "intimidation hint",
+		'Investigation': "investigation hint",
+		'Medicine': "medicine hint",
+		'Nature': "nature hint",
+		'Perception': "perception hint",
+		'Performance': "performance hint",
+		'Persuasion': "persuassion hint",
+		'Religion': "religion hint",
+		'Sleight of Hand': "SoH hint",
+		'Stealth': "stealth hint",
+		'Survival': "survival hint",
 	}
 
 	stringToNumber = (toConvert : string) => {
@@ -87,7 +104,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 										onChange={this.handleMonsterSkillChange}
 										aria-describedby={skillName+'-helper-text'} />
 									<FormHelperText error id={skillName+'-helper-text'}>{this.state[skillName+'Error']}</FormHelperText>
-									<Help>Helper Text Here!</Help>
+									<Help>{this.skillBonusesHints[skillName]}</Help>
 								</FormControl>
 							</Grid>
 						)}

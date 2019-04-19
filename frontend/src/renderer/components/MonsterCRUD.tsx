@@ -536,7 +536,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							initial={{
 								Languages: this.state.Monster.Languages
 							}} />
-							<Help>Language helper <textarea name="" id="" cols="30" rows="10"></textarea></Help>
+							<Help>Language helper</Help>
 						<Field isHorizontal>
 							<FieldLabel isNormal>
 								<Label>Challenge Rating</Label>

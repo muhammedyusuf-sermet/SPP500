@@ -102,7 +102,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleNumberChange}
 									aria-describedby="ArmorClass-helper-text" />
 								<FormHelperText error id="ArmorClass-helper-text">{this.state.ArmorClassError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Armor class helper</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
@@ -116,7 +116,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleNumberChange}
 									aria-describedby="HitPoints-helper-text" />
 								<FormHelperText error id="HitPoints-helper-text">{this.state.HitPointsError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Hit point helper</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
@@ -130,7 +130,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleStringChange}
 									aria-describedby="HitPointDistribution-helper-text" />
 								<FormHelperText error id="HitPointDistribution-helper-text">{this.state.HitPointDistributionError}</FormHelperText>
-								<Help>Helper Text Here!</Help>
+								<Help>Hit point distribution helper</Help>
 							</FormControl>
 						</Grid>
 					</Grid>
