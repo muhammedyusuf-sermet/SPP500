@@ -43,7 +43,7 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 		'Blind', 'Blindsight', 'Darkvision', 'Tremorsense', 'Truesight',
 		'Passive Perception', 'Passive Investigation', 'Passive Insight' ];
 
-	private helperTextOptions = {
+	private helperTextOptions:  {[id: string]: string;} = {
 		'Blind': "Blind hint",
 		'Blindsight': "Blindsight hint",
 		'Darkvision': "Darkvision hint",

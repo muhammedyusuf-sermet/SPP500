@@ -45,10 +45,10 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 		'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival' ];
 
 	private skillBonusesHints: {[id: string]: string;} = {
-		'Acrobatics': "acrobatics hint",
+		'Acrobatics': " Dexterity (Acrobatics) covers your attempt to stay on your feet in a tricky situation, such as when you're trying to run across a sheet of ice, balance on a tightrope, or stay upright on a rocking ship's deck. It can also count to see if you can perform acrobatic stunts, including dives, rolls, somersaults, and flips.",
 		'Animal Handling': "animal handling hint",
 		'Arcana': "arcana hint",
-		'Athletics': "athletics hint",
+		'Athletics': "Strength (Athletics) covers difficult situations you encounter while climbing, jumping, or swimming.",
 		'Deception': "deception hint",
 		'History': "history hint",
 		'Insight': "insight hint",
@@ -56,11 +56,11 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 		'Investigation': "investigation hint",
 		'Medicine': "medicine hint",
 		'Nature': "nature hint",
-		'Perception': "perception hint",
+		'Perception': "Wisdom (Perception) lets you spot, hear, or otherwise detect the presence of something.",
 		'Performance': "performance hint",
 		'Persuasion': "persuassion hint",
 		'Religion': "religion hint",
-		'Sleight of Hand': "SoH hint",
+		'Sleight of Hand': "Dexterity (Sleight of Hand) covers when you attempt an act of legerdemain or manual trickery, such as planting something on someone else, concealing an object on your person, or slipping something out of another person's pocket.",
 		'Stealth': "stealth hint",
 		'Survival': "survival hint",
 	}
