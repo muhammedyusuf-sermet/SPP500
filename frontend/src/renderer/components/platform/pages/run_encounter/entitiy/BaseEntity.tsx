@@ -44,25 +44,37 @@ export type EntityTypes = {
 }
 
 export interface IBaseEntityState {
+	[key: string]: boolean | number | undefined;
 	// data
+	Blinded?: boolean,
+	Charmed?: boolean,
+	Deafened?: boolean,
+	Frightened?: boolean,
+	Grappled?: boolean,
+	Incapacitated?: boolean,
+	Invisible?: boolean,
+	Paralyzed?: boolean,
+	Petrified?: boolean,
+	Poisoned?: boolean,
+	Prone?: boolean,
+	Restrained?: boolean,
+	Stunned?: boolean,
+	Unconscious?: boolean,
 	CurrentHitPoints?: number;
-	Conditions?: Set<string>;
 }
 
 export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntityState> {
 	constructor(props: IBaseEntityProps) {
 		super(props);
 		this.state = {
-			CurrentHitPoints: this.props.Entity.HitPoints,
-			Conditions: new Set()
+			CurrentHitPoints: this.props.Entity.HitPoints
 		};
 	}
 
 	componentWillReceiveProps(nextProps: IBaseEntityProps) {
 		if (isDeepStrictEqual(this.props.Entity, nextProps.Entity) == false)
 			this.setState({
-				CurrentHitPoints: nextProps.Entity.HitPoints,
-				Conditions: new Set()
+				CurrentHitPoints: nextProps.Entity.HitPoints
 			});
 	}
 
@@ -71,7 +83,8 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 	}
 
 	handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const value = this.stringToNumber(event.target.value);
+		let value = this.stringToNumber(event.target.value);
+		value = value ? value : 0;
 		const name = event.currentTarget.name;
 		this.setState({
 			[name]: value,
@@ -80,41 +93,35 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 
 	handleConditionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
-		const newConditions = new Set(this.state.Conditions ? this.state.Conditions : []);
-		if (newConditions.has(value)){
-			newConditions.delete(value);
-		} else {
-			newConditions.add(value);
-		}
-		this.setState({
-			Conditions: newConditions
-		})
+		this.setState((prevState) => ({
+			[value]: !prevState[value]
+		}))
 	}
 
 	render() {
 		let conditions = '';
-		if (this.state.Conditions)
-			for (let value of this.state.Conditions)
-				conditions = conditions + ', ' + value;
-			conditions = conditions.substring(2);
+		for (let con of EntityConditions)
+			if(this.state[con])
+				conditions = conditions + ', ' + con;
+		conditions = conditions.substring(2);
 		return (
 			<ExpansionPanel CollapseProps={{timeout: 100}} >
 				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 					<Grid container spacing={8} >
 						<Grid item xs={6}>
-							<Typography variant='h6' >{this.props.Entity.Name}</Typography>
+							<Typography id='Name' variant='h6' >{this.props.Entity.Name}</Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<Typography className='body1' >{'Initative: '+this.props.Initiative}</Typography>
+							<Typography id='Initiative' className='body1' >{'Initative: '+this.props.Initiative}</Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<Typography className='body1' >{'AC: '+this.props.Entity.ArmorClass}</Typography>
+							<Typography id='ArmorClass' className='body1' >{'AC: '+this.props.Entity.ArmorClass}</Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<Typography className='body1' >{'HP: '+this.state.CurrentHitPoints+'/'+this.props.Entity.HitPoints}</Typography>
+							<Typography id='HitPoints' className='body1' >{'HP: '+this.state.CurrentHitPoints+'/'+this.props.Entity.HitPoints}</Typography>
 						</Grid>
 						<Grid item xs={12}>
-							<Typography className='body1' >{conditions}</Typography>
+							<Typography id='Conditions' className='body1' >{conditions}</Typography>
 						</Grid>
 					</Grid>
 				</ExpansionPanelSummary>
@@ -138,7 +145,7 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 									<Switch
 										id={conditionName}
 										value={conditionName}
-										checked={this.state.Conditions ? this.state.Conditions.has(conditionName) : false}
+										checked={this.state[conditionName] == true}
 										onChange={this.handleConditionChange}
 										color="primary" />
 								}
