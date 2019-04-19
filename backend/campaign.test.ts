@@ -83,7 +83,7 @@ describe('campaign tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("Name should not be an empty string.");
+			expect(response['messages'][0]).toBe("\"Name\" is not allowed to be empty");
 		});
 
 		test('When provided summary is empty', async () => {
@@ -103,7 +103,7 @@ describe('campaign tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("Summary should not be an empty string.");
+			expect(response['messages'][0]).toBe("\"Summary\" is not allowed to be empty");
 		});
 
 		test('When a new set of valid encounters is provided to change', async () => {
@@ -123,7 +123,7 @@ describe('campaign tests', async () => {
 				}
 			});
 
-			expect.assertions(3);
+			expect.assertions(1);
 	    	expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
 			expect(response['messages'][0]).toBe("success");
@@ -149,7 +149,7 @@ describe('campaign tests', async () => {
 	    	expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("Encounter is invalid: 3");
+			expect(response['messages'][0]).toBe("\"Encounter Id\" 3 is invalid");
 		});
 
 		test('When requester is not the creator of the campaign', async () => {
@@ -172,7 +172,7 @@ describe('campaign tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-	    	expect(response['messages'][0]).toBe("Requester is not the creator of this campaign.");
+	    	expect(response['messages'][0]).toBe("Requester is not the owner.");
 		});
 
 		test('When no campaign with given id', async () => {
@@ -275,10 +275,10 @@ describe('campaign tests', async () => {
 				}
 			});
 
-			expect.assertions(3);
-			expect(response['status']).toBe(400);
+			expect.assertions(1);
+			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("\"Summary\" is required");
+			expect(response['messages'][0]).toBe("success");
 		});
 
 		test('when an empty string is provided as the name', async () => {
@@ -364,65 +364,6 @@ describe('campaign tests', async () => {
 			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
 			expect(response['messages'][0]).toBe("success");
-		});
-	});
-
-
-	describe('campaign delete tests', async () => {
-	 	var campaignFactory = new CampaignFactory();
-
-	 	test('When another user requests a campaign to be deleted when they are not the owner', async () => {
-			const response = await campaignFactory.Delete({
-				payload: {
-					"Id": 1
-				},
-				auth: {
-					credentials: {
-						id: 2
-					}
-				}
-			});
-
-			
-			expect.assertions(3);
-			expect(response['status']).toBe(400);
-			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("Requester is not the creator of this campaign.");
-		});
-
-	 	test('When owner of an campaign requests delete', async () => {
-			const response = await campaignFactory.Delete({
-				payload: {
-					"Id": 1
-				},
-				auth: {
-					credentials: {
-						id: 1
-					}
-				}
-			});
-
-			expect.assertions(3);
-			expect(response['status']).toBe(201);
-			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("success");
-		});
-
-		test('When an invalid campaign is given', async () => {
-			const response = await campaignFactory.Delete({
-				payload: {
-					"Id": 2
-				},
-				auth: {
-					credentials: {
-						id: 1
-					}
-				}
-			});
-			expect.assertions(3);
-			expect(response['status']).toBe(400);
-			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("There is no such campaign saved.");
 		});
 	});
 
@@ -589,6 +530,43 @@ describe('campaign get one tests', async () => {
 
 	var campaign = new CampaignFactory();
 
+
+	test('when campaign Id is given properly first campaign', async () => {
+		const response = await campaign.Delete({
+			params: {
+				campaignId: 1
+			},
+		});
+		
+		expect(response['status']).toBe(201);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe('success');
+		expect((await Campaign.find({ Id: 1 }))).toEqual([]);
+	});
+
+	test('when campaign Id is given properly but no campaign', async () => {
+		const response = await campaign.Delete({
+			params: {
+				campaignId: 4
+			},
+		});
+		
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe('Campaign is not found.');
+	});
+
+	test('when campaign Id parameter is not number', async () => {
+		const response = await campaign.Delete({
+			params: {
+				campaignId: 'test'
+			},
+		});
+		
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Parameter 'campaignId' must be a number.");
+	});
 
 	test('when campaign Id is given properly', async () => {
 		const response = await campaign.GetOne({
