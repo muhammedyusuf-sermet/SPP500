@@ -56,9 +56,9 @@ describe('Monster CRUD', () => {
 			expect(monsterCRUDInstance).toBeDefined();
 		});
 
-		/*it('renders correctly when the page is loaded', () => {
+		it('renders correctly when the page is loaded', () => {
 			expect(monsterCRUDInstance).toMatchSnapshot();
-		});*/
+		});
 
 		it('should be able to send monster name only to create', async (done) => {
 			monsterCRUDInstance.find('Input#Name').simulate('change', { target: { value: 'Hello' } })

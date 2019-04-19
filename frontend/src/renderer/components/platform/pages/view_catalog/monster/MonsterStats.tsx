@@ -8,6 +8,7 @@ import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import { stateWithoutErrors } from '../../../../../../utils/StateSelection';
+import {Help} from "bloomer";
 
 export interface IMonsterStatsProps {
 	disabled?: boolean,
@@ -89,6 +90,7 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 				</ExpansionPanelSummary>
 				<ExpansionPanelDetails>
 					<Grid container spacing={8} >
+					<Help>Monster Stats Helper</Help>
 						{this.keyNames.map(value =>
 							<Grid item xs={12} key={this.props.Parent+value} >
 								<FormControl className='formControl' fullWidth disabled={this.props.disabled} >

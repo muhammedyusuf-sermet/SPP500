@@ -7,6 +7,7 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {Help} from "bloomer";
 
 export interface IMonsterSkillBonusesProps {
 	disabled?: boolean;
@@ -42,6 +43,10 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 		'Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight',
 		'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance',
 		'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival' ];
+
+	private skillBonusesHints: {[id: string]: string;} = {
+		
+	}
 
 	stringToNumber = (toConvert : string) => {
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
@@ -82,6 +87,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 										onChange={this.handleMonsterSkillChange}
 										aria-describedby={skillName+'-helper-text'} />
 									<FormHelperText error id={skillName+'-helper-text'}>{this.state[skillName+'Error']}</FormHelperText>
+									<Help>Helper Text Here!</Help>
 								</FormControl>
 							</Grid>
 						)}

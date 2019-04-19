@@ -7,6 +7,7 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {Help} from "bloomer";
 
 export interface IMonsterResistancesProps {
 	disabled?: boolean,
@@ -85,6 +86,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageVulnerabilities-helper-text" />
 								<FormHelperText error id="DamageVulnerabilities-helper-text">{this.state.DamageVulnerabilitiesError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -98,6 +100,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageResistances-helper-text" />
 								<FormHelperText error id="DamageResistances-helper-text">{this.state.DamageResistancesError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -111,6 +114,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageImmunities-helper-text" />
 								<FormHelperText error id="DamageImmunities-helper-text">{this.state.DamageImmunitiesError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -124,6 +128,7 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="ConditionImmunities-helper-text" />
 								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 					</Grid>

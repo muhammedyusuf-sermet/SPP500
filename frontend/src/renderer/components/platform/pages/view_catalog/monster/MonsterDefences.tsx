@@ -7,6 +7,7 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Help } from "bloomer";
 
 export interface IMonsterDefencesProps {
 	disabled?: boolean,
@@ -101,6 +102,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleNumberChange}
 									aria-describedby="ArmorClass-helper-text" />
 								<FormHelperText error id="ArmorClass-helper-text">{this.state.ArmorClassError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
@@ -114,6 +116,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleNumberChange}
 									aria-describedby="HitPoints-helper-text" />
 								<FormHelperText error id="HitPoints-helper-text">{this.state.HitPointsError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 						<Grid item xs={6}>
@@ -127,6 +130,7 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 									onChange={this.handleStringChange}
 									aria-describedby="HitPointDistribution-helper-text" />
 								<FormHelperText error id="HitPointDistribution-helper-text">{this.state.HitPointDistributionError}</FormHelperText>
+								<Help>Helper Text Here!</Help>
 							</FormControl>
 						</Grid>
 					</Grid>

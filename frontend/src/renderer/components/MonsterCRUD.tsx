@@ -536,6 +536,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 							initial={{
 								Languages: this.state.Monster.Languages
 							}} />
+							<Help>Language helper <textarea name="" id="" cols="30" rows="10"></textarea></Help>
 						<Field isHorizontal>
 							<FieldLabel isNormal>
 								<Label>Challenge Rating</Label>
@@ -554,6 +555,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 											onChange={this.handleMonsterChallengeRatingChange} />
 									</Control>
 									<Help isColor='danger'>{this.state.ChallengeRatingError}</Help>
+									<Help>Challenge rating helper</Help>
 								</Field>
 							</FieldBody>
 						</Field>
@@ -574,6 +576,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 											onChange={this.handleMonsterExperiencePointsChange} />
 									</Control>
 									<Help isColor='danger'>{this.state.ExperiencePointsError}</Help>
+									<Help>Experience point helper</Help>
 								</Field>
 							</FieldBody>
 						</Field>

@@ -7,6 +7,7 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {Help} from "bloomer";
 
 export interface IMonsterSenseBonusesProps {
 	disabled?: boolean;
@@ -41,6 +42,17 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 	private keyNames: string[] = [
 		'Blind', 'Blindsight', 'Darkvision', 'Tremorsense', 'Truesight',
 		'Passive Perception', 'Passive Investigation', 'Passive Insight' ];
+
+	private helperTextOptions = {
+		'Blind': "Blind hint",
+		'Blindsight': "Blindsight hint",
+		'Darkvision': "Darkvision hint",
+		'Tremorsense': "tremorsense hint",
+		'Truesight': "Truesight hint",
+		'Passive Perception': "passive perception hint",
+		'Passive Investigation': "passive investigation hint",
+		'Passive Insight': "passive insight hint",
+	}
 
 	stringToNumber = (toConvert : string) => {
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
@@ -81,6 +93,7 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 										onChange={this.handleMonsterSenseChange}
 										aria-describedby={senseName+'-helper-text'} />
 									<FormHelperText error id={senseName+'-helper-text'}>{this.state[senseName+'Error']}</FormHelperText>
+									<Help>{this.helperTextOptions[senseName]}</Help>
 								</FormControl>
 							</Grid>
 						)}
