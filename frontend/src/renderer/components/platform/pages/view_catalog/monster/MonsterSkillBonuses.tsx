@@ -5,7 +5,7 @@ import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Help} from "bloomer";
 
@@ -49,7 +49,7 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 		'Animal Handling': "Wisdom (Animal Handling) covers whether you can calm down a domesticated animal, keep a mount from getting spooked, or intuit an animal's intentions.",
 		'Arcana': "Intelligence (Arcana) measures your ability to recall lore about spells, magic items, eldritch symbols, magical traditions, the planes of existence, and the inhabitants of those planes.",
 		'Athletics': "Strength (Athletics) covers difficult situations you encounter while climbing, jumping, or swimming.",
-		'Deception': "Charisma (Deception) check determines whether you can convincingly hide the truth, either verbally or through your actions.",
+		'Deception': "Charisma (Deception) determines whether you can convincingly hide the truth, either verbally or through your actions.",
 		'History': "Intelligence (History) measures your ability to recall lore about historical events, legendary people, ancient kingdoms, past disputes, recent wars, and lost civilizations.",
 		'Insight': " Wisdom (Insight) decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone's next move.",
 		'Intimidation': "Charisma (Intimidation) covers when you attempt to influence someone through overt threats, hostile actions, and physical violence.",
@@ -104,7 +104,9 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 										onChange={this.handleMonsterSkillChange}
 										aria-describedby={skillName+'-helper-text'} />
 									<FormHelperText error id={skillName+'-helper-text'}>{this.state[skillName+'Error']}</FormHelperText>
-									<Help>{this.skillBonusesHints[skillName]}</Help>
+									<Tooltip disableFocusListener title={this.skillBonusesHints[skillName]}>
+										<Help>Hover for More About {skillName}</Help>
+									</Tooltip>
 								</FormControl>
 							</Grid>
 						)}
