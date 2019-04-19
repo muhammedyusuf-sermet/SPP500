@@ -98,18 +98,18 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
 
-	viewMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
+	public ViewMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
-			SelectedMosnter: value ? value : -1,
+			SelectedMosnter: value != undefined ? value : -1,
 			SelectedProcess: MonsterCRUDState.Read,
 		});
 	}
 
-	editMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
+	public EditMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
-			SelectedMosnter: value ? value : -1,
+			SelectedMosnter: value != undefined ? value : -1,
 			SelectedProcess: MonsterCRUDState.Edit,
 		});
 	}
@@ -125,13 +125,13 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 				<Grid container spacing={0} >
 					<Grid container item xs={12} md={3} spacing={8} >
 						<Grid item xs={6} md={12}>
-							<Typography align='center' variant='h6' >{this.state.Encounter.Name}</Typography>
+							<Typography id='Name' align='center' variant='h6' >{this.state.Encounter.Name}</Typography>
 						</Grid>
 						<Grid item xs={3} md={12}>
-							<Typography align='center' variant='body1' >{this.state.Turn}</Typography>
+							<Typography id='Turn' align='center' variant='body1' >{this.state.Turn}</Typography>
 						</Grid>
 						<Grid item xs={3} md={12}>
-							<Button fullWidth variant="contained" onClick={this.nextTurn} >
+							<Button id='NextTurn' fullWidth variant="contained" onClick={this.nextTurn} >
 								Next Turn
 							</Button>
 						</Grid>
@@ -151,10 +151,13 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 							{this.state.Encounter.Monsters.map((monster: IMonsterState) => (
 								<BaseEntity
 									key={monster.Name}
-									Id={0}
+									// TODO: change to unique id for the entity
+									//  at this time there is only one monster
+									//  per type for encounter. so this is unique.
+									Id={monster.Id ? monster.Id : 0}
 									Initiative={0}
-									View={this.viewMonster}
-									Edit={this.editMonster}
+									View={this.ViewMonster}
+									Edit={this.EditMonster}
 									Entity={{
 										EntityType: 'Monster',
 										Id: monster.Id ? monster.Id : -1,
@@ -176,7 +179,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 							: <Typography align='center' variant='h6' >No Monster Selected</Typography>}
 					</Grid>
 				</Grid>
-				<Modal id='monsterCRUDModal' isActive={this.state.modal.open}>
+				<Modal id='encounterRunModal' isActive={this.state.modal.open}>
 					<ModalBackground id='modalBackground' onClick={()=>{
 						this.closeModal();
 					}}/>

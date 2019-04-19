@@ -183,7 +183,6 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 
 	componentWillReceiveProps(nextProps: IMonsterCRUDProps) {
 		if (nextProps.Process != MonsterCRUDState.Create && nextProps.Id != this.props.Id){
-			console.log('making request')
 			const options = { method: 'GET',
 				url: API_URL + '/monster/' + nextProps.Id,
 				headers:
@@ -198,7 +197,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 				.then((body: IMonsterGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
-							Id: body.content.Id ? body.content.Id : -1,
+							Id: body.content.Id != undefined ? body.content.Id : -1,
 							Name: body.content.Name,
 							ChallengeRating: body.content.ChallengeRating,
 							Monster: body.content
@@ -240,6 +239,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 				.then((body: IMonsterGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
+							Id: body.content.Id != undefined ? body.content.Id : -1,
 							Name: body.content.Name,
 							ChallengeRating: body.content.ChallengeRating,
 							Monster: body.content
