@@ -1,4 +1,5 @@
 import { Entity, Column, Index, PrimaryGeneratedColumn, ManyToOne, ManyToMany, BaseEntity } from "typeorm";
+import { CharacterRace, CharacterClass } from "./CharacterEnums";
 import { Campaign, ICampaignData } from "./Campaign";
 import { User, IUserData } from "./User";
 
@@ -40,14 +41,14 @@ export class Character extends BaseEntity implements ICharacterData {
     @Column({
         type: "enum",
         enum: CharacterRace,
-        default: CharacterRace.AnyRace
+        default: CharacterRace.Human
     })
     Race: CharacterRace;
 
     @Column({
         type: "enum",
         enum: CharacterClass,
-        default: CharacterClass.Beast
+        default: CharacterClass.Fighter
     })
     Class: CharacterClass;
 
