@@ -7,6 +7,13 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typograph
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export interface IBaseEntityProps {
+	[key: string]: boolean | number | undefined | {
+		EntityType: keyof EntityTypes;
+		Id: number;
+		Name: string;
+		ArmorClass: number;
+		HitPoints: number;
+	} | ((event: React.MouseEvent<HTMLButtonElement>) => void);
 	Id: number
 	Initiative: number;
 	View: (event: React.MouseEvent<HTMLButtonElement>) => void,
@@ -69,6 +76,13 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 		this.state = {
 			CurrentHitPoints: this.props.Entity.HitPoints
 		};
+	}
+
+	shouldComponentUpdate(nextProps: IBaseEntityProps, nextState: IBaseEntityState) {
+		for (let key in nextState)
+			if (this.state[key] != nextState[key])
+				return true
+		return false
 	}
 
 	componentWillReceiveProps(nextProps: IBaseEntityProps) {

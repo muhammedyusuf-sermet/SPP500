@@ -35,6 +35,10 @@ export interface IMonsterCRUDProps {
 }
 
 export interface IMonsterCRUDState {
+	[key: string]: IMonsterState | MonsterCRUDState | number | boolean | {
+		open: boolean;
+		message: string;
+	} | string | undefined;
 	Process: MonsterCRUDState;
 	Id?: number;
 	submitted: boolean;
@@ -179,6 +183,13 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 				Senses: {}
 			}
 		};
+	}
+
+	shouldComponentUpdate(nextProps: IMonsterCRUDProps, nextState: IMonsterCRUDState) {
+		for (let key in nextState)
+			if (this.state[key] != nextState[key])
+				return true
+		return false
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterCRUDProps) {
