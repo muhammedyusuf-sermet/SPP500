@@ -69,5 +69,10 @@ describe('Encounter CRUD', () => {
 		it('should not render the submit button', () => {
 			expect(encounterCRUDInstance.find('Button#SubmitButton')).toHaveLength(0);
 		});
+
+		it('should return response using state variables when called GetTotalPages', () => {
+			var totalPages = encounterCRUDInstance.instance().getTotalPages();
+			expect(totalPages).toEqual(27);
+		});
 	});
 })
