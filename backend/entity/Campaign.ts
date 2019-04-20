@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BaseEntity, JoinTable, ManyToOne } from "typeorm";
 import { Encounter, IEncounterData } from "./Encounter";
 import { User, IUserData } from "./User";
+import { Character, ICharacterData } from "./Character";
 
 export interface ICampaignData {
     Creator: IUserData;
@@ -8,6 +9,7 @@ export interface ICampaignData {
     Summary: string;
     Notes: string;
     Encounters: IEncounterData[];
+    Characters: ICharacterData[];
 }
 
 @Entity()
@@ -40,4 +42,8 @@ export class Campaign extends BaseEntity implements ICampaignData {
     @ManyToMany(() => Encounter, encounter => encounter.Campaigns)
     @JoinTable()
     Encounters: Encounter[];
+
+    @ManyToMany(() => Character, character => character.Campaigns)
+    @JoinTable()
+    Characters: Character[];
 }
