@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as nock from 'nock';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, shallow, ReactWrapper } from 'enzyme';
 import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, MonsterCRUDState } from "../src/renderer/components/MonsterCRUD";
 
 import {API_URL} from '../src/config'
@@ -57,7 +57,9 @@ describe('Monster CRUD', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			expect(monsterCRUDInstance).toMatchSnapshot();
+			const shallowMonsterCrud = shallow<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={MonsterCRUDState.Create} />);
+
+			expect(shallowMonsterCrud).toMatchSnapshot();
 		});
 
 		it('should be able to send monster name only to create', async (done) => {

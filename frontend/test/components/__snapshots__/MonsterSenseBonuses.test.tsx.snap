@@ -53,7 +53,7 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
           />
           <WithStyles(Tooltip)
             disableFocusListener={true}
-            title="Blindsense is a lesser ability that lets the creature notice things it cannot see, but without the precision of blindsight, using nonvisual senses, such as acute smell or hearing."
+            title="A creature with (Blind) can only see through blindsight, darkvision, or truesight senses. Set this value to above 0 to enable the Blind trait."
           >
             <withHelpersModifiers(Help)
               className="tooltip"
