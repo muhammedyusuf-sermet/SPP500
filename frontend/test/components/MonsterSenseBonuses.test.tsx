@@ -156,6 +156,28 @@ describe('Monster SenseBonuses', () => {
 			expect(monsterSenseBonusesInstance.find('input[id="Passive Investigation"]').props().value).toEqual(14);
 			expect(monsterSenseBonusesInstance.find('input[id="Passive Insight"]').props().value).toEqual(16);
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterSenseBonusesInstance.find('input#Blind').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input#Blindsight').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input#Darkvision').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input#Tremorsense').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input#Truesight').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input[id="Passive Perception"]').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input[id="Passive Investigation"]').props().disabled).toEqual(false);
+			expect(monsterSenseBonusesInstance.find('input[id="Passive Insight"]').props().disabled).toEqual(false);
+			monsterSenseBonusesInstance.setProps({
+				disabled: true
+			})
+			expect(monsterSenseBonusesInstance.find('input#Blind').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input#Blindsight').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input#Darkvision').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input#Tremorsense').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input#Truesight').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input[id="Passive Perception"]').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input[id="Passive Investigation"]').props().disabled).toEqual(true);
+			expect(monsterSenseBonusesInstance.find('input[id="Passive Insight"]').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {

@@ -81,6 +81,14 @@ describe('Monster Languages', () => {
 			});
 			expect(monsterLanguagesInstance.find('Input#Languages').props().value).toEqual('This is test language');
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterLanguagesInstance.find('Input#Languages').props().disabled).toEqual(false);
+			monsterLanguagesInstance.setProps({
+				disabled: true
+			})
+			expect(monsterLanguagesInstance.find('Input#Languages').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {

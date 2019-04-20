@@ -104,6 +104,18 @@ describe('Monster Defences', () => {
 			expect(monsterDefencesInstance.find('input#HitPoints').props().value).toEqual(623);
 			expect(monsterDefencesInstance.find('input#HitPointDistribution').props().value).toEqual('5d12+34');
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterDefencesInstance.find('input#ArmorClass').props().disabled).toEqual(false);
+			expect(monsterDefencesInstance.find('input#HitPoints').props().disabled).toEqual(false);
+			expect(monsterDefencesInstance.find('input#HitPointDistribution').props().disabled).toEqual(false);
+			monsterDefencesInstance.setProps({
+				disabled: true
+			})
+			expect(monsterDefencesInstance.find('input#ArmorClass').props().disabled).toEqual(true);
+			expect(monsterDefencesInstance.find('input#HitPoints').props().disabled).toEqual(true);
+			expect(monsterDefencesInstance.find('input#HitPointDistribution').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {

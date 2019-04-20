@@ -150,6 +150,24 @@ describe('Monster Stats', () => {
 			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().value).toEqual(43);
 			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().value).toEqual(32);
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterStatsInstance.find('input#AbilityScoresStrength').props().disabled).toEqual(false);
+			expect(monsterStatsInstance.find('input#AbilityScoresDexterity').props().disabled).toEqual(false);
+			expect(monsterStatsInstance.find('input#AbilityScoresConstitution').props().disabled).toEqual(false);
+			expect(monsterStatsInstance.find('input#AbilityScoresIntelligence').props().disabled).toEqual(false);
+			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().disabled).toEqual(false);
+			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().disabled).toEqual(false);
+			monsterStatsInstance.setProps({
+				disabled: true
+			})
+			expect(monsterStatsInstance.find('input#AbilityScoresStrength').props().disabled).toEqual(true);
+			expect(monsterStatsInstance.find('input#AbilityScoresDexterity').props().disabled).toEqual(true);
+			expect(monsterStatsInstance.find('input#AbilityScoresConstitution').props().disabled).toEqual(true);
+			expect(monsterStatsInstance.find('input#AbilityScoresIntelligence').props().disabled).toEqual(true);
+			expect(monsterStatsInstance.find('input#AbilityScoresWisdom').props().disabled).toEqual(true);
+			expect(monsterStatsInstance.find('input#AbilityScoresCharisma').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {
