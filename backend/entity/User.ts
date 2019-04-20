@@ -1,7 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Encounter, IEncounterData } from "./Encounter";
 import { Campaign, ICampaignData } from "./Campaign";
-import { Character, ICharacterData } from "./Campaign";
+import { Character, ICharacterData } from "./Character";
 
 export interface IUserData {
 	Email: string;
