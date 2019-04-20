@@ -3,7 +3,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
-import '../../../../../css/app';
+import '../../../../../css/app.css';
 
 import { MonsterType, MonsterRace, Size, Environment, Alignment } from '../../../../../../monster';
 import { isDeepStrictEqual } from 'util';

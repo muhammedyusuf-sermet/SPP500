@@ -7,7 +7,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationErrorItem, ValidationOptions, Reference } from 'joi';
 
 import 'bulma/css/bulma.css';
-import '../css/app';
+import '../css/app.css';
 
 import { Redirect } from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Button, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';

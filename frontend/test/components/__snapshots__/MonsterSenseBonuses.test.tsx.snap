@@ -51,6 +51,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Blind-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Blindsense is a lesser ability that lets the creature notice things it cannot see, but without the precision of blindsight, using nonvisual senses, such as acute smell or hearing."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Blind
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -81,6 +92,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Blindsight-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Using nonvisual senses, such as sensitivity to vibrations, keen smell, acute hearing, or echolocation, a creature with blindsight maneuvers and fights as well as a sighted creature. Invisibility, darkness, and most kinds of concealment are irrelevant, though the creature must have line of effect to a creature or object to discern that creature or object."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Blindsight
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -111,6 +133,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Darkvision-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="A monster with Darkvision can see in the dark within a specific radius. The monster can see in dim light within the radius as if it were bright light, and in Darkness as if it were dim light. The monster can’t discern color in Darkness, only shades of gray."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Darkvision
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -141,6 +174,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Tremorsense-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="A monster with tremorsense can detect and pinpoint the Origin of vibrations within a specific radius, provided that the monster and the source of the vibrations are in contact with the same ground or substance. Tremorsense can’t be used to detect flying or incorporeal creatures."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Tremorsense
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -171,6 +215,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Truesight-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="A creature with truesight can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects, automatically detect visual illusions and succeed on saving throws against them, and perceives the original form of a shapechanger or a creature that is transformed by magic. Furthermore, the creature can see into the Ethereal Plane."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Truesight
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -201,6 +256,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Passive Perception-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="This stat helps to handle whether monsters who are not actively searching for something will notice a hidden object or creature."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Passive Perception
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -231,6 +297,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Passive Investigation-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="This stat helps to handle whether monsters who are not actively trying to investigate something will notice a clue or fact about that thing."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Passive Investigation
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -261,6 +338,17 @@ exports[`Monster SenseBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Passive Insight-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="This stat helps to handle whether monsters who are not actively trying to detect deception will notice when someone is lying to or witholding truth from them."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Passive Insight
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>

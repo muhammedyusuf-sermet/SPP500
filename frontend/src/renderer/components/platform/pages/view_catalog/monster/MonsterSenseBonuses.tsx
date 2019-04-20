@@ -3,7 +3,7 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
-import '../../../../../css/app';
+import '../../../../../css/app.css';
 
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
@@ -41,11 +41,11 @@ export class MonsterSenseBonuses extends React.Component<IMonsterSenseBonusesPro
 	}
 
 	private keyNames: string[] = [
-		'Blindsense', 'Blindsight', 'Darkvision', 'Tremorsense', 'Truesight',
+		'Blind', 'Blindsight', 'Darkvision', 'Tremorsense', 'Truesight',
 		'Passive Perception', 'Passive Investigation', 'Passive Insight' ];
 
 	private helperTextOptions:  {[id: string]: string;} = {
-		'Blindsense': "Blindsense is a lesser ability that lets the creature notice things it cannot see, but without the precision of blindsight, using nonvisual senses, such as acute smell or hearing.",
+		'Blind': "A creature with (Blind) can only see through blindsight, darkvision, or truesight senses. Set this value to above 0 to enable the Blind trait.",
 		'Blindsight': "Using nonvisual senses, such as sensitivity to vibrations, keen smell, acute hearing, or echolocation, a creature with blindsight maneuvers and fights as well as a sighted creature. Invisibility, darkness, and most kinds of concealment are irrelevant, though the creature must have line of effect to a creature or object to discern that creature or object.",
 		'Darkvision': "A monster with Darkvision can see in the dark within a specific radius. The monster can see in dim light within the radius as if it were bright light, and in Darkness as if it were dim light. The monster can’t discern color in Darkness, only shades of gray.",
 		'Tremorsense': "A monster with tremorsense can detect and pinpoint the Origin of vibrations within a specific radius, provided that the monster and the source of the vibrations are in contact with the same ground or substance. Tremorsense can’t be used to detect flying or incorporeal creatures.",
