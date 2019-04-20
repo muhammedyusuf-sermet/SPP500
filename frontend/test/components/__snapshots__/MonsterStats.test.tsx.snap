@@ -50,6 +50,11 @@ exports[`Monster Stats Small snapshot matches snapshot 1`] = `
             error={true}
             id="SavingThrowsStrength-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            Strength
+            : 
+            measuring physical power
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -79,6 +84,11 @@ exports[`Monster Stats Small snapshot matches snapshot 1`] = `
             error={true}
             id="SavingThrowsDexterity-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            Dexterity
+            : 
+            measuring agility
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -108,6 +118,11 @@ exports[`Monster Stats Small snapshot matches snapshot 1`] = `
             error={true}
             id="SavingThrowsConstitution-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            Constitution
+            : 
+            measuring endurance
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -137,6 +152,11 @@ exports[`Monster Stats Small snapshot matches snapshot 1`] = `
             error={true}
             id="SavingThrowsIntelligence-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            Intelligence
+            : 
+            measuring reasoning and memory
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -166,6 +186,11 @@ exports[`Monster Stats Small snapshot matches snapshot 1`] = `
             error={true}
             id="SavingThrowsWisdom-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            Wisdom
+            : 
+            measuring Perception and Insight
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -195,6 +220,11 @@ exports[`Monster Stats Small snapshot matches snapshot 1`] = `
             error={true}
             id="SavingThrowsCharisma-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            Charisma
+            : 
+            measuring force of personality
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>

@@ -50,6 +50,9 @@ exports[`Monster SpeedBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="SpeedLand-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            The distance in feet that the monster can walk in 1 round.
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -79,6 +82,9 @@ exports[`Monster SpeedBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="SpeedSwim-helper-text"
           />
+          <withHelpersModifiers(Help)>
+            The distance in feet that the monster can swim in 1 round.
+          </withHelpersModifiers(Help)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>
