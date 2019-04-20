@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, MonsterCRUDState } from "../src/renderer/components/MonsterCRUD";
+import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, MonsterCRUDState, IMonsterGetOneResponse } from "../src/renderer/components/MonsterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -18,10 +18,17 @@ describe('Monster CRUD', () => {
 
 	let monsterCRUDInstance: ReactWrapper<IMonsterCRUDProps, IMonsterCRUDState, MonsterCRUD>;
 
-	const basicResponse = {
+	const basicResponse: IMonsterGetOneResponse = {
 		status: 201,
 		messages: ['success'],
-		content: { Name: 'Basic Monster', AbilityScores:{}, SavingThrows:{}, Skills:{}, Senses:{} }
+		content: {
+			Id: 0,
+			Name: 'Basic Monster',
+			AbilityScores:{},
+			SavingThrows:{},
+			Skills:{},
+			Senses:{}
+		}
 	}
 
 	describe('Redirect if submitted', () => {
