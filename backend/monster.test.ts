@@ -1430,11 +1430,25 @@ describe('monster get one tests', async () => {
 		const monster2 = new Monster();
 		monster2.Name = "John Doe";
 		monster2.Id = 2;
+		monster2.Skills=[];
+		monster2.Senses=[];
 		await monster2.save();
 
 		const monster3 = new Monster();
 		monster3.Name = "John Doe";
 		monster3.Id = 3;
+		const skill3 = new MonsterSkill();
+		skill3.Monster = monster;
+		skill3.Skill = new Skill();
+		skill3.Skill.Name = 'D Skill';
+		skill3.Bonus = 10;
+		monster3.Skills.push(skill3)
+		const sense3 = new MonsterSense();
+		sense3.Monster = monster;
+		sense3.Sense = new Sense();
+		sense3.Sense.Name = 'D Sense';
+		sense3.Bonus = 10;
+		monster3.Senses.push(sense3)
 		await monster3.save();
 	});
 
@@ -1467,8 +1481,12 @@ describe('monster get one tests', async () => {
 		
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(0);
-		expect(response['content'].Skills).toEqual({});
-		expect(response['content'].Skills).toEqual({});
+		expect(response['content'].Skills).toEqual({
+			"D Skill": 10
+		});
+		expect(response['content'].Senses).toEqual({
+			"D Sense": 10
+		});
 	});
 
 	test('when monster Id is given properly but no monster', async () => {
