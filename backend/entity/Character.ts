@@ -4,7 +4,7 @@ import { Campaign, ICampaignData } from "./Campaign";
 import { User, IUserData } from "./User";
 
 export interface ICharacterData {
-	Creator: IUserData;
+    Creator: IUserData;
 
     Name: string,
     Level: number,
@@ -19,7 +19,7 @@ export interface ICharacterData {
 
 @Entity()
 export class Character extends BaseEntity implements ICharacterData {
-	@PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn()
     Id: number;
 
     @ManyToOne(() => User, user => user.CreatedCharacters)
@@ -71,6 +71,6 @@ export class Character extends BaseEntity implements ICharacterData {
     })
     Notes: string;
 
-	@ManyToMany(() => Campaign, campaign => campaign.Characters)
+    @ManyToMany(() => Campaign, campaign => campaign.Characters)
     Campaigns: Campaign[];
 }
