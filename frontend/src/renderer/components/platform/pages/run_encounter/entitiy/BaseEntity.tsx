@@ -7,7 +7,7 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typograph
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export interface IBaseEntityProps {
-	[key: string]: boolean | number | undefined | {
+	[key: string]: string | boolean | number | undefined | {
 		EntityType: keyof EntityTypes;
 		Id: number;
 		Name: string;
@@ -184,10 +184,10 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 							<Button id={'View'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.View} >
 								View
 							</Button>
-							<Button id={'Edit'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.Edit} >
+							{/*<Button id={'Edit'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.Edit} >
 								Edit
 							</Button>
-							{/*<Button variant="contained" color="secondary" value={this.props.Entity.Id} onClick={this.deleteMonster} >
+							<Button variant="contained" color="secondary" value={this.props.Entity.Id} onClick={this.deleteMonster} >
 								Delete
 								<DeleteIcon/>
 							</Button>*/}
