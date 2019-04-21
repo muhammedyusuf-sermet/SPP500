@@ -1,6 +1,7 @@
-import {Campaign} from "./entity/Campaign";
+import {Campaign, ICampaignData} from "./entity/Campaign";
 import {User} from "./entity/User";
 import {Encounter} from "./entity/Encounter";
+import { Character } from "./entity/Character";
 
 /*
 Sample curl request,
@@ -24,10 +25,13 @@ export class CampaignFactory {
 	private payloadSchema = Joi.object({
 		Id: Joi.number().greater(0),
 		Name: Joi.string().required().max(50),
-		Summary: Joi.string().max(1000),
-		Notes: Joi.string().max(2000),
+		Summary: Joi.string().allow('').max(1000),
+		Notes: Joi.string().allow('').max(2000),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
+		})).default([]),
+		Characters: Joi.array().items(Joi.object({
+			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CharacterOptions')).label('Character Id')
 		})).default([])
 	});
 	public async Create(request: {payload: any, auth: any}) {
@@ -46,19 +50,35 @@ export class CampaignFactory {
 			encounterIds.push(value.Id);
 			encounterLookup[value.Id] = value;
 		})
+		const allCharacters: Character[] = await Character.find(
+			{
+				select: ["Id"],
+				where: {
+					Creator: {
+						Id: request.auth.credentials.id
+					}
+				}
+			});
+		const characterIds: number[] = [];
+		const characterLookup: { [Id: number]: Character } = {};
+		allCharacters.forEach((value) => {
+			characterIds.push(value.Id);
+			characterLookup[value.Id] = value;
+		})
 		const options: Joi.ValidationOptions = {
 			abortEarly: false,
 			convert: true,
 			allowUnknown: false,
 			context: {
-				EncounterOptions: encounterIds
+				EncounterOptions: encounterIds,
+				CharacterOptions: characterIds
 			}
 		}
 		return await Joi.validate(
 			request.payload,
 			this.payloadSchema,
 			options,
-			async (errors: ValidationError, value: any) => {
+			async (errors: ValidationError, value: ICampaignData) => {
 				if(errors) {
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
@@ -87,6 +107,11 @@ export class CampaignFactory {
 						campaign.Encounters.push(encounterLookup[encounter.Id]);
 					}
 
+					campaign.Characters = [];
+					for (let character of value.Characters) {
+						campaign.Encounters.push(encounterLookup[character.Id]);
+					}
+
 					await campaign.save();
 					return {
 						"status": 201,
@@ -113,19 +138,35 @@ export class CampaignFactory {
 			encounterIds.push(value.Id);
 			encounterLookup[value.Id] = value;
 		})
+		const allCharacters: Character[] = await Character.find(
+			{
+				select: ["Id"],
+				where: {
+					Creator: {
+						Id: request.auth.credentials.id
+					}
+				}
+			});
+		const characterIds: number[] = [];
+		const characterLookup: { [Id: number]: Character } = {};
+		allCharacters.forEach((value) => {
+			characterIds.push(value.Id);
+			characterLookup[value.Id] = value;
+		})
 		const options: Joi.ValidationOptions = {
 			abortEarly: false,
 			convert: true,
 			allowUnknown: false,
 			context: {
-				EncounterOptions: encounterIds
+				EncounterOptions: encounterIds,
+				CharacterOptions: characterIds
 			}
 		}
 		return await Joi.validate(
 			request.payload,
 			this.payloadSchema,
 			options,
-			async (errors: ValidationError, value: any) => {
+			async (errors: ValidationError, value: ICampaignData) => {
 				if(errors) {
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
@@ -142,7 +183,6 @@ export class CampaignFactory {
 						"messages": Array.from(messages.values())
 					};
 				} else {
-					console.log('TRYING TO SAVE')
 					const messages: string[] = [];
 					const campaignId = +request.payload.Id;
 					const campaignDb = await Campaign.findOne<Campaign>({
@@ -152,12 +192,21 @@ export class CampaignFactory {
 					if (campaignDb) {
 						if (campaignDb.Creator.Id == request.auth.credentials.id) {
 							campaignDb.Name = value.Name;
-							campaignDb.Summary = value.Summary;
-							campaignDb.Notes = value.Notes;
+							if (value.Summary)
+								campaignDb.Summary = value.Summary;
+							if (value.Notes)
+								campaignDb.Notes = value.Notes;
 							campaignDb.Encounters = [];
 							if (value.Encounters) {
 								for (const encounter of value.Encounters) {
 									campaignDb.Encounters.push(encounterLookup[encounter.Id]);
+								}
+							}
+
+							campaignDb.Characters = [];
+							if (value.Characters) {
+								for (const character of value.Characters) {
+									campaignDb.Characters.push(characterLookup[character.Id]);
 								}
 							}
 
@@ -207,15 +256,10 @@ export class CampaignFactory {
 			} else {
 				messages.push("Campaign is not found.")
 			}
-			return {
-				"status": 400,
-				"messages": messages,
-			}
-		} else {
-			return {
-				"status": 400,
-				"messages": messages,
-			}
+		}
+		return {
+			"status": 400,
+			"messages": messages,
 		}
 	}
 
@@ -230,39 +274,32 @@ export class CampaignFactory {
 		}
 
 		if (messages.length == 0) {
-			let campaign = await Campaign.findOne({
-				loadRelationIds: { relations: ['Encounters'], disableMixedMap: true },
-				where: { Id: campaignId, Creator : { Id: authInfo.credentials.id} }
+			const campaignDb = await Campaign.findOne<Campaign>({
+				loadRelationIds: { relations: ['Creator', 'Encounters', 'Characters'], disableMixedMap: true },
+				where: { Id: campaignId }
 			});
-			if (campaign) {
-			
-				return {
-					"status": 201,
-					"messages": messages,
-					"content": campaign,
+			if (campaignDb) {
+				if (campaignDb.Creator.Id == authInfo.credentials.id) {
+					// The frontend doesn't need the Creator info
+					delete campaignDb.Creator
+					// TODO: Allow the frontend to see characters remove this line
+					delete campaignDb.Characters
+					return {
+						"status": 201,
+						"messages": messages,
+						"content": campaignDb,
+					}
+				} else {
+					messages.push("Requester is not the owner.")
 				}
 			} else {
-				let campaign = await Campaign.findOne({
-					relations: ['Encounters'], 
-					where: { Id: campaignId}
-				});
-				if(campaign) {
-					messages.push("Requester is not the owner.")
-				} else {
-					messages.push("Campaign is not found.")
-				}
-				return {
-					"status": 400,
-					"messages": messages,
-					"content": {},
-				}
+				messages.push("Campaign is not found.")
 			}
-		} else {
-			return {
-				"status": 400,
-				"messages": messages,
-				"content": {},
-			}
+		}
+		return {
+			"status": 400,
+			"messages": messages,
+			"content": {},
 		}
 	}
 
