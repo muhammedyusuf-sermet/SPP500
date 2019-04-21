@@ -65,6 +65,16 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
             error={true}
             id="Type-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Creature types are rough categories of creatures which determine the way game mechanics affect the creature. The choice of type is important, as all creatures which have a given type will share certain characteristics (with some exceptions)."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Monster Type
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -100,6 +110,16 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
             error={true}
             id="Size-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="A creature's size determines how much space it occupies on squares or hexes, as shown in the Creature Size and Space table. If the miniature you use for a monster takes up an amount of space different from what's on the table, that's fine, but treat the monster as its official size for all other rules."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Monster Size
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -146,6 +166,16 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
             error={true}
             id="Race-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="A character race is a fundamental part of the identity and nature of characters in the Dungeons & Dragons role-playing game. Each race has a distinct appearance, behavior and often range of statistics associated with it. See your DM handbook for more information."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Monster Race
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -195,6 +225,16 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
             error={true}
             id="Alignment-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Alignment is a categorization of the ethical and moral perspective of player characters, non-player characters, and creatures. Most versions of the game feature a system in which players make two choices for characters. One is the character's views on 'law' vs 'chaos', the other on 'good' vs 'evil'."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Monster Alignment
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -235,6 +275,16 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
             error={true}
             id="Environment-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Monster environment is the type of environment that the monster is most likely to be found in."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Monster Environment
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>

@@ -17,7 +17,7 @@
 	},
 	{
         "Name": "Tremorsense",
-        "Description": "UNKNOWN"
+        "Description": "A creature with (Tremorsense) can detect and pinpoint the Origin of vibrations within a specific radius, provided that the creature and the source of the vibrations are in contact with the same ground or substance. Tremorsense can’t be used to detect flying or incorporeal creatures."
 	},
 	{
         "Name": "Passive Perception",

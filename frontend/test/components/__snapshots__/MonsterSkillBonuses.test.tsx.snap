@@ -51,6 +51,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Acrobatics-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Dexterity (Acrobatics) covers your attempt to stay on your feet in a tricky situation, such as when you're trying to run across a sheet of ice, balance on a tightrope, or stay upright on a rocking ship's deck. It can also count to see if you can perform acrobatic stunts, including dives, rolls, somersaults, and flips."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Acrobatics
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -81,6 +92,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Animal Handling-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Wisdom (Animal Handling) covers whether you can calm down a domesticated animal, keep a mount from getting spooked, or intuit an animal's intentions."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Animal Handling
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -111,6 +133,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Arcana-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Intelligence (Arcana) measures your ability to recall lore about spells, magic items, eldritch symbols, magical traditions, the planes of existence, and the inhabitants of those planes."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Arcana
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -141,6 +174,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Athletics-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Strength (Athletics) covers difficult situations you encounter while climbing, jumping, or swimming."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Athletics
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -171,6 +215,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Deception-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Charisma (Deception) determines whether you can convincingly hide the truth, either verbally or through your actions."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Deception
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -201,6 +256,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="History-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Intelligence (History) measures your ability to recall lore about historical events, legendary people, ancient kingdoms, past disputes, recent wars, and lost civilizations."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              History
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -231,6 +297,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Insight-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title=" Wisdom (Insight) decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone's next move."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Insight
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -261,6 +338,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Intimidation-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Charisma (Intimidation) covers when you attempt to influence someone through overt threats, hostile actions, and physical violence."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Intimidation
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -291,6 +379,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Investigation-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Intelligence (Investigation) covers when you look around for clues and make deductions based on those clues."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Investigation
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -321,6 +420,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Medicine-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Wisdom (Medicine) measures your ability to stabilize a dying companion or diagnose an illness."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Medicine
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -351,6 +461,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Nature-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Intelligence (Nature) measures your ability to recall lore about terrain, plants and animals, the weather, and natural cycles."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Nature
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -381,6 +502,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Perception-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Wisdom (Perception) lets you spot, hear, or otherwise detect the presence of something."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Perception
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -411,6 +543,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Performance-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Charisma (Performance) determines how well you can delight an audience with music, dance, acting, storytelling, or some other form of entertainment."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Performance
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -441,6 +584,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Persuasion-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Charisma (Persuasion) covers when you attempt to influence someone or a group of people with tact, social graces, or good nature."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Persuasion
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -471,6 +625,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Religion-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Intelligence (Religion) measures your ability to recall lore about deities, rites and prayers, religious hierarchies, holy symbols, and the practices of secret cults."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Religion
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -501,6 +666,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Sleight of Hand-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Dexterity (Sleight of Hand) covers when you attempt an act of legerdemain or manual trickery, such as planting something on someone else, concealing an object on your person, or slipping something out of another person's pocket."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Sleight of Hand
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -531,6 +707,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Stealth-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Dexterity (Stealth) is when you attempt to conceal yourself from enemies, slink past guards, slip away without being noticed, or sneak up on someone without being seen or heard."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Stealth
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -561,6 +748,17 @@ exports[`Monster SkillBonuses Small snapshot matches snapshot 1`] = `
             error={true}
             id="Survival-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Wisdom (Survival) measures your ability to follow tracks, hunt wild game, guide your group through frozen wastelands, identify signs that owlbears live nearby, predict the weather, or avoid quicksand and other natural hazards."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About 
+              Survival
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>
