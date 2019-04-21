@@ -9,7 +9,6 @@ import { IEncounterState } from '../../../../../encounter';
 import { Modal, ModalBackground, ModalContent, Box } from 'bloomer';
 import { Grid, Typography, Button, TextField } from '@material-ui/core';
 import { BaseEntity } from './entitiy/BaseEntity';
-import { IMonsterState } from '../../../../../monster';
 import { MonsterCRUD, MonsterCRUDState } from '../../../MonsterCRUD';
 
 export interface IEncounterRunProps {
@@ -19,7 +18,10 @@ export interface IEncounterRunProps {
 export interface IEncounterRunState {
 	SelectedMosnter: number,
 	SelectedProcess: MonsterCRUDState,
+	Notes: string,
 	Turn: number,
+	width: number,
+	height: number,
 	modal: {
 		open: boolean;
 		message: string;
@@ -40,7 +42,10 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		this.state = {
 			SelectedMosnter: -1,
 			SelectedProcess: MonsterCRUDState.Read,
+			Notes: '',
 			Turn: 0,
+			width: 0,
+			height: 0,
 			modal: {
 				open: false,
 				message: '',
@@ -65,6 +70,8 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 	};
 
 	componentDidMount() {
+		this.updateWindowDimensions()
+		window.addEventListener('resize', this.updateWindowDimensions);
 		const options = { method: 'GET',
 			url: API_URL + '/encounter/' + this.props.Id,
 			headers:
@@ -90,6 +97,8 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 						}
 					}
 					this.setState({
+						Notes: body.content.Description,
+						Initiatives: initiatives,
 						Encounter: body.content
 					});
 				} else if (body.messages) {
@@ -106,6 +115,14 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 			.catch((error: string) => {
 				this.openModal("There was an error sending your request.")
 			})
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateWindowDimensions);
+	}
+
+	updateWindowDimensions = () => {
+		this.setState({ width: window.innerWidth, height: window.innerHeight });
 	}
 
 	stringToNumber = (toConvert : string) => {
@@ -133,11 +150,18 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 			({ Turn: prevState.Turn + 1 }));
 	}
 
+	handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		this.setState({
+			Notes: value,
+		});
+	}
+
 	render() {
 		return (
 			<div className="encounter-run-containter">
-				<Grid container spacing={0} >
-					<Grid container item xs={12} md={3} spacing={8} >
+				<Grid container alignItems='baseline' spacing={16} >
+					<Grid container item style={{maxHeight: (this.state.height-55), overflow: 'auto'}} xs={12} md={3} spacing={8} >
 						<Grid item xs={6} md={12}>
 							<Typography id='Name' align='center' variant='h6' >{this.state.Encounter.Name}</Typography>
 						</Grid>
@@ -157,14 +181,15 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 								margin='normal'
 								fullWidth
 								rowsMax={20}
-							/>
+								value={this.state.Notes}
+								onChange={this.handleNotesChange} />
 						</Grid>
 					</Grid>
-					<Grid container item xs={12} md={3} spacing={8} >
+					<Grid container item style={{maxHeight: (this.state.height-55), overflow: 'auto'}} xs={12} md={3} spacing={8} >
 						<Grid item xs={12}>
-							{this.state.Encounter.Monsters.map((monster: IMonsterState) => (
+							{this.state.Initiatives.map((value: number, index: number) => (
 								<BaseEntity
-									key={monster.Name}
+									key={this.state.Encounter.Monsters[value].Name}
 									// TODO: change to unique id for the entity
 									//  at this time there is only one monster
 									//  per type for encounter. so this is unique.
@@ -174,23 +199,25 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 									Edit={this.EditMonster}
 									Entity={{
 										EntityType: 'Monster',
-										Id: monster.Id ? monster.Id : -1,
-										Name: monster.Name,
-										ArmorClass: monster.ArmorClass ? monster.ArmorClass : -1,
-										HitPoints: monster.HitPoints ? monster.HitPoints : -1
+										Id: this.state.Encounter.Monsters[value].Id as number,
+										Name: this.state.Encounter.Monsters[value].Name,
+										ArmorClass: this.state.Encounter.Monsters[value].ArmorClass as number,
+										HitPoints: this.state.Encounter.Monsters[value].HitPoints as number
 									}} />
 							))}
 						</Grid>
-						<Grid item xs={12}>
+						{/*<Grid item xs={12}>
 							<Button fullWidth variant="contained" onClick={this.nextTurn} >
 								Add From Catalog
 							</Button>
-						</Grid>
+						</Grid>*/}
 					</Grid>
-					<Grid item xs={12} md={6} >
-						{this.state.SelectedMosnter != -1 ?
-							<MonsterCRUD Process={this.state.SelectedProcess} Id={this.state.SelectedMosnter} />
-							: <Typography align='center' variant='h6' >No Monster Selected</Typography>}
+					<Grid container item style={{maxHeight: (this.state.height-55), overflow: 'auto'}} xs={12} md={6} spacing={8} >
+						<Grid item xs={12}>
+							{this.state.SelectedMosnter != -1 ?
+								<MonsterCRUD Process={this.state.SelectedProcess} Id={this.state.SelectedMosnter} />
+								: <Typography align='center' variant='h6' >No Monster Selected</Typography>}
+						</Grid>
 					</Grid>
 				</Grid>
 				<Modal id='encounterRunModal' isActive={this.state.modal.open}>
