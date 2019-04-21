@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Monster Defences Small snapshot matches snapshot 1`] = `
+exports[`Base Entity Small snapshot matches snapshot 1`] = `
 <WithStyles(ExpansionPanel)
   CollapseProps={
     Object {
@@ -94,6 +94,28 @@ exports[`Monster Defences Small snapshot matches snapshot 1`] = `
             onChange={[Function]}
             type="number"
             value={623}
+          />
+        </WithStyles(FormControl)>
+      </WithStyles(Grid)>
+      <WithStyles(Grid)
+        item={true}
+        xs={12}
+      >
+        <WithStyles(FormControl)
+          className="formControl"
+          fullWidth={true}
+        >
+          <WithStyles(WithFormControlContext(InputLabel))
+            htmlFor="Temporary"
+          >
+            Temporary HP
+          </WithStyles(WithFormControlContext(InputLabel))>
+          <WithStyles(Input)
+            id="Temporary"
+            name="Temporary"
+            onChange={[Function]}
+            type="number"
+            value={0}
           />
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
@@ -430,14 +452,6 @@ exports[`Monster Defences Small snapshot matches snapshot 1`] = `
           variant="contained"
         >
           View
-        </WithStyles(Button)>
-        <WithStyles(Button)
-          id="Edit0"
-          onClick={[MockFunction]}
-          value={0}
-          variant="contained"
-        >
-          Edit
         </WithStyles(Button)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>
