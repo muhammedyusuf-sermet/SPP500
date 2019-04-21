@@ -8,6 +8,7 @@ import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 //import { stateWithoutErrors } from '../../../../../../utils/StateSelection';
+import {Help} from "bloomer";
 
 export interface IMonsterStatsProps {
 	disabled?: boolean,
@@ -65,6 +66,15 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 
 	private keyNames = [ "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" ];
 
+	private helperText: {[id: string]: string;} = {
+		"Strength": "measuring physical power",
+		"Dexterity": "measuring agility",
+		"Constitution": "measuring endurance",
+		"Intelligence": "measuring reasoning and memory",
+		"Wisdom": "measuring Perception and Insight",
+		"Charisma": "measuring force of personality",
+	}
+
 	stringToNumber = (toConvert : string) => {
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
@@ -104,6 +114,7 @@ export class MonsterStats extends React.Component<IMonsterStatsProps, IMonsterSt
 										onChange={this.handleMonsterNumberChange}
 										aria-describedby={value+'-helper-text'} />
 									<FormHelperText error id={this.props.Parent+value+'-helper-text'}>{this.state[value+'Error']}</FormHelperText>
+									<Help>{value}: {this.helperText[value]}</Help>
 								</FormControl>
 							</Grid>
 						)}

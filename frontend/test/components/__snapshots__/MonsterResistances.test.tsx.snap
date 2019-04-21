@@ -49,6 +49,16 @@ exports[`Monster Resistances Small snapshot matches snapshot 1`] = `
             error={true}
             id="DamageVulnerabilities-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="If a creature or an object has vulnerability to a damage type, damage of that type is doubled against it."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Damage Vulnerabilities
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -77,6 +87,16 @@ exports[`Monster Resistances Small snapshot matches snapshot 1`] = `
             error={true}
             id="DamageResistances-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="If a creature or an object has resistance to a damage type, damage of that type is halved against it."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Damage Resistance
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -105,6 +125,16 @@ exports[`Monster Resistances Small snapshot matches snapshot 1`] = `
             error={true}
             id="DamageImmunities-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Creatures can be immune to damage types. A creature immune to a damage type doesn't take damage from that type of damage."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Damage Immunities
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
       <WithStyles(Grid)
@@ -133,6 +163,16 @@ exports[`Monster Resistances Small snapshot matches snapshot 1`] = `
             error={true}
             id="ConditionImmunities-helper-text"
           />
+          <WithStyles(Tooltip)
+            disableFocusListener={true}
+            title="Creatures can be immune to conditions. If a creature is immune to fear, poison or illusion, it isn't affected by the non-damaging effects of power with those keywords. If a creature is immune to a condition, it cannot become afflicted by that condition."
+          >
+            <withHelpersModifiers(Help)
+              className="tooltip"
+            >
+              Hover for More About Condition Immunity
+            </withHelpersModifiers(Help)>
+          </WithStyles(Tooltip)>
         </WithStyles(FormControl)>
       </WithStyles(Grid)>
     </WithStyles(Grid)>

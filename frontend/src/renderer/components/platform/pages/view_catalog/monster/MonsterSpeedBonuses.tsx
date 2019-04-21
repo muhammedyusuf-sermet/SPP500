@@ -8,6 +8,7 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {Help} from "bloomer";
 
 export interface IMonsterSpeedBonusesProps {
 	disabled?: boolean;
@@ -44,6 +45,11 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 
 	//TODO: Make speed its own dictionary of all the different monvement options.
 	private keyNames: string[] = ["SpeedLand", "SpeedSwim"];
+
+	private helperText: {[id: string]: string;} = {
+		"SpeedLand": "The distance in feet that the monster can walk in 1 round.",
+		"SpeedSwim": "The distance in feet that the monster can swim in 1 round.",
+	}
 
 	stringToNumber = (toConvert : string) => {
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
@@ -88,6 +94,7 @@ export class MonsterSpeedBonuses extends React.Component<IMonsterSpeedBonusesPro
 										onChange={this.handleMonsterSpeedChange}
 										aria-describedby={speedName+'-helper-text'} />
 									<FormHelperText error id={speedName+'-helper-text'}>{this.state[speedName+'Error']}</FormHelperText>
+									<Help>{this.helperText[speedName]}</Help>
 								</FormControl>
 							</Grid>
 						)}

@@ -3,10 +3,12 @@ const Joi = require('joi');
 import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
+import '../../../../../css/app.css';
 
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {Help} from "bloomer";
 
 export interface IMonsterResistancesProps {
 	disabled?: boolean,
@@ -88,6 +90,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageVulnerabilities-helper-text" />
 								<FormHelperText error id="DamageVulnerabilities-helper-text">{this.state.DamageVulnerabilitiesError}</FormHelperText>
+								<Tooltip disableFocusListener title={"If a creature or an object has vulnerability to a damage type, damage of that type is doubled against it."}>
+										<Help className="tooltip">Hover for More About Damage Vulnerabilities</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -101,6 +106,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageResistances-helper-text" />
 								<FormHelperText error id="DamageResistances-helper-text">{this.state.DamageResistancesError}</FormHelperText>
+								<Tooltip disableFocusListener title={"If a creature or an object has resistance to a damage type, damage of that type is halved against it."}>
+										<Help className="tooltip">Hover for More About Damage Resistance</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -114,6 +122,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="DamageImmunities-helper-text" />
 								<FormHelperText error id="DamageImmunities-helper-text">{this.state.DamageImmunitiesError}</FormHelperText>
+								<Tooltip disableFocusListener title={"Creatures can be immune to damage types. A creature immune to a damage type doesn't take damage from that type of damage."}>
+										<Help className="tooltip">Hover for More About Damage Immunities</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 						<Grid item xs={12}>
@@ -127,6 +138,9 @@ export class MonsterResistances extends React.Component<IMonsterResistancesProps
 									onChange={this.handleResistancesChange}
 									aria-describedby="ConditionImmunities-helper-text" />
 								<FormHelperText error id="ConditionImmunities-helper-text">{this.state.ConditionImmunitiesError}</FormHelperText>
+								<Tooltip disableFocusListener title={"Creatures can be immune to conditions. If a creature is immune to fear, poison or illusion, it isn't affected by the non-damaging effects of power with those keywords. If a creature is immune to a condition, it cannot become afflicted by that condition."}>
+										<Help className="tooltip">Hover for More About Condition Immunity</Help>
+								</Tooltip>
 							</FormControl>
 						</Grid>
 					</Grid>

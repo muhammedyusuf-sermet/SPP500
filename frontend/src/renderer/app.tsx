@@ -7,7 +7,6 @@ import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
 import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCreation';
 
-import { EncounterCreation } from './components/EncounterCreation';
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 import { ViewGameComponents } from './components/platform/pages/ViewGameComponents';
 
@@ -16,6 +15,8 @@ import { NavBar } from './components/NavBar';
 import { AuthContext, IAuthProviderState } from './components/AuthContext';
 import { MonsterCRUD, MonsterCRUDState } from './components/MonsterCRUD';
 import { EncounterRun } from './components/platform/pages/run_encounter/EncounterRun';
+
+import { EncounterCRUD, EncounterCRUDState } from './components/EncounterCRUD';
 
 interface IAppProps { }
 
@@ -34,7 +35,6 @@ export class App extends React.Component<IAppProps> {
 						(auth.isAuth) ? (
 							<Switch>
 								<Route exact path="/" component={Platform} />
-								<Route path="/encounter_creation" component={EncounterCreation} />
 								<Route path="/encounter/run/:Id" render={(props) => {
 									return (
 										<EncounterRun Id={props.match.params.Id} />
@@ -58,6 +58,19 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/monster/edit/:Id" render={(props) => {
 									return (
 										<MonsterCRUD Process={MonsterCRUDState.Edit} Id={props.match.params.Id} />
+
+									);}} />
+								<Route path="/encounter/create" render={() => {
+									return (
+										<EncounterCRUD Process={EncounterCRUDState.Create} />
+									);}} />
+								<Route path="/encounter/view/:Id" render={(props) => {
+									return (
+										<EncounterCRUD Process={EncounterCRUDState.Read} Id={props.match.params.Id} />
+									);}} />
+								<Route path="/encounter/edit/:Id" render={(props) => {
+									return (
+										<EncounterCRUD Process={EncounterCRUDState.Edit} Id={props.match.params.Id} />
 
 									);}} />
 								<Route path="/catalog" component={ViewCatalog} />
