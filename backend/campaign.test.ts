@@ -6,40 +6,62 @@ import {CampaignFactory} from "./campaign";
 
 jest.mock("./entity/Campaign");
 jest.mock("./entity/Encounter");
+jest.mock("./entity/Character");
 jest.mock("./entity/User");
 
 describe('campaign tests', async () => {
 	beforeAll( async () => {
-		let user = new User();
+		const user = new User();
 		user.Name = "John Doe";
 		user.Id = 1;
 		await user.save();
 	
-		let encounter = new Encounter();
+		const encounter = new Encounter();
 		encounter.Name = "John Doe's Encounter";
 		encounter.Id = 1;
 		encounter.Creator = user;
 		await encounter.save();
+		
+		const encounter3 = new Encounter();
+		encounter3.Name = "John Doe's 2nd Encounter";
+		encounter3.Id = 3;
+		encounter3.Creator = user;
+		await encounter3.save();
 
 		const campaign = new Campaign();
 		campaign.Name = "Test1";
 		campaign.Id = 1;
 		campaign.Creator = user;
 		campaign.Encounters = [encounter];
+		campaign.Characters = [];
 		await campaign.save();
 
-		user = new User();
-		user.Name = "Other John Doe";
-		user.Id = 2;
-		await user.save();
+		const campaign2 = new Campaign();
+		campaign2.Name = "Test2";
+		campaign2.Id = 2;
+		campaign2.Creator = user;
+		campaign2.Encounters = [];
+		campaign2.Characters = [];
+		await campaign2.save();
 
-		encounter = new Encounter();
-		encounter.Name = "Other John Doe's Encounter";
-		encounter.Id = 2;
-		encounter.Creator = user;
-		await encounter.save();
+		const user2 = new User();
+		user2.Name = "Other John Doe";
+		user2.Id = 2;
+		await user2.save();
+
+		const encounter2 = new Encounter();
+		encounter2.Name = "Other John Doe's Encounter";
+		encounter2.Id = 2;
+		encounter2.Creator = user2;
+		await encounter2.save();
     
-    	
+    	const campaign3 = new Campaign();
+		campaign3.Name = "Test3";
+		campaign3.Id = 3;
+		campaign3.Creator = user2;
+		campaign3.Encounters = [encounter2];
+		campaign3.Characters = [];
+		await campaign3.save();
 	});
 	describe('campaign edit tests', async () => {
 
@@ -99,7 +121,7 @@ describe('campaign tests', async () => {
 					}
 				}
 			});
-		
+
 			expect.assertions(3);
 			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
@@ -113,7 +135,7 @@ describe('campaign tests', async () => {
 					"Name": "same name",
 					"Summary": "same summary",
 					"Encounters": [
-						{"Id": 2}
+						{"Id": 3}
 					]
 	        	},
 				auth: {
@@ -136,7 +158,7 @@ describe('campaign tests', async () => {
 					"Name": "same name",
 					"Summary": "same summary",
 					"Encounters": [
-						{"Id": 3}
+						{"Id": 5}
 	          		]
 				},
 				auth: {
@@ -149,10 +171,10 @@ describe('campaign tests', async () => {
 	    	expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("\"Encounter Id\" 3 is invalid");
+			expect(response['messages'][0]).toBe("\"Encounter Id\" 5 is invalid");
 		});
 
-		test('When requester is not the creator of the campaign', async () => {
+		test('When some encounters are someone else\'s', async () => {
 			const response = await campaignFactory.Edit({
 				payload: {
 					"Id": 1,
@@ -164,7 +186,30 @@ describe('campaign tests', async () => {
 				},
 				auth: {
 					credentials: {
-	         			id: 2
+						id: 1
+					}
+				}
+			});
+
+	    	expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("\"Encounter Id\" 2 is invalid");
+		});
+
+		test('When requester is not the creator of the campaign', async () => {
+			const response = await campaignFactory.Edit({
+				payload: {
+					"Id": 3,
+					"Name": "same name",
+					"Summary": "same summary",
+					"Encounters": [
+						{"Id": 1}
+	          		]
+				},
+				auth: {
+					credentials: {
+	         			id: 1
 					}
 	        	}
 			});
@@ -178,11 +223,11 @@ describe('campaign tests', async () => {
 		test('When no campaign with given id', async () => {
 			const response = await campaignFactory.Edit({
 				payload: {
-					"Id": 2,
+					"Id": 4,
 					"Name": "same name",
 					"Summary": "same summary",
 	        		"Encounters": [
-						{"Id": 2}
+						{"Id": 1}
 					]
 				},
 				auth: {
@@ -195,7 +240,7 @@ describe('campaign tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("There is no such campaign saved.");
+			expect(response['messages'][0]).toBe("Campaign is not found.");
 		});
 
 	});
@@ -328,7 +373,7 @@ describe('campaign tests', async () => {
 					"Name": "Test",
 					"Summary": "Test",
 					"Encounters": [
-						{"Id": 3}
+						{"Id": 4}
 	          		]
 				},
 				auth: {
@@ -341,7 +386,7 @@ describe('campaign tests', async () => {
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("\"Encounter Id\" 3 is invalid");
+			expect(response['messages'][0]).toBe("\"Encounter Id\" 4 is invalid");
 		});
 
 		test('when credentials match the encounter', async () => {
@@ -519,6 +564,13 @@ describe('campaign get one tests', async () => {
 		campaign.Encounters = [encounter];
 		await campaign.save();
 
+		const campaign3 = new Campaign();
+		campaign3.Name = "Test3";
+		campaign3.Id = 3;
+		campaign3.Creator = user;
+		campaign3.Encounters = [encounter];
+		await campaign3.save();
+
 		const campaign2 = new Campaign();
 		campaign2.Name = "Test1";
 		campaign2.Id = 2;
@@ -536,6 +588,11 @@ describe('campaign get one tests', async () => {
 			params: {
 				campaignId: 1
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
 		
 		expect(response['status']).toBe(201);
@@ -549,6 +606,11 @@ describe('campaign get one tests', async () => {
 			params: {
 				campaignId: 4
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
 		
 		expect(response['status']).toBe(400);
@@ -561,6 +623,11 @@ describe('campaign get one tests', async () => {
 			params: {
 				campaignId: 'test'
 			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
 		});
 		
 		expect(response['status']).toBe(400);
@@ -571,7 +638,7 @@ describe('campaign get one tests', async () => {
 	test('when campaign Id is given properly', async () => {
 		const response = await campaign.GetOne({
 			params: {
-				campaignId: 1
+				campaignId: 3
 			},
 			auth: {
 				credentials: {
@@ -579,6 +646,8 @@ describe('campaign get one tests', async () => {
 				}
 			}
 		});
+
+		console.log(response)
 		
 		expect(response['status']).toBe(201);
 		expect(response['messages'].length).toBe(0);
@@ -604,7 +673,7 @@ describe('campaign get one tests', async () => {
 	test('when there is no campaign with that campaign Id', async () => {
 		const response = await campaign.GetOne({
 			params: {
-				campaignId: 3
+				campaignId: 4
 			},
 			auth: {
 				credentials: {
