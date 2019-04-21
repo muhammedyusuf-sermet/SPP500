@@ -166,7 +166,14 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 							<Typography id='Name' align='center' variant='h6' >{this.state.Encounter.Name}</Typography>
 						</Grid>
 						<Grid item xs={3} md={12}>
-							<Typography id='Turn' align='center' variant='body1' >{this.state.Turn}</Typography>
+							<Typography id='Turn' align='center' variant='body1' >
+								{
+									'Turn: '+
+									(this.state.Turn%this.state.Initiatives.length)+
+									', Round: '+
+									(Math.floor(this.state.Turn/this.state.Initiatives.length))
+								}
+							</Typography>
 						</Grid>
 						<Grid item xs={3} md={12}>
 							<Button id='NextTurn' fullWidth variant="contained" onClick={this.nextTurn} >
