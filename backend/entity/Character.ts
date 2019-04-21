@@ -6,6 +6,7 @@ import { User, IUserData } from "./User";
 export interface ICharacterData {
     Creator: IUserData;
 
+    Id: number;
     Name: string,
     Level: number,
     Race: CharacterRace,
