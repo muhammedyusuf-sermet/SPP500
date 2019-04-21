@@ -190,13 +190,13 @@ describe('Encounter Run', () => {
 			expect(encounterRunInstance.find('MonsterCRUD').props()).toEqual({"Id": 1, "Process": "Read"})
 		});
 
-		it('should edit monster', () => {
+		/*it('should edit monster', () => {
 			encounterRunInstance.update()
 			encounterRunInstance.find('button#Edit1').simulate('click')
 			expect(encounterRunInstance.find('MonsterCRUD').props()).toEqual({"Id": 1, "Process": "Edit"})
-		});
+		});*/
 
-		it('should change which monster to edit', () => {
+		it('should change which monster to view', () => {
 			encounterRunInstance.update()
 			encounterRunInstance.find('button#View2').simulate('click')
 			expect(encounterRunInstance.find('MonsterCRUD').props()).toEqual({"Id": 2, "Process": "Read"})
@@ -205,14 +205,14 @@ describe('Encounter Run', () => {
 			expect(encounterRunInstance.find('MonsterCRUD').props()).toEqual({"Id": 1, "Process": "Read"})
 		});
 
-		it('should change which monster to edit', () => {
+		/*it('should change which monster to edit', () => {
 			encounterRunInstance.update()
 			encounterRunInstance.find('button#Edit2').simulate('click')
 			expect(encounterRunInstance.find('MonsterCRUD').props()).toEqual({"Id": 2, "Process": "Edit"})
 
 			encounterRunInstance.find('button#Edit1').simulate('click')
 			expect(encounterRunInstance.find('MonsterCRUD').props()).toEqual({"Id": 1, "Process": "Edit"})
-		});
+		});*/
 
 		it('should track turn number', () => {
 			encounterRunInstance.update()
