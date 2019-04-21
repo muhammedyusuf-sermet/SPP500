@@ -10,6 +10,7 @@ import {Login} from "./login";
 import {MonsterFactory} from "./monster";
 import {EncounterFactory} from "./encounter";
 import {CampaignFactory} from "./campaign";
+import {CharacterFactory} from "./character";
 
 export const Server = new Hapi.Server({
 	port: 3000,
@@ -180,6 +181,15 @@ export const initServer = async () => {
 		handler: function (request) {
 			var campaign = new CampaignFactory();
 			return campaign.GetAll(request);
+		}
+	},
+	{
+		method: 'POST',
+		path: '/character/create', 
+		options: { auth: 'jwt' },
+		handler: function (request) {
+			var character = new CharacterFactory();
+			return character.Create(request);
 		}
 	},
 	{
