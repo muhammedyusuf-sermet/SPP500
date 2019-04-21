@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
-import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCreation';
+import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCRUD';
 
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 import { ViewGameComponents } from './components/platform/pages/ViewGameComponents';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
-import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, CampaignCRUDState } from "../src/renderer/components/CampaignCreation";
+import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, CampaignCRUDState } from "../src/renderer/components/CampaignCRUD";
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
