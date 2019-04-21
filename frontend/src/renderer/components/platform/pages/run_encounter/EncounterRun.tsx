@@ -24,6 +24,7 @@ export interface IEncounterRunState {
 		open: boolean;
 		message: string;
 	};
+	Initiatives: number[],
 	Encounter: IEncounterState
 }
 
@@ -44,6 +45,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 				open: false,
 				message: '',
 			},
+			Initiatives: [],
 			Encounter: {
 				Name: '',
 				Description: '',
@@ -75,6 +77,18 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		request(options)
 			.then((body: IEncounterGetOneResponse) => {
 				if (body.status == 201) { // success
+					const initiatives = []
+					for(let i = 0; i < body.content.Monsters.length; i++)
+						initiatives.push(i)
+					let tmp, current, top = initiatives.length;
+					if (top) {
+						while (--top) {
+							current = Math.floor(Math.random() * (top+1));
+							tmp = initiatives[current];
+							initiatives[current] = initiatives[top]
+							initiatives[top] = tmp;
+						}
+					}
 					this.setState({
 						Encounter: body.content
 					});
@@ -154,8 +168,8 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 									// TODO: change to unique id for the entity
 									//  at this time there is only one monster
 									//  per type for encounter. so this is unique.
-									Id={monster.Id ? monster.Id : 0}
-									Initiative={0}
+									Id={this.state.Encounter.Monsters[value].Id as number}
+									Initiative={index}
 									View={this.ViewMonster}
 									Edit={this.EditMonster}
 									Entity={{
