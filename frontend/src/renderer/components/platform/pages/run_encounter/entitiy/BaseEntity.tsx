@@ -68,13 +68,15 @@ export interface IBaseEntityState {
 	Stunned?: boolean,
 	Unconscious?: boolean,
 	CurrentHitPoints: number;
+	Temporary: number;
 }
 
 export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntityState> {
 	constructor(props: IBaseEntityProps) {
 		super(props);
 		this.state = {
-			CurrentHitPoints: this.props.Entity.HitPoints
+			CurrentHitPoints: this.props.Entity.HitPoints,
+			Temporary: 0
 		};
 	}
 
@@ -149,6 +151,17 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 									type='number'
 									value={this.state.CurrentHitPoints}
 									name='CurrentHitPoints'
+									onChange={this.handleNumberChange} />
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl className='formControl' fullWidth >
+								<InputLabel htmlFor="Temporary">Temporary HP</InputLabel>
+								<Input
+									id='Temporary'
+									type='number'
+									value={this.state.Temporary}
+									name='Temporary'
 									onChange={this.handleNumberChange} />
 							</FormControl>
 						</Grid>

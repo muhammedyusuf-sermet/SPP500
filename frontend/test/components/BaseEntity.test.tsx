@@ -4,7 +4,7 @@ import { mount, ReactWrapper, shallow } from 'enzyme';
 import { IBaseEntityProps, IBaseEntityState, BaseEntity } from '../../src/renderer/components/platform/pages/run_encounter/entitiy/BaseEntity';
 
 ////// Happy Path //////
-describe('Monster Defences', () => {
+describe('Base Entity', () => {
 
 	let baseEntityInstance: ReactWrapper<IBaseEntityProps, IBaseEntityState, BaseEntity>;
 	const view = jest.fn();
@@ -174,6 +174,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Unconscious').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 43,
+				Temporary: 0,
 				Blinded: true,
 				Charmed: true,
 				Deafened: true,
@@ -195,6 +196,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#CurrentHitPoints').simulate('change', { target: { value: '958' } })
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 958,
+				Temporary: 0,
 			});
 		})
 
@@ -202,6 +204,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Blinded').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Blinded: true
 			});
 		})
@@ -210,6 +213,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Charmed').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Charmed: true
 			});
 		})
@@ -218,6 +222,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Deafened').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Deafened: true
 			});
 		})
@@ -226,6 +231,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Frightened').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Frightened: true
 			});
 		})
@@ -234,6 +240,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Grappled').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Grappled: true
 			});
 		})
@@ -242,6 +249,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Incapacitated').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Incapacitated: true
 			});
 		})
@@ -250,6 +258,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Invisible').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Invisible: true
 			});
 		})
@@ -258,6 +267,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Paralyzed').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Paralyzed: true
 			});
 		})
@@ -266,6 +276,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Petrified').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Petrified: true
 			});
 		})
@@ -274,6 +285,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Poisoned').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Poisoned: true
 			});
 		})
@@ -282,6 +294,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Prone').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Prone: true
 			});
 		})
@@ -290,6 +303,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Restrained').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Restrained: true
 			});
 		})
@@ -298,6 +312,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Stunned').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Stunned: true
 			});
 		})
@@ -306,6 +321,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#Unconscious').simulate('change')
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 623,
+				Temporary: 0,
 				Unconscious: true
 			});
 		})
@@ -314,6 +330,7 @@ describe('Monster Defences', () => {
 			baseEntityInstance.find('input#CurrentHitPoints').simulate('change', { target: { value: '--1' } })
 			expect(baseEntityInstance.state()).toEqual({
 				CurrentHitPoints: 0,
+				Temporary: 0,
 			});
 		})
 	});
