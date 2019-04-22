@@ -1,19 +1,19 @@
-import { Campaign } from "./Campaign";
 import { User } from "./User";
-import { CharacterRace, CharacterClass} from "../CharacterEnums";
+import { CharacterRace, CharacterClass } from "../CharacterEnums";
+import { Campaign } from "./Campaign";
 
 export class Character {
     Creator: User;
     Id: number;
     Name: string;
     Level: number;
-    Race: CharacterRace = CharacterRace.Human;
-    Class: CharacterClass = CharacterClass.Fighter;
+    Race: CharacterRace;
+    Class: CharacterClass;
     MaxHealth: number;
     ArmorClass: number;
     Notes: string;
-    Campaigns: Campaign[];
 
+	Camppaigns: Campaign[];
     [key: string]: any|number|string|User|Campaign[]|(()=>void);
 
     static TableRows: Character[] = [];
