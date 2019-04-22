@@ -1,21 +1,29 @@
 import * as React from 'react';
 var request = require('request-promise-native');
 
+import { API_URL } from "../../config"
 // LEAVE THIS AS REQUIRE OR suffur from "TypeError: joi_1.default.string is not a function"
 const Joi = require('joi');
-import { ValidationError, ValidationOptions, ValidationErrorItem } from 'joi';
+import { ValidationError, ValidationOptions, ValidationErrorItem, Reference } from 'joi';
 
 import 'bulma/css/bulma.css';
-import { Button, Control, Field, Modal, ModalContent, ModalBackground, Box} from 'bloomer';
+import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloomer';
 import { Redirect } from "react-router-dom"
-import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
-import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
-import { ICampaignState } from '../../campaign';
+import { CampaignDetails } from './platform/pages/view_game_components/CampaignDetails';
+import { stateWithoutErrors } from '../../utils/StateSelection';
+import { Typography } from '@material-ui/core';
 
-interface ICampaignResponse {
-	status: number,
-	messages: string[]
+export interface IEncounterState{
+	Id?: number
+}
+
+export interface ICampaignState{
+	Id?: number;
+	Name: string;
+	Summary?: string;
+	Notes?: string;
+	Encounters?: IEncounterState[];
 }
 
 export enum CampaignCRUDState {
@@ -28,29 +36,36 @@ export interface ICampaignCRUDProps {
 	Process: CampaignCRUDState;
 	Id?: number;
 }
+
+export interface ICampaignCRUDState {
+	Process: CampaignCRUDState;
+	Id?: number;
+	submitted: boolean;
+	modal: {
+		open: boolean;
+		message: string;
+	};
+	Campaign: ICampaignState;
+}
+
+interface ICampaignCRUDResponse {
+	status: number,
+	messages: string[]
+}
+
 export interface ICampaignGetOneResponse {
 	status: number,
 	messages: string[],
 	content: ICampaignState,
 }
-export interface ICampaignCRUDState {
-	Process: CampaignCRUDState;
-	Id?: number;
-	submitted: boolean,
-	modal: {
-		open: boolean,
-		message: string
-	}
-	Campaign: ICampaignState;
-}
+
 
 export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignCRUDState> {
-
 	private payloadSchema = Joi.object({
 		Id: Joi.number().greater(0),
 		Name: Joi.string().required().max(50),
-		Summary: Joi.string().required().max(1000),
-		Notes: Joi.string().required().max(2000),
+		Summary: Joi.string().max(1000),
+		Notes: Joi.string().max(2000),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([])
@@ -67,6 +82,9 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	private CampaignDetails: React.RefObject<CampaignDetails>;
 	constructor(props: ICampaignCRUDProps) {
 		super(props);
+
+		this.CampaignDetails = React.createRef<CampaignDetails>();
+
 		this.state = {
 			Process: props.Process,
 			Id: props.Id,
@@ -77,12 +95,48 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 			},
 			Campaign: {
 				Name: '',
-				Summary: '',
-				Notes: '',
-				Encounters: []
 			}
 		}
-		this.CampaignDetails = React.createRef<CampaignDetails>();
+	}
+
+	componentWillReceiveProps(nextProps: ICampaignCRUDProps) {
+		if (nextProps.Process != CampaignCRUDState.Create && nextProps.Id != this.props.Id){
+			const options = { method: 'GET',
+				url: API_URL + '/campaign/' + nextProps.Id,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				json: true
+			};
+
+			request(options)
+				.then((body: ICampaignGetOneResponse) => {
+					if (body.status == 201) { // success
+						this.setState({
+							Id: body.content.Id ? body.content.Id : -1,
+							Campaign: body.content
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal("Error finding monster: "+body.messages.toString());
+					}else{
+						this.openModal("There was an error retreiving the monster. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request.")
+				})
+		} else if (nextProps.Process != this.props.Process) {
+			this.setState({
+				Process: nextProps.Process
+			});
+		}
 	}
 
 	componentDidMount() {
@@ -101,6 +155,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				.then((body: ICampaignGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
+							Id: body.content.Id ? body.content.Id : -1,
 							Campaign: body.content
 						});
 					} else if (body.messages) {
@@ -115,6 +170,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 					}
 				})
 				.catch((error: string) => {
+					console.log("CampaignCRUD ERROR:")
 					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
@@ -131,32 +187,34 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		this.setState({ modal: {...modal, open: false }});
 	};
 
-	createCampaign = (event: React.FormEvent) => {
+	submitForm = (event: React.FormEvent) => {
 		event.preventDefault();
-		this.saveCampaign();
+		this.validateForm();
 	}
-	private stateWithoutErrors(state: any): any
-	{
-		let newState: { [key: string]: number | string } = {};
-		for (let field in state) {
-			if (field.endsWith('Error'))
-				continue
-			if (state[field] != undefined)
-				newState[field] = state[field];
-		}
-		return newState;
+
+	stringToNumber = (toConvert : string) => {
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
-	saveCampaign = async (callback?: (message: string) => void) => {
-		// Gather the selected encounters for this campaign
-		//const checkedEncounterIds = [ ...this.state.checkedEncounters.keys() ];
-		//const selectedEncounters = encounters.filter(function(encounter){
-		//	return checkedEncounterIds.indexOf(encounter['Id']) > -1;
-		//});
-		const campaignDetailsState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
+
+	validateForm = async () => {
+		
+		const campaignState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
+
 		const campaignPayload = {
 			Id: this.state.Id,
-			...this.stateWithoutErrors(campaignDetailsState)
+			...stateWithoutErrors(campaignState)
 		};
+		const encounters: {Id?: number}[] = []
+		const numberPattern = /\d+/g;
+		const ids = campaignPayload.Encounters.match(numberPattern);
+		if (ids != null) {
+			ids.forEach((value: any) => {
+				encounters.push({ Id: this.stringToNumber(value)})
+			});
+		}
+		campaignPayload.Encounters = encounters
+
+		console.log(campaignPayload)
 		let validationErrors = Joi.validate(
 			campaignPayload,
 			this.payloadSchema,
@@ -165,8 +223,18 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				if(errors){
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
-						messages.add(error.message);
-					});
+						let message: string = ''
+						if ((error.type == 'any.allowOnly') && error.context && this.validateOptions) {
+							for (let valid of error.context.valids){
+								if (Joi.isRef(valid)){
+									const reference = valid as Reference
+									message += reference(null, this.validateOptions) + ',';
+								}
+							}
+						}
+						message = error.message.split('[')[0] + message.substr(0,message.length-1);
+						messages.add(message);
+					})
 					return Array.from(messages.values());
 				}else{
 					return undefined;
@@ -175,13 +243,14 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		);
 
 		if (validationErrors) {
+			console.log('CLIENT')
 			// These errors are from validation and may be irrelevent or out of date.
 			this.openModal(validationErrors.toString());
 		} else {
 			let route = '/campaign';
 			if (this.state.Process == CampaignCRUDState.Create) {
 				route += '/create';
-			} else {//if (this.state.Process == CampaignCRUDState.Edit) {
+			} else {
 				route += '/edit'
 			}
 			const options = { method: 'POST',
@@ -196,7 +265,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				json: true
 			};
 			await request(options)
-				.then((body: ICampaignResponse) => {
+				.then((body: ICampaignCRUDResponse) => {
 					if (body.status == 201) { // success
 						if (this.state.Process == CampaignCRUDState.Create) {
 							this.openModal("Campaign successfully created.");
@@ -212,48 +281,43 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
+						console.log('SERVER')
 						this.openModal(body.messages.toString());
 					}else{
+						console.log('SERVER')
 						this.openModal("There was an error submitting your request. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
+					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}
 	}
 
-	cancel = (event: React.FormEvent) => {
-		event.preventDefault();
-		this.setState({ submitted: true});
-	}
-
 	render() {
 		return (
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
-			<div>
-				<form id="createCampaignForm" onSubmit={this.createCampaign}>
+			<div className="campaign-CRUD-container" > 
+				<Typography variant='h6' >{this.state.Process} a Campaign</Typography>
+				<form onSubmit={this.submitForm}>
 					<CampaignDetails
-						disabled={false}
+						ref={this.CampaignDetails}
+						disabled={this.state.Process == CampaignCRUDState.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
-						ref={this.CampaignDetails}
-						initial= {{
-							//Name: undefined,
-							//Summary: undefined,
-							//Notes: undefined,
-							//Encounters: undefined
-							}}/>
-					<Field isGrouped>
-					    <Control>
-							{
-								this.state.Process == CampaignCRUDState.Read ? null :
-								<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
-							}
-					    </Control>
-					    <Control>
-					        <Button id="cancel" isLink onClick={this.cancel}>Cancel</Button>
-					    </Control>
+						initial={{
+							...this.state.Campaign
+						}} />
+					{this.state.Process == CampaignCRUDState.Read ? null :
+						<Field>
+							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
+						</Field>
+					}
+					<Field>
+						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
+							history.back();
+						}}>{this.state.Process == CampaignCRUDState.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 				</form>
 				<Modal id='CampaignCRUDModal' isActive={this.state.modal.open}>

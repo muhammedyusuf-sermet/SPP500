@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import { HomePage } from './components/Home';
 import { Platform } from './components/Platform';
-import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCreation';
+import { CampaignCRUD, CampaignCRUDState } from './components/CampaignCRUD';
 
 import { ViewCatalog } from './components/platform/pages/ViewCatalog';
 import { ViewGameComponents } from './components/platform/pages/ViewGameComponents';
@@ -42,6 +42,10 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/campaign/view/:Id" render={(props) => {
 									return (
 										<CampaignCRUD Process={CampaignCRUDState.Read} Id={props.match.params.Id} />
+									);}} />
+								<Route path="/campaign/edit/:Id" render={(props) => {
+									return (
+										<CampaignCRUD Process={CampaignCRUDState.Edit} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/monster/create" render={() => {
 									return (

@@ -1,5 +1,6 @@
 import { Encounter } from "./Encounter";
 import { User } from "./User";
+import { Character } from "./Character";
 
 export class Campaign {
     Creator: User;
@@ -7,9 +8,11 @@ export class Campaign {
     Name: string;
     Summary: string;
     Notes: string;
-    Encounters: Encounter[];
 
-    [key: string]: any|number|string|User|Encounter[]|(()=>void);
+    Encounters: Encounter[];
+    Characters: Character[];
+
+    [key: string]: any|number|string|User|Encounter[]|Character[]|(()=>void);
 
     static TableRows: Campaign[] = [];
 
@@ -78,7 +81,7 @@ export class Campaign {
         return result
     }
 
-    static findOne(a: any) {
+    static findOne(a: any): Campaign {
         return this.find(a)[0]
     }
 

@@ -5,6 +5,8 @@ import { User, IUserData } from "./User";
 
 export interface IEncounterData {
     Creator: IUserData;
+
+    Id: number;
     Name: string;
     Description: string;
 

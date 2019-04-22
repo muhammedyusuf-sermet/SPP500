@@ -5,7 +5,7 @@ import EncounterInstances from './encounter_instances';
 
 let encounterExample: Campaign.ICampaignState;
 encounterExample = {
-	Id: "",
+	Id: 0,
 	Name: "Campaign",
 	Summary: "Bloody hell...",
 	Notes: "You gonna die!",
@@ -18,7 +18,7 @@ let CampaignInstances = new Array();
 for (var i = 0; i < 12; i++) {
 	let encounter = {} as Campaign.ICampaignState;
 	Object.assign(encounter, encounterExample);
-	encounter['Id'] = i.toString();
+	encounter['Id'] = i;
 	CampaignInstances.push(encounter);
 }
 

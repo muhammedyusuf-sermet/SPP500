@@ -1,148 +1,150 @@
 import * as React from 'react';
-import * as request from 'request';
-import { Input, Control, Label, Button, Tile, Subtitle, Modal, ModalContent, ModalBackground, Box } from 'bloomer';
-import { API_URL } from "../../../../../config"
-import { CookieManager } from "../../../../../cookie";
-import * as EncounterInterface from '../../../../../encounter';
-import * as CampaignInterface from '../../../../../campaign';
+const Joi = require('joi');
+import { ValidationError, ValidationOptions, JoiObject } from 'joi';
 
 import 'bulma/css/bulma.css';
 
-interface ICampaignDeleteResponse {
-	status: number,
-	messages: string[]
+import { isDeepStrictEqual } from 'util';
+import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+
+export interface IEncounterState {
+	Id?: number
+}
+              
+export interface ICampaignDetailsProps {
+	disabled?: boolean,
+	// validation
+	PayloadSchema: JoiObject,
+	ValidationOptions: ValidationOptions,
+	// initial values
+	initial: {
+        Name?: string;
+        Summary?: string;
+        Notes?: string;
+        Encounters?: IEncounterState[];  
+    }
 }
 
 export interface ICampaignDetailsState {
-	campaign: CampaignInterface.ICampaignState,
-	modal: {
-		open: boolean,
-		message: string
-	}
+	// data
+	Name?: string;
+    Summary?: string;
+    Notes?: string;
+    Encounters?: string;
+	// errors
+	NameError?: string;
+    SummaryError?: string;
+    NotesError?: string;
+    EncountersError?: string;
 }
 
-export class CampaignDetails extends React.Component<any, ICampaignDetailsState> {
-	constructor(props: any) {
+export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICampaignDetailsState> {
+	constructor(props: ICampaignDetailsProps) {
 		super(props);
 		this.state = {
-			campaign: this.props.campaign,
-			modal: {
-				open: false,
-				message: ""
-			}
-		}
-		this.preprocessMissingCampaignData();
+            ...props.initial,
+            Encounters: props.initial.Encounters ? props.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
+        };
+    }
+
+    componentWillReceiveProps(nextProps: ICampaignDetailsProps) {
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+			this.setState({
+                ...nextProps.initial,
+                Encounters: nextProps.initial.Encounters ? nextProps.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
+			});
+    }
+    
+    handleStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        const name = event.currentTarget.name;
+        Joi.validate(
+            value,
+            Joi.reach(this.props.PayloadSchema, [name]),
+            this.props.ValidationOptions,
+            (errors: ValidationError) => {
+                this.setState({
+                    [name]: value,
+                    [name+'Error']: errors ? errors.details[0].message : undefined
+                });
+        });
+    }
+
+	stringToNumber = (toConvert : string) => {
+		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
-
-	isEmptyObject(obj: CampaignInterface.ICampaignState) {
-		for(var key in obj) {
-			if(obj.hasOwnProperty(key))
-				return false;
-		}
-		return true;
+	
+	handleCampaignEncounterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({
+			Encounters: event.target.value
+		})
 	}
-
-	// For now, we are not getting the encounters of an campaign from the backend.
-	// Once the backend is fixed, we can get rid of this function.
-	preprocessMissingCampaignData() {
-		let campaign = this.state.campaign;
-		if(campaign.Encounters == null){
-			campaign.Encounters = [] as EncounterInterface.IEncounterState[];
-		}
-	}
-
-	openModal = (messageText: string) => {
-		const modal = this.state.modal
-		this.setState({ modal: {...modal, open: true, message: messageText }});
-	};
-
-	closeModal = () => {
-		const modal = this.state.modal
-		this.setState({ modal: {...modal, open: false }});
-		this.props.resetParentState();
-	};
-
-	deleteCampaign = (event: React.FormEvent) => {
-		event.preventDefault();
-		let campaign = this.state.campaign;
-		var options = { method: 'POST',
-			url: API_URL + '/campaign/delete',
-			timeout: 2000,
-			headers:
-			{
-				'Cache-Control': 'no-cache',
-				'Content-Type': 'application/json' ,
-				'Authorization': CookieManager.UserToken('session_token')
-			},
-			body:
-			{
-				Id: campaign.Id,
-			},
-			json: true
-		};
-		request(options, (error: string, response: any, body: ICampaignDeleteResponse) => {
-			if (error) {
-				this.openModal("There has been a server error when deleting the campaign. Please try again later.");
-			} else {
-				let { status, messages } = body
-				if (status == 201){
-					this.openModal("The campaign is successfully deleted! Click anywhere to be redirected to the catalogue.");
-				}
-				else{
-					let message = "There has been an error deleting the campaign. "
-					if (messages) message = messages.join(' ');
-					this.openModal(message);
-				}
-			}
-		});
-	}
-
+	
 	render() {
-		if(!this.isEmptyObject(this.state.campaign)) {
-			let campaign = this.state.campaign;
-			return (
-				<div>
-					<form>
-						<h1 className="page-title">Campaign Details</h1>
-							<Control>
-								<Label>Campaign Name</Label>
-								<Input  value={campaign.Name} id="name" label="Campaign Name" readOnly/>
-							</Control>
-							<Control>
-								<Label>Campaign Summary</Label>
-								<Input  value={campaign.Summary} id="description" label="Campaign Summary" readOnly/>
-							</Control>
-							<Control>
-								<Label>Campaign Notes</Label>
-								<Input  value={campaign.Notes} id="description" label="Campaign Notes" readOnly/>
-							</Control>
-							<Tile className="box" isVertical>
-								<Subtitle>Encounters</Subtitle>
-								{campaign.Encounters.map(encounter => (
-									<Control key={encounter.Id}>
-										<Label>{encounter.Name} {encounter.Id}</Label>
-									</Control>
-								))}
-							</Tile>
-						<Button className="button" id="deleteCampaignButton" onClick = {this.deleteCampaign}> Delete Campaign </Button>
-						<Button className="button" type="submit" disabled> Edit Campaign </Button>
-						<Button className="button" onClick = {this.props.resetParentState}> Return to Game Components </Button>
-					</form>
-					<Modal id='campaignDeletionModal' isActive={this.state.modal.open}>
-						<ModalBackground id='modalBackground' onClick={()=>{
-							this.closeModal();
-						}}/>
-						<ModalContent>
-							<Box>
-								<span id="ModalMessage">{this.state.modal.message}</span>
-							</Box>
-						</ModalContent>
-					</Modal>
-				</div>
-			);
-		}
-		else{
-			return (<div id="errorMessageNoCampaign">No campaign is selected.</div>);
-		}
+		return (           
+            <Grid container spacing={8} >
+				<Grid item xs={12} >
+                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+						<InputLabel htmlFor="Name">Name</InputLabel>
+						<Input
+							id='Name'
+							type='text'
+							value={this.state.Name || ''}
+							name='Name'
+							onChange={this.handleStringChange}
+							aria-describedby="Name-helper-text" />
+						<FormHelperText error id="Name-helper-text">{this.state.NameError}</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item xs={12} >
+                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+						<InputLabel htmlFor="Summary">Summary</InputLabel>
+						<Input
+							id='Summary'
+                            type='text'
+                            multiline
+                            rows={10}
+                            rowsMax={10}
+							value={this.state.Summary || ''}
+							name='Summary'
+							onChange={this.handleStringChange}
+							aria-describedby="Summary-helper-text" />
+						<FormHelperText error id="Summary-helper-text">{this.state.SummaryError}</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item xs={12} >
+                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+						<InputLabel htmlFor="Notes">Notes</InputLabel>
+						<Input
+							id='Notes'
+                            type='text'
+                            multiline
+                            rows={10}
+                            rowsMax={10}
+							value={this.state.Notes || ''}
+							name='Notes'
+							onChange={this.handleStringChange}
+							aria-describedby="Notes-helper-text" />
+						<FormHelperText error id="Notes-helper-text">{this.state.NotesError}</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item xs={12} >
+                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+						<InputLabel htmlFor="Encounters">Encounter Id's</InputLabel>
+						<Input
+							id='Encounters'
+                            type='text'
+                            multiline
+                            rows={10}
+                            rowsMax={10}
+							value={this.state.Encounters || ''}
+							name='Encounters'
+							onChange={this.handleCampaignEncounterIdChange}
+							aria-describedby="Encounters-helper-text" />
+						<FormHelperText error id="Encounters-helper-text">{this.state.EncountersError}</FormHelperText>
+					</FormControl>
+				</Grid>
+			</Grid>
+		);
 	}
 }
