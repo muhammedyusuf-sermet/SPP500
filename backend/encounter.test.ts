@@ -388,8 +388,8 @@ describe('encounter delete tests', async () => {
 
  	test('When another user requests an encounter to delete when they are not the owner', async () => {
 		const response = await encounterFactory.Delete({
-			payload: {
-				"Id": 1
+			params: {
+				encounterId: 1
 			},
 			auth: {
 				credentials: {
@@ -400,13 +400,13 @@ describe('encounter delete tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-		expect(response['messages'][0]).toBe("Requester is not the creator of this encounter.");
+		expect(response['messages'][0]).toBe("Requester is not the owner.");
 	});
 
  	test('When owner of an encounter requests delete', async () => {
 		const response = await encounterFactory.Delete({
-			payload: {
-				"Id": 1
+			params: {
+				encounterId: 1
 			},
 			auth: {
 				credentials: {
@@ -422,8 +422,8 @@ describe('encounter delete tests', async () => {
 
 	test('When an invalid encounter is given', async () => {
 		const response = await encounterFactory.Delete({
-			payload: {
-				"Id": 2
+			params: {
+				encounterId: 2
 			},
 			auth: {
 				credentials: {
@@ -434,7 +434,24 @@ describe('encounter delete tests', async () => {
 		expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-		expect(response['messages'][0]).toBe("There is no such encounter saved.");
+		expect(response['messages'][0]).toBe("Encounter is not found.");
+	});
+
+	test('When an encounter is not a number', async () => {
+		const response = await encounterFactory.Delete({
+			params: {
+				encounterId: 'test'
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("Parameter 'encounterId' must be a number.");
 	});
 });
 
@@ -473,7 +490,7 @@ describe('encounter get all tests', async () => {
 
 
  	test('when page number and page size is given properly for first page', async () => {
-		const response = await encounter.GetAll({
+		const response = await encounter.GetMany({
 			params: {
 				page: 0,
 				size: 2
@@ -496,7 +513,7 @@ describe('encounter get all tests', async () => {
 	});
 
  	test('when page number and page size is given properly for last page', async () => {
-		const response = await encounter.GetAll({
+		const response = await encounter.GetMany({
 			params: {
 				page: 1,
 				size: 2
@@ -517,7 +534,7 @@ describe('encounter get all tests', async () => {
 	});
 
  	test('when page parameter is not number', async () => {
-		const response = await encounter.GetAll({
+		const response = await encounter.GetMany({
 			params: {
 				page: "test",
 				size: 2
@@ -536,7 +553,7 @@ describe('encounter get all tests', async () => {
 	});
 
  	test('when size parameter is not number', async () => {
-		const response = await encounter.GetAll({
+		const response = await encounter.GetMany({
 			params: {
 				page: 0,
 				size: "test"

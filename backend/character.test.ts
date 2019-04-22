@@ -184,6 +184,89 @@ describe('character tests', async () => {
 			expect(response['messages'][0]).toBe("success");
 		});
 	});
+	describe('encounter edit tests', () => {
+		let character = new CharacterFactory();
 
+		it('should not be ready', async () => {
+			const response = await character.Edit({
+				payload: {
+					"Id": 1,
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Not implemented");
+		});
+	});
+	describe('encounter delete tests', () => {
+		let character = new CharacterFactory();
+
+		it('should not be ready', async () => {
+			const response = await character.Delete({
+				params: {
+					characterId: 1,
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Not implemented");
+		});
+	});
+	describe('encounter get one tests', () => {
+		let character = new CharacterFactory();
+
+		it('should not be ready', async () => {
+			const response = await character.GetOne({
+				params: {
+					characterId: 1,
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Not implemented");
+		});
+	});
+	describe('encounter get many tests', () => {
+		let character = new CharacterFactory();
+
+		it('should not be ready', async () => {
+			const response = await character.GetMany({
+				params: {
+					characterId: 1,
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Not implemented");
+		});
+	});
 });
 

@@ -1597,7 +1597,7 @@ describe('monster get all tests', async () => {
 
 
 	test('when page number and page size is given properly for first page', async () => {
-		const response = await monster.GetAll({
+		const response = await monster.GetMany({
 			params: {
 				page: 0,
 				size: 2
@@ -1614,7 +1614,7 @@ describe('monster get all tests', async () => {
 	});
 
 	test('when page number and page size is given properly for last page', async () => {
-		const response = await monster.GetAll({
+		const response = await monster.GetMany({
 			params: {
 				page: 1,
 				size: 2
@@ -1630,7 +1630,7 @@ describe('monster get all tests', async () => {
 	});
 
 	test('when page parameter is not number', async () => {
-		const response = await monster.GetAll({
+		const response = await monster.GetMany({
 			params: {
 				page: "test",
 				size: 2
@@ -1644,7 +1644,7 @@ describe('monster get all tests', async () => {
 	});
 
 	test('when size parameter is not number', async () => {
-		const response = await monster.GetAll({
+		const response = await monster.GetMany({
 			params: {
 				page: 0,
 				size: "test"
