@@ -114,9 +114,40 @@ export class CharacterFactory implements IFactory {
 		}
 	};
 	public async GetOne(request: {auth: any, params: any}) {
+		const authInfo = request.auth;
+		var characterId = +request.params.characterId;
+		console.log(authInfo);
+		var messages: string[] = [];
+
+		if (isNaN(characterId)) {
+			messages.push("Parameter 'characterId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			const characterDb = await Character.findOne<Character>({
+				loadRelationIds: { relations: ['Creator', 'Campaigns'], disableMixedMap: true },
+				where: { Id: characterId }
+			});
+			if (characterDb) {
+				if (characterDb.Creator.Id == authInfo.credentials.id) {
+					delete characterDb.Creator
+					
+					return {
+						"status": 201,
+						"messages": messages,
+						"content": characterDb,
+					}
+				} else {
+					messages.push("Requester is not the owner.")
+				}
+			} else {
+				messages.push("Character is not found.")
+			}
+		}
 		return {
-			'status': 400,
-			'messages': ['Not implemented']
+			"status": 400,
+			"messages": messages,
+			"content": {},
 		}
 	};
 	public async GetMany(request: {auth: any, params: any}) {
