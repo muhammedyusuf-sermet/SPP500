@@ -43,10 +43,13 @@ export class MonsterDefences extends React.Component<IMonsterDefencesProps, IMon
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterDefencesProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	stringToNumber = (toConvert : string) => {

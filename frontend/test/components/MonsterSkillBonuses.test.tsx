@@ -257,6 +257,48 @@ describe('Monster SkillBonuses', () => {
 			expect(monsterSkillBonusesInstance.find('input#Performance').props().value).toEqual(7);
 			expect(monsterSkillBonusesInstance.find('input#Persuasion').props().value).toEqual(4);
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterSkillBonusesInstance.find('input#Athletics').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input[id="Sleight of Hand"]').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input[id="Animal Handling"]').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Acrobatics').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Stealth').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Arcana').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#History').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Investigation').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Nature').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Religion').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Insight').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Medicine').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Perception').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Survival').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Deception').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Intimidation').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Performance').props().disabled).toEqual(false);
+			expect(monsterSkillBonusesInstance.find('input#Persuasion').props().disabled).toEqual(false);
+			monsterSkillBonusesInstance.setProps({
+				disabled: true
+			})
+			expect(monsterSkillBonusesInstance.find('input#Athletics').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input[id="Sleight of Hand"]').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input[id="Animal Handling"]').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Acrobatics').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Stealth').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Arcana').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#History').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Investigation').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Nature').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Religion').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Insight').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Medicine').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Perception').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Survival').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Deception').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Intimidation').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Performance').props().disabled).toEqual(true);
+			expect(monsterSkillBonusesInstance.find('input#Persuasion').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {

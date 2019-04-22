@@ -114,6 +114,20 @@ describe('Monster Resistances', () => {
 			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().value).toEqual('This is test damage vulnerabilities');
 			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().value).toEqual('This is test condition immunities');
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterResistancesInstance.find('input#DamageResistances').props().disabled).toEqual(false);
+			expect(monsterResistancesInstance.find('input#DamageImmunities').props().disabled).toEqual(false);
+			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().disabled).toEqual(false);
+			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().disabled).toEqual(false);
+			monsterResistancesInstance.setProps({
+				disabled: true
+			})
+			expect(monsterResistancesInstance.find('input#DamageResistances').props().disabled).toEqual(true);
+			expect(monsterResistancesInstance.find('input#DamageImmunities').props().disabled).toEqual(true);
+			expect(monsterResistancesInstance.find('input#DamageVulnerabilities').props().disabled).toEqual(true);
+			expect(monsterResistancesInstance.find('input#ConditionImmunities').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {

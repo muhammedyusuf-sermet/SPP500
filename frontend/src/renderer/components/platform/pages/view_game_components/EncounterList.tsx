@@ -162,6 +162,9 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 										<Link to={ "/encounter/view/"+encounter.Id }>
 											View
 										</Link>
+									  <Link to={ "/encounter/run/"+encounter.Id }>
+										  Run
+									  </Link>
 										<Link to={ "/encounter/edit/"+encounter.Id }>
 											Edit
 										</Link>

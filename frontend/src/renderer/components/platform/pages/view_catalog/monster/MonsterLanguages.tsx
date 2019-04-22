@@ -33,10 +33,13 @@ export class MonsterLanguages extends React.Component<IMonsterLanguagesProps, IM
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterLanguagesProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	handleLanguagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {

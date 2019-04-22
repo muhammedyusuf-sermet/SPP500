@@ -95,6 +95,16 @@ describe('Monster SpeedBonuses', () => {
 			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().value).toEqual(20);
 			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().value).toEqual(40);
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().disabled).toEqual(false);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().disabled).toEqual(false);
+			monsterSpeedBonusesInstance.setProps({
+				disabled: true
+			})
+			expect(monsterSpeedBonusesInstance.find('input#SpeedLand').props().disabled).toEqual(true);
+			expect(monsterSpeedBonusesInstance.find('input#SpeedSwim').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {

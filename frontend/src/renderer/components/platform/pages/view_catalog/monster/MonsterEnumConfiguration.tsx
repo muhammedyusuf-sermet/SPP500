@@ -115,10 +115,13 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterEnumConfigurationProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	handleMonsterEnumChange = (name: string, newEnum?: string) => {

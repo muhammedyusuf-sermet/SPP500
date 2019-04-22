@@ -34,10 +34,13 @@ export class MonsterSkillBonuses extends React.Component<IMonsterSkillBonusesPro
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterSkillBonusesProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
+		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
 			this.setState({
 				...nextProps.initial
 			});
+		} else if (this.props.disabled != nextProps.disabled) {
+			this.forceUpdate();
+		}
 	}
 
 	private keyNames: string[] = [

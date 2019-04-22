@@ -130,6 +130,22 @@ describe('Monster Creation', () => {
 			expect(monsterEnumConfigurationInstance.find('select#Environment').props().value).toEqual('Coastal');
 			expect(monsterEnumConfigurationInstance.find('select#Alignment').props().value).toEqual('AnyEvilAlignment');
 		});
+
+		it('disables input if disable prop changes', () => {
+			expect(monsterEnumConfigurationInstance.find('select#Type').props().disabled).toEqual(false);
+			expect(monsterEnumConfigurationInstance.find('select#Size').props().disabled).toEqual(false);
+			expect(monsterEnumConfigurationInstance.find('select#Race').props().disabled).toEqual(false);
+			expect(monsterEnumConfigurationInstance.find('select#Environment').props().disabled).toEqual(false);
+			expect(monsterEnumConfigurationInstance.find('select#Alignment').props().disabled).toEqual(false);
+			monsterEnumConfigurationInstance.setProps({
+				disabled: true
+			})
+			expect(monsterEnumConfigurationInstance.find('select#Type').props().disabled).toEqual(true);
+			expect(monsterEnumConfigurationInstance.find('select#Size').props().disabled).toEqual(true);
+			expect(monsterEnumConfigurationInstance.find('select#Race').props().disabled).toEqual(true);
+			expect(monsterEnumConfigurationInstance.find('select#Environment').props().disabled).toEqual(true);
+			expect(monsterEnumConfigurationInstance.find('select#Alignment').props().disabled).toEqual(true);
+		});
 	});
 
 	describe('Small snapshot', () => {
