@@ -270,3 +270,9 @@ describe('character tests', async () => {
 	});
 });
 
+// Character Get One tests
+// When right id is given
+// Return the Character
+
+// When invalid id is given
+// Raise an error
