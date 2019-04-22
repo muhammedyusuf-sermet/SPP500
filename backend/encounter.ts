@@ -1,6 +1,7 @@
 import {Monster} from "./entity/Monster";
 import {User} from "./entity/User";
 import {Encounter} from "./entity/Encounter";
+import { IFactory } from "./monster";
 
 /*
 Sample curl request,
@@ -9,8 +10,8 @@ Sample curl request,
  --data '{"Name": "Test", "Description": "Sup", "Monsters": [ {"Id": 1, "Name": 3} ] }' \
  http://localhost:3000/create/encounter
  */
-export class EncounterFactory {
-	public async Create(request: {payload: any, auth: any}) {
+export class EncounterFactory implements IFactory {
+	public async Create(request: {auth: any, payload: any}) {
 		var messages = [];
 
 		const authInfo = request.auth;
@@ -68,7 +69,7 @@ export class EncounterFactory {
 
 	}
 
-	public async Edit(request: {payload: any, auth: any}) {
+	public async Edit(request: {auth: any, payload: any}) {
     var messages = [];
 
 		const authInfo = request.auth;
@@ -134,39 +135,40 @@ export class EncounterFactory {
 		}
   }
   
-	public async Delete(request: {payload: any, auth: any}) {
-		var messages = [];
+	public async Delete(request: {auth: any, params: any}) {
+		const encounterId = +request.params.encounterId
+		const messages: string[] = [];
 
-		const authInfo = request.auth;
-		const payload = request.payload;
- 		var encounter = await Encounter.findOne({ Id: payload.Id, Creator : { Id: authInfo.credentials.id} });
+		if (isNaN(encounterId)) {
+			messages.push("Parameter 'encounterId' must be a number.")
+		}
 
- 		if (!encounter) {
- 			encounter = await Encounter.findOne({ Id: payload.Id});
-
- 			if (encounter) {
-				messages.push("Requester is not the creator of this encounter.")	
+		if (messages.length == 0) {
+			const encounterDb = await Encounter.findOne<Encounter>({
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+				where: { Id: encounterId }
+			});
+			if (encounterDb) {
+				if (encounterDb.Creator.Id == request.auth.credentials.id) {
+					await encounterDb.remove()
+					return {
+						"status": 201,
+						"messages": ['success'],
+					}
+				} else {
+					messages.push("Requester is not the owner.")
+				}
 			} else {
-				messages.push("There is no such encounter saved.")
+				messages.push("Encounter is not found.")
 			}
- 		}
-
- 		if (messages.length == 0 && encounter) {
-			await encounter.remove();
-
- 			return {
-				"status": 201,
-				"messages": ["success"]
-			}
- 		} else {
-			return {
-				"status": 400,
-				"messages": messages
-			}
+		}
+		return {
+			"status": 400,
+			"messages": messages,
 		}
 	}
 
-	public async GetOne(request: {params: any, auth: any}) {
+	public async GetOne(request: {auth: any, params: any}) {
   	const authInfo = request.auth;
 		const encounterId = +request.params.encounterId;
 
@@ -209,7 +211,7 @@ export class EncounterFactory {
 		}
 	}
 
-	public async GetAll(request: {params: any, auth: any}) {
+	public async GetMany(request: {auth: any, params: any}) {
 		const authInfo = request.auth;
 		var pageNumber = +request.params.page;
 		var pageSize = +request.params.size;

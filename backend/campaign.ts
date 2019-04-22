@@ -19,8 +19,9 @@ Sample curl request,
  http://localhost:3000/campaign/create
  */
 import Joi, { ValidationError, ValidationErrorItem } from 'joi';
+import { IFactory } from "./monster";
 
-export class CampaignFactory {
+export class CampaignFactory implements IFactory {
 	private payloadSchema = Joi.object({
 		Name: Joi.string().required().max(50),
 		Summary: Joi.string().required().max(1000),
@@ -29,7 +30,7 @@ export class CampaignFactory {
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([])
 	});
-	public async Create(request: {payload: any, auth: any}) {
+	public async Create(request: {auth: any, payload: any}) {
 		const allEncounters: Encounter[] = await Encounter.find(
 			{
 				select: ["Id"],
@@ -96,7 +97,7 @@ export class CampaignFactory {
 		);
 	}
 
-	public async Edit(request: {payload: any, auth: any}) {
+	public async Edit(request: {auth: any, payload: any}) {
 		var messages = [];
 
 		const authInfo = request.auth;
@@ -169,7 +170,7 @@ export class CampaignFactory {
 	}
 
 
-	public async Delete(request: {payload: any, auth: any}) {
+	public async Delete(request: {auth: any, payload: any}) {
 		var messages = [];
 
 		const authInfo = request.auth;
@@ -201,7 +202,7 @@ export class CampaignFactory {
     }
   }
   
-  	public async GetOne(request: {params: any, auth: any}) {
+  	public async GetOne(request: {auth: any, params: any}) {
   		const authInfo = request.auth;
 		var campaignId = +request.params.campaignId;
 		
@@ -248,7 +249,7 @@ export class CampaignFactory {
 		}
 	}
 
-	public async GetAll(request: {params: any, auth: any}) {
+	public async GetMany(request: {auth: any, params: any}) {
 		const authInfo = request.auth;
 		var pageNumber = +request.params.page;
 		var pageSize = +request.params.size;

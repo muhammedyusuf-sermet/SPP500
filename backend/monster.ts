@@ -63,7 +63,18 @@ Sample curl request,
 }' \
  http://localhost:3000/monster/create
  */
-export class MonsterFactory {
+// TODO: Move to a new file because this is not specific to monster
+import { Request } from "hapi";
+// TODO: Move to a new file because this is not specific to monster
+export interface IFactory{
+	Create: (request: Request) => Promise<any>;
+	Edit: (request: Request) => Promise<any>;
+	Delete: (request: Request) => Promise<any>;
+	GetOne: (request: Request) => Promise<any>;
+	GetMany: (request: Request) => Promise<any>;
+}
+
+export class MonsterFactory implements IFactory {
 	private skillNameSchema = Joi.object({
 		Skills: Joi.object().pattern(
 			Joi.symbol().valid(Joi.ref('$SkillOptions')),
@@ -513,7 +524,7 @@ export class MonsterFactory {
 		);
 	}
 
-	public async Delete(request: any){
+	public async Delete(request: {params: any}){
 		const monsterId = +request.params.monsterId;
 		const messages: string[] = [];
 		
@@ -552,7 +563,7 @@ export class MonsterFactory {
 		}
 	}
 
-	public async GetOne(request: any) {
+	public async GetOne(request: {params: any}) {
 		var monsterId = +request.params.monsterId;
 		
 		var messages: string[] = [];
@@ -601,7 +612,7 @@ export class MonsterFactory {
 		}
 	}
 
-	public async GetAll(request: any) {
+	public async GetMany(request: {params: any}) {
 		var pageNumber = +request.params.page;
 		var pageSize = +request.params.size;
 		

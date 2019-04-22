@@ -17,8 +17,9 @@ Sample curl request,
  http://localhost:3000/character/create
  */
 import Joi, { ValidationError, ValidationErrorItem } from 'joi';
+import { IFactory } from "./monster";
 
-export class CharacterFactory {
+export class CharacterFactory implements IFactory {
 	private payloadSchema = Joi.object({
 		Id: Joi.number().label('Id'),
 		Name: Joi.string().required().max(50).label('Name'),
@@ -32,7 +33,7 @@ export class CharacterFactory {
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CampaignOptions')).label('Campaign Id')
 		})).default([])
 	});
-	public async Create(request: {payload: any, auth: any}) {
+	public async Create(request: {auth: any, payload: any}) {
 		const allCampaigns: Campaign[] = await Campaign.find(
 			{
 				select: ["Id"],
@@ -100,4 +101,28 @@ export class CharacterFactory {
 			}
 		);
 	}
+	public async Edit(request: {auth: any, payload:any}) {
+		return {
+			'status': 400,
+			'messages': ['Not implemented']
+		}
+	};
+	public async Delete(request: {auth: any, params: any}) {
+		return {
+			'status': 400,
+			'messages': ['Not implemented']
+		}
+	};
+	public async GetOne(request: {auth: any, params: any}) {
+		return {
+			'status': 400,
+			'messages': ['Not implemented']
+		}
+	};
+	public async GetMany(request: {auth: any, params: any}) {
+		return {
+			'status': 400,
+			'messages': ['Not implemented']
+		}
+	};
 }
