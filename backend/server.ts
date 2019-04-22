@@ -144,11 +144,11 @@ export const initServer = async () => {
 		handler: function (request) {
 			var campaign = new CampaignFactory();
 			return campaign.Edit(request);
-      }
+	  	}
 	},
 	{
-		method: 'POST',
-		path: '/campaign/delete', 
+		method: 'DELETE',
+		path: '/campaign/{campaignId}',
 		options: { auth: 'jwt' },
 		handler: function (request) {
 			var campaign = new CampaignFactory();

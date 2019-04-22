@@ -1,29 +1,31 @@
-import { Encounter } from "./Encounter";
 import { User } from "./User";
-import { Character } from "./Character";
+import { CharacterRace, CharacterClass } from "../CharacterEnums";
+import { Campaign } from "./Campaign";
 
-export class Campaign {
+export class Character {
     Creator: User;
     Id: number;
     Name: string;
-    Summary: string;
+    Level: number;
+    Race: CharacterRace;
+    Class: CharacterClass;
+    MaxHealth: number;
+    ArmorClass: number;
     Notes: string;
 
-    Encounters: Encounter[];
-    Characters: Character[];
+	Camppaigns: Campaign[];
+    [key: string]: any|number|string|User|Campaign[]|(()=>void);
 
-    [key: string]: any|number|string|User|Encounter[]|Character[]|(()=>void);
+    static TableRows: Character[] = [];
 
-    static TableRows: Campaign[] = [];
-
-    static find(a: any): Campaign[] {
-        var result = Campaign.TableRows.slice(0);
+    static find(a: any): Character[] {
+        var result = Character.TableRows.slice(0);
         var skip = -1;
         var take = -1;
 
         if (a.select) {
             if (a.where) {
-                return Campaign.find(a.where);
+                return Character.find(a.where);
             } else {
                 return result;
             }
@@ -38,7 +40,7 @@ export class Campaign {
                     query["take"] = a.take;   
                 }
 
-                return Campaign.find(query);
+                return Character.find(query);
             } else {
                 if (a.skip) {
                     skip = a.skip;
@@ -56,13 +58,13 @@ export class Campaign {
             if (typeof value == 'object') {
                 for (let key2 in value) {
                     let value2 = value[key2]
-                    result = result.filter(function (el: Campaign) {
+                    result = result.filter(function (el: Character) {
                         return el[key][key2] == value2;
                     });
                 }
             } else {
                 if (key != "skip" && key != "take") {
-                    result = result.filter(function (el: Campaign) {
+                    result = result.filter(function (el: Character) {
                         return el[key] == value;
                     });
                 }
@@ -81,22 +83,22 @@ export class Campaign {
         return result
     }
 
-    static findOne(a: any): Campaign {
+    static findOne(a: any) {
         return this.find(a)[0]
     }
 
     remove() {
-        var index = Campaign.TableRows.indexOf(this);
+        var index = Character.TableRows.indexOf(this);
         if (index !== -1) {
-            Campaign.TableRows.splice(index, 1);
+            Character.TableRows.splice(index, 1);
         } 
     }
 
     save() {
-        Campaign.TableRows.push(this)
+        Character.TableRows.push(this)
     }
 
     static clear() {
-        Campaign.TableRows = [];
+        Character.TableRows = [];
     }
 }

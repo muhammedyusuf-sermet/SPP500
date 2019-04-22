@@ -5,9 +5,12 @@ import { Character, ICharacterData } from "./Character";
 
 export interface ICampaignData {
     Creator: IUserData;
+
+    Id: number;
     Name: string;
-    Summary: string;
-    Notes: string;
+    Summary?: string;
+    Notes?: string;
+
     Encounters: IEncounterData[];
     Characters: ICharacterData[];
 }
@@ -29,13 +32,15 @@ export class Campaign extends BaseEntity implements ICampaignData {
 
     @Column({
         type: "varchar",
-        length: 1000
+        length: 1000,
+        nullable: true
     })
     Summary: string;
 
     @Column({
         type: "varchar",
-        length: 2000
+        length: 2000,
+        nullable: true
     })
     Notes: string;
 

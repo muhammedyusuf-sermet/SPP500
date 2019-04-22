@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
 import {EncounterList} from './view_game_components/EncounterList';
-import {CampaignList} from './view_game_components/CampaignList';
+import {Campaign} from './view_game_components/Campaign';
 
 import '../../../css/platform/pages/view_game_components.css';
 
@@ -42,7 +42,7 @@ export const ViewGameComponents: React.StatelessComponent<{}> = () => {
 				</Tabs>
 			</AppBar>
 			{value === 0 && <TabContainer><EncounterList/></TabContainer>}
-			{value === 1 && <TabContainer><CampaignList/></TabContainer>}
+			{value === 1 && <TabContainer><Campaign/></TabContainer>}
 			</div>
 		</div>
 	);
