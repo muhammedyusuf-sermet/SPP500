@@ -7,14 +7,63 @@ import * as JWTHapi from "hapi-auth-jwt2";
 import {User} from "./entity/User";
 import {Registration} from "./registration";
 import {Login} from "./login";
-import {MonsterFactory} from "./monster";
+import {MonsterFactory, IFactory} from "./monster";
 import {EncounterFactory} from "./encounter";
 import {CampaignFactory} from "./campaign";
+import {CharacterFactory} from "./character";
 
 export const Server = new Hapi.Server({
 	port: 3000,
 	host: '0.0.0.0'
 });
+
+function makeCRUDRoutes(root: string, Factory: new () => IFactory) {
+	return [{
+		method: 'POST',
+		path: `/${root}/create`, 
+		options: { auth: 'jwt' },
+		handler: function (request: Hapi.Request) {
+			var factory = new Factory();
+			return factory.Create(request);
+		}
+	},
+	{
+		method: 'POST',
+		path: `/${root}/edit`,
+		options: { auth: 'jwt' },
+		handler: function (request: Hapi.Request) {
+			var factory = new Factory();
+			return factory.Edit(request);
+		}
+	},
+	{
+		method: 'DELETE',
+		path: `/${root}/{${root}Id}`,
+		options: { auth: 'jwt' },
+		handler: function (request: Hapi.Request) {
+			var factory = new Factory();
+			return factory.Delete(request);
+		}
+	},
+	{
+		method: 'GET',
+		path: `/${root}/{${root}Id}`,
+		options: { auth: 'jwt' },
+		handler: function (request: Hapi.Request) {
+			var factory = new Factory();
+			return factory.GetOne(request);
+		}
+	},
+	{
+		method: 'GET',
+		path: `/${root}/get/{page}/{size}`, 
+		options: { auth: 'jwt' },
+		handler: function (request: Hapi.Request) {
+			var factory = new Factory();
+			return factory.GetMany(request);
+		}
+	}]
+}
 
 export const initServer = async () => {
 	await Server.register(JWTHapi);
@@ -47,141 +96,10 @@ export const initServer = async () => {
 			return log.Login(request);
 		}
 	},
-	{
-		method: 'POST',
-		path: '/monster/create', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var monster = new MonsterFactory();
-			return monster.Create(request);
-		}
-	},
-	{
-		method: 'POST',
-		path: '/monster/edit',
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var monster = new MonsterFactory();
-			return monster.Edit(request);
-		}
-	},
-	{
-		method: 'DELETE',
-		path: '/monster/{monsterId}',
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var monster = new MonsterFactory();
-			return monster.Delete(request);
-		}
-	},
-	{
-		method: 'GET',
-		path: '/monster/{monsterId}',
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var monster = new MonsterFactory();
-			return monster.GetOne(request);
-		}
-	},
-	{
-		method: 'GET',
-		path: '/monster/get/{page}/{size}', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var monster = new MonsterFactory();
-			return monster.GetAll(request);
-		}
-	},
-	{
-		method: 'POST',
-		path: '/encounter/create', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var encounter = new EncounterFactory();
-			return encounter.Create(request);
-		}
-	},
-	{
-		method: 'POST',
-		path: '/encounter/edit', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var encounter = new EncounterFactory();
-			return encounter.Edit(request);
-		}
-	},
-	{
-		method: 'POST',
-		path: '/encounter/delete', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var encounter = new EncounterFactory();
-			return encounter.Delete(request);
-		}
-	},
-	{
-		method: 'GET',
-		path: '/encounter/{encounterId}',
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var encounter = new EncounterFactory();
-			return encounter.GetOne(request);
-		}
-	},
-	{
-		method: 'GET',
-		path: '/encounter/get/{page}/{size}', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var encounter = new EncounterFactory();
-			return encounter.GetAll(request);
-		}
-	},
-	{
-		method: 'POST',
-		path: '/campaign/edit', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var campaign = new CampaignFactory();
-			return campaign.Edit(request);
-	  	}
-	},
-	{
-		method: 'DELETE',
-		path: '/campaign/{campaignId}',
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var campaign = new CampaignFactory();
-			return campaign.Delete(request);
-		}
-	},
-	{
-		method: 'POST',
-		path: '/campaign/create', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var campaign = new CampaignFactory();
-			return campaign.Create(request);
-		}
-	},
-	{
-		method: 'GET',
-		path: '/campaign/{campaignId}',
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var campaign = new CampaignFactory();
-			return campaign.GetOne(request);
-		}
-	},
-	{
-		method: 'GET',
-		path: '/campaign/get/{page}/{size}', 
-		options: { auth: 'jwt' },
-		handler: function (request) {
-			var campaign = new CampaignFactory();
-			return campaign.GetAll(request);
-		}
-	},
+	...makeCRUDRoutes('monster', MonsterFactory),
+	...makeCRUDRoutes('encounter', EncounterFactory),
+	...makeCRUDRoutes('campaign', CampaignFactory),
+	...makeCRUDRoutes('character', CharacterFactory),
 	{
 		method: 'GET',
 		path: '/verify', 

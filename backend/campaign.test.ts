@@ -446,7 +446,7 @@ describe('campaign tests', async () => {
 		var campaignFactory = new CampaignFactory();
 
 		test('when page number and page size is given properly for first page', async () => {
-			const response = await campaignFactory.GetAll({
+			const response = await campaignFactory.GetMany({
 				params: {
 					page: 0,
 					size: 2
@@ -468,7 +468,7 @@ describe('campaign tests', async () => {
 		});
 
 	 	test('when page number and page size is given properly for last page', async () => {
-			const response = await campaignFactory.GetAll({
+			const response = await campaignFactory.GetMany({
 				params: {
 					page: 1,
 					size: 2
@@ -489,7 +489,7 @@ describe('campaign tests', async () => {
 		});
 
 	 	test('when page parameter is not number', async () => {
-			const response = await campaignFactory.GetAll({
+			const response = await campaignFactory.GetMany({
 				params: {
 					page: "test",
 					size: 2
@@ -508,7 +508,7 @@ describe('campaign tests', async () => {
 		});
 
 	 	test('when size parameter is not number', async () => {
-			const response = await campaignFactory.GetAll({
+			const response = await campaignFactory.GetMany({
 				params: {
 					page: 0,
 					size: "test"

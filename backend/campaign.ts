@@ -20,8 +20,9 @@ Sample curl request,
  http://localhost:3000/campaign/create
  */
 import Joi, { ValidationError, ValidationErrorItem } from 'joi';
+import { IFactory } from "./monster";
 
-export class CampaignFactory {
+export class CampaignFactory implements IFactory {
 	private payloadSchema = Joi.object({
 		Id: Joi.number().greater(0),
 		Name: Joi.string().required().max(50),
@@ -34,7 +35,7 @@ export class CampaignFactory {
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CharacterOptions')).label('Character Id')
 		})).default([])
 	});
-	public async Create(request: {payload: any, auth: any}) {
+	public async Create(request: {auth: any, payload: any}) {
 		const allEncounters: Encounter[] = await Encounter.find(
 			{
 				select: ["Id"],
@@ -231,7 +232,7 @@ export class CampaignFactory {
 		);
 	}
 
-	public async Delete(request: any){
+	public async Delete(request: {auth: any, params: any}){
 		const campaignId = +request.params.campaignId;
 		const messages: string[] = [];
 		if (isNaN(campaignId)) {
@@ -262,9 +263,9 @@ export class CampaignFactory {
 			"messages": messages,
 		}
 	}
-
-  	public async GetOne(request: {params: any, auth: any}) {
-  		const authInfo = request.auth;
+  
+  public async GetOne(request: {params: any, auth: any}) {
+  	const authInfo = request.auth;
 		var campaignId = +request.params.campaignId;
 		
 		var messages: string[] = [];
@@ -303,7 +304,7 @@ export class CampaignFactory {
 		}
 	}
 
-	public async GetAll(request: {params: any, auth: any}) {
+	public async GetMany(request: {auth: any, params: any}) {
 		const authInfo = request.auth;
 		var pageNumber = +request.params.page;
 		var pageSize = +request.params.size;
