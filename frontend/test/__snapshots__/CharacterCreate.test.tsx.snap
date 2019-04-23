@@ -2805,8 +2805,10 @@ exports[`Character CRUD create Happy Path renders correctly when the page is loa
                   "_type": "number",
                   "_unit": null,
                   "_valids": InternalSet {
-                    "_hasRef": false,
-                    "_set": Set {},
+                    "_hasRef": 0,
+                    "_set": Set {
+                      0,
+                    },
                   },
                   "isJoi": true,
                 },

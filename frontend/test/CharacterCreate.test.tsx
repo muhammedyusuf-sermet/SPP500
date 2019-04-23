@@ -103,9 +103,9 @@ describe('Character CRUD create', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			const shallowCharacterCrud = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Create} />);
+			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Create} />);
 
-			expect(shallowCharacterCrud).toMatchSnapshot();
+			expect(shallowCharacterCRUD).toMatchSnapshot();
 		});
 
 		it('should be able to send character name only to create', async (done) => {

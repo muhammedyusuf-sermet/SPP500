@@ -7,7 +7,7 @@ import { ICharacterDetailsProps, ICharacterDetailsState, CharacterDetails } from
 import { CharacterRace, CharacterClass } from '../../src/character';
 
 const payloadSchema = Joi.object({
-	Id: Joi.number().greater(0),
+	Id: Joi.number().greater(0).allow(0),
 	Name: Joi.string().required().max(50).label("Name"),
 	Level: Joi.number().integer().greater(0).label("Level"),
 	Race: Joi.string().valid(Joi.ref('$RaceOptions')).label('Race'),

@@ -54,7 +54,7 @@ export interface ICharacterGetOneResponse {
 
 export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharacterCRUDState> {
 	private payloadSchema = Joi.object({
-		Id: Joi.number().greater(0),
+		Id: Joi.number().greater(0).allow(0),
 		Name: Joi.string().required().max(50).label("Name"),
 		Level: Joi.number().integer().greater(0).label("Level"),
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
@@ -124,9 +124,9 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
-						this.openModal("Error finding monster: "+body.messages.toString());
+						this.openModal("Error finding character: "+body.messages.toString());
 					}else{
-						this.openModal("There was an error retreiving the monster. Please try again later.")
+						this.openModal("There was an error retreiving the character. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
@@ -164,9 +164,9 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
-						this.openModal("Error finding campaign: "+body.messages.toString());
+						this.openModal("Error finding character: "+body.messages.toString());
 					}else{
-						this.openModal("There was an error retreiving the campaign. Please try again later.")
+						this.openModal("There was an error retreiving the character. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
