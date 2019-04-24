@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import 'bulma/css/bulma.css';
-import '../../../../../css/app.css';
 
 import { Input, Select } from '@material-ui/core';
 
