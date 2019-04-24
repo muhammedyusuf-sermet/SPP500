@@ -45,11 +45,12 @@ export class NavBar extends React.Component<any, INavBarState> {
 						{ (auth: IAuthProviderState) =>
 							(auth.isAuth) ? (
 								<NavbarStart className='is-light' onClick={this.closeNav}>
-									<Link className='navbar-item' to="/encounter/create">Create Encounter</Link>
-									<Link className='navbar-item' to="/campaign/create">Create Campaign</Link>								
-									<Link className='navbar-item' to="/monster/create">Create Monster</Link>
-									<Link className='navbar-item' to="/catalog">View Catalog</Link>
-									<Link className='navbar-item' to="/game_components">View Game Components</Link>
+									<Link className='navbar-item' to="/encounter/create" replace >Create Encounter</Link>
+									<Link className='navbar-item' to="/campaign/create" replace >Create Campaign</Link>
+									<Link className='navbar-item' to="/monster/create" replace >Create Monster</Link>
+									<Link className='navbar-item' to="/character/create" replace >Create Character</Link>
+									<Link className='navbar-item' to="/catalog" replace >View Catalog</Link>
+									<Link className='navbar-item' to="/game_components" replace >View Game Components</Link>
 								</NavbarStart>
 							) : (
 								<NavbarStart className='is-light' onClick={this.closeNav}>
