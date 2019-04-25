@@ -62,10 +62,10 @@ export interface ICampaignGetOneResponse {
 
 export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignCRUDState> {
 	private payloadSchema = Joi.object({
-		Id: Joi.number().greater(0),
-		Name: Joi.string().required().max(50),
-		Summary: Joi.string().max(1000),
-		Notes: Joi.string().max(2000),
+		Id: Joi.number().greater(0).allow(0),
+		Name: Joi.string().required().max(50).label("Name"),
+		Summary: Joi.string().max(1000).label("Summary"),
+		Notes: Joi.string().max(2000).label("Notes"),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([])
