@@ -3,7 +3,7 @@ import { mount, ReactWrapper, shallow } from 'enzyme';
 const Joi = require('joi');
 import { ValidationOptions } from 'joi';
 
-import { ICharacterDetailsProps, ICharacterDetailsState, CharacterDetails } from '../../src/renderer/components/platform/pages/view_game_components/CharacterDetails';
+import { ICharacterDetailsProps, ICharacterDetailsState, CharacterDetails } from '../../src/renderer/components/platform/pages/view_catalog/character/CharacterDetails';
 import { CharacterRace, CharacterClass } from '../../src/character';
 
 const payloadSchema = Joi.object({

@@ -10,7 +10,7 @@ import 'bulma/css/bulma.css';
 import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
-import { CharacterDetails } from './platform/pages/view_game_components/CharacterDetails';
+import { CharacterDetails } from './platform/pages/view_catalog/character/CharacterDetails';
 //import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
 import { ICharacterData, CharacterRace, CharacterClass } from '../../character';

@@ -7,7 +7,6 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import { CharacterRace, CharacterClass, ICharacterData } from '../../../../../character';
-//import { ICampaignState } from '../../../../../campaign';
 import { EnumDropdown } from '../../../helpers/EnumDropdown';
 import { stateWithoutErrors } from '../../../../../utils/StateSelection';
 
