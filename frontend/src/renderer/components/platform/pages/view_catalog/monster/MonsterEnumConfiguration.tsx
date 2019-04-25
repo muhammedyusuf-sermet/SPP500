@@ -7,74 +7,16 @@ import '../../../../../css/app.css';
 
 import { MonsterType, MonsterRace, Size, Environment, Alignment } from '../../../../../../monster';
 import { isDeepStrictEqual } from 'util';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, Input, FormHelperText, Grid, Select, Tooltip } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, FormControl, InputLabel, FormHelperText, Grid, Tooltip } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {Help} from "bloomer";
+import { Help } from "bloomer";
+import { EnumDropdown } from '../../../../helpers/EnumDropdown';
 
 const types = Object.values(MonsterType);
 const sizes = Object.values(Size);
 const races = Object.values(MonsterRace);
 const environments = Object.values(Environment);
 const alignments = Object.values(Alignment);
-
-export interface IMonsterDropdownProps {
-	disabled?: boolean,
-	name: string,
-	selected?: string,
-	options: string[]
-	onChange: (name: string, selectOption?: string) => void
-}
-
-export interface IMonsterDropdownState {
-	selected: string
-}
-
-export class MonsterDropdown extends React.Component<IMonsterDropdownProps, IMonsterDropdownState> {
-	constructor(props: IMonsterDropdownProps) {
-		super(props);
-		this.state = {
-			selected: props.selected ? props.selected : 'Default'
-		};
-	}
-
-	componentWillReceiveProps(nextProps: IMonsterDropdownProps) {
-		if (this.state.selected != nextProps.selected)
-			this.setState({
-				selected: nextProps.selected ? nextProps.selected : 'Default'
-			});
-	}
-
-	handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		this.setState({selected: event.target.value});
-		this.props.onChange(this.props.name, event.target.value);
-	}
-
-	render() {
-		return (
-			<Select
-				native={true}
-				id={this.props.name}
-				disabled={this.props.disabled}
-				onChange={this.handleChange}
-				value={this.state.selected}
-				input={<Input name={this.props.name} id={this.props.name} />} >
-				<option
-					id={this.props.name+'.'+'Default'}
-					value='' >
-					Default
-				</option>
-				{this.props.options.map(option =>
-					<option
-						key={this.props.name+'.'+option}
-						id={this.props.name+'.'+option}
-						value={option}>
-						{option.replace(/([A-Z])/g, ' $1').trim()}
-					</option>
-				)}
-			</Select>
-		);
-	}
-}
 
 export interface IMonsterEnumConfigurationProps {
 	disabled?: boolean,
@@ -161,7 +103,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 						<Grid item xs={4} >
 							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 								<InputLabel htmlFor='Type' >Type</InputLabel>
-								<MonsterDropdown
+								<EnumDropdown
 									disabled={this.props.disabled}
 									selected={this.state.Type}
 									name='Type'
@@ -176,7 +118,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 						<Grid item xs={4} >
 							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 								<InputLabel htmlFor='Size' >Size</InputLabel>
-								<MonsterDropdown
+								<EnumDropdown
 									disabled={this.props.disabled}
 									selected={this.state.Size}
 									name='Size'
@@ -191,7 +133,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 						<Grid item xs={4} >
 							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 								<InputLabel htmlFor='Race' >Race</InputLabel>
-								<MonsterDropdown
+								<EnumDropdown
 									disabled={this.props.disabled}
 									selected={this.state.Race}
 									name='Race'
@@ -206,7 +148,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 						<Grid item xs={6} >
 							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 								<InputLabel htmlFor='Alignment' >Alignment</InputLabel>
-								<MonsterDropdown
+								<EnumDropdown
 									disabled={this.props.disabled}
 									selected={this.state.Alignment}
 									name='Alignment'
@@ -221,7 +163,7 @@ export class MonsterEnumConfiguration extends React.Component<IMonsterEnumConfig
 						<Grid item xs={6} >
 							<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 								<InputLabel htmlFor='Environment' >Environment</InputLabel>
-								<MonsterDropdown
+								<EnumDropdown
 									disabled={this.props.disabled}
 									selected={this.state.Environment}
 									name='Environment'

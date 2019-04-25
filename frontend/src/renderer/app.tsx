@@ -17,6 +17,7 @@ import { MonsterCRUD, MonsterCRUDState } from './components/MonsterCRUD';
 import { EncounterRun } from './components/platform/pages/run_encounter/EncounterRun';
 
 import { EncounterCRUD, EncounterCRUDState } from './components/EncounterCRUD';
+import { CharacterCRUDProcess, CharacterCRUD } from './components/CharacterCRUD';
 
 interface IAppProps { }
 
@@ -62,7 +63,18 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/monster/edit/:Id" render={(props) => {
 									return (
 										<MonsterCRUD Process={MonsterCRUDState.Edit} Id={props.match.params.Id} />
-
+									);}} />
+								<Route path="/character/create" render={() => {
+									return (
+										<CharacterCRUD Process={CharacterCRUDProcess.Create} />
+									);}} />
+								<Route path="/character/view/:Id" render={(props) => {
+									return (
+										<CharacterCRUD Process={CharacterCRUDProcess.Read} Id={props.match.params.Id} />
+									);}} />
+								<Route path="/character/edit/:Id" render={(props) => {
+									return (
+										<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/encounter/create" render={() => {
 									return (

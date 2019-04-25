@@ -37,7 +37,7 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
           >
             Type
           </WithStyles(WithFormControlContext(InputLabel))>
-          <MonsterDropdown
+          <EnumDropdown
             disabled={false}
             name="Type"
             onChange={[Function]}
@@ -91,7 +91,7 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
           >
             Size
           </WithStyles(WithFormControlContext(InputLabel))>
-          <MonsterDropdown
+          <EnumDropdown
             disabled={false}
             name="Size"
             onChange={[Function]}
@@ -136,7 +136,7 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
           >
             Race
           </WithStyles(WithFormControlContext(InputLabel))>
-          <MonsterDropdown
+          <EnumDropdown
             disabled={false}
             name="Race"
             onChange={[Function]}
@@ -192,7 +192,7 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
           >
             Alignment
           </WithStyles(WithFormControlContext(InputLabel))>
-          <MonsterDropdown
+          <EnumDropdown
             disabled={false}
             name="Alignment"
             onChange={[Function]}
@@ -251,7 +251,7 @@ exports[`Monster Creation Small snapshot matches snapshot 1`] = `
           >
             Environment
           </WithStyles(WithFormControlContext(InputLabel))>
-          <MonsterDropdown
+          <EnumDropdown
             disabled={false}
             name="Environment"
             onChange={[Function]}
