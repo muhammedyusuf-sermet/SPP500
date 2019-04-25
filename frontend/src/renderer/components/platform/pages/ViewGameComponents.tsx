@@ -9,7 +9,7 @@ import {Campaign} from './view_game_components/Campaign';
 
 import '../../../css/platform/pages/view_game_components.css';
 import { RouteComponentProps, Route } from 'react-router';
-import { CharacterList } from './view_catalog/CharacterList';
+import { CharacterList } from './view_game_components/CharacterList';
 
 export interface IViewGameComponentsProps extends RouteComponentProps{
 }
