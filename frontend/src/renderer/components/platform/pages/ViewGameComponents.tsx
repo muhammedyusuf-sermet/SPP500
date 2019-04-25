@@ -1,49 +1,59 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
+
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 import {EncounterList} from './view_game_components/EncounterList';
 import {Campaign} from './view_game_components/Campaign';
 
 import '../../../css/platform/pages/view_game_components.css';
+import { RouteComponentProps, Route } from 'react-router';
+import { CharacterList } from './view_catalog/CharacterList';
 
-type AppProps = {}
-
-function TabContainer(props: TabContainer.propTypes) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
+export interface IViewGameComponentsProps extends RouteComponentProps{
 }
 
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+export interface IViewGameComponentsState {
+	value: string;
+}
 
-export const ViewGameComponents: React.StatelessComponent<{}> = () => {
-	const [value, setValue] = React.useState(0);
-
-	function handleChange(event: AppProps, newValue: number) {
-		setValue(newValue);
+export class ViewGameComponents extends React.Component<IViewGameComponentsProps, IViewGameComponentsState> {
+	constructor(props: IViewGameComponentsProps) {
+		super(props);
+		this.state = {
+			value: props.location.pathname.split('/').pop() || ''
+		}
 	}
 
-	return (
-		<div className="view-game-components-container">
-			<h1 className="page-title">View Encounters</h1>
-			<div className= "tab-root">
-			<AppBar position="static">
-				<Tabs value={value} onChange={handleChange}>
-					<Tab label="Encounters" />
-					<Tab label="Campaigns" />
-				</Tabs>
-			</AppBar>
-			{value === 0 && <TabContainer><EncounterList/></TabContainer>}
-			{value === 1 && <TabContainer><Campaign/></TabContainer>}
+	componentWillReceiveProps(nextProps: IViewGameComponentsProps) {
+		this.setState({
+			value: nextProps.location.pathname.split('/').pop() || ''
+		});
+	}
+
+	render() {
+		return (
+			<div className="view-game-components-container">
+				<h1 className="page-title">View Catalog Items</h1>
+				<div className= "tab-root">
+					<AppBar position="static">
+						<Route render={({history}) => (
+							<Tabs value={this.state.value} onChange={(event, newValue) => {
+									history.replace('/game_components/'+newValue);
+									this.setState({value: newValue});
+								}}>
+								<Tab label="Encounters" value='encounters' />
+								<Tab label="Campaigns" value='campaigns' />
+								<Tab label="Characters" value='characters' />
+							</Tabs>
+						)} />
+					</AppBar>
+					<Route path={`${this.props.match.url}/encounters`} component={EncounterList} />
+					<Route path={`${this.props.match.url}/campaigns`} component={Campaign} />
+					<Route path={`${this.props.match.url}/characters`} component={CharacterList} />
+				</div>
 			</div>
-		</div>
-	);
+		);
+	}
 }
