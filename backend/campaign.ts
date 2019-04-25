@@ -24,10 +24,10 @@ import { IFactory } from "./monster";
 
 export class CampaignFactory implements IFactory {
 	private payloadSchema = Joi.object({
-		Id: Joi.number().greater(0),
-		Name: Joi.string().required().max(50),
-		Summary: Joi.string().allow('').max(1000),
-		Notes: Joi.string().allow('').max(2000),
+		Id: Joi.number().greater(0).label('Id'),
+		Name: Joi.string().required().max(50).label('Name'),
+		Summary: Joi.string().allow('').max(1000).label('Summary'),
+		Notes: Joi.string().allow('').max(2000).label('Notes'),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([]),
