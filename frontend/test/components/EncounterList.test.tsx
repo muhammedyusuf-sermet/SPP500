@@ -22,30 +22,10 @@ describe('Test the EncounterList View Details', () => {
 		expect(encounterListInstance).toMatchSnapshot();
 	});
 
-	it('should update the state variables when View button is clicked for a encounter', () => {
-		let selectedEncounter: EncounterInterface.IEncounterState;
-		selectedEncounter = {} as EncounterInterface.IEncounterState;
-		encounterListInstance.instance().view(selectedEncounter);
-
-		expect(encounterListInstance.state('viewEncounter')).toEqual(true);
-		expect(encounterListInstance.state('selectedEncounter')).toEqual(selectedEncounter);
-	});
-
-	it('should update the state variables when Edit button is clicked for a encounter', () => {
-		let selectedEncounter: EncounterInterface.IEncounterState;
-		selectedEncounter = {} as EncounterInterface.IEncounterState;
-		encounterListInstance.instance().edit(selectedEncounter);
-
-		expect(encounterListInstance.state('editEncounter')).toEqual(true);
-		expect(encounterListInstance.state('selectedEncounter')).toEqual(selectedEncounter);
-	});
-
 	it('should update the state variables when resetState function is called', () => {
 		encounterListInstance.instance().resetState();
 
-		expect(encounterListInstance.state('viewEncounter')).toEqual(false);
-		expect(encounterListInstance.state('editEncounter')).toEqual(false);
-		expect(encounterListInstance.state('selectedEncounter')).toEqual({} as EncounterInterface.IEncounterState);
+		expect(encounterListInstance.state().page).toEqual(0);
 	});
 
 	it('should make an GET request to retrieve encounters when getPaginatedEncounters function is called', () => {
