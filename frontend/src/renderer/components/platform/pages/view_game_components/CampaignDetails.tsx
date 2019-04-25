@@ -6,6 +6,8 @@ import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { stateWithoutErrors } from '../../../../../utils/StateSelection';
+import { ICampaignState } from '../../../../../campaign';
 
 export interface IEncounterState {
 	Id?: number
@@ -56,19 +58,19 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
     }
     
     handleStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        const name = event.currentTarget.name;
-        Joi.validate(
-            value,
-            Joi.reach(this.props.PayloadSchema, [name]),
-            this.props.ValidationOptions,
-            (errors: ValidationError) => {
-                this.setState({
-                    [name]: value,
-                    [name+'Error']: errors ? errors.details[0].message : undefined
-                });
-        });
-    }
+		const value = /^\s*$/.test(event.target.value) ? undefined : event.target.value;
+		const name = event.currentTarget.name;
+		Joi.validate(
+			value,
+			Joi.reach(this.props.PayloadSchema, [name]),
+			this.props.ValidationOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					[name]: value,
+					[name+'Error']: errors ? errors.details[0].message : undefined
+				});
+		});
+	}
 
 	stringToNumber = (toConvert : string) => {
 		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
@@ -79,7 +81,11 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 			Encounters: event.target.value
 		})
 	}
-	
+
+	public GetData = (): ICampaignState => {
+		return stateWithoutErrors(this.state);
+	}
+
 	render() {
 		return (           
             <Grid container spacing={8} >
