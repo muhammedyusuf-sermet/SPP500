@@ -8,19 +8,20 @@ import Typography from '@material-ui/core/Typography';
 import {Monster} from './view_catalog/Monster';
 
 import '../../../css/platform/pages/view_catalog.css';
+import { CharacterList } from './view_catalog/CharacterList';
 
 type AppProps = {}
 
 function TabContainer(props: TabContainer.propTypes) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
+	return (
+		<Typography component="div" style={{ padding: 8 * 3 }}>
+			{props.children}
+		</Typography>
+	);
 }
 
 TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
+	children: PropTypes.node.isRequired,
 };
 
 export const ViewCatalog: React.StatelessComponent<{}> = () => {
@@ -48,7 +49,7 @@ export const ViewCatalog: React.StatelessComponent<{}> = () => {
 			{value === 1 && <TabContainer>Equipment</TabContainer>}
 			{value === 2 && <TabContainer>Locations</TabContainer>}
 			{value === 3 && <TabContainer>Buildings</TabContainer>}
-			{value === 4 && <TabContainer>Characters</TabContainer>}
+			{value === 4 && <TabContainer><CharacterList/></TabContainer>}
 			{value === 5 && <TabContainer>Spells</TabContainer>}
 			</div>
 		</div>

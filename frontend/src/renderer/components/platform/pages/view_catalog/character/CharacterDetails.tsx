@@ -6,9 +6,10 @@ import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
-import { CharacterRace, CharacterClass, ICharacterData } from '../../../../../character';
-import { EnumDropdown } from '../../../helpers/EnumDropdown';
-import { stateWithoutErrors } from '../../../../../utils/StateSelection';
+
+import { EnumDropdown } from '../../../../helpers/EnumDropdown';
+import { stateWithoutErrors } from '../../../../../../utils/StateSelection';
+import { ICharacterData, CharacterRace, CharacterClass } from '../../../../../../character';
 
 const races = Object.values(CharacterRace);
 const classes = Object.values(CharacterClass);
