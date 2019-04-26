@@ -1,4 +1,4 @@
-import {Character} from "./entity/Character";
+import {Character, ICharacterData} from "./entity/Character";
 import {Campaign} from "./entity/Campaign";
 import {User} from "./entity/User";
 import {CharacterClass, CharacterRace } from "./entity/CharacterEnums";
@@ -63,7 +63,7 @@ export class CharacterFactory implements IFactory {
 			request.payload,
 			this.payloadSchema,
 			options,
-			async (errors: ValidationError, value: any) => {
+			async (errors: ValidationError, value: ICharacterData) => {
 				if(errors) {
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
