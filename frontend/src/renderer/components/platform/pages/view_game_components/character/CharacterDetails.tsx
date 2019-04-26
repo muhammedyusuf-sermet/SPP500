@@ -10,6 +10,7 @@ import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-
 import { EnumDropdown } from '../../../../helpers/EnumDropdown';
 import { stateWithoutErrors } from '../../../../../../utils/StateSelection';
 import { ICharacterData, CharacterRace, CharacterClass } from '../../../../../../character';
+import { ICampaignData } from '../../../../../../campaign';
 
 const races = Object.values(CharacterRace);
 const classes = Object.values(CharacterClass);
@@ -24,16 +25,7 @@ export interface ICharacterDetailsProps {
 	PayloadSchema: JoiObject,
 	ValidationOptions: ValidationOptions,
 	// initial values
-	initial: {
-		Name?: string;
-		Level?: number;
-		Race?: CharacterRace;
-		Class?: CharacterClass;
-		MaxHealth?: number;
-		ArmorClass?: number;
-		Notes?: string;
-		//Campaigns?: ICampaignState[];
-	}
+	Character: ICharacterData
 }
 
 export interface ICharacterDetailsState {
@@ -45,7 +37,7 @@ export interface ICharacterDetailsState {
 	MaxHealth?: number;
 	ArmorClass?: number;
 	Notes?: string;
-	//Campaigns?: string;
+	Campaigns?: ICampaignData[];
 	// errors
 	NameError?: string;
 	LevelError?: string;
@@ -54,23 +46,21 @@ export interface ICharacterDetailsState {
 	MaxHealthError?: string;
 	ArmorClassError?: string;
 	NotesError?: string;
-	//CampaignsError?: string;
+	CampaignsError?: string;
 }
 
 export class CharacterDetails extends React.Component<ICharacterDetailsProps, ICharacterDetailsState> {
 	constructor(props: ICharacterDetailsProps) {
 		super(props);
 		this.state = {
-			...props.initial,
-			//Campaigns: props.initial.Campaigns ? props.initial.Campaigns.map((value)=>(value.Id)).join(',') : ''
+			...props.Character,
 		};
 	}
 
 	componentWillReceiveProps(nextProps: ICharacterDetailsProps) {
-		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false) {
+		if (isDeepStrictEqual(this.props.Character, nextProps.Character) == false) {
 			this.setState({
-				...nextProps.initial,
-				//Campaigns: nextProps.initial.Campaigns ? nextProps.initial.Campaigns.map((value)=>(value.Id)).join(',') : ''
+				...nextProps.Character,
 			});
 		} else if (this.props.disabled != nextProps.disabled) {
 			this.forceUpdate();

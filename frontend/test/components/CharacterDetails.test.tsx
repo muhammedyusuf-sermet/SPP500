@@ -40,7 +40,7 @@ describe('Character Details', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						initial={{
+						Character={{
 							Name: 'Hello',
 							Level: 3,
 							Race: CharacterRace.Dragonborn,
@@ -93,7 +93,7 @@ describe('Character Details', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						initial={{
+						Character={{
 							Name: 'Hello',
 							Level: 3,
 							Race: CharacterRace.Dragonborn,
@@ -111,7 +111,7 @@ describe('Character Details', () => {
 
 		it('renders new props', () => {
 			characterDetailsInstance.setProps({
-				initial: {
+				Character: {
 					Name: 'NewName',
 					Level: 5,
 					Race: CharacterRace.Elf,
@@ -132,7 +132,7 @@ describe('Character Details', () => {
 
 		it('renders without crashing with same props', () => {
 			characterDetailsInstance.setProps({
-				initial: {
+				Character: {
 					Name: 'Hello',
 					Level: 3,
 					Race: CharacterRace.Dragonborn,
@@ -177,7 +177,7 @@ describe('Character Details', () => {
 				disabled: false,
 				PayloadSchema: payloadSchema,
 				ValidationOptions: validateOptions,
-				initial: {
+				Character: {
 					Name: 'Hello',
 					Level: 3,
 					Race: CharacterRace.Dragonborn,
@@ -198,7 +198,7 @@ describe('Character Details', () => {
 				disabled: false,
 				PayloadSchema: payloadSchema,
 				ValidationOptions: validateOptions,
-				initial: {
+				Character: {
 					Name: 'NewName',
 					Level: 5,
 					Race: CharacterRace.Elf,
@@ -227,7 +227,7 @@ describe('Character Details', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						initial={{}}/>
+						Character={{}}/>
 				);
 			expect(shallowCharacterDetailsInstance).toMatchSnapshot();
 		});
@@ -242,7 +242,7 @@ describe('Character Details', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						initial={{}} />
+						Character={{}} />
 				);
 		})
 
