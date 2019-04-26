@@ -227,7 +227,7 @@ describe('Character Details', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						Character={{}}/>
+						Character={{ Name: '' }}/>
 				);
 			expect(shallowCharacterDetailsInstance).toMatchSnapshot();
 		});
@@ -242,7 +242,7 @@ describe('Character Details', () => {
 						disabled={false}
 						PayloadSchema={payloadSchema}
 						ValidationOptions={validateOptions}
-						Character={{}} />
+						Character={{ Name: '' }} />
 				);
 		})
 
