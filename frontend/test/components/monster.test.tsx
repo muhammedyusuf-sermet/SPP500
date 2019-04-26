@@ -33,7 +33,7 @@ describe('Test the Monster View Details', () => {
 
 		nock(API_URL)
 		.get('/monster/get/0/12')
-		.reply(201, { status: 201, message: 'success', total: 1, content: [] as MonsterInterface.IMonsterState[] });
+		.reply(201, { status: 201, message: 'success', total: 1, content: [] as MonsterInterface.IMonsterData[] });
 	});
 
 	it('should return the total number of pages when getTotalPages function is called', () => {

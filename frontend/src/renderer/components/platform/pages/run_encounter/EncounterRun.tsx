@@ -5,7 +5,7 @@ import { CookieManager } from '../../../../../cookie';
 
 import 'bulma/css/bulma.css';
 
-import { IEncounterState } from '../../../../../encounter';
+import { IEncounterData } from '../../../../../encounter';
 import { Modal, ModalBackground, ModalContent, Box } from 'bloomer';
 import { Grid, Typography, Button, TextField } from '@material-ui/core';
 import { BaseEntity } from './entitiy/BaseEntity';
@@ -27,13 +27,13 @@ export interface IEncounterRunState {
 		message: string;
 	};
 	Initiatives: number[],
-	Encounter: IEncounterState
+	Encounter: IEncounterData
 }
 
 export interface IEncounterGetOneResponse {
 	status: number,
 	messages: string[],
-	content: IEncounterState,
+	content: IEncounterData,
 }
 
 export class EncounterRun extends React.Component<IEncounterRunProps, IEncounterRunState> {

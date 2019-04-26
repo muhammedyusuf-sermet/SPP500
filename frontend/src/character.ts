@@ -1,4 +1,4 @@
-import { ICampaignState } from "./campaign";
+import { ICampaignData } from "./campaign";
 
 export enum CharacterRace {
 	Dragonborn = "Dragonborn",
@@ -37,5 +37,5 @@ export interface ICharacterData {
 	ArmorClass?: number;
 	Notes?: string;
 
-	Campaigns?: ICampaignState[];
+	Campaigns?: ICampaignData[];
 }

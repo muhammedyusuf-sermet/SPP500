@@ -18,7 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 interface IMonsterGetResponse {
 	status: number,
 	messages: string[],
-	content: MonsterInterface.IMonsterState[],
+	content: MonsterInterface.IMonsterData[],
 	total: number,
 }
 
@@ -31,7 +31,7 @@ export interface IMonsterState {
 	page: number,
 	pageSize: number,
 	totalMonsters: number,
-	monstersInCurrentPage: MonsterInterface.IMonsterState[],
+	monstersInCurrentPage: MonsterInterface.IMonsterData[],
 }
 
 export class Monster extends React.Component<any, IMonsterState> {
@@ -41,7 +41,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 			page: 0,
 			pageSize: 12,
 			totalMonsters: 0,
-			monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
+			monstersInCurrentPage: [] as MonsterInterface.IMonsterData[],
 		}
 		this.resetState = this.resetState.bind(this);
 		this.updatePage = this.updatePage.bind(this);
@@ -101,7 +101,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 				// There was an error retrieving the monsters. Just return empty array.
 				// No need to print a modal.
 				this.setState({
-						monstersInCurrentPage: [] as MonsterInterface.IMonsterState[],
+						monstersInCurrentPage: [] as MonsterInterface.IMonsterData[],
 						totalMonsters: 0,
 				});
 			}

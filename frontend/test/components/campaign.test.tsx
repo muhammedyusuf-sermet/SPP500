@@ -33,7 +33,7 @@ describe('Test the Campaign View Details', () => {
 
 		nock(API_URL)
 		.get('/campaign/get/0/12')
-		.reply(201, { status: 201, message: 'success', total: 1, content: [] as CampaignInterface.ICampaignState[] });
+		.reply(201, { status: 201, message: 'success', total: 1, content: [] as CampaignInterface.ICampaignData[] });
 	});
 
 	it('should return the total number of pages when getTotalPages function is called', () => {

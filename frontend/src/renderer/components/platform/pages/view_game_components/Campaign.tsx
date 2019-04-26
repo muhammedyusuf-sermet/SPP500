@@ -18,7 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 interface ICampaignGetResponse {
 	status: number,
 	messages: string[],
-	content: CampaignInterface.ICampaignState[],
+	content: CampaignInterface.ICampaignData[],
 	total: number,
 }
 
@@ -31,7 +31,7 @@ export interface ICampaignState {
 	page: number,
 	pageSize: number,
 	totalCampaigns: number,
-	campaignsInCurrentPage: CampaignInterface.ICampaignState[],
+	campaignsInCurrentPage: CampaignInterface.ICampaignData[],
 }
 
 export class Campaign extends React.Component<any, ICampaignState> {
@@ -41,7 +41,7 @@ export class Campaign extends React.Component<any, ICampaignState> {
 			page: 0,
 			pageSize: 12,
 			totalCampaigns: 0,
-			campaignsInCurrentPage: [] as CampaignInterface.ICampaignState[],
+			campaignsInCurrentPage: [] as CampaignInterface.ICampaignData[],
 		}
 		this.resetState = this.resetState.bind(this);
 		this.updatePage = this.updatePage.bind(this);
@@ -101,7 +101,7 @@ export class Campaign extends React.Component<any, ICampaignState> {
 				// There was an error retrieving the campaigns. Just return empty array.
 				// No need to print a modal.
 				this.setState({
-						campaignsInCurrentPage: [] as CampaignInterface.ICampaignState[],
+						campaignsInCurrentPage: [] as CampaignInterface.ICampaignData[],
 						totalCampaigns: 0,
 				});
 			}
