@@ -28,7 +28,7 @@ export class CharacterFactory implements IFactory {
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
 		MaxHealth: Joi.number().integer().greater(0).label('MaxHealth'),
 		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
-		Notes: Joi.string().max(1000).default(""),
+		Notes: Joi.string().max(1000),
 		Campaigns: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CampaignOptions')).label('Campaign Id')
 		})).default([])
@@ -116,7 +116,7 @@ export class CharacterFactory implements IFactory {
 	public async GetOne(request: {auth: any, params: any}) {
 		const authInfo = request.auth;
 		var characterId = +request.params.characterId;
-		console.log(authInfo);
+		
 		var messages: string[] = [];
 
 		if (isNaN(characterId)) {
