@@ -26,10 +26,15 @@ export class ViewCatalog extends React.Component<IViewCatalogProps, IViewCatalog
 		console.log(props.location.pathname)
 	}
 
-	componentWillReceiveProps(nextProps: IViewCatalogProps) {
+	componentWillReceiveProps = (nextProps: IViewCatalogProps) => {
 		this.setState({
 			value: nextProps.location.pathname.split('/').pop() || ''
 		});
+	}
+
+	changeTab = (event: React.ChangeEvent<{}>, newValue: string) => {
+		this.props.history.replace('/catalog/'+newValue);
+		this.setState({value: newValue});
 	}
 
 	render() {
@@ -38,18 +43,13 @@ export class ViewCatalog extends React.Component<IViewCatalogProps, IViewCatalog
 				<h1 className="page-title">View Catalog Items</h1>
 				<div className= "tab-root">
 					<AppBar position="static">
-						<Route render={({history}) => (
-							<Tabs value={this.state.value} onChange={(event, newValue) => {
-									history.replace('/catalog/'+newValue);
-									this.setState({value: newValue});
-								}}>
-								<Tab label="Monsters" value='monsters' />
-								<Tab label="Equipment" value='equipment' />
-								<Tab label="Locations" value='locations' />
-								<Tab label="Buildings" value='buildings' />
-								<Tab label="Spells" value='spells' />
-							</Tabs>
-						)} />
+						<Tabs value={this.state.value} onChange={this.changeTab}>
+							<Tab label="Monsters" value='monsters' />
+							<Tab label="Equipment" value='equipment' />
+							<Tab label="Locations" value='locations' />
+							<Tab label="Buildings" value='buildings' />
+							<Tab label="Spells" value='spells' />
+						</Tabs>
 					</AppBar>
 					<Route path={`${this.props.match.url}/monsters`} component={Monster} />
 					<Route path={`${this.props.match.url}/equipment`} render={() => (

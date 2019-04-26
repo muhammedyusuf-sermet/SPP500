@@ -22,14 +22,19 @@ export class ViewGameComponents extends React.Component<IViewGameComponentsProps
 	constructor(props: IViewGameComponentsProps) {
 		super(props);
 		this.state = {
-			value: props.location.pathname.split('/').pop() || ''
+			value: props.location.pathname.split('/').pop() || 'encounters'
 		}
 	}
 
 	componentWillReceiveProps(nextProps: IViewGameComponentsProps) {
 		this.setState({
-			value: nextProps.location.pathname.split('/').pop() || ''
+			value: nextProps.location.pathname.split('/').pop() || 'encounters'
 		});
+	}
+
+	changeTab = (event: React.ChangeEvent<{}>, newValue: string) => {
+		this.props.history.replace('/game_components/'+newValue);
+		this.setState({value: newValue});
 	}
 
 	render() {
@@ -38,16 +43,11 @@ export class ViewGameComponents extends React.Component<IViewGameComponentsProps
 				<h1 className="page-title">View Catalog Items</h1>
 				<div className= "tab-root">
 					<AppBar position="static">
-						<Route render={({history}) => (
-							<Tabs value={this.state.value} onChange={(event, newValue) => {
-									history.replace('/game_components/'+newValue);
-									this.setState({value: newValue});
-								}}>
-								<Tab label="Encounters" value='encounters' />
-								<Tab label="Campaigns" value='campaigns' />
-								<Tab label="Characters" value='characters' />
-							</Tabs>
-						)} />
+						<Tabs value={this.state.value} onChange={this.changeTab} >
+							<Tab label="Encounters" value='encounters' />
+							<Tab label="Campaigns" value='campaigns' />
+							<Tab label="Characters" value='characters' />
+						</Tabs>
 					</AppBar>
 					<Route path={`${this.props.match.url}/encounters`} component={EncounterList} />
 					<Route path={`${this.props.match.url}/campaigns`} component={Campaign} />
