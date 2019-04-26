@@ -23,7 +23,6 @@ export class ViewCatalog extends React.Component<IViewCatalogProps, IViewCatalog
 		this.state = {
 			value: props.location.pathname.split('/').pop() || ''
 		}
-		console.log(props.location.pathname)
 	}
 
 	componentWillReceiveProps = (nextProps: IViewCatalogProps) => {
