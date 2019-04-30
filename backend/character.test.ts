@@ -344,3 +344,17 @@ describe('character tests', async () => {
 	});
 });
 
+// Character delete pseudo tests
+
+// When another user requests an character to delete when they are not the owner
+// Raise error
+
+// When owner of an character requests delete
+// Return success
+
+// When an invalid character is given
+// Raise error
+
+// When an character is not a number
+// Raise error
+
