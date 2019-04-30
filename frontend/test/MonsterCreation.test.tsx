@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as nock from 'nock';
 import { mount, shallow, ReactWrapper } from 'enzyme';
-import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, MonsterCRUDState } from "../src/renderer/components/MonsterCRUD";
+import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, CRUDProcess } from "../src/renderer/components/MonsterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -25,7 +25,7 @@ describe('Monster CRUD', () => {
 			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<BrowserRouter><MonsterCRUD Process={MonsterCRUDState.Create} /></BrowserRouter>);
+			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<BrowserRouter><MonsterCRUD Process={CRUDProcess.Create} /></BrowserRouter>);
 		})
 
 		it('renders without crashing', () => {
@@ -49,7 +49,7 @@ describe('Monster CRUD', () => {
 			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={MonsterCRUDState.Create} />);
+			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={CRUDProcess.Create} />);
 		})
 
 		it('renders without crashing', () => {
@@ -57,7 +57,7 @@ describe('Monster CRUD', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			const shallowMonsterCrud = shallow<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={MonsterCRUDState.Create} />);
+			const shallowMonsterCrud = shallow<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={CRUDProcess.Create} />);
 
 			expect(shallowMonsterCrud).toMatchSnapshot();
 		});
@@ -248,7 +248,7 @@ describe('Monster CRUD', () => {
 			monsterCRUDInstance.find('Input#ExperiencePoints').simulate('change', { target: { value: 190 } })
 			//console.log(monsterCRUDInstance.state())
 			expect(monsterCRUDInstance.state()).toEqual({
-				Process: MonsterCRUDState.Create,
+				Process: CRUDProcess.Create,
 				Id: undefined,
 				Name: 'Hello',
 				NameError: undefined,

@@ -14,24 +14,19 @@ import { CharacterDetails } from './platform/pages/view_game_components/Characte
 //import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
 import { ICharacterData, CharacterRace, CharacterClass } from '../../character';
-
-export enum CharacterCRUDProcess {
-	Create = 'Create',
-	Read = 'Read',
-	Edit = 'Edit'
-}
+import { CRUDProcess } from './MonsterCRUD';
 
 export interface ICharacterCRUDProps {
-	Process: CharacterCRUDProcess;
+	Process: CRUDProcess;
 	Id?: number;
 }
 
 export interface ICharacterCRUDState {
-	[key: string]: ICharacterData | CharacterCRUDProcess | number | boolean | {
+	[key: string]: ICharacterData | CRUDProcess | number | boolean | {
 		open: boolean;
 		message: string;
 	} | string | undefined;
-	Process: CharacterCRUDProcess;
+	Process: CRUDProcess;
 	Id?: number;
 	submitted: boolean;
 	modal: {
@@ -100,7 +95,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 	}
 
 	componentWillReceiveProps(nextProps: ICharacterCRUDProps) {
-		if (nextProps.Process != CharacterCRUDProcess.Create && nextProps.Id != this.props.Id){
+		if (nextProps.Process != CRUDProcess.Create && nextProps.Id != this.props.Id){
 			const options = { method: 'GET',
 				url: API_URL + '/character/' + nextProps.Id,
 				headers:
@@ -140,7 +135,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 	}
 
 	componentDidMount() {
-		if (this.props.Process != CharacterCRUDProcess.Create){
+		if (this.props.Process != CRUDProcess.Create){
 			const options = { method: 'GET',
 				url: API_URL + '/character/' + this.props.Id,
 				headers:
@@ -228,7 +223,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 			this.openModal(validationErrors.toString());
 		} else {
 			let route = '/character';
-			if (this.state.Process == CharacterCRUDProcess.Create) {
+			if (this.state.Process == CRUDProcess.Create) {
 				route += '/create';
 			} else {
 				route += '/edit'
@@ -247,7 +242,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 			await request(options)
 				.then((body: ICharacterCRUDResponse) => {
 					if (body.status == 201) { // success
-						if (this.state.Process == CharacterCRUDProcess.Create) {
+						if (this.state.Process == CRUDProcess.Create) {
 							this.openModal("Character successfully created.");
 						} else {
 							this.openModal("Character successfully updated.");
@@ -280,13 +275,13 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 				<form onSubmit={this.submitForm}>
 					<CharacterDetails
 						ref={this.CharacterDetails}
-						disabled={this.state.Process == CharacterCRUDProcess.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						initial={{
 							...this.state.Character
 						}} />
-					{this.state.Process == CharacterCRUDProcess.Read ? null :
+					{this.state.Process == CRUDProcess.Read ? null :
 						<Field>
 							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Character</Button>
 						</Field>
@@ -294,7 +289,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 					<Field>
 						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
 							history.back();
-						}}>{this.state.Process == CharacterCRUDProcess.Read ? 'Back' : 'Cancel'}</Button>
+						}}>{this.state.Process == CRUDProcess.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 				</form>
 				<Modal id='characterCRUDModal' isActive={this.state.modal.open}>

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper, shallow } from 'enzyme';
-import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps, CharacterCRUDProcess } from "../src/renderer/components/CharacterCRUD";
+import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps } from "../src/renderer/components/CharacterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 
 jest.mock('../src/cookie');
 
@@ -34,7 +35,7 @@ describe('Character CRUD create', () => {
 					<Switch>
 						<Route exact path='/create' render={() => (
 							<React.Fragment>
-								<CharacterCRUD Process={CharacterCRUDProcess.Create} />
+								<CharacterCRUD Process={CRUDProcess.Create} />
 								<Link to='/' replace={false} >Home</Link>
 							</React.Fragment>
 						)} />
@@ -95,7 +96,7 @@ describe('Character CRUD create', () => {
 			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Create} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Create} />);
 		})
 
 		it('renders without crashing', () => {
@@ -103,7 +104,7 @@ describe('Character CRUD create', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Create} />);
+			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Create} />);
 
 			expect(shallowCharacterCRUD).toMatchSnapshot();
 		});
@@ -228,7 +229,7 @@ describe('Character CRUD create', () => {
 			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: 40 } })
 			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
 			expect(characterCRUDInstance.state()).toEqual({
-				Process: CharacterCRUDProcess.Create,
+				Process: CRUDProcess.Create,
 				Id: undefined,
 				submitted: false,
 				modal: {

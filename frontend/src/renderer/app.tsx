@@ -13,11 +13,11 @@ import { ViewGameComponents } from './components/platform/pages/ViewGameComponen
 import "bulma/css/bulma.css";
 import { NavBar } from './components/NavBar';
 import { AuthContext, IAuthProviderState } from './components/AuthContext';
-import { MonsterCRUD, MonsterCRUDState } from './components/MonsterCRUD';
+import { MonsterCRUD, CRUDProcess } from './components/MonsterCRUD';
 import { EncounterRun } from './components/platform/pages/run_encounter/EncounterRun';
 
 import { EncounterCRUD, EncounterCRUDState } from './components/EncounterCRUD';
-import { CharacterCRUDProcess, CharacterCRUD } from './components/CharacterCRUD';
+import { CharacterCRUD } from './components/CharacterCRUD';
 
 interface IAppProps { }
 
@@ -38,7 +38,7 @@ export class App extends React.Component<IAppProps> {
 								<Route exact path="/" component={Platform} />
 								<Route path="/encounter/run/:Id" render={(props) => {
 									return (
-										<EncounterRun Id={props.match.params.Id} />
+										<EncounterRun EncounterId={props.match.params.Id} />
 									);}} />
 								<Route path="/campaign/create" render={(props) => {
 									return (
@@ -54,27 +54,27 @@ export class App extends React.Component<IAppProps> {
 									);}} />
 								<Route path="/monster/create" render={() => {
 									return (
-										<MonsterCRUD Process={MonsterCRUDState.Create} />
+										<MonsterCRUD Process={CRUDProcess.Create} />
 									);}} />
 								<Route path="/monster/view/:Id" render={(props) => {
 									return (
-										<MonsterCRUD Process={MonsterCRUDState.Read} Id={props.match.params.Id} />
+										<MonsterCRUD Process={CRUDProcess.Read} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/monster/edit/:Id" render={(props) => {
 									return (
-										<MonsterCRUD Process={MonsterCRUDState.Edit} Id={props.match.params.Id} />
+										<MonsterCRUD Process={CRUDProcess.Edit} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/character/create" render={() => {
 									return (
-										<CharacterCRUD Process={CharacterCRUDProcess.Create} />
+										<CharacterCRUD Process={CRUDProcess.Create} />
 									);}} />
 								<Route path="/character/view/:Id" render={(props) => {
 									return (
-										<CharacterCRUD Process={CharacterCRUDProcess.Read} Id={props.match.params.Id} />
+										<CharacterCRUD Process={CRUDProcess.Read} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/character/edit/:Id" render={(props) => {
 									return (
-										<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={props.match.params.Id} />
+										<CharacterCRUD Process={CRUDProcess.Edit} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/encounter/create" render={() => {
 									return (
