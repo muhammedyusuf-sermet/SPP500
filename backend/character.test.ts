@@ -329,38 +329,28 @@ describe('character get all tests', async () => {
 		Character.clear();
 
 		let user = new User();
-			user.Name = "John Doe";
-			user.Id = 1;
-			await user.save();
+		user.Name = "John Doe";
+		user.Id = 1;
+		await user.save();
 
-			let char = new Character();
-			char.Name = "John Doe";
-			char.Id = 1;
-			char.Creator = user;
-			await char.save();
+		let char = new Character();
+		char.Name = "John Doe";
+		char.Id = 1;
+		char.Creator = user;
+		await char.save();
 
-			let user2 = new User();
-			user2.Name = "John II Doe";
-			user2.Id = 2;
-			await user2.save();
+		let char2 = new Character();
+		char2.Name = "John II Doe";
+		char2.Id = 2;
+		char2.Creator = user;
+		await char2.save();
 
-			let char2 = new Character();
-			char2.Name = "John II Doe";
-			char2.Id = 2;
-			char2.Creator = user2;
-			await char2.save();
+		let char3 = new Character();
+		char3.Name = "John III Doe";
+		char3.Id = 3;
+		char3.Creator = user;
+		await char3.save();
 
-			let char3 = new Character();
-			char3.Name = "John III Doe";
-			char3.Id = 3;
-			char3.Creator = user2;
-			await char3.save();
-
-			let char4 = new Character();
-			char4.Name = "John IV Doe";
-			char4.Id = 4;
-			char4.Creator = user2;
-			await char4.save();
 	});
 
  	var character = new CharacterFactory();
@@ -374,7 +364,7 @@ describe('character get all tests', async () => {
 			},
 			auth: {
 				credentials: {
-					id: 2
+					id: 1
 				}
 			}
 		});
@@ -385,8 +375,8 @@ describe('character get all tests', async () => {
 		expect(response['total']).toBe(3);
 		expect(response['messages'].length).toBe(0);
 		expect(response['content'].length).toBe(2);
-		expect(response['content'][0].Id).toBe(2);
-		expect(response['content'][1].Id).toBe(3);
+		expect(response['content'][0].Id).toBe(1);
+		expect(response['content'][1].Id).toBe(2);
 	});
 
  	test('when page number and page size is given properly for last page', async () => {
@@ -397,7 +387,7 @@ describe('character get all tests', async () => {
 			},
 			auth: {
 				credentials: {
-					id: 2
+					id: 1
 				}
 			}
 		});
@@ -407,7 +397,7 @@ describe('character get all tests', async () => {
 		expect(response['total']).toBe(3);
 		expect(response['messages'].length).toBe(0);
 		expect(response['content'].length).toBe(1);
-		expect(response['content'][0].Id).toBe(4);
+		expect(response['content'][0].Id).toBe(3);
 	});
 
  	test('when page parameter is not number', async () => {
