@@ -344,3 +344,16 @@ describe('character tests', async () => {
 	});
 });
 
+
+// Get many pseudo tests
+// when page number and page size is given properly for first page
+// return success
+
+// when page number and page size is given properly for last page 
+// return success
+
+// when page parameter is not number
+// raise error
+
+// when size parameter is not number
+// raise error
