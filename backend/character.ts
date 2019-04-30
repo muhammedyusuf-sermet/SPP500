@@ -1,4 +1,4 @@
-import {Character} from "./entity/Character";
+import {Character, ICharacterData} from "./entity/Character";
 import {Campaign} from "./entity/Campaign";
 import {User} from "./entity/User";
 import {CharacterClass, CharacterRace } from "./entity/CharacterEnums";
@@ -28,7 +28,7 @@ export class CharacterFactory implements IFactory {
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
 		MaxHealth: Joi.number().integer().greater(0).label('MaxHealth'),
 		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
-		Notes: Joi.string().max(1000).default(""),
+		Notes: Joi.string().max(1000),
 		Campaigns: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CampaignOptions')).label('Campaign Id')
 		})).default([])
@@ -63,7 +63,7 @@ export class CharacterFactory implements IFactory {
 			request.payload,
 			this.payloadSchema,
 			options,
-			async (errors: ValidationError, value: any) => {
+			async (errors: ValidationError, value: ICharacterData) => {
 				if(errors) {
 					const messages: Set<string> = new Set<string>();
 					errors.details.forEach((error: ValidationErrorItem) => {
@@ -114,9 +114,40 @@ export class CharacterFactory implements IFactory {
 		}
 	};
 	public async GetOne(request: {auth: any, params: any}) {
+		const authInfo = request.auth;
+		var characterId = +request.params.characterId;
+		
+		var messages: string[] = [];
+
+		if (isNaN(characterId)) {
+			messages.push("Parameter 'characterId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			const characterDb = await Character.findOne<Character>({
+				loadRelationIds: { relations: ['Creator', 'Campaigns'], disableMixedMap: true },
+				where: { Id: characterId }
+			});
+			if (characterDb) {
+				if (characterDb.Creator.Id == authInfo.credentials.id) {
+					delete characterDb.Creator
+					
+					return {
+						"status": 201,
+						"messages": messages,
+						"content": characterDb,
+					}
+				} else {
+					messages.push("Requester is not the owner.")
+				}
+			} else {
+				messages.push("Character is not found.")
+			}
+		}
 		return {
-			'status': 400,
-			'messages': ['Not implemented']
+			"status": 400,
+			"messages": messages,
+			"content": {},
 		}
 	};
 	public async GetMany(request: {auth: any, params: any}) {

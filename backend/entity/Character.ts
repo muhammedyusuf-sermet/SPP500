@@ -8,12 +8,12 @@ export interface ICharacterData {
 
     Id: number;
     Name: string,
-    Level: number,
-    Race: CharacterRace,
-    Class: CharacterClass,
-    MaxHealth: number,
-    ArmorClass: number,
-    Notes: string,
+    Level?: number,
+    Race?: CharacterRace,
+    Class?: CharacterClass,
+    MaxHealth?: number,
+    ArmorClass?: number,
+    Notes?: string,
 
     Campaigns: ICampaignData[];
 }
@@ -68,7 +68,8 @@ export class Character extends BaseEntity implements ICharacterData {
 
     @Column({
         type: "varchar",
-        length: 1000
+		length: 1000,
+        nullable: true
     })
     Notes: string;
 
