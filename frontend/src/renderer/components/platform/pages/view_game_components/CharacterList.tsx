@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as request from 'request';
+var request = require('request-promise-native');
+
 import { API_URL } from '../../../../../config';
 import { CookieManager } from '../../../../../cookie';
 
@@ -59,12 +60,17 @@ export class CharacterList extends React.Component<any, ICharacterListState> {
 			{
 				'Cache-Control': 'no-cache',
 				'Authorization': CookieManager.UserToken('session_token')
-			}
+			},
+			json: true
 		};
 
-		request(options, (error: string, response: any, body: ICharacterDeleteResponse) => {
-			this.getPaginatedCharacters(this.state.page);
-		});
+		request(options)
+			.then((body: ICharacterDeleteResponse) => {
+				this.getPaginatedCharacters(this.state.page);
+			})
+			.catch((error: string) => {
+				// ignore the error or tell the user
+			});
 	}
 
 	getPaginatedCharacters = (page: number) => {
@@ -79,21 +85,21 @@ export class CharacterList extends React.Component<any, ICharacterListState> {
 			json: true
 		};
 
-		request(options, (error:string, responce: any, body: ICharacterGetResponse) => {
-			if (!error && body.status === 201) { // success
+		request(options)
+			.then((body: ICharacterGetResponse) => {
 				this.setState({
-						charactersInCurrentPage: body.content,
-						totalCharacters: body.total,
+					charactersInCurrentPage: body.content,
+					totalCharacters: body.total,
 				});
-			} else {
+			})
+			.catch((error: string) => {
 				// There was an error retrieving the characters. Just return empty array.
 				// No need to print a modal.
 				this.setState({
-						charactersInCurrentPage: [] as ICharacterData[],
-						totalCharacters: 0,
+					charactersInCurrentPage: [] as ICharacterData[],
+					totalCharacters: 0,
 				});
-			}
-		})
+			});
 	}
 
 	render() {
