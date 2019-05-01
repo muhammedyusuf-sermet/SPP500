@@ -1,24 +1,21 @@
 import * as React from 'react';
 import * as request from 'request';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import * as CampaignInterface from '../../../../../campaign';
+
+import { API_URL } from '../../../../../config';
+import { CookieManager } from '../../../../../cookie';
+
 import {Pagination} from '../../../helpers/Pagination';
 
-import { CookieManager } from '../../../../../cookie';
-import { API_URL } from '../../../../../config';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import { Link } from 'react-router-dom';
+import { ICampaignData } from '../../../../../campaign';
 
 interface ICampaignGetResponse {
 	status: number,
 	messages: string[],
-	content: CampaignInterface.ICampaignData[],
+	content: ICampaignData[],
 	total: number,
 }
 
@@ -27,33 +24,33 @@ interface ICampaignDeleteResponse {
 	messages: string[]
 }
 
-export interface ICampaignState {
+export interface ICampaignListState {
 	page: number,
 	pageSize: number,
 	totalCampaigns: number,
-	campaignsInCurrentPage: CampaignInterface.ICampaignData[],
+	campaignsInCurrentPage: ICampaignData[],
 }
 
-export class Campaign extends React.Component<any, ICampaignState> {
+export class CampaignList extends React.Component<any, ICampaignListState> {
 	constructor(props: any) {
 		super(props);
 		this.state = {
 			page: 0,
 			pageSize: 12,
 			totalCampaigns: 0,
-			campaignsInCurrentPage: [] as CampaignInterface.ICampaignData[],
+			campaignsInCurrentPage: [] as ICampaignData[],
 		}
-		this.resetState = this.resetState.bind(this);
-		this.updatePage = this.updatePage.bind(this);
-		this.getTotalPages = this.getTotalPages.bind(this);
 
 		// First page ever
 		this.getPaginatedCampaigns(0);
 	}
 
-	resetState() {
-		this.setState({ page: 0});
-		this.getPaginatedCampaigns(0);
+	updatePage = (page: number) => {
+		this.getPaginatedCampaigns(page);
+	}
+
+	getTotalPages = () => {
+		return Math.ceil(this.state.totalCampaigns / this.state.pageSize)-1;
 	}
 
 	deleteCampaign = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -69,14 +66,6 @@ export class Campaign extends React.Component<any, ICampaignState> {
 		request(options, (error:string, responce: any, body: ICampaignDeleteResponse) => {
 			this.getPaginatedCampaigns(this.state.page);
 		})
-	}
-
-	updatePage(page: number) {
-		this.getPaginatedCampaigns(page);
-	}
-
-	getTotalPages() {
-		return Math.ceil(this.state.totalCampaigns / this.state.pageSize)-1;
 	}
 
 	getPaginatedCampaigns(page: number) {
@@ -101,7 +90,7 @@ export class Campaign extends React.Component<any, ICampaignState> {
 				// There was an error retrieving the campaigns. Just return empty array.
 				// No need to print a modal.
 				this.setState({
-						campaignsInCurrentPage: [] as CampaignInterface.ICampaignData[],
+						campaignsInCurrentPage: [] as ICampaignData[],
 						totalCampaigns: 0,
 				});
 			}

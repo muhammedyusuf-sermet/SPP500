@@ -24,23 +24,23 @@ import { MonsterLanguages } from './platform/pages/view_catalog/monster/MonsterL
 import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Grid, Tooltip } from '@material-ui/core';
 
-export enum MonsterCRUDState {
+export enum CRUDProcess {
 	Create = 'Create',
 	Read = 'Read',
 	Edit = 'Edit'
 }
 
 export interface IMonsterCRUDProps {
-	Process: MonsterCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 }
 
 export interface IMonsterCRUDState {
-	[key: string]: IMonsterData | MonsterCRUDState | number | boolean | {
+	[key: string]: IMonsterData | CRUDProcess | number | boolean | {
 		open: boolean;
 		message: string;
 	} | string | undefined;
-	Process: MonsterCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 	submitted: boolean;
 	modal: {
@@ -194,7 +194,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 	}
 
 	componentWillReceiveProps(nextProps: IMonsterCRUDProps) {
-		if (nextProps.Process != MonsterCRUDState.Create && nextProps.Id != this.props.Id){
+		if (nextProps.Process != CRUDProcess.Create && nextProps.Id != this.props.Id){
 			const options = { method: 'GET',
 				url: API_URL + '/monster/' + nextProps.Id,
 				headers:
@@ -236,7 +236,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 	}
 
 	componentDidMount() {
-		if (this.props.Process != MonsterCRUDState.Create){
+		if (this.props.Process != CRUDProcess.Create){
 			const options = { method: 'GET',
 				url: API_URL + '/monster/' + this.props.Id,
 				headers:
@@ -418,7 +418,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 			this.openModal(validationErrors.toString());
 		} else {
 			let route = '/monster';
-			if (this.state.Process == MonsterCRUDState.Create) {
+			if (this.state.Process == CRUDProcess.Create) {
 				route += '/create';
 			} else {//if (this.state.Process == MonsterCRUDState.Edit) {
 				route += '/edit'
@@ -437,7 +437,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 			await request(options)
 				.then((body: IMonsterCRUDResponse) => {
 					if (body.status == 201) { // success
-						if (this.state.Process == MonsterCRUDState.Create) {
+						if (this.state.Process == CRUDProcess.Create) {
 							this.openModal("Monster successfully created.");
 						} else {
 							this.openModal("Monster successfully updated.");
@@ -476,7 +476,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						<Field>
 							<Control>
 								<Input
-									disabled={this.state.Process == MonsterCRUDState.Read}
+									disabled={this.state.Process == CRUDProcess.Read}
 									id='Name'
 									type='text'
 									placeholder='Monster Name'
@@ -491,7 +491,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} >
 					<MonsterEnumConfiguration
-						disabled={this.state.Process == MonsterCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.EnumConfiguration}
@@ -505,7 +505,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} >
 					<MonsterResistances
-						disabled={this.state.Process == MonsterCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.Resistances}
@@ -518,7 +518,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} >
 					<MonsterDefences
-						disabled={this.state.Process == MonsterCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.Defences}
@@ -530,7 +530,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} >
 					<MonsterSpeedBonuses
-						disabled={this.state.Process == MonsterCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						// TODO: use validation for speeds
 						//PayloadSchema={this.payloadSchema}
 						//ValidationOptions={this.validateOptions}
@@ -541,7 +541,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} sm={6} >
 						<MonsterStats
-							disabled={this.state.Process == MonsterCRUDState.Read}
+							disabled={this.state.Process == CRUDProcess.Read}
 							PayloadSchema={this.payloadSchema}
 							ValidationOptions={this.validateOptions}
 							ref={this.AbilityScores}
@@ -552,7 +552,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} sm={6} >
 						<MonsterStats
-							disabled={this.state.Process == MonsterCRUDState.Read}
+							disabled={this.state.Process == CRUDProcess.Read}
 							PayloadSchema={this.payloadSchema}
 							ValidationOptions={this.validateOptions}
 							ref={this.SavingThrows}
@@ -563,7 +563,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} >
 					<MonsterSkillBonuses
-						disabled={this.state.Process == MonsterCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.SkillBonuses}
@@ -573,7 +573,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					</Grid>
 					<Grid item xs={12} >
 					<MonsterSenseBonuses
-						disabled={this.state.Process == MonsterCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						ref={this.SenseBonuses}
@@ -584,7 +584,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 					<Grid item xs={12} >
 						<Subtitle>Final Touches</Subtitle>
 						<MonsterLanguages
-							disabled={this.state.Process == MonsterCRUDState.Read}
+							disabled={this.state.Process == CRUDProcess.Read}
 							PayloadSchema={this.payloadSchema}
 							ValidationOptions={this.validateOptions}
 							ref={this.Languages}
@@ -600,7 +600,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 								<Field>
 									<Control>
 										<Input
-											disabled={this.state.Process == MonsterCRUDState.Read}
+											disabled={this.state.Process == CRUDProcess.Read}
 											id='ChallengeRating'
 											type='number'
 											placeholder='Challenge Rating'
@@ -624,7 +624,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 								<Field>
 									<Control>
 										<Input
-											disabled={this.state.Process == MonsterCRUDState.Read}
+											disabled={this.state.Process == CRUDProcess.Read}
 											id='ExperiencePoints'
 											type='number'
 											placeholder='Experience Points'
@@ -639,7 +639,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						</Field>
 					</Grid>
 					{
-						this.state.Process == MonsterCRUDState.Read ? null :
+						this.state.Process == CRUDProcess.Read ? null :
 						<Field>
 							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Monster</Button>
 						</Field>
@@ -652,7 +652,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 						}
 						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
 							history.back();
-						}}>{this.state.Process == MonsterCRUDState.Read ? 'Back' : 'Cancel'}</Button>
+						}}>{this.state.Process == CRUDProcess.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 					</Grid>
 				</form>

@@ -4,8 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import {EncounterList} from './view_game_components/EncounterList';
-import {Campaign} from './view_game_components/Campaign';
+import { EncounterList } from './view_game_components/EncounterList';
+import { CampaignList } from './view_game_components/CampaignList';
 
 import '../../../css/platform/pages/view_game_components.css';
 import { RouteComponentProps, Route } from 'react-router';
@@ -50,7 +50,7 @@ export class ViewGameComponents extends React.Component<IViewGameComponentsProps
 						</Tabs>
 					</AppBar>
 					<Route path={`${this.props.match.url}/encounters`} component={EncounterList} />
-					<Route path={`${this.props.match.url}/campaigns`} component={Campaign} />
+					<Route path={`${this.props.match.url}/campaigns`} component={CampaignList} />
 					<Route path={`${this.props.match.url}/characters`} component={CharacterList} />
 				</div>
 			</div>

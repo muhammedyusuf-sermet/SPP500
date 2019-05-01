@@ -9,7 +9,7 @@ import { IEncounterData } from '../../../../../encounter';
 import { Modal, ModalBackground, ModalContent, Box } from 'bloomer';
 import { Grid, Typography, Button, TextField } from '@material-ui/core';
 import { BaseEntity } from './entitiy/BaseEntity';
-import { MonsterCRUD, MonsterCRUDState } from '../../../MonsterCRUD';
+import { MonsterCRUD, CRUDProcess } from '../../../MonsterCRUD';
 
 export interface IEncounterRunProps {
 	Id?: number;
@@ -17,7 +17,7 @@ export interface IEncounterRunProps {
 
 export interface IEncounterRunState {
 	SelectedMosnter: number,
-	SelectedProcess: MonsterCRUDState,
+	SelectedProcess: CRUDProcess,
 	Notes: string,
 	Turn: number,
 	width: number,
@@ -41,7 +41,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		super(props);
 		this.state = {
 			SelectedMosnter: -1,
-			SelectedProcess: MonsterCRUDState.Read,
+			SelectedProcess: CRUDProcess.Read,
 			Notes: '',
 			Turn: 0,
 			width: 0,
@@ -85,7 +85,8 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 			.then((body: IEncounterGetOneResponse) => {
 				if (body.status == 201) { // success
 					const initiatives = []
-					for(let i = 0; i < body.content.Monsters.length; i++)
+					const numMonster = (body.content.Monsters || []).length;
+					for(let i = 0; i < numMonster; i++)
 						initiatives.push(i)
 					let tmp, current, top = initiatives.length;
 					if (top) {
@@ -97,7 +98,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 						}
 					}
 					this.setState({
-						Notes: body.content.Description,
+						Notes: body.content.Description || '',
 						Initiatives: initiatives,
 						Encounter: body.content
 					});
@@ -133,7 +134,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
 			SelectedMosnter: value != undefined ? value : -1,
-			SelectedProcess: MonsterCRUDState.Read,
+			SelectedProcess: CRUDProcess.Read,
 		});
 	}
 
@@ -141,7 +142,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
 			SelectedMosnter: value != undefined ? value : -1,
-			SelectedProcess: MonsterCRUDState.Edit,
+			SelectedProcess: CRUDProcess.Edit,
 		});
 	}
 
@@ -158,6 +159,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 	}
 
 	render() {
+		const encounterMosnters = this.state.Encounter.Monsters || [];
 		return (
 			<div className="encounter-run-containter">
 				<Grid container alignItems='baseline' spacing={16} >
@@ -196,20 +198,20 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 						<Grid item xs={12}>
 							{this.state.Initiatives.map((value: number, index: number) => (
 								<BaseEntity
-									key={this.state.Encounter.Monsters[value].Name}
+									key={encounterMosnters[value].Name}
 									// TODO: change to unique id for the entity
 									//  at this time there is only one monster
 									//  per type for encounter. so this is unique.
-									Id={this.state.Encounter.Monsters[value].Id as number}
+									Id={encounterMosnters[value].Id as number}
 									Initiative={index}
 									View={this.ViewMonster}
 									Edit={this.EditMonster}
 									Entity={{
 										EntityType: 'Monster',
-										Id: this.state.Encounter.Monsters[value].Id as number,
-										Name: this.state.Encounter.Monsters[value].Name,
-										ArmorClass: this.state.Encounter.Monsters[value].ArmorClass as number,
-										HitPoints: this.state.Encounter.Monsters[value].HitPoints as number
+										Id: encounterMosnters[value].Id as number,
+										Name: encounterMosnters[value].Name,
+										ArmorClass: encounterMosnters[value].ArmorClass as number,
+										HitPoints: encounterMosnters[value].HitPoints as number
 									}} />
 							))}
 						</Grid>

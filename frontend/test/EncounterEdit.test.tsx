@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { EncounterCRUD, IEncounterCRUDState, IEncounterCRUDProps, EncounterCRUDState } from "../src/renderer/components/EncounterCRUD";
+import { EncounterCRUD, IEncounterCRUDState, IEncounterCRUDProps } from "../src/renderer/components/EncounterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -10,6 +10,7 @@ import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { IMonsterData } from '../src/monster';
 import { IEncounterData } from '../src/encounter';
+import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 
 jest.mock('../src/cookie');
 
@@ -53,7 +54,7 @@ describe('Monster CRUD', () => {
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/home' render={() => (
-							<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />
+							<EncounterCRUD Process={CRUDProcess.Edit} Id={0} />
 						)} />
 						<Route exact path='/' render={() => (
 							<Redirect push to='/home' />
@@ -96,7 +97,7 @@ describe('Monster CRUD', () => {
 	});
 
 	const originalEncounter: IEncounterData = {
-		Id: '0',
+		Id: 1,
 		Name: "Encounter",
 		Description: "Example Description",
 		Monsters: [] as IMonsterData[],
@@ -118,7 +119,7 @@ describe('Monster CRUD', () => {
 // 				messages: ['success'],
 // 				content: originalEncounter
 // 			});
-// 			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />);
+// 			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDProcess.Edit} Id={0} />);
 // 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 // 			await new Promise(resolve => setImmediate(resolve));
 // 			await new Promise(resolve => setImmediate(resolve));
@@ -185,7 +186,7 @@ describe('Monster CRUD', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(404);
-			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />);
+			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -202,7 +203,7 @@ describe('Monster CRUD', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, { status: 400, messages: ["Encounter not found."]});
-			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />);
+			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -219,7 +220,7 @@ describe('Monster CRUD', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, { status: 401 });
-			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />);
+			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED, SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -245,7 +246,7 @@ describe('Monster CRUD', () => {
 // 			nock(API_URL)
 // 			.get('/monster/0')
 // 			.reply(200, basicResponse);
-// 			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />);
+// 			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDProcess.Edit} Id={0} />);
 // 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 // 			await new Promise(resolve => setImmediate(resolve));
 // 			await new Promise(resolve => setImmediate(resolve));
@@ -424,7 +425,7 @@ describe('Monster CRUD', () => {
 				messages: ['success'],
 				content: originalEncounter
 			});
-			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Edit} Id={0} />);
+			EncounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));

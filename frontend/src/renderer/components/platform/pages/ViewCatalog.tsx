@@ -5,7 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import {Monster} from './view_catalog/Monster';
+import { MonsterList } from './view_catalog/MonsterList';
 
 import '../../../css/platform/pages/view_catalog.css';
 import { Route, RouteComponentProps } from 'react-router';
@@ -50,7 +50,7 @@ export class ViewCatalog extends React.Component<IViewCatalogProps, IViewCatalog
 							<Tab label="Spells" value='spells' />
 						</Tabs>
 					</AppBar>
-					<Route path={`${this.props.match.url}/monsters`} component={Monster} />
+					<Route path={`${this.props.match.url}/monsters`} component={MonsterList} />
 					<Route path={`${this.props.match.url}/equipment`} render={() => (
 						<Typography component="div" style={{ padding: 8 * 3 }}>Equipment</Typography>
 					)} />

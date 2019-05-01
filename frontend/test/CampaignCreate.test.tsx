@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper, shallow } from 'enzyme';
-import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps } from "../src/renderer/components/CharacterCRUD";
+import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps } from "../src/renderer/components/CampaignCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -14,9 +14,9 @@ jest.mock('../src/cookie');
 ////// Happy Path //////
 
 
-describe('Character CRUD create', () => {
+describe('Campaign CRUD create', () => {
 
-	let characterCRUDInstance: ReactWrapper<ICharacterCRUDProps, ICharacterCRUDState, CharacterCRUD>;
+	let characterCRUDInstance: ReactWrapper<ICampaignCRUDProps, ICampaignCRUDState, CampaignCRUD>;
 
 	describe('Redirect if submitted', () => {
 
@@ -35,7 +35,7 @@ describe('Character CRUD create', () => {
 					<Switch>
 						<Route exact path='/create' render={() => (
 							<React.Fragment>
-								<CharacterCRUD Process={CRUDProcess.Create} />
+								<CampaignCRUD Process={CRUDProcess.Create} />
 								<Link to='/' replace={false} >Home</Link>
 							</React.Fragment>
 						)} />
@@ -61,7 +61,7 @@ describe('Character CRUD create', () => {
 			if (browserInstance.find(Link).text() == 'Create')
 				browserInstance.find(Link).simulate('click',{button: 0});
 			expect(browserInstance.find(Link).text()).toEqual('Home');
-			expect(browserInstance.find(CharacterCRUD)).toBeDefined();
+			expect(browserInstance.find(CampaignCRUD)).toBeDefined();
 		});
 
 		it('should redirect', () => {
@@ -69,7 +69,7 @@ describe('Character CRUD create', () => {
 				browserInstance.find(Link).simulate('click',{button: 0});
 			expect(browserInstance.find(Link).text()).toEqual('Home');
 			expect(browserInstance.find(Redirect)).toHaveLength(0);
-			browserInstance.find(CharacterCRUD).setState({ submitted: true });
+			browserInstance.find(CampaignCRUD).setState({ submitted: true });
 			expect(browserInstance.find(Redirect)).toHaveLength(1);
 		});
 
@@ -96,7 +96,7 @@ describe('Character CRUD create', () => {
 			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Create} />);
+			characterCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Create} />);
 		})
 
 		it('renders without crashing', () => {
@@ -104,16 +104,17 @@ describe('Character CRUD create', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Create} />);
+			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Create} />);
 
-			expect(shallowCharacterCRUD).toMatchSnapshot();
+			expect(shallowCampaignCRUD).toMatchSnapshot();
 		});
 
-		it('should be able to send character name only to create', async (done) => {
+		it('should be able to send campaign name only to create', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/create', {
-				"Name": "Hello"
+			.post('/campaign/create', {
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -121,8 +122,8 @@ describe('Character CRUD create', () => {
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Character successfully created.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully created.");
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -130,8 +131,9 @@ describe('Character CRUD create', () => {
 		it('should show error message when API route not found', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/create', {
-				"Name": "Hello"
+			.post('/campaign/create', {
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(404);
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -140,7 +142,7 @@ describe('Character CRUD create', () => {
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
 			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -148,17 +150,18 @@ describe('Character CRUD create', () => {
 		it('should show error message when server denies you', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/create', {
-				"Name": "Hello"
+			.post('/campaign/create', {
+				"Name": "Hello",
+				"Encounters": []
 			})
-			.reply(200, { status: 400, messages: ["Invalid character object"]});
+			.reply(200, { status: 400, messages: ["Invalid campaign object"]});
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Invalid character object");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Invalid campaign object");
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -166,8 +169,9 @@ describe('Character CRUD create', () => {
 		it('should show error message when server denies you without any messages', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/create', {
-				"Name": "Hello"
+			.post('/campaign/create', {
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(200, { status: 401 });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -176,58 +180,53 @@ describe('Character CRUD create', () => {
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
 			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error submitting your request. Please try again later.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
-		it('should show payload error message when character is not properly formed', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: -1 } })
+		it('should show payload error message when campaign is not properly formed', async (done) => {
+			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: '' } })
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"MaxHealth\" must be greater than 0");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Name\" is required");
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
 
-		it('should show payload error message when character has an invalid Race', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('CharacterDetails').setState({ Race: "InvalidRace" })
+		it('should show payload error message when campaign has an invalid Name', async (done) => {
+			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: '' } })
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Race\" must be one of Dragonborn,Dwarf,Elf,Gnome,HalfElf,Halfling,HalfOrc,Human,Tiefling");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Name\" is required");
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
 
-		it('should show payload error message when character has an extra field', async (done) => {
+		it('should show payload error message when campaign has an extra field', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('CharacterDetails').setState({ Extra: "InvalidField" })
+			characterCRUDInstance.find('CampaignDetails').setState({ Extra: "InvalidField" })
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
 			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Extra\" is not allowed");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
 
-		it('should be able to send character to create', async (done) => {
+		it('should be able to send campaign to create', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('select#Race').simulate('change', { target: { value: "Gnome" } })
-			characterCRUDInstance.find('select#Class').simulate('change', { target: { value: "Ranger" } })
-			characterCRUDInstance.find('input#Level').simulate('change', { target: { value: 3 } })
-			characterCRUDInstance.find('input#ArmorClass').simulate('change', { target: { value: 15 } })
-			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: 40 } })
-			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
+			characterCRUDInstance.find('textarea#Summary').simulate('change', { target: { value: "Winner takes all." } })
+			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: "Kill small creatures first." } })
+			characterCRUDInstance.find('textarea#Encounters').simulate('change', { target: { value: "1,2" } })
 			expect(characterCRUDInstance.state()).toEqual({
 				Process: CRUDProcess.Create,
 				Id: undefined,
@@ -236,19 +235,16 @@ describe('Character CRUD create', () => {
 					open: false,
 					message: ""
 				},
-				Character: {
+				Campaign: {
 					Name: '',
 				},
 			})
 			nock(API_URL)
-			.post('/character/create', {
+			.post('/campaign/create', {
 				"Name": "Hello",
-				"Race": "Gnome",
-				"Class": "Ranger",
-				"Level": 3,
-				"ArmorClass": 15,
-				"MaxHealth": 40,
-				"Notes": "Very weak and sly",
+				"Encounters": [{"Id": 1}, {"Id": 2}],
+				"Summary": "Winner takes all.",
+				"Notes": "Kill small creatures first."		
 			})
 			.reply(201, { status: 201, message: 'success' });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -256,42 +252,42 @@ describe('Character CRUD create', () => {
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Character successfully created.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully created.");
+			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
-
+		
 		describe('should show and hide modal', () => {
 			it('show modal', () => {
 				characterCRUDInstance.instance().closeModal();
 				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(false);
+				expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(false);
 				characterCRUDInstance.instance().openModal('TestMessage');
 				characterCRUDInstance.update();
 				expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual('TestMessage');
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+				expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			});
 
 			it('close modal', () => {
 				characterCRUDInstance.instance().openModal('TestMessage');
 				characterCRUDInstance.update();
 				expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual('TestMessage');
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+				expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 				characterCRUDInstance.instance().closeModal();
 				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(false);
+				expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(false);
 			});
 
 			it('close modal by click', () => {
 				characterCRUDInstance.instance().openModal('TestMessage');
 				characterCRUDInstance.update();
 				expect(characterCRUDInstance.find('#ModalMessage').text().length).toBeGreaterThan(0);
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+				expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 				let background = characterCRUDInstance.find('ModalBackground#modalBackground')
 				background.simulate('click');
 				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(false);
+				expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(false);
 			});
 		});
 	});

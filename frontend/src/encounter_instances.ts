@@ -1,26 +1,19 @@
-import * as Encounter from "./encounter";
+import { IEncounterData } from "./encounter";
 
-// Dummy array of monsters
-import MonsterInstances from './monster_instances';
-
-let encounterExample: Encounter.IEncounterData;
+let encounterExample: IEncounterData;
 encounterExample = {
-	Id: "",
+	Id: 1,
 	Name: "Encounter",
 	Description: "This is a fierce encounter...",
-	Monsters: MonsterInstances['MonsterInstances'],
+	Monsters: [],
 };
 
-let EncounterInstances = new Array();
+export const EncounterInstances: IEncounterData[] = new Array();
 
 // Generate a dummy array of encounters with different IDs
 for (var i = 0; i < 12; i++) {
-	let encounter = {} as Encounter.IEncounterData;
+	let encounter = {} as IEncounterData;
 	Object.assign(encounter, encounterExample);
-	encounter['Id'] = i.toString();
+	encounter.Id = i + 1;
 	EncounterInstances.push(encounter);
-}
-
-export default {
-    EncounterInstances,
 }

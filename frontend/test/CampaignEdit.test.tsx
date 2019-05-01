@@ -2,29 +2,29 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper, shallow } from 'enzyme';
 
-import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps, ICharacterGetOneResponse } from "../src/renderer/components/CharacterCRUD";
+import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
-import { ICharacterData, CharacterRace, CharacterClass } from '../src/character';
+import { ICampaignData } from '../src/campaign';
 import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 
 jest.mock('../src/cookie');
 
 ////// Happy Path //////
 
-describe('Character CRUD', () => {
+describe('Campaign CRUD', () => {
 
-	let characterCRUDInstance: ReactWrapper<ICharacterCRUDProps, ICharacterCRUDState, CharacterCRUD>;
+	let campaignCRUDInstance: ReactWrapper<ICampaignCRUDProps, ICampaignCRUDState, CampaignCRUD>;
 
-	const basicResponse: ICharacterGetOneResponse = {
+	const basicResponse: ICampaignGetOneResponse = {
 		status: 201,
 		messages: ['success'],
 		content: {
 			Id: 0,
-			Name: 'Basic Character',
+			Name: 'Basic Campaign',
 		}
 	}
 
@@ -45,7 +45,7 @@ describe('Character CRUD', () => {
 					<Switch>
 						<Route exact path='/create' render={() => (
 							<React.Fragment>
-								<CharacterCRUD Process={CRUDProcess.Create} />
+								<CampaignCRUD Process={CRUDProcess.Create} />
 								<Link to='/' replace={false} >Home</Link>
 							</React.Fragment>
 						)} />
@@ -57,9 +57,9 @@ describe('Character CRUD', () => {
 				);
 			//console.log(browserInstance.debug())
 			//browserInstance.find('Link').simulate('click', { button: 0 })
-			characterCRUDInstance = {} as any
-			if(characterCRUDInstance)
-				characterCRUDInstance = {} as any
+			campaignCRUDInstance = {} as any
+			if(campaignCRUDInstance)
+				campaignCRUDInstance = {} as any
 		});
 
 		afterEach( () => {
@@ -71,7 +71,7 @@ describe('Character CRUD', () => {
 			if (browserInstance.find(Link).text() == 'Create')
 				browserInstance.find(Link).simulate('click',{button: 0});
 			expect(browserInstance.find(Link).text()).toEqual('Home');
-			expect(browserInstance.find(CharacterCRUD)).toBeDefined();
+			expect(browserInstance.find(CampaignCRUD)).toBeDefined();
 		});
 
 		it('should redirect', () => {
@@ -79,7 +79,7 @@ describe('Character CRUD', () => {
 				browserInstance.find(Link).simulate('click',{button: 0});
 			expect(browserInstance.find(Link).text()).toEqual('Home');
 			expect(browserInstance.find(Redirect)).toHaveLength(0);
-			browserInstance.find(CharacterCRUD).setState({ submitted: true });
+			browserInstance.find(CampaignCRUD).setState({ submitted: true });
 			expect(browserInstance.find(Redirect)).toHaveLength(1);
 		});
 
@@ -97,18 +97,15 @@ describe('Character CRUD', () => {
 		});
 	});
 
-	const originalCharacter: ICharacterData = {
+	const originalCampaign: ICampaignData = {
 		Id: 0,
 		Name: "Hello Original",
-		Level: 7,
-		Race: CharacterRace.Dwarf,
-		Class: CharacterClass.Paladin,
-		MaxHealth: 15,
-		ArmorClass: 13,
-		Notes: "The best around"
+		Summary: "This is legit.",
+		Notes: "The best around",
+		Encounters: []
 	}
 
-	describe('render character from database', () => {
+	describe('render campaign from database', () => {
 		beforeEach(async (done) => {
 			nock.disableNetConnect();
 			CookieManagerMock.SetStringCookie("session_token", "testToken");
@@ -117,18 +114,18 @@ describe('Character CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(200, {
 				status: 201,
 				messages: ['success'],
-				content: originalCharacter
+				content: originalCampaign
 			});
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the character from the database.
+			// expect the CampaignCRUD to request the campaign from the database.
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -138,21 +135,21 @@ describe('Character CRUD', () => {
 		});
 
 		it('renders without crashing', () => {
-			expect(characterCRUDInstance).toBeDefined();
-			expect(characterCRUDInstance.state('Character')).toEqual(originalCharacter);
+			expect(campaignCRUDInstance).toBeDefined();
+			expect(campaignCRUDInstance.state('Campaign')).toEqual(originalCampaign);
 		});
 
-		it('when no changes it sends the character back as it was', async (done) => {
+		it('when no changes it sends the campaign back as it was', async (done) => {
 			nock(API_URL)
-			.post('/character/edit', originalCharacter)
+			.post('/campaign/edit', originalCampaign)
 			.reply(201, { status: 201, messages: ['success'] });
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Character successfully updated.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully updated.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -175,52 +172,52 @@ describe('Character CRUD', () => {
 
 		it('should show error message when API route not found', async (done) => {
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(404);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			// expect the CampaignCRUD to request the mosnter from the database.
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when server denies you', async (done) => {
 			nock(API_URL)
-			.get('/character/0')
-			.reply(200, { status: 400, messages: ["Character not found."]});
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			.get('/campaign/0')
+			.reply(200, { status: 400, messages: ["Campaign not found."]});
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Error finding character: Character not found.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			// expect the CampaignCRUD to request the mosnter from the database.
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Error finding campaign: Campaign not found.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when server denies you without any messages', async (done) => {
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(200, { status: 401 });
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED, SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error retreiving the character. Please try again later.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			// expect the CampaignCRUD to request the mosnter from the database.
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error retreiving the campaign. Please try again later.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -236,14 +233,14 @@ describe('Character CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(200, basicResponse);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
+			// expect the CampaignCRUD to request the mosnter from the database.
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -253,124 +250,113 @@ describe('Character CRUD', () => {
 		});
 
 		it('renders without crashing', () => {
-			expect(characterCRUDInstance).toBeDefined();
+			expect(campaignCRUDInstance).toBeDefined();
 		});
 
-		it('should be able to send character name only to edit', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
+		it('should be able to send campaign name only to edit', async (done) => {
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/edit', {
+			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			//expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Character successfully updated.");
-			//expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			//expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully updated.");
+			//expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when API route not found', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/edit', {
+			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(404);
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when server denies you', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/edit', {
+			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
+				"Encounters": []
 			})
-			.reply(200, { status: 400, messages: ["Invalid character object"]});
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+			.reply(200, { status: 400, messages: ["Invalid campaign object"]});
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Invalid character object");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Invalid campaign object");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when server denies you without any messages', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
-			.post('/character/edit', {
+			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(200, { status: 401 });
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error submitting your request. Please try again later.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error submitting your request. Please try again later.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
-		it('should show payload error message when character is not properly formed', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('input#Level').simulate('change', { target: { value: -1 } })
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+		it('should show payload error message when campaign is not properly formed', async (done) => {
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: '' } })
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Level\" must be greater than 0");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("\"Name\" is required");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
 
-		it('should show payload error message when character has an invalid field', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('CharacterDetails').setState({ "InvalidEntry": 100 })
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+		it('should show payload error message when campaign has an invalid field', async (done) => {
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
+			campaignCRUDInstance.find('CampaignDetails').setState({ "InvalidEntry": 100 })
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"InvalidEntry\" is not allowed");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("\"InvalidEntry\" is not allowed");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
-
-		it('should show payload error message when character has an invalid Race', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('CharacterDetails').setState({ Race: "InvalidRace" })
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Race\" must be one of Dragonborn,Dwarf,Elf,Gnome,HalfElf,Halfling,HalfOrc,Human,Tiefling");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
-			done();
-		});
-
 	});
 
 	describe('Server request Path for props change', () => {
@@ -383,14 +369,14 @@ describe('Character CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(200, basicResponse);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
+			// expect the CampaignCRUD to request the mosnter from the database.
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -400,64 +386,64 @@ describe('Character CRUD', () => {
 		});
 
 		it('renders without crashing', () => {
-			expect(characterCRUDInstance).toBeDefined();
+			expect(campaignCRUDInstance).toBeDefined();
 		});
 
 		it('should show error message when API route not found', async (done) => {
 			nock(API_URL)
-			.get('/character/1')
+			.get('/campaign/1')
 			.reply(404);
-			characterCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 1})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error sending your request.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when server denies you', async (done) => {
 			nock(API_URL)
-			.get('/character/1')
-			.reply(200, { status: 400, messages: ["Invalid character id"]});
-			characterCRUDInstance.setProps({Id: 1})
+			.get('/campaign/1')
+			.reply(200, { status: 400, messages: ["Invalid campaign id"]});
+			campaignCRUDInstance.setProps({Id: 1})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Error finding character: Invalid character id");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Error finding campaign: Invalid campaign id");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		it('should show error message when server denies you without any messages', async (done) => {
 			nock(API_URL)
-			.get('/character/1')
+			.get('/campaign/1')
 			.reply(200, { status: 401 });
-			characterCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 1})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error retreiving the character. Please try again later.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("There was an error retreiving the campaign. Please try again later.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
-		it('should allow new character from server by new props', async (done) => {
+		it('should allow new campaign from server by new props', async (done) => {
 			nock(API_URL)
-			.get('/character/1')
+			.get('/campaign/1')
 			.reply(200, basicResponse);
-			characterCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 1})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.state().Character).toEqual(basicResponse.content)
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.state().Campaign).toEqual(basicResponse.content)
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -473,18 +459,18 @@ describe('Character CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(200, {
 				status: 201,
 				messages: ['success'],
-				content: originalCharacter
+				content: originalCampaign
 			});
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
+			// expect the CampaignCRUD to request the mosnter from the database.
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -494,38 +480,34 @@ describe('Character CRUD', () => {
 		});
 
 		it('renders without crashing', () => {
-			expect(characterCRUDInstance).toBeDefined();
+			expect(campaignCRUDInstance).toBeDefined();
 		});
 
 		it('renders correctly when the page is loaded', async (done) => {
 			nock(API_URL)
-			.get('/character/0')
+			.get('/campaign/0')
 			.reply(200, {
 				status: 201,
 				messages: ['success'],
-				content: originalCharacter
+				content: originalCampaign
 			});
-			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
+			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			// expect the CharacterCRUD to request the mosnter from the database.
+			// expect the CampaignCRUD to request the mosnter from the database.
 			expect(nock.isDone()).toEqual(true);
-			expect(shallowCharacterCRUD).toMatchSnapshot();
+			expect(shallowCampaignCRUD).toMatchSnapshot();
 			done();
 
 		});
 
-		it('should be able to edit all and send character to server edit', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('select#Race').simulate('change', { target: { value: "Gnome" } })
-			characterCRUDInstance.find('select#Class').simulate('change', { target: { value: "Ranger" } })
-			characterCRUDInstance.find('input#Level').simulate('change', { target: { value: 3 } })
-			characterCRUDInstance.find('input#ArmorClass').simulate('change', { target: { value: 15 } })
-			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: 40 } })
-			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
-			expect(characterCRUDInstance.state()).toEqual({
+		it('should be able to edit all and send campaign to server edit', async (done) => {
+			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
+			campaignCRUDInstance.find('textarea#Summary').simulate('change', { target: { value: "Gnome" } })
+			campaignCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
+			expect(campaignCRUDInstance.state()).toEqual({
 				Process: CRUDProcess.Edit,
 				Id: 0,
 				submitted: false,
@@ -533,61 +515,58 @@ describe('Character CRUD', () => {
 					open: false,
 					message: ""
 				},
-				Character: originalCharacter
+				Campaign: originalCampaign
 			})
 			nock(API_URL)
-			.post('/character/edit', {
+			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
-				"Race": "Gnome",
-				"Class": "Ranger",
-				"Level": 3,
-				"ArmorClass": 15,
-				"MaxHealth": 40,
+				"Summary": "Gnome",
 				"Notes": "Very weak and sly",
+				"Encounters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
-			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
+			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
-			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("Character successfully updated.");
-			expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+			campaignCRUDInstance.update();
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully updated.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
 
 		describe('should show and hide modal', () => {
 			it('show modal', () => {
-				characterCRUDInstance.instance().closeModal();
-				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(false);
-				characterCRUDInstance.instance().openModal('TestMessage');
-				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual('TestMessage');
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
+				campaignCRUDInstance.instance().closeModal();
+				campaignCRUDInstance.update();
+				expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(false);
+				campaignCRUDInstance.instance().openModal('TestMessage');
+				campaignCRUDInstance.update();
+				expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+				expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			});
 
 			it('close modal', () => {
-				characterCRUDInstance.instance().openModal('TestMessage');
-				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual('TestMessage');
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
-				characterCRUDInstance.instance().closeModal();
-				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(false);
+				campaignCRUDInstance.instance().openModal('TestMessage');
+				campaignCRUDInstance.update();
+				expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual('TestMessage');
+				expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
+				campaignCRUDInstance.instance().closeModal();
+				campaignCRUDInstance.update();
+				expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(false);
 			});
 
 			it('close modal by click', () => {
-				characterCRUDInstance.instance().openModal('TestMessage');
-				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('#ModalMessage').text().length).toBeGreaterThan(0);
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(true);
-				let background = characterCRUDInstance.find('ModalBackground#modalBackground')
+				campaignCRUDInstance.instance().openModal('TestMessage');
+				campaignCRUDInstance.update();
+				expect(campaignCRUDInstance.find('#ModalMessage').text().length).toBeGreaterThan(0);
+				expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
+				let background = campaignCRUDInstance.find('ModalBackground#modalBackground')
 				background.simulate('click');
-				characterCRUDInstance.update();
-				expect(characterCRUDInstance.find('Modal#characterCRUDModal').prop('isActive')).toEqual(false);
+				campaignCRUDInstance.update();
+				expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(false);
 			});
 		});
 	});
