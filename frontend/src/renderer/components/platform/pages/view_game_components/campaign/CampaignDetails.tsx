@@ -69,18 +69,10 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 		});
 	}
 
-	stringToNumber = (toConvert : string) => {
-		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
-	}
-
 	handleCampaignEncounterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({
 			Encounters: event.target.value
 		})
-	}
-
-	public GetData = (): ICampaignData => {
-		return stateWithoutErrors(this.state);
 	}
 
 	render() {
