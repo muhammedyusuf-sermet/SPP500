@@ -1,8 +1,8 @@
-import * as Monster from "./monster";
+import { IMonsterData } from "./monster";
 
-export interface IEncounterState {
+export interface IEncounterData {
 	Id?: string,
 	Name: string,
 	Description: string;
-	Monsters: Monster.IMonsterState[];
+	Monsters: IMonsterData[];
 }

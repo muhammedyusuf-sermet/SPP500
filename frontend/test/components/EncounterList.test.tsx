@@ -33,7 +33,7 @@ describe('Test the EncounterList View Details', () => {
 
 		nock(API_URL)
 		.get('/encounter/get/0/12')
-		.reply(201, { status: 201, message: 'success', total: 1, content: [] as EncounterInterface.IEncounterState[] });
+		.reply(201, { status: 201, message: 'success', total: 1, content: [] as EncounterInterface.IEncounterData[] });
 	});
 
 	it('should return the total number of pages when getTotalPages function is called', () => {

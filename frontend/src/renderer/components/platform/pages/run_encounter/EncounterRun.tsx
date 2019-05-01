@@ -5,14 +5,14 @@ import { CookieManager } from '../../../../../cookie';
 
 import 'bulma/css/bulma.css';
 
-import { IEncounterState } from '../../../../../encounter';
+import { IEncounterData } from '../../../../../encounter';
 import { Modal, ModalBackground, ModalContent, Box } from 'bloomer';
 import { Grid, Typography, Button, TextField } from '@material-ui/core';
 import { BaseEntity, EntityTypes } from './entitiy/BaseEntity';
 import { MonsterCRUD, CRUDProcess } from '../../../MonsterCRUD';
 import { CharacterCRUD } from '../../../CharacterCRUD';
-import { ICampaignState } from '../../../../../campaign';
-import { IMonsterState } from '../../../../../monster';
+import { ICampaignData } from '../../../../../campaign';
+import { IMonsterData } from '../../../../../monster';
 import { ICharacterData } from '../../../../../character';
 
 export interface IEncounterRunProps {
@@ -33,20 +33,20 @@ export interface IEncounterRunState {
 		open: boolean;
 		message: string;
 	};
-	Encounter: IEncounterState,
-	Campaign: ICampaignState,
+	Encounter: IEncounterData,
+	Campaign: ICampaignData,
 }
 
 export interface IEncounterGetOneResponse {
 	status: number,
 	messages: string[],
-	content: IEncounterState,
+	content: IEncounterData,
 }
 
 export interface ICampaignGetOneResponse {
 	status: number,
 	messages: string[],
-	content: ICampaignState,
+	content: ICampaignData,
 }
 
 interface IInitiativeSort {
@@ -54,7 +54,7 @@ interface IInitiativeSort {
 	Dextarity?: number;
 	Index: number;
 	Type: keyof EntityTypes;
-	Source: IMonsterState[] | ICharacterData[];
+	Source: IMonsterData[] | ICharacterData[];
 }
 
 export class EncounterRun extends React.Component<IEncounterRunProps, IEncounterRunState> {
@@ -323,7 +323,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 										Id: value.Source[value.Index].Id as number,
 										Name: value.Source[value.Index].Name,
 										ArmorClass: value.Source[value.Index].ArmorClass as number,
-										HitPoints: (value.Type == 'Monster') ? (value.Source[value.Index] as IMonsterState).HitPoints as number : (value.Source[value.Index] as ICharacterData).MaxHealth as number
+										HitPoints: (value.Type == 'Monster') ? (value.Source[value.Index] as IMonsterData).HitPoints as number : (value.Source[value.Index] as ICharacterData).MaxHealth as number
 									}} />
 							))}
 						</Grid>

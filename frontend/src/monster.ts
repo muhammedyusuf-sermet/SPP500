@@ -110,10 +110,9 @@ export interface IMonsterActions {
 	averagedDamage: number,
 	damageDice: number,
 	damageConstant: number,
-
 }
 
-export interface IMonsterState {
+export interface IMonsterData {
 	Id?: number,
 	Name: string,
 	Size?: Size | string;
@@ -136,10 +135,10 @@ export interface IMonsterState {
 
 	ChallengeRating?: number;
 
-	AbilityScores: IMonsterAbilityScoreState;
+	AbilityScores: IMonsterAbilityScore;
 	Senses: SenseMap;
 	Skills: SkillMap;
-	SavingThrows: IMonsterSavingThrowState;
+	SavingThrows: IMonsterSavingThrow;
 	//Actions: IActionState[];
 }
 
@@ -151,7 +150,7 @@ export interface SenseMap {
 	[senseName: string]: number|undefined;
 }
 
-export interface IMonsterAbilityScoreState {
+export interface IMonsterAbilityScore {
 	[index:string]: number|undefined;
 	Strength?: number;
 	Dexterity?: number;
@@ -161,7 +160,7 @@ export interface IMonsterAbilityScoreState {
 	Charisma?: number;
 }
 
-export interface IMonsterSavingThrowState {
+export interface IMonsterSavingThrow {
 	[index:string]: number|undefined;
 	Strength?: number;
 	Dexterity?: number;
@@ -179,63 +178,3 @@ export interface IActionState {
 	DamageBonus?: number,
 	Type?: MonsterAction
 }
-/*export interface IMonster {
-	name: string,
-	type: MonsterType,
-	alignment: MonsterAlignment,
-	size: MonsterSize,
-	race: MonsterRace,
-	environment: MonsterEnvironment,
-	resistance?: string,
-	damageImmunity?: string,
-	conditionImmunity?: string,
-	vulnerability?: string,
-	armorClass: number,
-	hitPoints?: number,
-	hitPointDice?: string,
-	hitPointDiceAdd?: number,
-	speedLand: number,
-	speedSwim?: number,
-	strStat: number,
-	dexStat: number,
-	conStat: number,
-	intStat: number,
-	wisStat: number,
-	chaStat: number,
-	strSavingThrow?: number,
-	dexSavingThrow?: number,
-	conSavingThrow?: number,
-	intSavingThrow?: number,
-	wisSavingThrow?: number,
-	chaSavingThrow?: number,
-	skillsAthletics: number,
-	skillsAcrobatics?: number,
-	skillsSleightOfHand?: number,
-	skillsStealth?: number,
-	skillsArcana?: number,
-	skillsHistory?: number,
-	skillsInvestigation?: number,
-	skillsNature?: number,
-	skillsReligion?: number,
-	skillsAnimalHandling?: number,
-	skillsInsight?: number,
-	skillsMedicine?: number,
-	skillsPerception?: number,
-	skillsSurvival?: number,
-	skillsDeception?: number,
-	skillsIntimidation?: number,
-	skillsPerformance?: number,
-	skillsPersuasion?: number,
-	sensesBlindsight?: number,
-	sensesDarkvision?: number,
-	sensesTremorsense?: number,
-	sensesTruesight?: number,
-	sensesPassivePerception?: number,
-	sensesPassiveInvestigation?: number,
-	sensesPassiveInsight?: number,
-	languages?: string,
-	challengeRating: number,
-	experiencePoints: number,
-	abilities?: IMonsterAbilities[],
-	actions?: IMonsterActions[],
-}*/

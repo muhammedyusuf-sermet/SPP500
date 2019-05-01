@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 interface IEncounterGetResponse {
 	status: number,
 	messages: string[],
-	content: EncounterInterface.IEncounterState[],
+	content: EncounterInterface.IEncounterData[],
 	total: number,
 }
 
@@ -33,7 +33,7 @@ export interface IEncounterListState {
 	page: number;
 	pageSize: number,
 	totalEncounters: number,
-	encountersInCurrentPage: EncounterInterface.IEncounterState[],
+	encountersInCurrentPage: EncounterInterface.IEncounterData[],
 }
 
 export class EncounterList extends React.Component<any, IEncounterListState> {
@@ -43,7 +43,7 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 			page: 0,
 			pageSize: 12,
 			totalEncounters: 0,
-			encountersInCurrentPage: [] as EncounterInterface.IEncounterState[],
+			encountersInCurrentPage: [] as EncounterInterface.IEncounterData[],
 		}
 		this.resetState = this.resetState.bind(this);
 		this.updatePage = this.updatePage.bind(this);
@@ -103,7 +103,7 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 				// There was an error retrieving the encounters. Just return empty array.
 				// No need to print a modal.
 				this.setState({
-						encountersInCurrentPage: [] as EncounterInterface.IEncounterState[],
+						encountersInCurrentPage: [] as EncounterInterface.IEncounterData[],
 						totalEncounters: 0,
 				});
 			}

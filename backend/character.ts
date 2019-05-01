@@ -108,9 +108,35 @@ export class CharacterFactory implements IFactory {
 		}
 	};
 	public async Delete(request: {auth: any, params: any}) {
+		const characterId = +request.params.characterId
+		const messages: string[] = [];
+
+		if (isNaN(characterId)) {
+			messages.push("Parameter 'characterId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			const characterDb = await Character.findOne<Character>({
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+				where: { Id: characterId }
+			});
+			if (characterDb) {
+				if (characterDb.Creator.Id == request.auth.credentials.id) {
+					await characterDb.remove()
+					return {
+						"status": 201,
+						"messages": ['success'],
+					}
+				} else {
+					messages.push("Requester is not the owner.")
+				}
+			} else {
+				messages.push("Character is not found.")
+			}
+		}
 		return {
-			'status': 400,
-			'messages': ['Not implemented']
+			"status": 400,
+			"messages": messages,
 		}
 	};
 	public async GetOne(request: {auth: any, params: any}) {
@@ -151,9 +177,41 @@ export class CharacterFactory implements IFactory {
 		}
 	};
 	public async GetMany(request: {auth: any, params: any}) {
-		return {
-			'status': 400,
-			'messages': ['Not implemented']
+		const authInfo = request.auth;
+		var pageNumber = +request.params.page;
+		var pageSize = +request.params.size;
+
+ 		var messages = [];
+
+ 		if (isNaN(pageNumber)) {
+			messages.push("Parameter 'page' must be a number.")
+		}
+
+ 		if (isNaN(pageSize)) {
+			messages.push("Parameter 'size' must be a number.")
+		}
+
+
+		if (messages.length == 0) {
+			var allCharacters = await Character.find({
+				where: {Creator : { Id: authInfo.credentials.id}},
+			});
+
+			var respond = allCharacters.slice(pageSize*pageNumber, pageSize*(pageNumber+1))
+
+			return {
+				"status": 201,
+				"messages": messages,
+				"content": respond,
+				"total": allCharacters.length
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": [],
+				"total": 0
+			}
 		}
 	};
 }

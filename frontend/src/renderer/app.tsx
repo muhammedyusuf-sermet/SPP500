@@ -87,7 +87,6 @@ export class App extends React.Component<IAppProps> {
 								<Route path="/encounter/edit/:Id" render={(props) => {
 									return (
 										<EncounterCRUD Process={EncounterCRUDState.Edit} Id={props.match.params.Id} />
-
 									);}} />
 								<Route path="/catalog" component={ViewCatalog} />
 								<Route path="/game_components" component={ViewGameComponents} />

@@ -1,11 +1,11 @@
 import { ICharacterData } from "./character";
-import { IEncounterState } from "./encounter";
+import { IEncounterData } from "./encounter";
 
-export interface ICampaignState {
+export interface ICampaignData {
 	Id?: number;
 	Name: string;
 	Summary?: string;
 	Notes?: string;
 	Characters: ICharacterData[];
-	Encounters: IEncounterState[];
+	Encounters: IEncounterData[];
 }

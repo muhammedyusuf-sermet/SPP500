@@ -49,8 +49,8 @@ export class NavBar extends React.Component<any, INavBarState> {
 									<Link className='navbar-item' to="/campaign/create" replace >Create Campaign</Link>
 									<Link className='navbar-item' to="/monster/create" replace >Create Monster</Link>
 									<Link className='navbar-item' to="/character/create" replace >Create Character</Link>
-									<Link className='navbar-item' to="/catalog" replace >View Catalog</Link>
-									<Link className='navbar-item' to="/game_components" replace >View Game Components</Link>
+									<Link className='navbar-item' to="/catalog/monsters" replace >View Catalog</Link>
+									<Link className='navbar-item' to="/game_components/encounters" replace >View Game Components</Link>
 								</NavbarStart>
 							) : (
 								<NavbarStart className='is-light' onClick={this.closeNav}>

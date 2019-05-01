@@ -1,6 +1,6 @@
 import * as Monster from "./monster";
 
-let monsterExample: Monster.IMonsterState;
+let monsterExample: Monster.IMonsterData;
 monsterExample = {
 	Id: 0,
 	Name: "Hello",
@@ -71,7 +71,7 @@ let MonsterInstances = new Array();
 
 // Generate a dummy array of monsters with different IDs
 for (var i = 0; i < 12; i++) {
-	let monster = {} as Monster.IMonsterState;
+	let monster = {} as Monster.IMonsterData;
 	Object.assign(monster, monsterExample);
 	monster['Id'] = i
 	MonsterInstances.push(monster);
