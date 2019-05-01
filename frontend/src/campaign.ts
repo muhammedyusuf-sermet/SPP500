@@ -1,4 +1,5 @@
 import { IEncounterData } from "./encounter";
+import { ICharacterData } from "./character";
 
 export interface ICampaignData {
 	Id?: number,
@@ -6,4 +7,5 @@ export interface ICampaignData {
 	Summary?: string;
 	Notes?: string;
 	Encounters?: IEncounterData[];
+	Characters?: ICharacterData[];
 }
