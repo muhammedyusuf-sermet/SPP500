@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the Monster View Details renders correctly when the page is loaded 1`] = `
+<div
+  className="layout card-grid"
+  id="view-monsters-container"
+>
+  <Pagination
+    getTotalPages={[Function]}
+    onPageChange={[Function]}
+  />
+  <WithStyles(Grid)
+    container={true}
+    spacing={40}
+  />
+</div>
+`;

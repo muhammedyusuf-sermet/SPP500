@@ -1,64 +1,139 @@
 import * as React from "react"
 import * as nock from 'nock';
 import { shallow, ShallowWrapper } from 'enzyme';
-import {Campaign, ICampaignState} from '../../src/renderer/components/platform/pages/view_game_components/Campaign';
-import * as CampaignInterface from '../../src/campaign';
+import { CampaignList, ICampaignListState } from '../../src/renderer/components/platform/pages/view_game_components/CampaignList';
+
 import {API_URL} from '../../src/config'
+import { CampaignInstances } from "../../src/campaign_instances";
 
 jest.mock('../../src/cookie');
 
 describe('Test the Campaign View Details', () => {
-	let campaignListInstance: ShallowWrapper<any, ICampaignState, Campaign>;
+	let campaignInstance: ShallowWrapper<any, ICampaignListState, CampaignList>;
 
-	beforeEach(() => {
-		campaignListInstance = shallow(<Campaign/>);
+	beforeEach( async (done) => {
+		nock.disableNetConnect();
+		nock(API_URL)
+		.get('/campaign/get/0/12')
+		.reply(200, {
+			status: 201,
+			messages: ['success'],
+			total: 0,
+			content: []
+		});
+		campaignInstance = shallow(<CampaignList/>);
+		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		expect(nock.isDone()).toEqual(true);
+		done();
 	})
 
 	it('renders without crashing', () => {
-		expect(campaignListInstance).toBeDefined();
+		expect(campaignInstance).toBeDefined();
 	});
 
 	it('renders correctly when the page is loaded', () => {
-		expect(campaignListInstance).toMatchSnapshot();
+		expect(campaignInstance).toMatchSnapshot();
 	});
 
-	// it('should update the state variables when View button is clicked for a campaign', () => {
-	// 	let selectedCampaign: CampaignInterface.ICampaignState;
-	// 	selectedCampaign = {} as CampaignInterface.ICampaignState;
-	// 	campaignListInstance.instance().view(selectedCampaign);
-
-	// 	expect(campaignListInstance.state('viewCampaign')).toEqual(true);
-	// 	expect(campaignListInstance.state('selectedCampaign')).toEqual(selectedCampaign);
-	// });
-
-	// it('should update the state variables when Edit button is clicked for a campaign', () => {
-	// 	let selectedCampaign: CampaignInterface.ICampaignState;
-	// 	selectedCampaign = {} as CampaignInterface.ICampaignState;
-	// 	campaignListInstance.instance().edit(selectedCampaign);
-
-	// 	expect(campaignListInstance.state('editCampaign')).toEqual(true);
-	// 	expect(campaignListInstance.state('selectedCampaign')).toEqual(selectedCampaign);
-	// });
-
-	// it('should update the state variables when resetState function is called', () => {
-	// 	campaignListInstance.instance().resetState();
-
-	// 	expect(campaignListInstance.state('viewCampaign')).toEqual(false);
-	// 	expect(campaignListInstance.state('editCampaign')).toEqual(false);
-	// 	expect(campaignListInstance.state('selectedCampaign')).toEqual({} as CampaignInterface.ICampaignState);
-	// });
-
-	it('should make an GET request to retrieve campaigns when getPaginatedCampaigns function is called', () => {
-		campaignListInstance.instance().getPaginatedCampaigns(0);
-
+	it('should make an GET request to retrieve campaigns when getPaginatedCampaigns function is called', async (done) => {
 		nock(API_URL)
 		.get('/campaign/get/0/12')
-		.reply(201, { status: 201, message: 'success', total: 1, content: [] as CampaignInterface.ICampaignData[] });
+		.reply(200, {
+			status: 201,
+			messages: ['success'],
+			total: 12,
+			content: CampaignInstances
+		});
+
+		campaignInstance.instance().getPaginatedCampaigns(0);
+		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+
+		expect(campaignInstance.state().campaignsInCurrentPage).toEqual(CampaignInstances)
+		expect(campaignInstance.state().totalCampaigns).toEqual(12);
+		expect(nock.isDone()).toEqual(true);
+		done();
+	});
+
+	it('should make an GET request to retrieve campaigns when updatePage function is called', async (done) => {
+		nock(API_URL)
+		.get('/campaign/get/0/12')
+		.reply(200, {
+			status: 201,
+			messages: ['success'],
+			total: 12,
+			content: CampaignInstances
+		});
+
+		campaignInstance.instance().updatePage(0);
+		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+
+		expect(campaignInstance.state().campaignsInCurrentPage).toEqual(CampaignInstances)
+		expect(campaignInstance.state().totalCampaigns).toEqual(12);
+		expect(nock.isDone()).toEqual(true);
+		done();
+	});
+
+	it('should fail gracefully when getPaginatedCampaigns function is called', async (done) => {
+		nock(API_URL)
+		.get('/campaign/get/0/12')
+		.replyWithError('access denied');
+
+		campaignInstance.instance().getPaginatedCampaigns(0);
+		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+
+		expect(campaignInstance.state().campaignsInCurrentPage).toEqual([])
+		expect(campaignInstance.state().totalCampaigns).toEqual(0);
+		expect(nock.isDone()).toEqual(true);
+		done();
+	});
+
+	it('should make an DELETE request to delete campaign when deleteCampaign function is called', async (done) => {
+		nock(API_URL)
+		.delete('/campaign/1')
+		.reply(200, {
+			status: 201,
+			messages: ['success']
+		});
+		nock(API_URL)
+		.get('/campaign/get/0/12')
+		.reply(200, {
+			status: 201,
+			messages: ['success'],
+			total: 11,
+			content: CampaignInstances.slice(1)
+		});
+
+		campaignInstance.instance().deleteCampaign({ currentTarget: { value: '1'}} as React.MouseEvent<HTMLButtonElement>);
+		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+		await new Promise(resolve => setImmediate(resolve));
+
+		expect(campaignInstance.state().campaignsInCurrentPage).toEqual(CampaignInstances.slice(1))
+		expect(campaignInstance.state().totalCampaigns).toEqual(11);
+		expect(nock.isDone()).toEqual(true);
+		done();
 	});
 
 	it('should return the total number of pages when getTotalPages function is called', () => {
-		campaignListInstance.instance().setState({ totalCampaigns: 24});
-		let totalPages = campaignListInstance.instance().getTotalPages();
+		campaignInstance.instance().setState({ totalCampaigns: 24});
+		let totalPages = campaignInstance.instance().getTotalPages();
 
 		// Starts from 0
 		expect(totalPages).toEqual(1);
