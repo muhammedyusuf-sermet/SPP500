@@ -13,18 +13,7 @@ import { CookieManager } from "../../cookie";
 import { CampaignDetails } from './platform/pages/view_game_components/CampaignDetails';
 import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
-
-export interface IEncounterState{
-	Id?: number
-}
-
-export interface ICampaignState{
-	Id?: number;
-	Name: string;
-	Summary?: string;
-	Notes?: string;
-	Encounters?: IEncounterState[];
-}
+import { ICampaignState } from '../../campaign';
 
 export enum CampaignCRUDState {
 	Create = 'Create',
@@ -115,7 +104,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				.then((body: ICampaignGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
-							Id: body.content.Id ? body.content.Id : -1,
+							Id: body.content.Id != undefined ? body.content.Id : -1,
 							Campaign: body.content
 						});
 					} else if (body.messages) {
@@ -124,9 +113,9 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
-						this.openModal("Error finding monster: "+body.messages.toString());
+						this.openModal("Error finding campaign: "+body.messages.toString());
 					}else{
-						this.openModal("There was an error retreiving the monster. Please try again later.")
+						this.openModal("There was an error retreiving the campaign. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
@@ -155,7 +144,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				.then((body: ICampaignGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
-							Id: body.content.Id ? body.content.Id : -1,
+							Id: body.content.Id != undefined ? body.content.Id : -1,
 							Campaign: body.content
 						});
 					} else if (body.messages) {
@@ -170,8 +159,6 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 					}
 				})
 				.catch((error: string) => {
-					console.log("CampaignCRUD ERROR:")
-					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}
@@ -214,7 +201,6 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		}
 		campaignPayload.Encounters = encounters
 
-		console.log(campaignPayload)
 		let validationErrors = Joi.validate(
 			campaignPayload,
 			this.payloadSchema,
@@ -243,7 +229,6 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		);
 
 		if (validationErrors) {
-			console.log('CLIENT')
 			// These errors are from validation and may be irrelevent or out of date.
 			this.openModal(validationErrors.toString());
 		} else {
@@ -281,15 +266,12 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
-						console.log('SERVER')
 						this.openModal(body.messages.toString());
 					}else{
-						console.log('SERVER')
 						this.openModal("There was an error submitting your request. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
-					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}

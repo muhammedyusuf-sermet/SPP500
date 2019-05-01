@@ -8,10 +8,7 @@ import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import { stateWithoutErrors } from '../../../../../utils/StateSelection';
 import { ICampaignState } from '../../../../../campaign';
-
-export interface IEncounterState {
-	Id?: number
-}
+import { IEncounterState } from '../../../../../encounter';
               
 export interface ICampaignDetailsProps {
 	disabled?: boolean,
