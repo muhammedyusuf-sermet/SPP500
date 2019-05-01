@@ -10,7 +10,7 @@ import 'bulma/css/bulma.css';
 import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
-import { CharacterDetails } from './platform/pages/view_game_components/CharacterDetails';
+import { CharacterDetails } from './platform/pages/view_game_components/character/CharacterDetails';
 //import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
 import { ICharacterData, CharacterRace, CharacterClass } from '../../character';
@@ -54,7 +54,7 @@ export interface ICharacterGetOneResponse {
 
 export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharacterCRUDState> {
 	private payloadSchema = Joi.object({
-		Id: Joi.number().greater(0).allow(0),
+		Id: Joi.number().greater(0).allow(0).label('Id'),
 		Name: Joi.string().required().max(50).label("Name"),
 		Level: Joi.number().integer().greater(0).label("Level"),
 		Race: Joi.string().valid(Joi.ref('$RaceOptions')),
@@ -62,6 +62,9 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 		MaxHealth: Joi.number().integer().greater(0).label('MaxHealth'),
 		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
 		Notes: Joi.string().max(1000).label("Notes"),
+		Campaigns: Joi.array().items(Joi.object({
+			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CampaignOptions')).label('Campaign Id')
+		})).default([])
 	});
 	private validateOptions: ValidationOptions = {
 		abortEarly: false,
@@ -191,9 +194,9 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 	}
 
 	validateForm = async () => {
-		const characterPayload = {
+		const characterPayload: ICharacterData = {
 			Id: this.state.Id,
-			...(this.CharacterDetails.current ? this.CharacterDetails.current.GetData() : {}),
+			...(this.CharacterDetails.current ? this.CharacterDetails.current.GetData() : { Name: '' }),
 		}
 
 		let validationErrors = Joi.validate(
@@ -283,7 +286,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 						disabled={this.state.Process == CharacterCRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
-						initial={{
+						Character={{
 							...this.state.Character
 						}} />
 					{this.state.Process == CharacterCRUDProcess.Read ? null :

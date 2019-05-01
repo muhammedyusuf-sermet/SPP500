@@ -43,8 +43,8 @@ describe('Test the Monster View Details Per Monster', () => {
 	});
 
 	it('should return true if the IMonsterState object is empty', () => {
-		let selectedMonster: Monster.IMonsterState;
-		selectedMonster = {} as Monster.IMonsterState;
+		let selectedMonster: Monster.IMonsterData;
+		selectedMonster = {} as Monster.IMonsterData;
 		let isEmpty = monsterDetailsInstance.instance().isEmptyObject(selectedMonster);
 
 		expect(isEmpty).toEqual(true);

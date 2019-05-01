@@ -17,31 +17,50 @@ exports[`Test the View Catalog Page renders correctly when the page is loaded 1`
     >
       <WithStyles(Tabs)
         onChange={[Function]}
-        value={0}
+        value="monsters"
       >
         <WithStyles(Tab)
           label="Monsters"
+          value="monsters"
         />
         <WithStyles(Tab)
           label="Equipment"
+          value="equipment"
         />
         <WithStyles(Tab)
           label="Locations"
+          value="locations"
         />
         <WithStyles(Tab)
           label="Buildings"
-        />
-        <WithStyles(Tab)
-          label="Characters"
+          value="buildings"
         />
         <WithStyles(Tab)
           label="Spells"
+          value="spells"
         />
       </WithStyles(Tabs)>
     </WithStyles(AppBar)>
-    <TabContainer>
-      <Monster />
-    </TabContainer>
+    <Route
+      component={[Function]}
+      path="/catalog/monsters"
+    />
+    <Route
+      path="/catalog/equipment"
+      render={[Function]}
+    />
+    <Route
+      path="/catalog/locations"
+      render={[Function]}
+    />
+    <Route
+      path="/catalog/buildings"
+      render={[Function]}
+    />
+    <Route
+      path="/catalog/spells"
+      render={[Function]}
+    />
   </div>
 </div>
 `;

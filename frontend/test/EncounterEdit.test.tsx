@@ -8,8 +8,8 @@ import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import { IMonsterState } from '../src/monster';
-import { IEncounterState } from '../src/encounter';
+import { IMonsterData } from '../src/monster';
+import { IEncounterData } from '../src/encounter';
 
 jest.mock('../src/cookie');
 
@@ -95,11 +95,11 @@ describe('Monster CRUD', () => {
 		});
 	});
 
-	const originalEncounter: IEncounterState = {
+	const originalEncounter: IEncounterData = {
 		Id: '0',
 		Name: "Encounter",
 		Description: "Example Description",
-		Monsters: [] as IMonsterState[],
+		Monsters: [] as IMonsterData[],
 	}
 
 
@@ -447,7 +447,7 @@ describe('Monster CRUD', () => {
 				"Id": 0,
 				"Name": "New Encounter",
 				"Description": "Example Description",
-				"Monsters": [] as IMonsterState[],
+				"Monsters": [] as IMonsterData[],
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			EncounterCRUDInstance.instance().createEncounter({ preventDefault() {} } as React.FormEvent);

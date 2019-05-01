@@ -7,7 +7,7 @@ exports[`Test the View Game Components Page renders correctly when the page is l
   <h1
     className="page-title"
   >
-    View Encounters
+    View Catalog Items
   </h1>
   <div
     className="tab-root"
@@ -17,19 +17,34 @@ exports[`Test the View Game Components Page renders correctly when the page is l
     >
       <WithStyles(Tabs)
         onChange={[Function]}
-        value={0}
+        value="monsters"
       >
         <WithStyles(Tab)
           label="Encounters"
+          value="encounters"
         />
         <WithStyles(Tab)
           label="Campaigns"
+          value="campaigns"
+        />
+        <WithStyles(Tab)
+          label="Characters"
+          value="characters"
         />
       </WithStyles(Tabs)>
     </WithStyles(AppBar)>
-    <TabContainer>
-      <EncounterList />
-    </TabContainer>
+    <Route
+      component={[Function]}
+      path="/game_components/encounters"
+    />
+    <Route
+      component={[Function]}
+      path="/game_components/campaigns"
+    />
+    <Route
+      component={[Function]}
+      path="/game_components/characters"
+    />
   </div>
 </div>
 `;
