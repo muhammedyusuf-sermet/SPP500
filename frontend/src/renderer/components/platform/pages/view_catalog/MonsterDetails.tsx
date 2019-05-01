@@ -5,7 +5,7 @@ import * as MonsterInterface from '../../../../../monster';
 import 'bulma/css/bulma.css';
 
 export interface IMonsterDetailsState {
-	monster: MonsterInterface.IMonsterState,
+	monster: MonsterInterface.IMonsterData,
 }
 
 export class MonsterDetails extends React.Component<any, IMonsterDetailsState> {
@@ -17,7 +17,7 @@ export class MonsterDetails extends React.Component<any, IMonsterDetailsState> {
 		this.preprocessMissingMonsterData();
 	}
 
-	isEmptyObject(obj: MonsterInterface.IMonsterState) {
+	isEmptyObject(obj: MonsterInterface.IMonsterData) {
 		for(var key in obj) {
 			if(obj.hasOwnProperty(key))
 				return false;
@@ -31,10 +31,10 @@ export class MonsterDetails extends React.Component<any, IMonsterDetailsState> {
 	preprocessMissingMonsterData() {
 		let monster = this.state.monster;
 		if(monster.AbilityScores == null){
-			monster.AbilityScores = {} as MonsterInterface.IMonsterAbilityScoreState;
+			monster.AbilityScores = {} as MonsterInterface.IMonsterAbilityScore;
 		}
 		if(monster.SavingThrows == null){
-			monster.SavingThrows = {} as MonsterInterface.IMonsterSavingThrowState;
+			monster.SavingThrows = {} as MonsterInterface.IMonsterSavingThrow;
 		}
 		if(monster.Skills == null){
 			monster.Skills = {} as MonsterInterface.SkillMap;

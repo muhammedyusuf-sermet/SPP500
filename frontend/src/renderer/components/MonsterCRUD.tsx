@@ -11,7 +11,7 @@ import '../css/app.css';
 
 import { Redirect } from "react-router-dom"
 import { Modal, ModalContent, Box, ModalBackground, Button, Field, Control, Input, Title, Subtitle, FieldLabel, Label, FieldBody, Help } from 'bloomer';
-import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterState } from '../../monster';
+import { MonsterType, MonsterRace, Size, Environment, Alignment, IMonsterData } from '../../monster';
 import { CookieManager } from '../../cookie';
 import { MonsterEnumConfiguration } from './platform/pages/view_catalog/monster/MonsterEnumConfiguration';
 import { MonsterResistances } from './platform/pages/view_catalog/monster/MonsterResistances';
@@ -36,7 +36,7 @@ export interface IMonsterCRUDProps {
 }
 
 export interface IMonsterCRUDState {
-	[key: string]: IMonsterState | MonsterCRUDState | number | boolean | {
+	[key: string]: IMonsterData | MonsterCRUDState | number | boolean | {
 		open: boolean;
 		message: string;
 	} | string | undefined;
@@ -56,7 +56,7 @@ export interface IMonsterCRUDState {
 	ExperiencePoints?: number;
 	ExperiencePointsError?: string;
 	// Monster from the server request
-	Monster: IMonsterState;
+	Monster: IMonsterData;
 }
 
 interface IMonsterCRUDResponse {
@@ -67,7 +67,7 @@ interface IMonsterCRUDResponse {
 export interface IMonsterGetOneResponse {
 	status: number,
 	messages: string[],
-	content: IMonsterState,
+	content: IMonsterData,
 }
 
 export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUDState> {
@@ -363,7 +363,7 @@ export class MonsterCRUD extends React.Component<IMonsterCRUDProps, IMonsterCRUD
 		monsterSpeed = speedBonusesState.SpeedSwim ? monsterSpeed + " Swimming Speed: " + speedBonusesState.SpeedSwim + " ft." : monsterSpeed
 		if(monsterSpeed.length == 0)
 			monsterSpeed = undefined;
-		let monsterPayload: IMonsterState = {
+		let monsterPayload: IMonsterData = {
 			Id: this.state.Id,
 			Name: this.state.Name,
 			ChallengeRating: this.state.ChallengeRating,

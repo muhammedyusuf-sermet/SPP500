@@ -3,7 +3,7 @@ import * as Campaign from "./campaign";
 // Dummy array of monsters
 import EncounterInstances from './encounter_instances';
 
-let encounterExample: Campaign.ICampaignState;
+let encounterExample: Campaign.ICampaignData;
 encounterExample = {
 	Id: 0,
 	Name: "Campaign",
@@ -16,7 +16,7 @@ let CampaignInstances = new Array();
 
 // Generate a dummy array of encounters with different IDs
 for (var i = 0; i < 12; i++) {
-	let encounter = {} as Campaign.ICampaignState;
+	let encounter = {} as Campaign.ICampaignData;
 	Object.assign(encounter, encounterExample);
 	encounter['Id'] = i;
 	CampaignInstances.push(encounter);

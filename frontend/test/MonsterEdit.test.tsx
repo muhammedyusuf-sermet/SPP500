@@ -8,7 +8,7 @@ import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import { IMonsterState } from '../src/monster';
+import { IMonsterData } from '../src/monster';
 
 jest.mock('../src/cookie');
 
@@ -87,7 +87,7 @@ describe('Monster CRUD', () => {
 		});
 	});
 
-	const originalMonster: IMonsterState = {
+	const originalMonster: IMonsterData = {
 		Id: 0,
 		Name: "Hello Original",
 		Type: "Celestial",

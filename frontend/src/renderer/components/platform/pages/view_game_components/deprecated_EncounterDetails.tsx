@@ -14,7 +14,7 @@ interface IEncounterDeleteResponse {
 }
 
 export interface IEncounterDetailsState {
-	encounter: EncounterInterface.IEncounterState,
+	encounter: EncounterInterface.IEncounterData,
 	modal: {
 		open: boolean,
 		message: string
@@ -34,7 +34,7 @@ export class EncounterDetails extends React.Component<any, IEncounterDetailsStat
 		this.preprocessMissingEncounterData();
 	}
 
-	isEmptyObject(obj: EncounterInterface.IEncounterState) {
+	isEmptyObject(obj: EncounterInterface.IEncounterData) {
 		for(var key in obj) {
 			if(obj.hasOwnProperty(key))
 				return false;
@@ -47,7 +47,7 @@ export class EncounterDetails extends React.Component<any, IEncounterDetailsStat
 	preprocessMissingEncounterData() {
 		let encounter = this.state.encounter;
 		if(encounter.Monsters == null){
-			encounter.Monsters = [] as MonsterInterface.IMonsterState[];
+			encounter.Monsters = [] as MonsterInterface.IMonsterData[];
 		}
 	}
 

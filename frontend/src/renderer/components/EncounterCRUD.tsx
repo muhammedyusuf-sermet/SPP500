@@ -7,8 +7,8 @@ import { API_URL } from "../../config"
 import { CookieManager } from "../../cookie";
 import {Pagination} from "./helpers/Pagination"
 
-import {IEncounterState} from '../../encounter';
-import {IMonsterState} from '../../monster';
+import {IEncounterData} from '../../encounter';
+import {IMonsterData} from '../../monster';
 
 interface IEncounterResponse {
 	status: number,
@@ -59,7 +59,7 @@ export interface IEncounterCRUDProps {
 export interface IEncounterGetOneResponse {
 	status: number,
 	messages: string[],
-	content: IEncounterState,
+	content: IEncounterData,
 }
 
 export interface IEncounterCRUDState {
@@ -75,7 +75,7 @@ export interface IEncounterCRUDState {
 	encounter: {
 		name: string,
 		description: string,
-		monsters: IMonsterState[],
+		monsters: IMonsterData[],
 	},
 	modal: {
 		open: boolean,
@@ -99,7 +99,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 			encounter: {
 				name: "",
 				description: "",
-				monsters: [] as IMonsterState[],
+				monsters: [] as IMonsterData[],
 			},
 			modal: {
 				open: false,
