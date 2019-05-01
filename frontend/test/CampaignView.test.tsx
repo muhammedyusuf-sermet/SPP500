@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, CampaignCRUDState, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
+import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -36,7 +36,7 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.get('/campaign/0')
 			.reply(200, basicResponse);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Read} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Read} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -72,7 +72,7 @@ describe('Campaign CRUD', () => {
             expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
             expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
 			campaignCRUDInstance.setProps({
-				Process: CampaignCRUDState.Edit
+				Process: CRUDProcess.Edit
 			});
             expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(false)
             expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(false)

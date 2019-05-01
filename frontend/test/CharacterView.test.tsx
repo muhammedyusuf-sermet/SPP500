@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps, CharacterCRUDProcess, ICharacterGetOneResponse } from "../src/renderer/components/CharacterCRUD";
+import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps, ICharacterGetOneResponse } from "../src/renderer/components/CharacterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -36,7 +36,7 @@ describe('Character CRUD', () => {
 			nock(API_URL)
 			.get('/character/0')
 			.reply(200, basicResponse);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Read} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Read} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -78,7 +78,7 @@ describe('Character CRUD', () => {
 			expect(characterCRUDInstance.find('input#ArmorClass').props().disabled).toEqual(true)
 			expect(characterCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
 			characterCRUDInstance.setProps({
-				Process: CharacterCRUDProcess.Edit
+				Process: CRUDProcess.Edit
 			});
 			expect(characterCRUDInstance.find('input#Name').props().disabled).toEqual(false)
 			expect(characterCRUDInstance.find('input#Level').props().disabled).toEqual(false)

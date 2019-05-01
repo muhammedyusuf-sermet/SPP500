@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper, shallow } from 'enzyme';
 
-import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, CampaignCRUDState, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
+import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -44,7 +44,7 @@ describe('Campaign CRUD', () => {
 					<Switch>
 						<Route exact path='/create' render={() => (
 							<React.Fragment>
-								<CampaignCRUD Process={CampaignCRUDState.Create} />
+								<CampaignCRUD Process={CRUDProcess.Create} />
 								<Link to='/' replace={false} >Home</Link>
 							</React.Fragment>
 						)} />
@@ -119,7 +119,7 @@ describe('Campaign CRUD', () => {
 				messages: ['success'],
 				content: originalCampaign
 			});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -173,7 +173,7 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.get('/campaign/0')
 			.reply(404);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -191,7 +191,7 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.get('/campaign/0')
 			.reply(200, { status: 400, messages: ["Campaign not found."]});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -208,7 +208,7 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.get('/campaign/0')
 			.reply(200, { status: 401 });
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED, SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -234,7 +234,7 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.get('/campaign/0')
 			.reply(200, basicResponse);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -370,7 +370,7 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.get('/campaign/0')
 			.reply(200, basicResponse);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -464,7 +464,7 @@ describe('Campaign CRUD', () => {
 				messages: ['success'],
 				content: originalCampaign
 			});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -490,7 +490,7 @@ describe('Campaign CRUD', () => {
 				messages: ['success'],
 				content: originalCampaign
 			});
-			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Edit} Id={0} />);
+			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -507,7 +507,7 @@ describe('Campaign CRUD', () => {
 			campaignCRUDInstance.find('textarea#Summary').simulate('change', { target: { value: "Gnome" } })
 			campaignCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
 			expect(campaignCRUDInstance.state()).toEqual({
-				Process: CampaignCRUDState.Edit,
+				Process: CRUDProcess.Edit,
 				Id: 0,
 				submitted: false,
 				modal: {

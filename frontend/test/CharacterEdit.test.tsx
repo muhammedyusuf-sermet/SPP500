@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper, shallow } from 'enzyme';
 
-import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps, CharacterCRUDProcess, ICharacterGetOneResponse } from "../src/renderer/components/CharacterCRUD";
+import { CharacterCRUD, ICharacterCRUDState, ICharacterCRUDProps, ICharacterGetOneResponse } from "../src/renderer/components/CharacterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -44,7 +44,7 @@ describe('Character CRUD', () => {
 					<Switch>
 						<Route exact path='/create' render={() => (
 							<React.Fragment>
-								<CharacterCRUD Process={CharacterCRUDProcess.Create} />
+								<CharacterCRUD Process={CRUDProcess.Create} />
 								<Link to='/' replace={false} >Home</Link>
 							</React.Fragment>
 						)} />
@@ -122,7 +122,7 @@ describe('Character CRUD', () => {
 				messages: ['success'],
 				content: originalCharacter
 			});
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -176,7 +176,7 @@ describe('Character CRUD', () => {
 			nock(API_URL)
 			.get('/character/0')
 			.reply(404);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -194,7 +194,7 @@ describe('Character CRUD', () => {
 			nock(API_URL)
 			.get('/character/0')
 			.reply(200, { status: 400, messages: ["Character not found."]});
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -211,7 +211,7 @@ describe('Character CRUD', () => {
 			nock(API_URL)
 			.get('/character/0')
 			.reply(200, { status: 401 });
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED, SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -237,7 +237,7 @@ describe('Character CRUD', () => {
 			nock(API_URL)
 			.get('/character/0')
 			.reply(200, basicResponse);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -384,7 +384,7 @@ describe('Character CRUD', () => {
 			nock(API_URL)
 			.get('/character/0')
 			.reply(200, basicResponse);
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -478,7 +478,7 @@ describe('Character CRUD', () => {
 				messages: ['success'],
 				content: originalCharacter
 			});
-			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			characterCRUDInstance = mount<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -504,7 +504,7 @@ describe('Character CRUD', () => {
 				messages: ['success'],
 				content: originalCharacter
 			});
-			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CharacterCRUDProcess.Edit} Id={0} />);
+			const shallowCharacterCRUD = shallow<CharacterCRUD, ICharacterCRUDProps, ICharacterCRUDState>(<CharacterCRUD Process={CRUDProcess.Edit} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -525,7 +525,7 @@ describe('Character CRUD', () => {
 			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: 40 } })
 			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
 			expect(characterCRUDInstance.state()).toEqual({
-				Process: CharacterCRUDProcess.Edit,
+				Process: CRUDProcess.Edit,
 				Id: 0,
 				submitted: false,
 				modal: {

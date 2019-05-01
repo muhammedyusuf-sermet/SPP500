@@ -14,21 +14,15 @@ import { CampaignDetails } from './platform/pages/view_game_components/campaign/
 import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
 import { ICampaignData } from '../../campaign';
-
-
-export enum CampaignCRUDState {
-	Create = 'Create',
-	Read = 'Read',
-	Edit = 'Edit'
-}
+import { CRUDProcess } from './MonsterCRUD';
 
 export interface ICampaignCRUDProps {
-	Process: CampaignCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 }
 
 export interface ICampaignCRUDState {
-	Process: CampaignCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 	submitted: boolean;
 	modal: {
@@ -90,7 +84,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	}
 
 	componentWillReceiveProps(nextProps: ICampaignCRUDProps) {
-		if (nextProps.Process != CampaignCRUDState.Create && nextProps.Id != this.props.Id){
+		if (nextProps.Process != CRUDProcess.Create && nextProps.Id != this.props.Id){
 			const options = { method: 'GET',
 				url: API_URL + '/campaign/' + nextProps.Id,
 				headers:
@@ -130,7 +124,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	}
 
 	componentDidMount() {
-		if (this.props.Process != CampaignCRUDState.Create){
+		if (this.props.Process != CRUDProcess.Create){
 			const options = { method: 'GET',
 				url: API_URL + '/campaign/' + this.props.Id,
 				headers:
@@ -185,7 +179,6 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	}
 
 	validateForm = async () => {
-		
 		const campaignState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
 
 		const campaignPayload = {
@@ -195,11 +188,10 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		const encounters: {Id?: number}[] = []
 		const numberPattern = /\d+/g;
 		const ids = campaignPayload.Encounters.match(numberPattern);
-		if (ids != null) {
+		if (ids != null)
 			ids.forEach((value: any) => {
 				encounters.push({ Id: this.stringToNumber(value)})
 			});
-		}
 		campaignPayload.Encounters = encounters
 
 		let validationErrors = Joi.validate(
@@ -234,7 +226,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 			this.openModal(validationErrors.toString());
 		} else {
 			let route = '/campaign';
-			if (this.state.Process == CampaignCRUDState.Create) {
+			if (this.state.Process == CRUDProcess.Create) {
 				route += '/create';
 			} else {
 				route += '/edit'
@@ -253,7 +245,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 			await request(options)
 				.then((body: ICampaignCRUDResponse) => {
 					if (body.status == 201) { // success
-						if (this.state.Process == CampaignCRUDState.Create) {
+						if (this.state.Process == CRUDProcess.Create) {
 							this.openModal("Campaign successfully created.");
 						} else {
 							this.openModal("Campaign successfully updated.");
@@ -281,18 +273,18 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	render() {
 		return (
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
-			<div className="campaign-CRUD-container" > 
+			<div className="campaign-CRUD-container" >
 				<Typography variant='h6' >{this.state.Process} a Campaign</Typography>
 				<form onSubmit={this.submitForm}>
 					<CampaignDetails
 						ref={this.CampaignDetails}
-						disabled={this.state.Process == CampaignCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						initial={{
 							...this.state.Campaign
 						}} />
-					{this.state.Process == CampaignCRUDState.Read ? null :
+					{this.state.Process == CRUDProcess.Read ? null :
 						<Field>
 							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
 						</Field>
@@ -300,7 +292,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 					<Field>
 						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
 							history.back();
-						}}>{this.state.Process == CampaignCRUDState.Read ? 'Back' : 'Cancel'}</Button>
+						}}>{this.state.Process == CRUDProcess.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 				</form>
 				<Modal id='CampaignCRUDModal' isActive={this.state.modal.open}>

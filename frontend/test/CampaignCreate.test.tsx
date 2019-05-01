@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper, shallow } from 'enzyme';
-import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, CampaignCRUDState } from "../src/renderer/components/CampaignCRUD";
+import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps } from "../src/renderer/components/CampaignCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -34,7 +34,7 @@ describe('Campaign CRUD create', () => {
 					<Switch>
 						<Route exact path='/create' render={() => (
 							<React.Fragment>
-								<CampaignCRUD Process={CampaignCRUDState.Create} />
+								<CampaignCRUD Process={CRUDProcess.Create} />
 								<Link to='/' replace={false} >Home</Link>
 							</React.Fragment>
 						)} />
@@ -95,7 +95,7 @@ describe('Campaign CRUD create', () => {
 			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			characterCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Create} />);
+			characterCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Create} />);
 		})
 
 		it('renders without crashing', () => {
@@ -103,7 +103,7 @@ describe('Campaign CRUD create', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Create} />);
+			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Create} />);
 
 			expect(shallowCampaignCRUD).toMatchSnapshot();
 		});
@@ -227,7 +227,7 @@ describe('Campaign CRUD create', () => {
 			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: "Kill small creatures first." } })
 			characterCRUDInstance.find('textarea#Encounters').simulate('change', { target: { value: "1,2" } })
 			expect(characterCRUDInstance.state()).toEqual({
-				Process: CampaignCRUDState.Create,
+				Process: CRUDProcess.Create,
 				Id: undefined,
 				submitted: false,
 				modal: {

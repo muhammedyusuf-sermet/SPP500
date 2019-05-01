@@ -2,11 +2,12 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { EncounterCRUD, IEncounterCRUDState, IEncounterCRUDProps, EncounterCRUDState } from "../src/renderer/components/EncounterCRUD";
+import { EncounterCRUD, IEncounterCRUDState, IEncounterCRUDProps } from "../src/renderer/components/EncounterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
+import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 
 jest.mock('../src/cookie');
 
@@ -46,7 +47,7 @@ describe('Encounter CRUD', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, basicResponse);
-			encounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={EncounterCRUDState.Read} Id={0} />);
+			encounterCRUDInstance = mount<EncounterCRUD, IEncounterCRUDProps, IEncounterCRUDState>(<EncounterCRUD Process={CRUDProcess.Read} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));

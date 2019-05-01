@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, MonsterCRUDState } from "../src/renderer/components/MonsterCRUD";
+import { MonsterCRUD, IMonsterCRUDState, IMonsterCRUDProps, CRUDProcess } from "../src/renderer/components/MonsterCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -33,7 +33,7 @@ describe('Monster CRUD', () => {
 			nock(API_URL)
 			.get('/monster/0')
 			.reply(200, basicResponse);
-			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={MonsterCRUDState.Read} Id={0} />);
+			monsterCRUDInstance = mount<MonsterCRUD, IMonsterCRUDProps, IMonsterCRUDState>(<MonsterCRUD Process={CRUDProcess.Read} Id={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
