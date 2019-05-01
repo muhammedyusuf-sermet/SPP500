@@ -108,9 +108,35 @@ export class CharacterFactory implements IFactory {
 		}
 	};
 	public async Delete(request: {auth: any, params: any}) {
+		const characterId = +request.params.characterId
+		const messages: string[] = [];
+
+		if (isNaN(characterId)) {
+			messages.push("Parameter 'characterId' must be a number.")
+		}
+
+		if (messages.length == 0) {
+			const characterDb = await Character.findOne<Character>({
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+				where: { Id: characterId }
+			});
+			if (characterDb) {
+				if (characterDb.Creator.Id == request.auth.credentials.id) {
+					await characterDb.remove()
+					return {
+						"status": 201,
+						"messages": ['success'],
+					}
+				} else {
+					messages.push("Requester is not the owner.")
+				}
+			} else {
+				messages.push("Character is not found.")
+			}
+		}
 		return {
-			'status': 400,
-			'messages': ['Not implemented']
+			"status": 400,
+			"messages": messages,
 		}
 	};
 	public async GetOne(request: {auth: any, params: any}) {

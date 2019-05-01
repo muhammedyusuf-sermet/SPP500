@@ -204,13 +204,49 @@ describe('character tests', async () => {
 			expect(response['messages'][0]).toBe("Not implemented");
 		});
 	});
-	describe('character delete tests', () => {
-		let character = new CharacterFactory();
+	
+	describe('character delete tests', async () => {
+		beforeAll( async () => {
+	 		const user = new User();
+			user.Name = "John Doe";
+			user.Id = 1;
+			await user.save();
 
-		it('should not be ready', async () => {
+			const user2 = new User();
+			user2.Name = "John Doe";
+			user2.Id = 2;
+			await user2.save();
+
+	 		let char = new Character();
+			char.Name = "John Doe";
+			char.Id = 1;
+			char.Creator = user;
+			await char.save();
+		});
+
+	 	var character = new CharacterFactory();
+
+	 	test('When another user requests an character to delete when they are not the owner', async () => {
 			const response = await character.Delete({
 				params: {
-					characterId: 1,
+					characterId: 1
+				},
+				auth: {
+					credentials: {
+						id: 2
+					}
+				}
+			});
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Requester is not the owner.");
+		});
+
+	 	test('When owner of an character requests delete', async () => {
+			const response = await character.Delete({
+				params: {
+					characterId: 1
 				},
 				auth: {
 					credentials: {
@@ -218,13 +254,47 @@ describe('character tests', async () => {
 					}
 				}
 			});
+			expect.assertions(3);
+			expect(response['status']).toBe(201);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("success");
+		});
 
+		test('When an invalid character is given', async () => {
+			const response = await character.Delete({
+				params: {
+					characterId: 2
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
 			expect.assertions(3);
 			expect(response['status']).toBe(400);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("Not implemented");
+			expect(response['messages'][0]).toBe("Character is not found.");
+		});
+
+		test('When character id is not a number', async () => {
+			const response = await character.Delete({
+				params: {
+					characterId: 'test'
+				},
+				auth: {
+					credentials: {
+						id: 1
+					}
+				}
+			});
+			expect.assertions(3);
+			expect(response['status']).toBe(400);
+			expect(response['messages'].length).toBe(1)
+			expect(response['messages'][0]).toBe("Parameter 'characterId' must be a number.");
 		});
 	});
+
 	describe('character get one tests', () => {
 		beforeAll( async () => {
 			Character.clear();
