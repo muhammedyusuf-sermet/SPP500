@@ -413,10 +413,11 @@ describe('character get all tests', async () => {
 			}
 		});
 
- 		expect.assertions(3);
+ 		expect.assertions(4);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
+		expect(response.content).toEqual([])
 	});
 
  	test('when size parameter is not number', async () => {
@@ -432,10 +433,32 @@ describe('character get all tests', async () => {
 			}
 		});
 
- 		expect.assertions(3);
+ 		expect.assertions(4);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1);
 		expect(response['messages'][0]).toBe("Parameter 'size' must be a number.");
+		expect(response.content).toEqual([])
+	});
+
+	test('when page and size parameter is not number', async () => {
+		const response = await character.GetMany({
+			params: {
+				page: "test",
+				size: "test"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect.assertions(5);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(2);
+		expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
+		expect(response['messages'][1]).toBe("Parameter 'size' must be a number.");
+		expect(response.content).toEqual([])
 	});
 
 });
