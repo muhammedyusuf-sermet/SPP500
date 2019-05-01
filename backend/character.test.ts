@@ -277,7 +277,7 @@ describe('character tests', async () => {
 			expect(response['messages'][0]).toBe("Character is not found.");
 		});
 
-		test('When an encounter is not a number', async () => {
+		test('When character id is not a number', async () => {
 			const response = await character.Delete({
 				params: {
 					characterId: 'test'
