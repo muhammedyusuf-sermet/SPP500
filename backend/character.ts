@@ -177,9 +177,41 @@ export class CharacterFactory implements IFactory {
 		}
 	};
 	public async GetMany(request: {auth: any, params: any}) {
-		return {
-			'status': 400,
-			'messages': ['Not implemented']
+		const authInfo = request.auth;
+		var pageNumber = +request.params.page;
+		var pageSize = +request.params.size;
+
+ 		var messages = [];
+
+ 		if (isNaN(pageNumber)) {
+			messages.push("Parameter 'page' must be a number.")
+		}
+
+ 		if (isNaN(pageSize)) {
+			messages.push("Parameter 'size' must be a number.")
+		}
+
+
+		if (messages.length == 0) {
+			var allCharacters = await Character.find({
+				where: {Creator : { Id: authInfo.credentials.id}},
+			});
+
+			var respond = allCharacters.slice(pageSize*pageNumber, pageSize*(pageNumber+1))
+
+			return {
+				"status": 201,
+				"messages": messages,
+				"content": respond,
+				"total": allCharacters.length
+			}
+		} else {
+			return {
+				"status": 400,
+				"messages": messages,
+				"content": [],
+				"total": 0
+			}
 		}
 	};
 }
