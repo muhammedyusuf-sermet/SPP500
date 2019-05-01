@@ -321,26 +321,144 @@ describe('character tests', async () => {
 			expect(response['messages'][0]).toBe("Requester is not the owner.");
 		});
 	});
-	describe('character get many tests', () => {
-		let character = new CharacterFactory();
-
-		it('should not be ready', async () => {
-			const response = await character.GetMany({
-				params: {
-					characterId: 1,
-				},
-				auth: {
-					credentials: {
-						id: 1
-					}
-				}
-			});
-
-			expect.assertions(3);
-			expect(response['status']).toBe(400);
-			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("Not implemented");
-		});
-	});
 });
 
+
+describe('character get all tests', async () => {
+	beforeAll( async () => {
+		Character.clear();
+
+		let user = new User();
+		user.Name = "John Doe";
+		user.Id = 1;
+		await user.save();
+
+		let char = new Character();
+		char.Name = "John Doe";
+		char.Id = 1;
+		char.Creator = user;
+		await char.save();
+
+		let char2 = new Character();
+		char2.Name = "John II Doe";
+		char2.Id = 2;
+		char2.Creator = user;
+		await char2.save();
+
+		let char3 = new Character();
+		char3.Name = "John III Doe";
+		char3.Id = 3;
+		char3.Creator = user;
+		await char3.save();
+
+	});
+
+ 	var character = new CharacterFactory();
+
+
+ 	test('when page number and page size is given properly for first page', async () => {
+		const response = await character.GetMany({
+			params: {
+				page: 0,
+				size: 2
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+
+ 		expect.assertions(6);
+		expect(response['status']).toBe(201);
+		expect(response['total']).toBe(3);
+		expect(response['messages'].length).toBe(0);
+		expect(response['content'].length).toBe(2);
+		expect(response['content'][0].Id).toBe(1);
+		expect(response['content'][1].Id).toBe(2);
+	});
+
+ 	test('when page number and page size is given properly for last page', async () => {
+		const response = await character.GetMany({
+			params: {
+				page: 1,
+				size: 2
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect.assertions(5);
+		expect(response['status']).toBe(201);
+		expect(response['total']).toBe(3);
+		expect(response['messages'].length).toBe(0);
+		expect(response['content'].length).toBe(1);
+		expect(response['content'][0].Id).toBe(3);
+	});
+
+ 	test('when page parameter is not number', async () => {
+		const response = await character.GetMany({
+			params: {
+				page: "test",
+				size: 2
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect.assertions(4);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
+		expect(response.content).toEqual([])
+	});
+
+ 	test('when size parameter is not number', async () => {
+		const response = await character.GetMany({
+			params: {
+				page: 0,
+				size: "test"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect.assertions(4);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1);
+		expect(response['messages'][0]).toBe("Parameter 'size' must be a number.");
+		expect(response.content).toEqual([])
+	});
+
+	test('when page and size parameter is not number', async () => {
+		const response = await character.GetMany({
+			params: {
+				page: "test",
+				size: "test"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+
+ 		expect.assertions(5);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(2);
+		expect(response['messages'][0]).toBe("Parameter 'page' must be a number.");
+		expect(response['messages'][1]).toBe("Parameter 'size' must be a number.");
+		expect(response.content).toEqual([])
+	});
+
+});
