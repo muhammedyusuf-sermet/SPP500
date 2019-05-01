@@ -45,24 +45,16 @@ export class EncounterList extends React.Component<any, IEncounterListState> {
 			totalEncounters: 0,
 			encountersInCurrentPage: [] as EncounterInterface.IEncounterData[],
 		}
-		this.resetState = this.resetState.bind(this);
-		this.updatePage = this.updatePage.bind(this);
-		this.getTotalPages = this.getTotalPages.bind(this);
 
 		// First page ever
 		this.getPaginatedEncounters(0);
 	}
 
-	resetState() {
-		this.setState({ page: 0});
-		this.getPaginatedEncounters(0);
-	}
-
-	updatePage(page: number) {
+	updatePage = (page: number) => {
 		this.getPaginatedEncounters(page);
 	}
 
-	getTotalPages() {
+	getTotalPages = () => {
 		return Math.ceil(this.state.totalEncounters / this.state.pageSize)-1;
 	}
 

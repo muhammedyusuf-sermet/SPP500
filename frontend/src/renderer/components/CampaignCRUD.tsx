@@ -10,10 +10,11 @@ import 'bulma/css/bulma.css';
 import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
-import { CampaignDetails } from './platform/pages/view_game_components/CampaignDetails';
+import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
 import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
-import { ICampaignState } from '../../campaign';
+import { ICampaignData } from '../../campaign';
+
 
 export enum CampaignCRUDState {
 	Create = 'Create',
@@ -34,7 +35,7 @@ export interface ICampaignCRUDState {
 		open: boolean;
 		message: string;
 	};
-	Campaign: ICampaignState;
+	Campaign: ICampaignData;
 }
 
 interface ICampaignCRUDResponse {
@@ -45,7 +46,7 @@ interface ICampaignCRUDResponse {
 export interface ICampaignGetOneResponse {
 	status: number,
 	messages: string[],
-	content: ICampaignState,
+	content: ICampaignData,
 }
 
 

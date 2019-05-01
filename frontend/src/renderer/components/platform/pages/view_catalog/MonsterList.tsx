@@ -1,24 +1,21 @@
 import * as React from 'react';
 import * as request from 'request';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import * as MonsterInterface from '../../../../../monster';
+
+import { API_URL } from '../../../../../config';
+import { CookieManager } from '../../../../../cookie';
+
 import {Pagination} from '../../../helpers/Pagination';
 
-import { CookieManager } from '../../../../../cookie';
-import { API_URL } from '../../../../../config';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import { Link } from 'react-router-dom';
+import { IMonsterData } from '../../../../../monster';
 
 interface IMonsterGetResponse {
 	status: number,
 	messages: string[],
-	content: MonsterInterface.IMonsterData[],
+	content: IMonsterData[],
 	total: number,
 }
 
@@ -27,33 +24,33 @@ interface IMonsterDeleteResponse {
 	messages: string[]
 }
 
-export interface IMonsterState {
+export interface IMonsterListState {
 	page: number,
 	pageSize: number,
 	totalMonsters: number,
-	monstersInCurrentPage: MonsterInterface.IMonsterData[],
+	monstersInCurrentPage: IMonsterData[],
 }
 
-export class Monster extends React.Component<any, IMonsterState> {
+export class MonsterList extends React.Component<any, IMonsterListState> {
 	constructor(props: any) {
 		super(props);
 		this.state = {
 			page: 0,
 			pageSize: 12,
 			totalMonsters: 0,
-			monstersInCurrentPage: [] as MonsterInterface.IMonsterData[],
+			monstersInCurrentPage: [] as IMonsterData[],
 		}
-		this.resetState = this.resetState.bind(this);
-		this.updatePage = this.updatePage.bind(this);
-		this.getTotalPages = this.getTotalPages.bind(this);
 
 		// First page ever
 		this.getPaginatedMonsters(0);
 	}
 
-	resetState() {
-		this.setState({ page: 0});
-		this.getPaginatedMonsters(0);
+	updatePage = (page: number) => {
+		this.getPaginatedMonsters(page);
+	}
+
+	getTotalPages = () => {
+		return Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
 	}
 
 	deleteMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -69,14 +66,6 @@ export class Monster extends React.Component<any, IMonsterState> {
 		request(options, (error:string, responce: any, body: IMonsterDeleteResponse) => {
 			this.getPaginatedMonsters(this.state.page);
 		})
-	}
-
-	updatePage(page: number) {
-		this.getPaginatedMonsters(page);
-	}
-
-	getTotalPages() {
-		return Math.ceil(this.state.totalMonsters / this.state.pageSize)-1;
 	}
 
 	getPaginatedMonsters(page: number) {
@@ -101,7 +90,7 @@ export class Monster extends React.Component<any, IMonsterState> {
 				// There was an error retrieving the monsters. Just return empty array.
 				// No need to print a modal.
 				this.setState({
-						monstersInCurrentPage: [] as MonsterInterface.IMonsterData[],
+						monstersInCurrentPage: [] as IMonsterData[],
 						totalMonsters: 0,
 				});
 			}

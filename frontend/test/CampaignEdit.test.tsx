@@ -8,7 +8,7 @@ import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
-import { ICampaignState } from '../src/campaign';
+import { ICampaignData } from '../src/campaign';
 
 jest.mock('../src/cookie');
 
@@ -96,7 +96,7 @@ describe('Campaign CRUD', () => {
 		});
 	});
 
-	const originalCampaign: ICampaignState = {
+	const originalCampaign: ICampaignData = {
 		Id: 0,
 		Name: "Hello Original",
         Summary: "This is legit.",
