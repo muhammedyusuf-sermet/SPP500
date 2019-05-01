@@ -1,9 +1,11 @@
-import * as Encounter from "./encounter";
+import { ICharacterData } from "./character";
+import { IEncounterState } from "./encounter";
 
 export interface ICampaignState {
-	Id?: number,
-	Name: string,
+	Id?: number;
+	Name: string;
 	Summary?: string;
 	Notes?: string;
-	Encounters?: Encounter.IEncounterState[];
+	Characters: ICharacterData[];
+	Encounters: IEncounterState[];
 }

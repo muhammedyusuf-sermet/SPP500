@@ -2,6 +2,7 @@ import * as Campaign from "./campaign";
 
 // Dummy array of monsters
 import EncounterInstances from './encounter_instances';
+import { CharacterInstances } from "./character_instances";
 
 let encounterExample: Campaign.ICampaignState;
 encounterExample = {
@@ -10,6 +11,7 @@ encounterExample = {
 	Summary: "Bloody hell...",
 	Notes: "You gonna die!",
 	Encounters: EncounterInstances['EncounterInstances'],
+	Characters: CharacterInstances
 };
 
 let CampaignInstances = new Array();
