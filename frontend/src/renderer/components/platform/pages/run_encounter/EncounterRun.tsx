@@ -113,13 +113,14 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 				if (body.status == 201) { // success
 					const initiatives: IInitiativeSort[] = [];
 					this.state.Initiatives.map(value => initiatives.push(value));
-					body.content.Monsters.map((mon, index) => initiatives.push({
-						Initiative: Math.ceil(Math.random() * 20),
-						Index: index,
-						Dextarity: mon.AbilityScores.Dexterity,
-						Type: 'Monster',
-						Source: body.content.Monsters
-					}));
+					if (body.content.Monsters)
+						body.content.Monsters.map((mon, index) => initiatives.push({
+							Initiative: Math.ceil(Math.random() * 20),
+							Index: index,
+							Dextarity: mon.AbilityScores.Dexterity,
+							Type: 'Monster',
+							Source: body.content.Monsters as IMonsterData[]
+						}));
 					initiatives.sort((a,b) => {
 						if (a.Initiative > b.Initiative) {
 							return -1
@@ -163,13 +164,14 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 					if (body.status == 201) { // success
 						const initiatives: IInitiativeSort[] = [];
 						this.state.Initiatives.map(value => initiatives.push(value));
-						body.content.Characters.map((char, index) => initiatives.push({
-							Initiative: Math.ceil(Math.random() * 20),
-							Index: index,
-							Dextarity: undefined,
-							Type: 'Player',
-							Source: body.content.Characters
-						}));
+						if (body.content.Characters)
+							body.content.Characters.map((char, index) => initiatives.push({
+								Initiative: Math.ceil(Math.random() * 20),
+								Index: index,
+								Dextarity: undefined,
+								Type: 'Player',
+								Source: body.content.Characters as ICampaignData[]
+							}));
 						initiatives.sort((a,b) => {
 							if (a.Initiative > b.Initiative) {
 								return -1
