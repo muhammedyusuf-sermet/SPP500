@@ -78,15 +78,15 @@ export class App extends React.Component<IAppProps> {
 									);}} />
 								<Route path="/encounter/create" render={() => {
 									return (
-										<EncounterCRUD Process={CRUDState.Create} />
+										<EncounterCRUD Process={CRUDProcess.Create} />
 									);}} />
 								<Route path="/encounter/view/:Id" render={(props) => {
 									return (
-										<EncounterCRUD Process={CRUDState.Read} Id={props.match.params.Id} />
+										<EncounterCRUD Process={CRUDProcess.Read} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/encounter/edit/:Id" render={(props) => {
 									return (
-										<EncounterCRUD Process={CRUDState.Edit} Id={props.match.params.Id} />
+										<EncounterCRUD Process={CRUDProcess.Edit} Id={props.match.params.Id} />
 									);}} />
 								<Route path="/catalog" component={ViewCatalog} />
 								<Route path="/game_components" component={ViewGameComponents} />

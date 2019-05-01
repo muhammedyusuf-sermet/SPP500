@@ -125,11 +125,11 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 					if (body.status == 201) { // success
 						var encounter = {...this.state.encounter}
 						encounter.name = body.content.Name;
-						encounter.description = body.content.Description;
-						encounter.monsters = body.content.Monsters;
+						encounter.description = body.content.Description || '';
+						encounter.monsters = body.content.Monsters || [];
 						this.setState({encounter})
 
-						body.content.Monsters.forEach(monster => {
+						encounter.monsters.forEach(monster => {
 							var monsterID = monster.Id as number;
 							this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(monsterID.toString(), true)}));
 						});
@@ -180,9 +180,10 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 	}
 
 	handleMonsterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		event.persist();
+		const name = event.target.name
+		const checked = event.target.checked
 
-		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(event.target.name, event.target.checked)}));
+		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(name, checked)}));
 	}
 
 	openModal = (messageText: string) => {
@@ -296,7 +297,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 						</Control>
 					</Tile>
 
-					{this.state.Process == CRUDProcess.Read ? 
+					{this.state.Process == CRUDProcess.Read ?
 
 						<Tile className="box" isVertical>
 							<Subtitle>Monsters</Subtitle>

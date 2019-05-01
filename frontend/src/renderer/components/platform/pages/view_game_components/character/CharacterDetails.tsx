@@ -15,10 +15,6 @@ import { ICampaignData } from '../../../../../../campaign';
 const races = Object.values(CharacterRace);
 const classes = Object.values(CharacterClass);
 
-export interface IEncounterState {
-	Id?: number
-}
-
 export interface ICharacterDetailsProps {
 	disabled?: boolean,
 	// validation

@@ -97,7 +97,7 @@ describe('Monster CRUD', () => {
 	});
 
 	const originalEncounter: IEncounterData = {
-		Id: '0',
+		Id: 1,
 		Name: "Encounter",
 		Description: "Example Description",
 		Monsters: [] as IMonsterData[],
