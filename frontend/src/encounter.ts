@@ -1,8 +1,8 @@
 import { IMonsterData } from "./monster";
 
 export interface IEncounterData {
-	Id?: string,
+	Id?: number,
 	Name: string,
-	Description: string;
-	Monsters: IMonsterData[];
+	Description?: string;
+	Monsters?: IMonsterData[];
 }

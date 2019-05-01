@@ -20,7 +20,7 @@ describe('Encounter Run', () => {
 		status: 201,
 		messages: ['success'],
 		content: {
-			Id: '0',
+			Id: 1,
 			Name: 'Basic Encounter',
 			Description: 'Basic Description',
 			Monsters: [

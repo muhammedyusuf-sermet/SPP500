@@ -10,42 +10,26 @@ import 'bulma/css/bulma.css';
 import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloomer';
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
-import { CampaignDetails } from './platform/pages/view_game_components/CampaignDetails';
+import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
 import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
-
-export interface IEncounterState{
-	Id?: number
-}
-
-export interface ICampaignState{
-	Id?: number;
-	Name: string;
-	Summary?: string;
-	Notes?: string;
-	Encounters?: IEncounterState[];
-}
-
-export enum CampaignCRUDState {
-	Create = 'Create',
-	Read = 'Read',
-	Edit = 'Edit'
-}
+import { ICampaignData } from '../../campaign';
+import { CRUDProcess } from './MonsterCRUD';
 
 export interface ICampaignCRUDProps {
-	Process: CampaignCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 }
 
 export interface ICampaignCRUDState {
-	Process: CampaignCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 	submitted: boolean;
 	modal: {
 		open: boolean;
 		message: string;
 	};
-	Campaign: ICampaignState;
+	Campaign: ICampaignData;
 }
 
 interface ICampaignCRUDResponse {
@@ -56,16 +40,16 @@ interface ICampaignCRUDResponse {
 export interface ICampaignGetOneResponse {
 	status: number,
 	messages: string[],
-	content: ICampaignState,
+	content: ICampaignData,
 }
 
 
 export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignCRUDState> {
 	private payloadSchema = Joi.object({
-		Id: Joi.number().greater(0),
-		Name: Joi.string().required().max(50),
-		Summary: Joi.string().max(1000),
-		Notes: Joi.string().max(2000),
+		Id: Joi.number().greater(0).allow(0),
+		Name: Joi.string().required().max(50).label("Name"),
+		Summary: Joi.string().max(1000).label("Summary"),
+		Notes: Joi.string().max(2000).label("Notes"),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
 		})).default([])
@@ -100,7 +84,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	}
 
 	componentWillReceiveProps(nextProps: ICampaignCRUDProps) {
-		if (nextProps.Process != CampaignCRUDState.Create && nextProps.Id != this.props.Id){
+		if (nextProps.Process != CRUDProcess.Create && nextProps.Id != this.props.Id){
 			const options = { method: 'GET',
 				url: API_URL + '/campaign/' + nextProps.Id,
 				headers:
@@ -115,47 +99,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 				.then((body: ICampaignGetOneResponse) => {
 					if (body.status == 201) { // success
 						this.setState({
-							Id: body.content.Id ? body.content.Id : -1,
-							Campaign: body.content
-						});
-					} else if (body.messages) {
-						// TODO: change backend so it sends better error messages.
-						// TODO: parse the error messages so they show better.
-						// TODO: maybe the messages from the server shouldn't be
-						// a list of strings but a JSON object so things are
-						// grouped together. Easier to parse?
-						this.openModal("Error finding monster: "+body.messages.toString());
-					}else{
-						this.openModal("There was an error retreiving the monster. Please try again later.")
-					}
-				})
-				.catch((error: string) => {
-					this.openModal("There was an error sending your request.")
-				})
-		} else if (nextProps.Process != this.props.Process) {
-			this.setState({
-				Process: nextProps.Process
-			});
-		}
-	}
-
-	componentDidMount() {
-		if (this.props.Process != CampaignCRUDState.Create){
-			const options = { method: 'GET',
-				url: API_URL + '/campaign/' + this.props.Id,
-				headers:
-				{
-					'Cache-Control': 'no-cache',
-					'Authorization': CookieManager.UserToken('session_token')
-				},
-				json: true
-			};
-
-			request(options)
-				.then((body: ICampaignGetOneResponse) => {
-					if (body.status == 201) { // success
-						this.setState({
-							Id: body.content.Id ? body.content.Id : -1,
+							Id: body.content.Id != undefined ? body.content.Id : -1,
 							Campaign: body.content
 						});
 					} else if (body.messages) {
@@ -170,8 +114,46 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 					}
 				})
 				.catch((error: string) => {
-					console.log("CampaignCRUD ERROR:")
-					console.log(error)
+					this.openModal("There was an error sending your request.")
+				})
+		} else if (nextProps.Process != this.props.Process) {
+			this.setState({
+				Process: nextProps.Process
+			});
+		}
+	}
+
+	componentDidMount() {
+		if (this.props.Process != CRUDProcess.Create){
+			const options = { method: 'GET',
+				url: API_URL + '/campaign/' + this.props.Id,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				json: true
+			};
+
+			request(options)
+				.then((body: ICampaignGetOneResponse) => {
+					if (body.status == 201) { // success
+						this.setState({
+							Id: body.content.Id != undefined ? body.content.Id : -1,
+							Campaign: body.content
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal("Error finding campaign: "+body.messages.toString());
+					}else{
+						this.openModal("There was an error retreiving the campaign. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
 					this.openModal("There was an error sending your request.")
 				})
 		}
@@ -197,7 +179,6 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	}
 
 	validateForm = async () => {
-		
 		const campaignState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
 
 		const campaignPayload = {
@@ -207,14 +188,12 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		const encounters: {Id?: number}[] = []
 		const numberPattern = /\d+/g;
 		const ids = campaignPayload.Encounters.match(numberPattern);
-		if (ids != null) {
+		if (ids != null)
 			ids.forEach((value: any) => {
 				encounters.push({ Id: this.stringToNumber(value)})
 			});
-		}
 		campaignPayload.Encounters = encounters
 
-		console.log(campaignPayload)
 		let validationErrors = Joi.validate(
 			campaignPayload,
 			this.payloadSchema,
@@ -243,12 +222,11 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		);
 
 		if (validationErrors) {
-			console.log('CLIENT')
 			// These errors are from validation and may be irrelevent or out of date.
 			this.openModal(validationErrors.toString());
 		} else {
 			let route = '/campaign';
-			if (this.state.Process == CampaignCRUDState.Create) {
+			if (this.state.Process == CRUDProcess.Create) {
 				route += '/create';
 			} else {
 				route += '/edit'
@@ -267,7 +245,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 			await request(options)
 				.then((body: ICampaignCRUDResponse) => {
 					if (body.status == 201) { // success
-						if (this.state.Process == CampaignCRUDState.Create) {
+						if (this.state.Process == CRUDProcess.Create) {
 							this.openModal("Campaign successfully created.");
 						} else {
 							this.openModal("Campaign successfully updated.");
@@ -281,15 +259,12 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						// TODO: maybe the messages from the server shouldn't be
 						// a list of strings but a JSON object so things are
 						// grouped together. Easier to parse?
-						console.log('SERVER')
 						this.openModal(body.messages.toString());
 					}else{
-						console.log('SERVER')
 						this.openModal("There was an error submitting your request. Please try again later.")
 					}
 				})
 				.catch((error: string) => {
-					console.log(error)
 					this.openModal("There was an error sending your request.")
 				})
 		}
@@ -298,18 +273,18 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	render() {
 		return (
 			(this.state.submitted && !this.state.modal.open) ? <Redirect to="/"/> :
-			<div className="campaign-CRUD-container" > 
+			<div className="campaign-CRUD-container" >
 				<Typography variant='h6' >{this.state.Process} a Campaign</Typography>
 				<form onSubmit={this.submitForm}>
 					<CampaignDetails
 						ref={this.CampaignDetails}
-						disabled={this.state.Process == CampaignCRUDState.Read}
+						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
 						initial={{
 							...this.state.Campaign
 						}} />
-					{this.state.Process == CampaignCRUDState.Read ? null :
+					{this.state.Process == CRUDProcess.Read ? null :
 						<Field>
 							<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Campaign</Button>
 						</Field>
@@ -317,7 +292,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 					<Field>
 						<Button id='BackButton' isColor='secondary' isLoading={false} onClick={()=>{
 							history.back();
-						}}>{this.state.Process == CampaignCRUDState.Read ? 'Back' : 'Cancel'}</Button>
+						}}>{this.state.Process == CRUDProcess.Read ? 'Back' : 'Cancel'}</Button>
 					</Field>
 				</form>
 				<Modal id='CampaignCRUDModal' isActive={this.state.modal.open}>

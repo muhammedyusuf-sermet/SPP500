@@ -1,14 +1,15 @@
-import * as Monster from "./monster";
+import { IMonsterData, MonsterType, Alignment, Size, MonsterRace, Environment } from "./monster";
 
-let monsterExample: Monster.IMonsterData;
+
+let monsterExample: IMonsterData;
 monsterExample = {
 	Id: 0,
 	Name: "Hello",
-	Type: Monster.MonsterType.Celestial,
-	Alignment: Monster.Alignment.AnyGoodAlignment,
-	Size: Monster.Size.Gargantuan,
-	Race: Monster.MonsterRace.Devil,
-	Environment: Monster.Environment.Underdark,
+	Type: MonsterType.Celestial,
+	Alignment: Alignment.AnyGoodAlignment,
+	Size: Size.Gargantuan,
+	Race: MonsterRace.Devil,
+	Environment: Environment.Underdark,
 	DamageVulnerabilities: "Everything",
 	DamageResistances: "None at all",
 	DamageImmunities: "Nada",
@@ -67,16 +68,12 @@ monsterExample = {
 	//actions: [],
 };
 
-let MonsterInstances = new Array();
+export const MonsterInstances: IMonsterData[] = new Array();
 
 // Generate a dummy array of monsters with different IDs
 for (var i = 0; i < 12; i++) {
-	let monster = {} as Monster.IMonsterData;
+	let monster = {} as IMonsterData;
 	Object.assign(monster, monsterExample);
-	monster['Id'] = i
+	monster.Id = i + 1;
 	MonsterInstances.push(monster);
-}
-
-export default {
-    MonsterInstances,
 }

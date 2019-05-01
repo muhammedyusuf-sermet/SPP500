@@ -1,27 +1,27 @@
 import * as React from "react"
 import * as nock from 'nock';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { CampaignList, ICampaignListState } from '../../src/renderer/components/platform/pages/view_game_components/CampaignList';
+import {MonsterList, IMonsterListState} from '../../src/renderer/components/platform/pages/view_catalog/MonsterList';
 
 import {API_URL} from '../../src/config'
-import { CampaignInstances } from "../../src/campaign_instances";
+import { MonsterInstances } from "../../src/monster_instances";
 
 jest.mock('../../src/cookie');
 
-describe('Test the Campaign View Details', () => {
-	let campaignInstance: ShallowWrapper<any, ICampaignListState, CampaignList>;
+describe('Test the Monster View Details', () => {
+	let monsterListInstance: ShallowWrapper<any, IMonsterListState, MonsterList>;
 
 	beforeEach( async (done) => {
 		nock.disableNetConnect();
 		nock(API_URL)
-		.get('/campaign/get/0/12')
+		.get('/monster/get/0/12')
 		.reply(200, {
 			status: 201,
 			messages: ['success'],
 			total: 0,
 			content: []
 		});
-		campaignInstance = shallow(<CampaignList/>);
+		monsterListInstance = shallow(<MonsterList/>);
 		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
@@ -31,91 +31,91 @@ describe('Test the Campaign View Details', () => {
 	})
 
 	it('renders without crashing', () => {
-		expect(campaignInstance).toBeDefined();
+		expect(monsterListInstance).toBeDefined();
 	});
 
 	it('renders correctly when the page is loaded', () => {
-		expect(campaignInstance).toMatchSnapshot();
+		expect(monsterListInstance).toMatchSnapshot();
 	});
 
-	it('should make an GET request to retrieve campaigns when getPaginatedCampaigns function is called', async (done) => {
+	it('should make an GET request to retrieve encounters when getPaginatedMonsters function is called', async (done) => {
 		nock(API_URL)
-		.get('/campaign/get/0/12')
+		.get('/monster/get/0/12')
 		.reply(200, {
 			status: 201,
 			messages: ['success'],
 			total: 12,
-			content: CampaignInstances
+			content: MonsterInstances
 		});
 
-		campaignInstance.instance().getPaginatedCampaigns(0);
+		monsterListInstance.instance().getPaginatedMonsters(0);
 		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 
-		expect(campaignInstance.state().campaignsInCurrentPage).toEqual(CampaignInstances)
-		expect(campaignInstance.state().totalCampaigns).toEqual(12);
+		expect(monsterListInstance.state().monstersInCurrentPage).toEqual(MonsterInstances)
+		expect(monsterListInstance.state().totalMonsters).toEqual(12);
 		expect(nock.isDone()).toEqual(true);
 		done();
 	});
 
-	it('should make an GET request to retrieve campaigns when updatePage function is called', async (done) => {
+	it('should make an GET request to retrieve encounters when updatePage function is called', async (done) => {
 		nock(API_URL)
-		.get('/campaign/get/0/12')
+		.get('/monster/get/0/12')
 		.reply(200, {
 			status: 201,
 			messages: ['success'],
 			total: 12,
-			content: CampaignInstances
+			content: MonsterInstances
 		});
 
-		campaignInstance.instance().updatePage(0);
+		monsterListInstance.instance().updatePage(0);
 		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 
-		expect(campaignInstance.state().campaignsInCurrentPage).toEqual(CampaignInstances)
-		expect(campaignInstance.state().totalCampaigns).toEqual(12);
+		expect(monsterListInstance.state().monstersInCurrentPage).toEqual(MonsterInstances)
+		expect(monsterListInstance.state().totalMonsters).toEqual(12);
 		expect(nock.isDone()).toEqual(true);
 		done();
 	});
 
-	it('should fail gracefully when getPaginatedCampaigns function is called', async (done) => {
+	it('should fail gracefully when getPaginatedMonsters function is called', async (done) => {
 		nock(API_URL)
-		.get('/campaign/get/0/12')
+		.get('/monster/get/0/12')
 		.replyWithError('access denied');
 
-		campaignInstance.instance().getPaginatedCampaigns(0);
+		monsterListInstance.instance().getPaginatedMonsters(0);
 		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 
-		expect(campaignInstance.state().campaignsInCurrentPage).toEqual([])
-		expect(campaignInstance.state().totalCampaigns).toEqual(0);
+		expect(monsterListInstance.state().monstersInCurrentPage).toEqual([])
+		expect(monsterListInstance.state().totalMonsters).toEqual(0);
 		expect(nock.isDone()).toEqual(true);
 		done();
 	});
 
-	it('should make an DELETE request to delete campaign when deleteCampaign function is called', async (done) => {
+	it('should make an DELETE request to delete monster when deleteMonster function is called', async (done) => {
 		nock(API_URL)
-		.delete('/campaign/1')
+		.delete('/monster/1')
 		.reply(200, {
 			status: 201,
 			messages: ['success']
 		});
 		nock(API_URL)
-		.get('/campaign/get/0/12')
+		.get('/monster/get/0/12')
 		.reply(200, {
 			status: 201,
 			messages: ['success'],
 			total: 11,
-			content: CampaignInstances.slice(1)
+			content: MonsterInstances.slice(1)
 		});
 
-		campaignInstance.instance().deleteCampaign({ currentTarget: { value: '1'}} as React.MouseEvent<HTMLButtonElement>);
+		monsterListInstance.instance().deleteMonster({ currentTarget: { value: '1'}} as React.MouseEvent<HTMLButtonElement>);
 		// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
@@ -125,15 +125,15 @@ describe('Test the Campaign View Details', () => {
 		await new Promise(resolve => setImmediate(resolve));
 		await new Promise(resolve => setImmediate(resolve));
 
-		expect(campaignInstance.state().campaignsInCurrentPage).toEqual(CampaignInstances.slice(1))
-		expect(campaignInstance.state().totalCampaigns).toEqual(11);
+		expect(monsterListInstance.state().monstersInCurrentPage).toEqual(MonsterInstances.slice(1))
+		expect(monsterListInstance.state().totalMonsters).toEqual(11);
 		expect(nock.isDone()).toEqual(true);
 		done();
 	});
 
 	it('should return the total number of pages when getTotalPages function is called', () => {
-		campaignInstance.instance().setState({ totalCampaigns: 24});
-		let totalPages = campaignInstance.instance().getTotalPages();
+		monsterListInstance.instance().setState({ totalMonsters: 24});
+		let totalPages = monsterListInstance.instance().getTotalPages();
 
 		// Starts from 0
 		expect(totalPages).toEqual(1);

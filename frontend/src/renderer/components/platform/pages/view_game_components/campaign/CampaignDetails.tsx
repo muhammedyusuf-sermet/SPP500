@@ -6,11 +6,8 @@ import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
+import { IEncounterData } from '../../../../../../encounter';
 
-export interface IEncounterState {
-	Id?: number
-}
-              
 export interface ICampaignDetailsProps {
 	disabled?: boolean,
 	// validation
@@ -18,73 +15,69 @@ export interface ICampaignDetailsProps {
 	ValidationOptions: ValidationOptions,
 	// initial values
 	initial: {
-        Name?: string;
-        Summary?: string;
-        Notes?: string;
-        Encounters?: IEncounterState[];  
-    }
+		Name?: string;
+		Summary?: string;
+		Notes?: string;
+		Encounters?: IEncounterData[];
+	}
 }
 
 export interface ICampaignDetailsState {
 	// data
 	Name?: string;
-    Summary?: string;
-    Notes?: string;
-    Encounters?: string;
+	Summary?: string;
+	Notes?: string;
+	Encounters?: string;
 	// errors
 	NameError?: string;
-    SummaryError?: string;
-    NotesError?: string;
-    EncountersError?: string;
+	SummaryError?: string;
+	NotesError?: string;
+	EncountersError?: string;
 }
 
 export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICampaignDetailsState> {
 	constructor(props: ICampaignDetailsProps) {
 		super(props);
 		this.state = {
-            ...props.initial,
-            Encounters: props.initial.Encounters ? props.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
-        };
-    }
+			...props.initial,
+			Encounters: props.initial.Encounters ? props.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
+		};
+	}
 
-    componentWillReceiveProps(nextProps: ICampaignDetailsProps) {
+	componentWillReceiveProps(nextProps: ICampaignDetailsProps) {
 		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
 			this.setState({
-                ...nextProps.initial,
-                Encounters: nextProps.initial.Encounters ? nextProps.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
+				...nextProps.initial,
+				Encounters: nextProps.initial.Encounters ? nextProps.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
 			});
-    }
-    
-    handleStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        const name = event.currentTarget.name;
-        Joi.validate(
-            value,
-            Joi.reach(this.props.PayloadSchema, [name]),
-            this.props.ValidationOptions,
-            (errors: ValidationError) => {
-                this.setState({
-                    [name]: value,
-                    [name+'Error']: errors ? errors.details[0].message : undefined
-                });
-        });
-    }
-
-	stringToNumber = (toConvert : string) => {
-		return isNaN(parseInt(toConvert)) ? undefined : parseInt(toConvert);
 	}
-	
+
+	handleStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = /^\s*$/.test(event.target.value) ? undefined : event.target.value;
+		const name = event.currentTarget.name;
+		Joi.validate(
+			value,
+			Joi.reach(this.props.PayloadSchema, [name]),
+			this.props.ValidationOptions,
+			(errors: ValidationError) => {
+				this.setState({
+					[name]: value,
+					[name+'Error']: errors ? errors.details[0].message : undefined
+				});
+		});
+	}
+
 	handleCampaignEncounterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({
 			Encounters: event.target.value
 		})
 	}
-	
+
 	render() {
-		return (           
-            <Grid container spacing={8} >
+		return (
+			<Grid container spacing={8} >
 				<Grid item xs={12} >
-                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+					<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 						<InputLabel htmlFor="Name">Name</InputLabel>
 						<Input
 							id='Name'
@@ -97,14 +90,14 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 					</FormControl>
 				</Grid>
 				<Grid item xs={12} >
-                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+					<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 						<InputLabel htmlFor="Summary">Summary</InputLabel>
 						<Input
 							id='Summary'
-                            type='text'
-                            multiline
-                            rows={10}
-                            rowsMax={10}
+							type='text'
+							multiline
+							rows={10}
+							rowsMax={10}
 							value={this.state.Summary || ''}
 							name='Summary'
 							onChange={this.handleStringChange}
@@ -113,14 +106,14 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 					</FormControl>
 				</Grid>
 				<Grid item xs={12} >
-                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+					<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 						<InputLabel htmlFor="Notes">Notes</InputLabel>
 						<Input
 							id='Notes'
-                            type='text'
-                            multiline
-                            rows={10}
-                            rowsMax={10}
+							type='text'
+							multiline
+							rows={10}
+							rowsMax={10}
 							value={this.state.Notes || ''}
 							name='Notes'
 							onChange={this.handleStringChange}
@@ -129,14 +122,14 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 					</FormControl>
 				</Grid>
 				<Grid item xs={12} >
-                    <FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+					<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
 						<InputLabel htmlFor="Encounters">Encounter Id's</InputLabel>
 						<Input
 							id='Encounters'
-                            type='text'
-                            multiline
-                            rows={10}
-                            rowsMax={10}
+							type='text'
+							multiline
+							rows={10}
+							rowsMax={10}
 							value={this.state.Encounters || ''}
 							name='Encounters'
 							onChange={this.handleCampaignEncounterIdChange}

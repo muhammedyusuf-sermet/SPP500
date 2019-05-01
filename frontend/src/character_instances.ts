@@ -3,7 +3,7 @@ import { CharacterRace, CharacterClass, ICharacterData } from "./character";
 
 let characterExample: ICharacterData;
 characterExample = {
-	Id: 0,
+	Id: 1,
 	Name: "Character",
 	Level: 3,
 	Race: CharacterRace.Gnome,
@@ -21,6 +21,6 @@ export const CharacterInstances: ICharacterData[] = new Array();
 for (var i = 0; i < 12; i++) {
 	let character = {} as ICharacterData;
 	Object.assign(character, characterExample);
-	character.Id = i
+	character.Id = i + 1;
 	CharacterInstances.push(character);
 }

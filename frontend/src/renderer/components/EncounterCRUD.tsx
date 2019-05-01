@@ -9,6 +9,7 @@ import {Pagination} from "./helpers/Pagination"
 
 import {IEncounterData} from '../../encounter';
 import {IMonsterData} from '../../monster';
+import { CRUDProcess } from './MonsterCRUD';
 
 interface IEncounterResponse {
 	status: number,
@@ -45,14 +46,8 @@ export async function getMonsters(page: number, pageSize: number) {
 }
 // End of Getting All Monsters For Encounter Creation
 
-export enum EncounterCRUDState {
-	Create = 'Create',
-	Read = 'Read',
-	Edit = 'Edit'
-}
-
 export interface IEncounterCRUDProps {
-	Process: EncounterCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 }
 
@@ -63,7 +58,7 @@ export interface IEncounterGetOneResponse {
 }
 
 export interface IEncounterCRUDState {
-	Process: EncounterCRUDState;
+	Process: CRUDProcess;
 	Id?: number;
 	redirectToHome: boolean,
 	checkedMonsters: Map<string, boolean>, // <MonsterID, IsChecked>
@@ -114,7 +109,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 	}
 
 	componentDidMount() {
-		if (this.props.Process != EncounterCRUDState.Create){
+		if (this.props.Process != CRUDProcess.Create){
 			const options = { method: 'GET',
 				url: API_URL + '/encounter/' + this.props.Id,
 				headers:
@@ -130,11 +125,11 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 					if (body.status == 201) { // success
 						var encounter = {...this.state.encounter}
 						encounter.name = body.content.Name;
-						encounter.description = body.content.Description;
-						encounter.monsters = body.content.Monsters;
+						encounter.description = body.content.Description || '';
+						encounter.monsters = body.content.Monsters || [];
 						this.setState({encounter})
 
-						body.content.Monsters.forEach(monster => {
+						encounter.monsters.forEach(monster => {
 							var monsterID = monster.Id as number;
 							this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(monsterID.toString(), true)}));
 						});
@@ -185,9 +180,10 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 	}
 
 	handleMonsterCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		event.persist();
+		const name = event.target.name
+		const checked = event.target.checked
 
-		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(event.target.name, event.target.checked)}));
+		this.setState(prevState => ({ checkedMonsters: prevState.checkedMonsters.set(name, checked)}));
 	}
 
 	openModal = (messageText: string) => {
@@ -216,7 +212,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 
 		const request = require("request");
 		let route = '/encounter';
-		if (this.state.Process == EncounterCRUDState.Create) {
+		if (this.state.Process == CRUDProcess.Create) {
 			route += '/create';
 		} else {//if (this.state.Process == EncounterCRUDState.Edit) {
 			route += '/edit'
@@ -280,7 +276,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 						<Subtitle>Encounter Name</Subtitle>
 						<Control>
 							<Input
-								disabled={this.state.Process == EncounterCRUDState.Read}
+								disabled={this.state.Process == CRUDProcess.Read}
 								id="encounter_name"
 								type="text"
 								placeholder='Please enter the name of the encounter.'
@@ -293,7 +289,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 						<Subtitle>Description</Subtitle>
 						<Control>
 							<TextArea
-								disabled={this.state.Process == EncounterCRUDState.Read}
+								disabled={this.state.Process == CRUDProcess.Read}
 								id="encounter_description"
 								placeholder={'Please write the encounter description here.'}
 								value={this.state.encounter.description}
@@ -301,7 +297,7 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 						</Control>
 					</Tile>
 
-					{this.state.Process == EncounterCRUDState.Read ? 
+					{this.state.Process == CRUDProcess.Read ?
 
 						<Tile className="box" isVertical>
 							<Subtitle>Monsters</Subtitle>
@@ -333,14 +329,14 @@ export class EncounterCRUD extends React.Component<IEncounterCRUDProps, IEncount
 
 					<Field isGrouped>
 						{
-							this.state.Process == EncounterCRUDState.Read ? null :
+							this.state.Process == CRUDProcess.Read ? null :
 							<Field>
 								<Button id='SubmitButton' isColor='primary' type="submit" isLoading={false}>{this.state.Process} Encounter</Button>
 							</Field>
 						}
 						<Field>
 							<Button id='BackButton' isColor='secondary' isLoading={false} onClick={this.cancel}>
-								{this.state.Process == EncounterCRUDState.Read ? 'Back' : 'Cancel'}
+								{this.state.Process == CRUDProcess.Read ? 'Back' : 'Cancel'}
 							</Button>
 						</Field>
 					</Field>

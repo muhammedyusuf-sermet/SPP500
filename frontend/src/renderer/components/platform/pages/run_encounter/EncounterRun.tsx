@@ -130,7 +130,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 						}
 					});
 					this.setState({
-						Notes: body.content.Description,
+						Notes: body.content.Description || '',
 						Initiatives: initiatives,
 						Encounter: body.content
 					});
@@ -273,7 +273,6 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 	}
 
 	render() {
-
 		return (
 			<div className="encounter-run-containter">
 				<Grid container alignItems='baseline' spacing={16} >
