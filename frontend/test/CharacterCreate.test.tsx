@@ -7,6 +7,7 @@ import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 
 jest.mock('../src/cookie');
 

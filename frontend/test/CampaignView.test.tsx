@@ -7,6 +7,7 @@ import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, ICampaignGetOneRe
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
+import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 
 jest.mock('../src/cookie');
 
@@ -60,24 +61,24 @@ describe('Campaign CRUD', () => {
 		});
 
 		it('should have all inputs disabled',() => {
-            expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(true)
-            expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(true)
-            expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
-            expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
 		})
 
 		it('should have all inputs disabled unless switch to edit through props',() => {
-            expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(true)
-            expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(true)
-            expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
-            expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
 			campaignCRUDInstance.setProps({
 				Process: CRUDProcess.Edit
 			});
-            expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(false)
-            expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(false)
-            expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(false)
-            expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(false)
+			expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(false)
+			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(false)
+			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(false)
+			expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(false)
 		})
 	});
 })
