@@ -6,8 +6,6 @@ import 'bulma/css/bulma.css';
 
 import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
-import { stateWithoutErrors } from '../../../../../../utils/StateSelection';
-import { ICampaignData } from '../../../../../../campaign';
 import { IEncounterData } from '../../../../../../encounter';
 
 export interface ICampaignDetailsProps {

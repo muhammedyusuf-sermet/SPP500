@@ -100,9 +100,9 @@ describe('Campaign CRUD', () => {
 	const originalCampaign: ICampaignData = {
 		Id: 0,
 		Name: "Hello Original",
-        Summary: "This is legit.",
-        Notes: "The best around",
-        Encounters: []
+		Summary: "This is legit.",
+		Notes: "The best around",
+		Encounters: []
 	}
 
 	describe('render campaign from database', () => {
@@ -258,8 +258,8 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.post('/campaign/edit', {
 				"Id": 0,
-                "Name": "Hello",
-                "Encounters": []
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -278,8 +278,8 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.post('/campaign/edit', {
 				"Id": 0,
-                "Name": "Hello",
-                "Encounters": []
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(404);
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -298,8 +298,8 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.post('/campaign/edit', {
 				"Id": 0,
-                "Name": "Hello",
-                "Encounters": []
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(200, { status: 400, messages: ["Invalid campaign object"]});
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -318,8 +318,8 @@ describe('Campaign CRUD', () => {
 			nock(API_URL)
 			.post('/campaign/edit', {
 				"Id": 0,
-                "Name": "Hello",
-                "Encounters": []
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(200, { status: 401 });
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -522,8 +522,8 @@ describe('Campaign CRUD', () => {
 				"Id": 0,
 				"Name": "Hello",
 				"Summary": "Gnome",
-                "Notes": "Very weak and sly",
-                "Encounters": []
+				"Notes": "Very weak and sly",
+				"Encounters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
