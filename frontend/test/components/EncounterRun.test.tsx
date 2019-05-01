@@ -66,7 +66,7 @@ describe('Encounter Run', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, basicResponse);
-			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun Id={0} />);
+			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun EncounterId={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -105,7 +105,7 @@ describe('Encounter Run', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(404);
-			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun Id={0} />);
+			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun EncounterId={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -122,7 +122,7 @@ describe('Encounter Run', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, { status: 400, messages: ["Encounter not found."]});
-			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun Id={0} />);
+			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun EncounterId={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -139,7 +139,7 @@ describe('Encounter Run', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, { status: 401 });
-			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun Id={0} />);
+			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun EncounterId={0} />);
 			// THREE IS REQUIRED, SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -165,7 +165,7 @@ describe('Encounter Run', () => {
 			nock(API_URL)
 			.get('/encounter/0')
 			.reply(200, basicResponse);
-			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun Id={0} />);
+			encounterRunInstance = mount<EncounterRun, IEncounterRunProps, IEncounterRunState>(<EncounterRun EncounterId={0} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));

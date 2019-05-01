@@ -8,16 +8,23 @@ import 'bulma/css/bulma.css';
 import { IEncounterState } from '../../../../../encounter';
 import { Modal, ModalBackground, ModalContent, Box } from 'bloomer';
 import { Grid, Typography, Button, TextField } from '@material-ui/core';
-import { BaseEntity } from './entitiy/BaseEntity';
-import { MonsterCRUD, MonsterCRUDState } from '../../../MonsterCRUD';
+import { BaseEntity, EntityTypes } from './entitiy/BaseEntity';
+import { MonsterCRUD, CRUDProcess } from '../../../MonsterCRUD';
+import { CharacterCRUD } from '../../../CharacterCRUD';
+import { ICampaignState } from '../../../../../campaign';
+import { IMonsterState } from '../../../../../monster';
+import { ICharacterData } from '../../../../../character';
 
 export interface IEncounterRunProps {
-	Id?: number;
+	EncounterId: number;
+	CampaignId?: number;
 }
 
 export interface IEncounterRunState {
 	SelectedMosnter: number,
-	SelectedProcess: MonsterCRUDState,
+	SelectedCharacter: number,
+	SelectedProcess: CRUDProcess,
+	Initiatives: IInitiativeSort[],
 	Notes: string,
 	Turn: number,
 	width: number,
@@ -26,8 +33,8 @@ export interface IEncounterRunState {
 		open: boolean;
 		message: string;
 	};
-	Initiatives: number[],
-	Encounter: IEncounterState
+	Encounter: IEncounterState,
+	Campaign: ICampaignState,
 }
 
 export interface IEncounterGetOneResponse {
@@ -36,12 +43,27 @@ export interface IEncounterGetOneResponse {
 	content: IEncounterState,
 }
 
+export interface ICampaignGetOneResponse {
+	status: number,
+	messages: string[],
+	content: ICampaignState,
+}
+
+interface IInitiativeSort {
+	Initiative: number;
+	Dextarity?: number;
+	Index: number;
+	Type: keyof EntityTypes;
+	Source: IMonsterState[] | ICharacterData[];
+}
+
 export class EncounterRun extends React.Component<IEncounterRunProps, IEncounterRunState> {
 	constructor(props: IEncounterRunProps) {
 		super(props);
 		this.state = {
 			SelectedMosnter: -1,
-			SelectedProcess: MonsterCRUDState.Read,
+			SelectedCharacter: -1,
+			SelectedProcess: CRUDProcess.Read,
 			Notes: '',
 			Turn: 0,
 			width: 0,
@@ -55,6 +77,11 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 				Name: '',
 				Description: '',
 				Monsters: []
+			},
+			Campaign: {
+				Name: '',
+				Encounters: [],
+				Characters: []
 			}
 		};
 	}
@@ -69,11 +96,11 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		this.setState({ modal: {...modal, open: false }});
 	};
 
-	componentDidMount() {
+	componentDidMount = () => {
 		this.updateWindowDimensions()
 		window.addEventListener('resize', this.updateWindowDimensions);
-		const options = { method: 'GET',
-			url: API_URL + '/encounter/' + this.props.Id,
+		let options = { method: 'GET',
+			url: API_URL + '/encounter/' + this.props.EncounterId,
 			headers:
 			{
 				'Cache-Control': 'no-cache',
@@ -84,18 +111,24 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		request(options)
 			.then((body: IEncounterGetOneResponse) => {
 				if (body.status == 201) { // success
-					const initiatives = []
-					for(let i = 0; i < body.content.Monsters.length; i++)
-						initiatives.push(i)
-					let tmp, current, top = initiatives.length;
-					if (top) {
-						while (--top) {
-							current = Math.floor(Math.random() * (top+1));
-							tmp = initiatives[current];
-							initiatives[current] = initiatives[top]
-							initiatives[top] = tmp;
+					const initiatives: IInitiativeSort[] = [];
+					this.state.Initiatives.map(value => initiatives.push(value));
+					body.content.Monsters.map((mon, index) => initiatives.push({
+						Initiative: Math.ceil(Math.random() * 20),
+						Index: index,
+						Dextarity: mon.AbilityScores.Dexterity,
+						Type: 'Monster',
+						Source: body.content.Monsters
+					}));
+					initiatives.sort((a,b) => {
+						if (a.Initiative > b.Initiative) {
+							return -1
+						} else if (a.Initiative < b.Initiative) {
+							return 1
+						} else {
+							return (a.Dextarity ? a.Dextarity : 0) < (b.Dextarity ? b.Dextarity : 0) ? 1 : -1;
 						}
-					}
+					});
 					this.setState({
 						Notes: body.content.Description,
 						Initiatives: initiatives,
@@ -115,6 +148,57 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 			.catch((error: string) => {
 				this.openModal("There was an error sending your request.")
 			})
+		if(this.props.CampaignId){
+			options = { method: 'GET',
+				url: API_URL + '/campaign/' + this.props.CampaignId,
+				headers:
+				{
+					'Cache-Control': 'no-cache',
+					'Authorization': CookieManager.UserToken('session_token')
+				},
+				json: true
+			};
+			request(options)
+				.then((body: ICampaignGetOneResponse) => {
+					if (body.status == 201) { // success
+						const initiatives: IInitiativeSort[] = [];
+						this.state.Initiatives.map(value => initiatives.push(value));
+						body.content.Characters.map((char, index) => initiatives.push({
+							Initiative: Math.ceil(Math.random() * 20),
+							Index: index,
+							Dextarity: undefined,
+							Type: 'Player',
+							Source: body.content.Characters
+						}));
+						initiatives.sort((a,b) => {
+							if (a.Initiative > b.Initiative) {
+								return -1
+							} else if (a.Initiative < b.Initiative) {
+								return 1
+							} else {
+								return (a.Dextarity ? a.Dextarity : 0) < (b.Dextarity ? b.Dextarity : 0) ? 1 : -1;
+							}
+						});
+						this.setState({
+							Notes: body.content.Notes ? body.content.Notes : '',
+							Initiatives: initiatives,
+							Campaign: body.content
+						});
+					} else if (body.messages) {
+						// TODO: change backend so it sends better error messages.
+						// TODO: parse the error messages so they show better.
+						// TODO: maybe the messages from the server shouldn't be
+						// a list of strings but a JSON object so things are
+						// grouped together. Easier to parse?
+						this.openModal("Error finding encounter: "+body.messages.toString());
+					}else{
+						this.openModal("There was an error retreiving the encounter. Please try again later.")
+					}
+				})
+				.catch((error: string) => {
+					this.openModal("There was an error sending your request.")
+				})
+		}
 	}
 
 	componentWillUnmount() {
@@ -133,7 +217,8 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
 			SelectedMosnter: value != undefined ? value : -1,
-			SelectedProcess: MonsterCRUDState.Read,
+			SelectedCharacter: -1,
+			SelectedProcess: CRUDProcess.Read,
 		});
 	}
 
@@ -141,7 +226,26 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
 			SelectedMosnter: value != undefined ? value : -1,
-			SelectedProcess: MonsterCRUDState.Edit,
+			SelectedCharacter: -1,
+			SelectedProcess: CRUDProcess.Edit,
+		});
+	}
+
+	public ViewCharacter = (event: React.MouseEvent<HTMLButtonElement>) => {
+		const value = this.stringToNumber(event.currentTarget.value);
+		this.setState({
+			SelectedMosnter: -1,
+			SelectedCharacter: value != undefined ? value : -1,
+			SelectedProcess: CRUDProcess.Read,
+		});
+	}
+
+	public EditCharacter = (event: React.MouseEvent<HTMLButtonElement>) => {
+		const value = this.stringToNumber(event.currentTarget.value);
+		this.setState({
+			SelectedMosnter: -1,
+			SelectedCharacter: value != undefined ? value : -1,
+			SelectedProcess: CRUDProcess.Edit,
 		});
 	}
 
@@ -157,7 +261,19 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		});
 	}
 
+	handleInitiativeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const initiatives: IInitiativeSort[] = [];
+		this.state.Initiatives.forEach(val => initiatives.push(val));
+		const value = this.stringToNumber(event.target.value);
+		const id = this.stringToNumber(event.currentTarget.name);
+		initiatives[id ? id : 0].Initiative = value ? value : 0;
+		this.setState({
+			Initiatives: initiatives
+		});
+	}
+
 	render() {
+
 		return (
 			<div className="encounter-run-containter">
 				<Grid container alignItems='baseline' spacing={16} >
@@ -194,22 +310,20 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 					</Grid>
 					<Grid container item style={{maxHeight: (this.state.height-55), overflow: 'auto'}} xs={12} md={3} spacing={8} >
 						<Grid item xs={12}>
-							{this.state.Initiatives.map((value: number, index: number) => (
+							{this.state.Initiatives.map((value: IInitiativeSort, index: number) => (
 								<BaseEntity
-									key={this.state.Encounter.Monsters[value].Name}
-									// TODO: change to unique id for the entity
-									//  at this time there is only one monster
-									//  per type for encounter. so this is unique.
-									Id={this.state.Encounter.Monsters[value].Id as number}
-									Initiative={index}
+									id={value.Type+value.Source[value.Index].Id}
+									key={index}
+									Id={value.Source[value.Index].Id as number}
+									Initiative={value.Initiative}
 									View={this.ViewMonster}
 									Edit={this.EditMonster}
 									Entity={{
-										EntityType: 'Monster',
-										Id: this.state.Encounter.Monsters[value].Id as number,
-										Name: this.state.Encounter.Monsters[value].Name,
-										ArmorClass: this.state.Encounter.Monsters[value].ArmorClass as number,
-										HitPoints: this.state.Encounter.Monsters[value].HitPoints as number
+										EntityType: value.Type,
+										Id: value.Source[value.Index].Id as number,
+										Name: value.Source[value.Index].Name,
+										ArmorClass: value.Source[value.Index].ArmorClass as number,
+										HitPoints: (value.Type == 'Monster') ? (value.Source[value.Index] as IMonsterState).HitPoints as number : (value.Source[value.Index] as ICharacterData).MaxHealth as number
 									}} />
 							))}
 						</Grid>
@@ -222,8 +336,10 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 					<Grid container item style={{maxHeight: (this.state.height-55), overflow: 'auto'}} xs={12} md={6} spacing={8} >
 						<Grid item xs={12}>
 							{this.state.SelectedMosnter != -1 ?
-								<MonsterCRUD Process={this.state.SelectedProcess} Id={this.state.SelectedMosnter} />
-								: <Typography align='center' variant='h6' >No Monster Selected</Typography>}
+								<MonsterCRUD Process={this.state.SelectedProcess} Id={this.state.SelectedMosnter} /> :
+							(this.state.SelectedCharacter != -1 ?
+								<CharacterCRUD Process={this.state.SelectedProcess} Id={this.state.SelectedCharacter} /> :
+								<Typography align='center' variant='h6' >No Entity Selected</Typography>)}
 						</Grid>
 					</Grid>
 				</Grid>
