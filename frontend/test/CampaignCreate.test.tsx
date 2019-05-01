@@ -103,16 +103,17 @@ describe('Campaign CRUD create', () => {
 		});
 
 		it('renders correctly when the page is loaded', () => {
-			const shallowCharacterCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Create} />);
+			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CampaignCRUDState.Create} />);
 
-			expect(shallowCharacterCRUD).toMatchSnapshot();
+			expect(shallowCampaignCRUD).toMatchSnapshot();
 		});
 
 		it('should be able to send campaign name only to create', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/create', {
-				"Name": "Hello"
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -130,7 +131,8 @@ describe('Campaign CRUD create', () => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/create', {
-				"Name": "Hello"
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(404);
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -148,7 +150,8 @@ describe('Campaign CRUD create', () => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/create', {
-				"Name": "Hello"
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(200, { status: 400, messages: ["Invalid campaign object"]});
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -166,7 +169,8 @@ describe('Campaign CRUD create', () => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/create', {
-				"Name": "Hello"
+				"Name": "Hello",
+				"Encounters": []
 			})
 			.reply(200, { status: 401 });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -181,34 +185,32 @@ describe('Campaign CRUD create', () => {
 		});
 
 		it('should show payload error message when campaign is not properly formed', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: -1 } })
+			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: '' } })
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"MaxHealth\" must be greater than 0");
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Name\" is required");
 			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
 
-		it('should show payload error message when campaign has an invalid Race', async (done) => {
-			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('CharacterDetails').setState({ Race: "InvalidRace" })
+		it('should show payload error message when campaign has an invalid Name', async (done) => {
+			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: '' } })
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			characterCRUDInstance.update();
-			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Race\" must be one of Dragonborn,Dwarf,Elf,Gnome,HalfElf,Halfling,HalfOrc,Human,Tiefling");
+			expect(characterCRUDInstance.find('#ModalMessage').text()).toEqual("\"Name\" is required");
 			expect(characterCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
 
 		it('should show payload error message when campaign has an extra field', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('CharacterDetails').setState({ Extra: "InvalidField" })
+			characterCRUDInstance.find('CampaignDetails').setState({ Extra: "InvalidField" })
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -221,12 +223,9 @@ describe('Campaign CRUD create', () => {
 
 		it('should be able to send campaign to create', async (done) => {
 			characterCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			characterCRUDInstance.find('select#Race').simulate('change', { target: { value: "Gnome" } })
-			characterCRUDInstance.find('select#Class').simulate('change', { target: { value: "Ranger" } })
-			characterCRUDInstance.find('input#Level').simulate('change', { target: { value: 3 } })
-			characterCRUDInstance.find('input#ArmorClass').simulate('change', { target: { value: 15 } })
-			characterCRUDInstance.find('input#MaxHealth').simulate('change', { target: { value: 40 } })
-			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
+			characterCRUDInstance.find('textarea#Summary').simulate('change', { target: { value: "Winner takes all." } })
+			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: "Kill small creatures first." } })
+			characterCRUDInstance.find('textarea#Encounters').simulate('change', { target: { value: "1,2" } })
 			expect(characterCRUDInstance.state()).toEqual({
 				Process: CampaignCRUDState.Create,
 				Id: undefined,
@@ -242,12 +241,9 @@ describe('Campaign CRUD create', () => {
 			nock(API_URL)
 			.post('/campaign/create', {
 				"Name": "Hello",
-				"Race": "Gnome",
-				"Class": "Ranger",
-				"Level": 3,
-				"ArmorClass": 15,
-				"MaxHealth": 40,
-				"Notes": "Very weak and sly",
+				"Encounters": [{"Id": 1}, {"Id": 2}],
+				"Summary": "Winner takes all.",
+				"Notes": "Kill small creatures first."		
 			})
 			.reply(201, { status: 201, message: 'success' });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -260,7 +256,7 @@ describe('Campaign CRUD create', () => {
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
-
+		
 		describe('should show and hide modal', () => {
 			it('show modal', () => {
 				characterCRUDInstance.instance().closeModal();
