@@ -71,7 +71,7 @@ describe('campaign tests', async () => {
 		const character2 = new Character();
 		character2.Name = "Other John Doe's Character"
 		character2.Id = 2;
-		character2.Creator = user;
+		character2.Creator = user2;
 		await character2.save();
 	
 		const campaign3 = new Campaign();
