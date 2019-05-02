@@ -110,7 +110,7 @@ export class CampaignFactory implements IFactory {
 
 					campaign.Characters = [];
 					for (let character of value.Characters) {
-						campaign.Encounters.push(encounterLookup[character.Id]);
+						campaign.Characters.push(characterLookup[character.Id]);
 					}
 
 					await campaign.save();
