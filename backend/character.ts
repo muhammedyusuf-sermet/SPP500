@@ -102,28 +102,11 @@ export class CharacterFactory implements IFactory {
 		);
 	}
 	public async Edit(request: {auth: any, payload:any}) {
-		const allCampaigns: Campaign[] = await Campaign.find(
-			{
-				select: ["Id"],
-				where: {
-					Creator: {
-						Id: request.auth.credentials.id
-					}
-				}
-			});
-		const campaignIds: number[] = [];
-		const campaignLookup: { [Id: number]: Campaign } = {};
-		allCampaigns.forEach((value) => {
-			campaignIds.push(value.Id);
-			campaignLookup[value.Id] = value;
-		})
-		
 		const options: Joi.ValidationOptions = {
 			abortEarly: false,
 			convert: true,
 			allowUnknown: false,
 			context: {
-				CampaignOptions: campaignIds,
 				ClassOptions: Object.keys(CharacterClass),
 				RaceOptions: Object.keys(CharacterRace),
 			}
@@ -172,12 +155,6 @@ export class CharacterFactory implements IFactory {
 							if (value.Notes)
 								characterDb.Notes = value.Notes;
 
-							characterDb.Campaigns = [];
-							if (value.Campaigns) {
-								for (const campaign of value.Campaigns) {
-									characterDb.Campaigns.push(campaignLookup[campaign.Id]);
-								}
-							}
 
 							await characterDb.save();
 							return {
