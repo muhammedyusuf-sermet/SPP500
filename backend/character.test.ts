@@ -532,3 +532,30 @@ describe('character get all tests', async () => {
 	});
 
 });
+
+// character edit pseudo tests
+
+// When name is provided to change
+// return success
+
+// When provided name is empty
+// raise error
+
+// When provided notes is empty
+// raise error
+
+// When a new set of valid campaigns is provided to change
+// return success
+
+// When some campaigns are invalid within a given set of campaigns
+// raise error
+
+// When some campaigns are someone else's
+// raise error
+
+// When requester is not the creator of the character
+// raise error
+
+// When no character with given id
+// raise error
+
