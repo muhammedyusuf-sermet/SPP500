@@ -70,7 +70,7 @@ describe('campaign tests', async () => {
 
 		const character2 = new Character();
 		character2.Name = "Other John Doe's Character"
-		character2.Id = 1;
+		character2.Id = 2;
 		character2.Creator = user;
 		await character2.save();
 	

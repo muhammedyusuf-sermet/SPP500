@@ -70,7 +70,7 @@ describe('campaign edit tests', async () => {
 
 		const character2 = new Character();
 		character2.Name = "Other John Doe's Character"
-		character2.Id = 1;
+		character2.Id = 2;
 		character2.Creator = user;
 		await character2.save();
 	
@@ -259,7 +259,7 @@ describe('campaign edit tests', async () => {
     	expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-		expect(response['messages'][0]).toBe("\"Encounter Id\" 5 is invalid");
+		expect(response['messages'][0]).toBe("\"Character Id\" 5 is invalid");
 	});
 
 	test('When some characters are someone else\'s', async () => {
@@ -282,7 +282,7 @@ describe('campaign edit tests', async () => {
     	expect.assertions(3);
 		expect(response['status']).toBe(400);
 		expect(response['messages'].length).toBe(1)
-		expect(response['messages'][0]).toBe("\"Encounter Id\" 2 is invalid");
+		expect(response['messages'][0]).toBe("\"Character Id\" 2 is invalid");
 	});
 
 	test('When requester is not the creator of the campaign', async () => {
