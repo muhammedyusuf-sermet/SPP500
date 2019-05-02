@@ -102,10 +102,102 @@ export class CharacterFactory implements IFactory {
 		);
 	}
 	public async Edit(request: {auth: any, payload:any}) {
-		return {
-			'status': 400,
-			'messages': ['Not implemented']
+		const allCampaigns: Campaign[] = await Campaign.find(
+			{
+				select: ["Id"],
+				where: {
+					Creator: {
+						Id: request.auth.credentials.id
+					}
+				}
+			});
+		const campaignIds: number[] = [];
+		const campaignLookup: { [Id: number]: Campaign } = {};
+		allCampaigns.forEach((value) => {
+			campaignIds.push(value.Id);
+			campaignLookup[value.Id] = value;
+		})
+		
+		const options: Joi.ValidationOptions = {
+			abortEarly: false,
+			convert: true,
+			allowUnknown: false,
+			context: {
+				CampaignOptions: campaignIds,
+				ClassOptions: Object.keys(CharacterClass),
+				RaceOptions: Object.keys(CharacterRace),
+			}
 		}
+		return await Joi.validate(
+			request.payload,
+			this.payloadSchema,
+			options,
+			async (errors: ValidationError, value: ICharacterData) => {
+				if(errors) {
+					const messages: Set<string> = new Set<string>();
+					errors.details.forEach((error: ValidationErrorItem) => {
+						let message: string = ''
+						if ((error.type == 'any.allowOnly') && error.context && options) {
+							message = `"${error.context.label}" ${error.context.value} is invalid`
+						} else {
+							message = error.message
+						}
+						messages.add(message);
+					});
+					return {
+						"status": 400,
+						"messages": Array.from(messages.values())
+					};
+				} else {
+					const messages: string[] = [];
+					const characterId = +request.payload.Id;
+					const characterDb = await Character.findOne<Character>({
+						loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
+						where: { Id: characterId }
+					});
+					if (characterDb) {
+						if (characterDb.Creator.Id == request.auth.credentials.id) {
+							characterDb.Name = value.Name;
+							
+							if (value.Level)
+								characterDb.Level = value.Level;
+							if (value.Race)
+								characterDb.Race = value.Race;
+							if (value.Class)
+								characterDb.Class = value.Class;
+							if (value.MaxHealth)
+								characterDb.MaxHealth = value.MaxHealth;
+							if (value.ArmorClass)
+								characterDb.ArmorClass = value.ArmorClass;
+							if (value.Notes)
+								characterDb.Notes = value.Notes;
+
+							characterDb.Campaigns = [];
+							if (value.Campaigns) {
+								for (const campaign of value.Campaigns) {
+									characterDb.Campaigns.push(campaignLookup[campaign.Id]);
+								}
+							}
+
+							await characterDb.save();
+							return {
+								"status": 201,
+								"messages": ["success"]
+							}
+						} else {
+							messages.push("Requester is not the owner.")
+						}
+					} else {
+						messages.push("Character is not found.")
+					}
+					return {
+						"status": 400,
+						"messages": messages,
+						"content": {},
+					}
+				}
+			}
+		);
 	};
 	public async Delete(request: {auth: any, params: any}) {
 		const characterId = +request.params.characterId
