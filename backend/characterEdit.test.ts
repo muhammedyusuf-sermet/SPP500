@@ -81,6 +81,27 @@ describe('character edit tests', async () => {
 		expect(response['messages'][0]).toBe("\"Name\" is not allowed to be empty");
 	});
 
+	test('When provided with an invalid Character Class is given', async () => {
+		const response = await character.Edit({
+			payload: {
+				"Id": 1,
+				"Name": "same name",
+				"Class": "Autobot",
+				"Notes": "same notes"
+			},
+			auth: {
+				credentials: {
+					id: 1
+				}
+			}
+		});
+		
+		expect.assertions(3);
+		expect(response['status']).toBe(400);
+		expect(response['messages'].length).toBe(1)
+		expect(response['messages'][0]).toBe("\"Class\" Autobot is invalid");
+	});
+
 	test('When provided notes is empty', async () => {
 		const response = await character.Edit({
 			payload: {
