@@ -65,6 +65,7 @@ describe('Campaign CRUD', () => {
 			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(true)
 			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
 			expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Characters').props().disabled).toEqual(true)
 		})
 
 		it('should have all inputs disabled unless switch to edit through props',() => {
@@ -72,6 +73,7 @@ describe('Campaign CRUD', () => {
 			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(true)
 			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(true)
 			expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(true)
+			expect(campaignCRUDInstance.find('textarea#Characters').props().disabled).toEqual(true)
 			campaignCRUDInstance.setProps({
 				Process: CRUDProcess.Edit
 			});
@@ -79,6 +81,7 @@ describe('Campaign CRUD', () => {
 			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(false)
 			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(false)
 			expect(campaignCRUDInstance.find('textarea#Encounters').props().disabled).toEqual(false)
+			expect(campaignCRUDInstance.find('textarea#Characters').props().disabled).toEqual(false)
 		})
 	});
 })
