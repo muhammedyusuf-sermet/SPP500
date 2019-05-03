@@ -11,7 +11,6 @@ import { Modal, ModalContent, Box, ModalBackground, Field, Button } from 'bloome
 import { Redirect } from "react-router-dom"
 import { CookieManager } from "../../cookie";
 import { CampaignDetails } from './platform/pages/view_game_components/campaign/CampaignDetails';
-import { stateWithoutErrors } from '../../utils/StateSelection';
 import { Typography } from '@material-ui/core';
 import { ICampaignData } from '../../campaign';
 import { CRUDProcess } from './MonsterCRUD';
@@ -51,10 +50,14 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		Summary: Joi.string().max(1000).label("Summary"),
 		Notes: Joi.string().max(2000).label("Notes"),
 		Encounters: Joi.array().items(Joi.object({
-			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
+			// related TODO: Get the encounter IDs from database.
+			//Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
+			Id: Joi.number().integer().greater(0).required().label('Encounter Id')
 		})).default([]),
 		Characters: Joi.array().items(Joi.object({
-			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CharacterOptions')).label('Encounter Id')
+			// related TODO: Get the character IDs from database.
+			//Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CharacterOptions')).label('Encounter Id')
+			Id: Joi.number().integer().greater(0).required().label('Encounter Id')
 		})).default([])
 	});
 	private validateOptions: ValidationOptions = {
@@ -63,8 +66,9 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		allowUnknown: false,
 		context: {
 			// TODO: Get the encounter IDs from database.
-			EncounterOptions: [0,1,2,3,4,5,6,7,8,9,10,11],
-			CharacterOptions: [0,1,2,3,4,5,6,7,8,9,10,11]
+			//EncounterOptions: array of id numbers,
+			// TODO: Get the character IDs from database.
+			//CharacterOptions: array of id numbers
 		}
 	};
 	private CampaignDetails: React.RefObject<CampaignDetails>;
@@ -183,28 +187,12 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 	}
 
 	validateForm = async () => {
-		const campaignState = this.CampaignDetails.current ? this.CampaignDetails.current.state : {};
+		const campaignDetails = this.CampaignDetails.current as CampaignDetails;
 
-		const campaignPayload = {
+		const campaignPayload: ICampaignData = {
 			Id: this.state.Id,
-			...stateWithoutErrors(campaignState)
+			...campaignDetails.GetCampaign()
 		};
-		const encounters: {Id?: number}[] = []
-		const numberPattern = /\d+/g;
-		const encounterIds = campaignPayload.Encounters.match(numberPattern);
-		if (encounterIds != null)
-			encounterIds.forEach((value: any) => {
-				encounters.push({ Id: this.stringToNumber(value)})
-			});
-		campaignPayload.Encounters = encounters
-		
-		const characters: {Id?: number}[] = []
-		const characterIds = campaignPayload.Characters.match(numberPattern);
-		if (characterIds != null)
-			characterIds.forEach((value: any) => {
-				characters.push({ Id: this.stringToNumber(value)})
-			});
-		campaignPayload.Characters = characters
 
 		let validationErrors = Joi.validate(
 			campaignPayload,
@@ -293,7 +281,7 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 						disabled={this.state.Process == CRUDProcess.Read}
 						PayloadSchema={this.payloadSchema}
 						ValidationOptions={this.validateOptions}
-						initial={{
+						Campaign={{
 							...this.state.Campaign
 						}} />
 					{this.state.Process == CRUDProcess.Read ? null :
