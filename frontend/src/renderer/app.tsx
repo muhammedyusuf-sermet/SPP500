@@ -40,6 +40,12 @@ export class App extends React.Component<IAppProps> {
 									return (
 										<EncounterRun EncounterId={props.match.params.Id} />
 									);}} />
+								<Route path="/campaign/:CampaignId/encounter/run/:Id" render={(props) => {
+									return (
+										<EncounterRun
+											EncounterId={props.match.params.Id}
+											CampaignId={props.match.params.CampaignId} />
+									);}} />
 								<Route path="/campaign/create" render={(props) => {
 									return (
 										<CampaignCRUD Process={CRUDProcess.Create} />
