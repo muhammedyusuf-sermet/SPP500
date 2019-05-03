@@ -110,7 +110,7 @@ export class CampaignFactory implements IFactory {
 
 					campaign.Characters = [];
 					for (let character of value.Characters) {
-						campaign.Encounters.push(encounterLookup[character.Id]);
+						campaign.Characters.push(characterLookup[character.Id]);
 					}
 
 					await campaign.save();
@@ -283,8 +283,6 @@ export class CampaignFactory implements IFactory {
 				if (campaignDb.Creator.Id == authInfo.credentials.id) {
 					// The frontend doesn't need the Creator info
 					delete campaignDb.Creator
-					// TODO: Allow the frontend to see characters remove this line
-					delete campaignDb.Characters
 					return {
 						"status": 201,
 						"messages": messages,
