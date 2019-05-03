@@ -6,6 +6,6 @@ export interface ICampaignData {
 	Name: string,
 	Summary?: string;
 	Notes?: string;
-	Encounters?: IEncounterData[];
-	Characters?: ICharacterData[];
+	Encounters?: (IEncounterData | { Id?: number })[];
+	Characters?: (ICharacterData | { Id?: number })[];
 }
