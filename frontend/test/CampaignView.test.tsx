@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as nock from 'nock';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
+import { CampaignCRUD, ICampaignGetOneResponse } from "../src/renderer/components/CampaignCRUD";
 
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
@@ -11,6 +11,7 @@ import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
 import { EncounterInstances } from '../src/encounter_instances';
 import { CharacterInstances } from '../src/character_instances';
 import { CampaignDetails, ICampaignDetailsProps } from '../src/renderer/components/platform/pages/view_game_components/campaign/CampaignDetails';
+import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../src/cookie');
 
@@ -18,7 +19,7 @@ jest.mock('../src/cookie');
 
 describe('Campaign CRUD', () => {
 
-	let campaignCRUDInstance: ReactWrapper<ICampaignCRUDProps, ICampaignCRUDState, CampaignCRUD>;
+	let campaignCRUDInstance: ReactWrapper<any, any, BrowserRouter>;
 
 	const basicResponse: ICampaignGetOneResponse = {
 		status: 201,
@@ -58,7 +59,10 @@ describe('Campaign CRUD', () => {
 				total: 12,
 				content: CharacterInstances.slice(0,6)
 			});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Read} Id={1} />);
+			campaignCRUDInstance = mount<BrowserRouter>(
+				<BrowserRouter>
+					<CampaignCRUD Process={CRUDProcess.Read} Id={1} />
+				</BrowserRouter>);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -83,7 +87,7 @@ describe('Campaign CRUD', () => {
 
 		it('renders without crashing', () => {
 			expect(campaignCRUDInstance).toBeDefined();
-			expect(campaignCRUDInstance.state().Campaign.Name).toEqual('Basic Campaign');
+			expect(campaignCRUDInstance.find(CampaignCRUD).state().Campaign.Name).toEqual('Basic Campaign');
 		});
 
 		it('should not render the submit button', () => {
@@ -110,9 +114,9 @@ describe('Campaign CRUD', () => {
 			const campaign = campaignCRUDInstance.find<ICampaignDetailsProps>(CampaignDetails);
 			expect(campaign.state('EncountersSet')).toEqual(new Set([1,2]))
 			expect(campaign.state('CharactersSet')).toEqual(new Set([1]))
-			campaignCRUDInstance.setProps({
-				Process: CRUDProcess.Edit
-			});
+			campaignCRUDInstance.setProps({ children: (
+				<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />
+			)});
 			expect(campaignCRUDInstance.find('input#Name').props().disabled).toEqual(false)
 			expect(campaignCRUDInstance.find('textarea#Summary').props().disabled).toEqual(false)
 			expect(campaignCRUDInstance.find('textarea#Notes').props().disabled).toEqual(false)

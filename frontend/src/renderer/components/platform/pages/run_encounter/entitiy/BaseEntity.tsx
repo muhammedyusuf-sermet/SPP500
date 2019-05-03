@@ -17,7 +17,7 @@ export interface IBaseEntityProps {
 	Id: number
 	Initiative: number;
 	View: (event: React.MouseEvent<HTMLButtonElement>) => void,
-	Edit: (event: React.MouseEvent<HTMLButtonElement>) => void,
+	//Edit: (event: React.MouseEvent<HTMLButtonElement>) => void,
 	// initial values
 	Entity: {
 		EntityType: keyof EntityTypes;
@@ -181,7 +181,7 @@ export class BaseEntity extends React.Component<IBaseEntityProps, IBaseEntitySta
 							</Grid>
 						)}
 						<Grid item xs={12}>
-							<Button id={'View'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.View} >
+							<Button id={'View'+this.props.Entity.EntityType+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.View} >
 								View
 							</Button>
 							{/*<Button id={'Edit'+this.props.Entity.Id} variant="contained" value={this.props.Entity.Id} onClick={this.props.Edit} >

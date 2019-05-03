@@ -13,6 +13,7 @@ import { ICharacterData } from '../../../../../../character';
 import { ICampaignData } from '../../../../../../campaign';
 import { API_URL } from '../../../../../../config';
 import { CookieManager } from '../../../../../../cookie';
+import { Link } from 'react-router-dom';
 
 interface IEncounterGetResponse {
 	status: number,
@@ -301,6 +302,7 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 								<TableCell padding='checkbox'>Selected</TableCell>
 								<TableCell padding='none'>Encounter</TableCell>
 								<TableCell align='right'>Description</TableCell>
+								{this.props.disabled ? <TableCell align='right'>Action</TableCell> : null}
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -317,6 +319,11 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 										{encounter.Name}
 									</TableCell>
 									<TableCell align='right'>{(encounter.Description || '').substr(0,200)}</TableCell>
+									{this.props.disabled ? <TableCell align='right'>
+										{this.state.EncountersSet.has(encounter.Id) ? <Link to={ '/campaign/' + this.props.Campaign.Id + "/encounter/run/"+encounter.Id }>
+											Run
+										</Link> : null}
+									</TableCell> : null }
 								</TableRow>
 							))}
 						</TableBody>
