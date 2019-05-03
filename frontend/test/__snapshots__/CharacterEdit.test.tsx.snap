@@ -16884,7 +16884,6 @@ exports[`Character CRUD Happy Path renders correctly when the page is loaded 1`]
                                 "_description": null,
                                 "_examples": Array [],
                                 "_flags": Object {
-                                  "allowOnly": true,
                                   "label": "Campaign Id",
                                   "presence": "required",
                                   "unsafe": false,
@@ -16919,10 +16918,8 @@ exports[`Character CRUD Happy Path renders correctly when the page is loaded 1`]
                                 "_type": "number",
                                 "_unit": null,
                                 "_valids": InternalSet {
-                                  "_hasRef": 1,
-                                  "_set": Set {
-                                    [Function],
-                                  },
+                                  "_hasRef": false,
+                                  "_set": Set {},
                                 },
                                 "isJoi": true,
                               },
@@ -19716,7 +19713,6 @@ exports[`Character CRUD Happy Path renders correctly when the page is loaded 1`]
                                 "_description": null,
                                 "_examples": Array [],
                                 "_flags": Object {
-                                  "allowOnly": true,
                                   "label": "Campaign Id",
                                   "presence": "required",
                                   "unsafe": false,
@@ -19751,10 +19747,8 @@ exports[`Character CRUD Happy Path renders correctly when the page is loaded 1`]
                                 "_type": "number",
                                 "_unit": null,
                                 "_valids": InternalSet {
-                                  "_hasRef": 1,
-                                  "_set": Set {
-                                    [Function],
-                                  },
+                                  "_hasRef": false,
+                                  "_set": Set {},
                                 },
                                 "isJoi": true,
                               },
