@@ -25,7 +25,9 @@ export interface IEncounterRunState {
 	SelectedCharacter: number,
 	SelectedProcess: CRUDProcess,
 	Initiatives: IInitiativeSort[],
+	Description: string,
 	Notes: string,
+	Summary: string,
 	Turn: number,
 	width: number,
 	height: number,
@@ -64,7 +66,9 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 			SelectedMosnter: -1,
 			SelectedCharacter: -1,
 			SelectedProcess: CRUDProcess.Read,
+			Description: '',
 			Notes: '',
+			Summary: '',
 			Turn: 0,
 			width: 0,
 			height: 0,
@@ -111,8 +115,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		request(options)
 			.then((body: IEncounterGetOneResponse) => {
 				if (body.status == 201) { // success
-					const initiatives: IInitiativeSort[] = [];
-					this.state.Initiatives.map(value => initiatives.push(value));
+					const initiatives: IInitiativeSort[] = new Array(...this.state.Initiatives);
 					if (body.content.Monsters)
 						body.content.Monsters.map((mon, index) => initiatives.push({
 							Initiative: Math.ceil(Math.random() * 20),
@@ -131,7 +134,7 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 						}
 					});
 					this.setState({
-						Notes: body.content.Description || '',
+						Description: body.content.Description || '',
 						Initiatives: initiatives,
 						Encounter: body.content
 					});
@@ -145,63 +148,64 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 				}else{
 					this.openModal("There was an error retreiving the encounter. Please try again later.")
 				}
+				if(this.props.CampaignId){
+					options = { method: 'GET',
+						url: API_URL + '/campaign/' + this.props.CampaignId,
+						headers:
+						{
+							'Cache-Control': 'no-cache',
+							'Authorization': CookieManager.UserToken('session_token')
+						},
+						json: true
+					};
+					request(options)
+						.then((body: ICampaignGetOneResponse) => {
+							if (body.status == 201) { // success
+								const initiatives: IInitiativeSort[] = new Array(...this.state.Initiatives);
+								if (body.content.Characters)
+									body.content.Characters.map((char, index) => initiatives.push({
+										Initiative: Math.ceil(Math.random() * 20),
+										Index: index,
+										Dextarity: undefined,
+										Type: 'Player',
+										Source: body.content.Characters as ICampaignData[]
+									}));
+								initiatives.sort((a,b) => {
+									if (a.Initiative > b.Initiative) {
+										return -1
+									} else if (a.Initiative < b.Initiative) {
+										return 1
+									} else {
+										return (a.Dextarity ? a.Dextarity : 0) < (b.Dextarity ? b.Dextarity : 0) ? 1 : -1;
+									}
+								});
+								this.setState({
+									Notes: body.content.Notes ? body.content.Notes : '',
+									Summary: body.content.Summary ? body.content.Summary : '',
+									Initiatives: initiatives,
+									Campaign: body.content
+								});
+							} else if (body.messages) {
+								// TODO: change backend so it sends better error messages.
+								// TODO: parse the error messages so they show better.
+								// TODO: maybe the messages from the server shouldn't be
+								// a list of strings but a JSON object so things are
+								// grouped together. Easier to parse?
+								this.openModal("Error finding campaign: "+body.messages.toString());
+							}else{
+								this.openModal("There was an error retreiving the campaign. Please try again later.")
+							}
+						})
+						.catch((error: string) => {
+							this.openModal("There was an error sending your request.")
+						});
+				}
 			})
 			.catch((error: string) => {
 				this.openModal("There was an error sending your request.")
 			})
-		if(this.props.CampaignId){
-			options = { method: 'GET',
-				url: API_URL + '/campaign/' + this.props.CampaignId,
-				headers:
-				{
-					'Cache-Control': 'no-cache',
-					'Authorization': CookieManager.UserToken('session_token')
-				},
-				json: true
-			};
-			request(options)
-				.then((body: ICampaignGetOneResponse) => {
-					if (body.status == 201) { // success
-						const initiatives: IInitiativeSort[] = [];
-						this.state.Initiatives.map(value => initiatives.push(value));
-						if (body.content.Characters)
-							body.content.Characters.map((char, index) => initiatives.push({
-								Initiative: Math.ceil(Math.random() * 20),
-								Index: index,
-								Dextarity: undefined,
-								Type: 'Player',
-								Source: body.content.Characters as ICampaignData[]
-							}));
-						initiatives.sort((a,b) => {
-							if (a.Initiative > b.Initiative) {
-								return -1
-							} else if (a.Initiative < b.Initiative) {
-								return 1
-							} else {
-								return (a.Dextarity ? a.Dextarity : 0) < (b.Dextarity ? b.Dextarity : 0) ? 1 : -1;
-							}
-						});
-						this.setState({
-							Notes: body.content.Notes ? body.content.Notes : '',
-							Initiatives: initiatives,
-							Campaign: body.content
-						});
-					} else if (body.messages) {
-						// TODO: change backend so it sends better error messages.
-						// TODO: parse the error messages so they show better.
-						// TODO: maybe the messages from the server shouldn't be
-						// a list of strings but a JSON object so things are
-						// grouped together. Easier to parse?
-						this.openModal("Error finding encounter: "+body.messages.toString());
-					}else{
-						this.openModal("There was an error retreiving the encounter. Please try again later.")
-					}
-				})
-				.catch((error: string) => {
-					this.openModal("There was an error sending your request.")
-				})
-		}
 	}
+
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.updateWindowDimensions);
@@ -224,14 +228,14 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		});
 	}
 
-	public EditMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
+	/*public EditMonster = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
 			SelectedMosnter: value != undefined ? value : -1,
 			SelectedCharacter: -1,
 			SelectedProcess: CRUDProcess.Edit,
 		});
-	}
+	}*/
 
 	public ViewCharacter = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const value = this.stringToNumber(event.currentTarget.value);
@@ -242,18 +246,25 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		});
 	}
 
-	public EditCharacter = (event: React.MouseEvent<HTMLButtonElement>) => {
+	/*public EditCharacter = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const value = this.stringToNumber(event.currentTarget.value);
 		this.setState({
 			SelectedMosnter: -1,
 			SelectedCharacter: value != undefined ? value : -1,
 			SelectedProcess: CRUDProcess.Edit,
 		});
-	}
+	}*/
 
 	nextTurn = (event: React.MouseEvent<HTMLButtonElement>) => {
 		this.setState((prevState: IEncounterRunState) =>
 			({ Turn: prevState.Turn + 1 }));
+	}
+
+	handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		this.setState({
+			Description: value,
+		});
 	}
 
 	handleNotesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -263,18 +274,15 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 		});
 	}
 
-	handleInitiativeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const initiatives: IInitiativeSort[] = [];
-		this.state.Initiatives.forEach(val => initiatives.push(val));
-		const value = this.stringToNumber(event.target.value);
-		const id = this.stringToNumber(event.currentTarget.name);
-		initiatives[id ? id : 0].Initiative = value ? value : 0;
+	handleSummaryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
 		this.setState({
-			Initiatives: initiatives
+			Summary: value,
 		});
 	}
 
 	render() {
+		const currentEntity = this.state.Initiatives[this.state.Turn%this.state.Initiatives.length]
 		return (
 			<div className="encounter-run-containter">
 				<Grid container alignItems='baseline' spacing={16} >
@@ -286,9 +294,9 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 							<Typography id='Turn' align='center' variant='body1' >
 								{
 									'Turn: '+
-									(this.state.Turn%this.state.Initiatives.length)+
+									(this.state.Turn%this.state.Initiatives.length + 1)+
 									', Round: '+
-									(Math.floor(this.state.Turn/this.state.Initiatives.length))
+									(Math.floor(this.state.Turn/this.state.Initiatives.length) + 1)
 								}
 							</Typography>
 						</Grid>
@@ -298,15 +306,47 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 							</Button>
 						</Grid>
 						<Grid item xs={12} >
+							<Typography id='CurrentEntity' align='center' variant='h6' >
+								{
+									currentEntity ? currentEntity.Source[currentEntity.Index].Name : 'No Entities'
+								}
+							</Typography>
+						</Grid>
+						<Grid item xs={12} >
 							<TextField
-								id='EncounterNotes'
-								label='Notes'
+								id='EncounterDescription'
+								label='Encounter Description'
 								multiline
 								margin='normal'
 								fullWidth
-								rowsMax={20}
+								rowsMax={10}
+								rows={10}
+								value={this.state.Description}
+								onChange={this.handleDescriptionChange} />
+						</Grid>
+						<Grid item xs={12} >
+							<TextField
+								id='CampaignNotes'
+								label='Campaign Notes'
+								multiline
+								margin='normal'
+								fullWidth
+								rowsMax={10}
+								rows={10}
 								value={this.state.Notes}
 								onChange={this.handleNotesChange} />
+						</Grid>
+						<Grid item xs={12} >
+							<TextField
+								id='CampaignSummary'
+								label='Campaign Summary'
+								multiline
+								margin='normal'
+								fullWidth
+								rowsMax={10}
+								rows={10}
+								value={this.state.Summary}
+								onChange={this.handleSummaryChange} />
 						</Grid>
 					</Grid>
 					<Grid container item style={{maxHeight: (this.state.height-55), overflow: 'auto'}} xs={12} md={3} spacing={8} >
@@ -315,10 +355,10 @@ export class EncounterRun extends React.Component<IEncounterRunProps, IEncounter
 								<BaseEntity
 									id={value.Type+value.Source[value.Index].Id}
 									key={index}
-									Id={value.Source[value.Index].Id as number}
+									Id={index}
 									Initiative={value.Initiative}
-									View={this.ViewMonster}
-									Edit={this.EditMonster}
+									View={value.Type == 'Monster' ? this.ViewMonster : this.ViewCharacter}
+									//Edit={value.Type == 'Monster' ? this.EditMonster : this.EditCharacter}
 									Entity={{
 										EntityType: value.Type,
 										Id: value.Source[value.Index].Id as number,
