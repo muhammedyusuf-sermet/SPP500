@@ -52,6 +52,9 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		Notes: Joi.string().max(2000).label("Notes"),
 		Encounters: Joi.array().items(Joi.object({
 			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$EncounterOptions')).label('Encounter Id')
+		})).default([]),
+		Characters: Joi.array().items(Joi.object({
+			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CharacterOptions')).label('Encounter Id')
 		})).default([])
 	});
 	private validateOptions: ValidationOptions = {
@@ -60,7 +63,8 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		allowUnknown: false,
 		context: {
 			// TODO: Get the encounter IDs from database.
-			EncounterOptions: [0,1,2,3,4,5,6,7,8,9,10,11]
+			EncounterOptions: [0,1,2,3,4,5,6,7,8,9,10,11],
+			CharacterOptions: [0,1,2,3,4,5,6,7,8,9,10,11]
 		}
 	};
 	private CampaignDetails: React.RefObject<CampaignDetails>;
@@ -187,12 +191,20 @@ export class CampaignCRUD extends React.Component<ICampaignCRUDProps, ICampaignC
 		};
 		const encounters: {Id?: number}[] = []
 		const numberPattern = /\d+/g;
-		const ids = campaignPayload.Encounters.match(numberPattern);
-		if (ids != null)
-			ids.forEach((value: any) => {
+		const encounterIds = campaignPayload.Encounters.match(numberPattern);
+		if (encounterIds != null)
+			encounterIds.forEach((value: any) => {
 				encounters.push({ Id: this.stringToNumber(value)})
 			});
 		campaignPayload.Encounters = encounters
+		
+		const characters: {Id?: number}[] = []
+		const characterIds = campaignPayload.Characters.match(numberPattern);
+		if (characterIds != null)
+			characterIds.forEach((value: any) => {
+				characters.push({ Id: this.stringToNumber(value)})
+			});
+		campaignPayload.Characters = characters
 
 		let validationErrors = Joi.validate(
 			campaignPayload,

@@ -114,7 +114,8 @@ describe('Campaign CRUD create', () => {
 			nock(API_URL)
 			.post('/campaign/create', {
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -133,7 +134,8 @@ describe('Campaign CRUD create', () => {
 			nock(API_URL)
 			.post('/campaign/create', {
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(404);
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -152,7 +154,8 @@ describe('Campaign CRUD create', () => {
 			nock(API_URL)
 			.post('/campaign/create', {
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(200, { status: 400, messages: ["Invalid campaign object"]});
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -171,7 +174,8 @@ describe('Campaign CRUD create', () => {
 			nock(API_URL)
 			.post('/campaign/create', {
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(200, { status: 401 });
 			characterCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -227,6 +231,7 @@ describe('Campaign CRUD create', () => {
 			characterCRUDInstance.find('textarea#Summary').simulate('change', { target: { value: "Winner takes all." } })
 			characterCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: "Kill small creatures first." } })
 			characterCRUDInstance.find('textarea#Encounters').simulate('change', { target: { value: "1,2" } })
+			characterCRUDInstance.find('textarea#Characters').simulate('change', { target: { value: "1" } })
 			expect(characterCRUDInstance.state()).toEqual({
 				Process: CRUDProcess.Create,
 				Id: undefined,
@@ -243,6 +248,7 @@ describe('Campaign CRUD create', () => {
 			.post('/campaign/create', {
 				"Name": "Hello",
 				"Encounters": [{"Id": 1}, {"Id": 2}],
+				"Characters": [{"Id": 1}],
 				"Summary": "Winner takes all.",
 				"Notes": "Kill small creatures first."		
 			})

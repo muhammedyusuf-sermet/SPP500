@@ -102,7 +102,8 @@ describe('Campaign CRUD', () => {
 		Name: "Hello Original",
 		Summary: "This is legit.",
 		Notes: "The best around",
-		Encounters: []
+		Encounters: [],
+		Characters: []
 	}
 
 	describe('render campaign from database', () => {
@@ -259,7 +260,8 @@ describe('Campaign CRUD', () => {
 			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -279,7 +281,8 @@ describe('Campaign CRUD', () => {
 			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(404);
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -299,7 +302,8 @@ describe('Campaign CRUD', () => {
 			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(200, { status: 400, messages: ["Invalid campaign object"]});
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -319,7 +323,8 @@ describe('Campaign CRUD', () => {
 			.post('/campaign/edit', {
 				"Id": 0,
 				"Name": "Hello",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(200, { status: 401 });
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
@@ -523,7 +528,8 @@ describe('Campaign CRUD', () => {
 				"Name": "Hello",
 				"Summary": "Gnome",
 				"Notes": "Very weak and sly",
-				"Encounters": []
+				"Encounters": [],
+				"Characters": []
 			})
 			.reply(201, { status: 201, messages: ['success'] });
 			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);

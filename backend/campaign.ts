@@ -283,8 +283,6 @@ export class CampaignFactory implements IFactory {
 				if (campaignDb.Creator.Id == authInfo.credentials.id) {
 					// The frontend doesn't need the Creator info
 					delete campaignDb.Creator
-					// TODO: Allow the frontend to see characters remove this line
-					delete campaignDb.Characters
 					return {
 						"status": 201,
 						"messages": messages,

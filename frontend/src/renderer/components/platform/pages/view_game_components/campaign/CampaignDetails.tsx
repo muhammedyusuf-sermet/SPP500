@@ -7,6 +7,7 @@ import 'bulma/css/bulma.css';
 import { isDeepStrictEqual } from 'util';
 import { FormControl, InputLabel, Input, FormHelperText, Grid } from '@material-ui/core';
 import { IEncounterData } from '../../../../../../encounter';
+import { ICharacterData } from '../../../../../../character';
 
 export interface ICampaignDetailsProps {
 	disabled?: boolean,
@@ -19,6 +20,7 @@ export interface ICampaignDetailsProps {
 		Summary?: string;
 		Notes?: string;
 		Encounters?: IEncounterData[];
+		Characters?: ICharacterData[];
 	}
 }
 
@@ -28,11 +30,13 @@ export interface ICampaignDetailsState {
 	Summary?: string;
 	Notes?: string;
 	Encounters?: string;
+	Characters?: string;
 	// errors
 	NameError?: string;
 	SummaryError?: string;
 	NotesError?: string;
 	EncountersError?: string;
+	CharactersError?: string;
 }
 
 export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICampaignDetailsState> {
@@ -40,7 +44,8 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 		super(props);
 		this.state = {
 			...props.initial,
-			Encounters: props.initial.Encounters ? props.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
+			Encounters: props.initial.Encounters ? props.initial.Encounters.map((value)=>(value.Id)).join(',') : '',
+			Characters: props.initial.Characters ? props.initial.Characters.map((value)=>(value.Id)).join(',') : ''
 		};
 	}
 
@@ -48,7 +53,8 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 		if (isDeepStrictEqual(this.props.initial, nextProps.initial) == false)
 			this.setState({
 				...nextProps.initial,
-				Encounters: nextProps.initial.Encounters ? nextProps.initial.Encounters.map((value)=>(value.Id)).join(',') : ''
+				Encounters: nextProps.initial.Encounters ? nextProps.initial.Encounters.map((value)=>(value.Id)).join(',') : '',
+				Characters: nextProps.initial.Characters ? nextProps.initial.Characters.map((value)=>(value.Id)).join(',') : ''
 			});
 	}
 
@@ -70,6 +76,12 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 	handleCampaignEncounterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		this.setState({
 			Encounters: event.target.value
+		})
+	}
+
+	handleCampaignCharacterIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		this.setState({
+			Characters: event.target.value
 		})
 	}
 
@@ -135,6 +147,22 @@ export class CampaignDetails extends React.Component<ICampaignDetailsProps, ICam
 							onChange={this.handleCampaignEncounterIdChange}
 							aria-describedby="Encounters-helper-text" />
 						<FormHelperText error id="Encounters-helper-text">{this.state.EncountersError}</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item xs={12} >
+					<FormControl className='formControl' fullWidth disabled={this.props.disabled} >
+						<InputLabel htmlFor="Characters">Character Id's</InputLabel>
+						<Input
+							id='Characters'
+							type='text'
+							multiline
+							rows={10}
+							rowsMax={10}
+							value={this.state.Characters || ''}
+							name='Characters'
+							onChange={this.handleCampaignCharacterIdChange}
+							aria-describedby="Characters-helper-text" />
+						<FormHelperText error id="Characters-helper-text">{this.state.CharactersError}</FormHelperText>
 					</FormControl>
 				</Grid>
 			</Grid>
