@@ -58,7 +58,7 @@ export class CharacterCRUD extends React.Component<ICharacterCRUDProps, ICharact
 		ArmorClass: Joi.number().integer().greater(0).label('ArmorClass'),
 		Notes: Joi.string().max(1000).label("Notes"),
 		Campaigns: Joi.array().items(Joi.object({
-			Id: Joi.number().integer().greater(0).required().valid(Joi.ref('$CampaignOptions')).label('Campaign Id')
+			Id: Joi.number().integer().greater(0).required().label('Campaign Id')
 		})).default([])
 	});
 	private validateOptions: ValidationOptions = {
