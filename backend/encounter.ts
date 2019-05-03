@@ -180,7 +180,7 @@ export class EncounterFactory implements IFactory {
 
  		if (messages.length == 0) {
 			const encounter = await Encounter.findOne<Encounter>({
-				relations: ['Monsters', 'Campaigns'],
+				relations: ['Monsters', 'Campaigns', 'Monsters.AbilityScores'],
 				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
 				where: { Id: encounterId }
 			});

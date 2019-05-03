@@ -276,7 +276,8 @@ export class CampaignFactory implements IFactory {
 
 		if (messages.length == 0) {
 			const campaignDb = await Campaign.findOne<Campaign>({
-				loadRelationIds: { relations: ['Creator', 'Encounters', 'Characters'], disableMixedMap: true },
+				relations: ['Characters', 'Encounters'],
+				loadRelationIds: { relations: ['Creator'], disableMixedMap: true },
 				where: { Id: campaignId }
 			});
 			if (campaignDb) {

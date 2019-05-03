@@ -446,7 +446,7 @@ exports[`Base Entity Small snapshot matches snapshot 1`] = `
         xs={12}
       >
         <WithStyles(Button)
-          id="View0"
+          id="ViewMonster0"
           onClick={[MockFunction]}
           value={0}
           variant="contained"

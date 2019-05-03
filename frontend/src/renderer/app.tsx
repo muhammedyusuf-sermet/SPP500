@@ -38,7 +38,13 @@ export class App extends React.Component<IAppProps> {
 								<Route exact path="/" component={Platform} />
 								<Route path="/encounter/run/:Id" render={(props) => {
 									return (
-										<EncounterRun Id={props.match.params.Id} />
+										<EncounterRun EncounterId={props.match.params.Id} />
+									);}} />
+								<Route path="/campaign/:CampaignId/encounter/run/:Id" render={(props) => {
+									return (
+										<EncounterRun
+											EncounterId={props.match.params.Id}
+											CampaignId={props.match.params.CampaignId} />
 									);}} />
 								<Route path="/campaign/create" render={(props) => {
 									return (

@@ -120,7 +120,7 @@ describe('character tests', async () => {
 			expect(response['messages'][0]).toBe("\"Name\" is not allowed to be empty");
 		});
 
-		test('when credentials dont match the campaign', async () => {
+		test('ignore when credentials dont match the campaign', async () => {
 			const response = await character.Create({
 				payload: {
 					"Name": "Test",
@@ -136,12 +136,12 @@ describe('character tests', async () => {
 			});
 
 			expect.assertions(3);
-			expect(response['status']).toBe(400);
+			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("\"Campaign Id\" 3 is invalid");
+			expect(response['messages'][0]).toBe("success");
 		});
 
-		test('when invalid campaign is given', async () => {
+		test('ignore when invalid campaign is given', async () => {
 			const response = await character.Create({
 				payload: {
 					"Name": "Test",
@@ -157,9 +157,9 @@ describe('character tests', async () => {
 			});
 
 			expect.assertions(3);
-			expect(response['status']).toBe(400);
+			expect(response['status']).toBe(201);
 			expect(response['messages'].length).toBe(1)
-			expect(response['messages'][0]).toBe("\"Campaign Id\" 4 is invalid");
+			expect(response['messages'][0]).toBe("success");
 		});
 
 		test('when credentials match the campaign', async () => {
