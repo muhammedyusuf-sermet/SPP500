@@ -7,9 +7,10 @@ import { CampaignCRUD, ICampaignCRUDState, ICampaignCRUDProps, ICampaignGetOneRe
 import {API_URL} from '../src/config'
 import { CookieManager as CookieManagerMock } from "../src/__mocks__/cookie";
 import { CookieManager } from "../src/cookie";
-import { BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
 import { ICampaignData } from '../src/campaign';
 import { CRUDProcess } from '../src/renderer/components/MonsterCRUD';
+import { EncounterInstances } from '../src/encounter_instances';
+import { CharacterInstances } from '../src/character_instances';
 
 jest.mock('../src/cookie');
 
@@ -23,82 +24,13 @@ describe('Campaign CRUD', () => {
 		status: 201,
 		messages: ['success'],
 		content: {
-			Id: 0,
+			Id: 1,
 			Name: 'Basic Campaign',
 		}
 	}
 
-	describe('Redirect if submitted', () => {
-
-		let browserInstance: ReactWrapper<any, any, BrowserRouter>;
-
-		beforeEach(() => {
-			nock.disableNetConnect();
-			CookieManagerMock.SetStringCookie("session_token", "testToken");
-			// bind the normal user token function to the mock.
-			CookieManager.UserToken = CookieManagerMock.UserToken.bind(CookieManager);
-			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
-			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
-			// This makes it so there isn't a warning about redirecting to the same page.
-			browserInstance = mount<BrowserRouter, any, any>(
-				<BrowserRouter >
-					<Switch>
-						<Route exact path='/create' render={() => (
-							<React.Fragment>
-								<CampaignCRUD Process={CRUDProcess.Create} />
-								<Link to='/' replace={false} >Home</Link>
-							</React.Fragment>
-						)} />
-						<Route exact path='/' render={() => (
-							<Link to='/create' replace={false} >Create</Link>
-						)} />
-					</Switch>
-				</BrowserRouter>
-				);
-			//console.log(browserInstance.debug())
-			//browserInstance.find('Link').simulate('click', { button: 0 })
-			campaignCRUDInstance = {} as any
-			if(campaignCRUDInstance)
-				campaignCRUDInstance = {} as any
-		});
-
-		afterEach( () => {
-			nock.cleanAll();
-			//browserInstance.find('Link').simulate('click', { button: 0 })
-		});
-
-		it('renders without crashing', () => {
-			if (browserInstance.find(Link).text() == 'Create')
-				browserInstance.find(Link).simulate('click',{button: 0});
-			expect(browserInstance.find(Link).text()).toEqual('Home');
-			expect(browserInstance.find(CampaignCRUD)).toBeDefined();
-		});
-
-		it('should redirect', () => {
-			if (browserInstance.find(Link).text() == 'Create')
-				browserInstance.find(Link).simulate('click',{button: 0});
-			expect(browserInstance.find(Link).text()).toEqual('Home');
-			expect(browserInstance.find(Redirect)).toHaveLength(0);
-			browserInstance.find(CampaignCRUD).setState({ submitted: true });
-			expect(browserInstance.find(Redirect)).toHaveLength(1);
-		});
-
-		it('should redirect and back button', () => {
-			if (browserInstance.find(Link).text() == 'Create')
-				browserInstance.find(Link).simulate('click',{button: 0});
-			expect(browserInstance.find(Link).text()).toEqual('Home');
-			browserInstance.find(Link).simulate('click',{button: 0});
-			expect(browserInstance.find(Link).text()).toEqual('Create');
-			browserInstance.find(Link).simulate('click',{button: 0});
-			expect(browserInstance.find(Link).text()).toEqual('Home');
-			browserInstance.find("Button#BackButton").simulate('click', { button: 0 });
-			// TODO: fix test so it actually checks that we went back
-			//expect(browserInstance.find(Link).text()).toEqual('Create');
-		});
-	});
-
 	const originalCampaign: ICampaignData = {
-		Id: 0,
+		Id: 1,
 		Name: "Hello Original",
 		Summary: "This is legit.",
 		Notes: "The best around",
@@ -115,13 +47,37 @@ describe('Campaign CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/encounter/get/0/6')
+			.reply(200, {
+				status: 201,
+				messages: ['success'],
+				total: 12,
+				content: EncounterInstances
+			});
+			nock(API_URL)
+			.get('/character/get/0/6')
+			.reply(200, {
+				status: 201,
+				messages: ['success'],
+				total: 12,
+				content: CharacterInstances
+			});
+			nock(API_URL)
+			.get('/campaign/1')
 			.reply(200, {
 				status: 201,
 				messages: ['success'],
 				content: originalCampaign
 			});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
+			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+			await new Promise(resolve => setImmediate(resolve));
+			await new Promise(resolve => setImmediate(resolve));
+			await new Promise(resolve => setImmediate(resolve));
+			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
+			await new Promise(resolve => setImmediate(resolve));
+			await new Promise(resolve => setImmediate(resolve));
+			await new Promise(resolve => setImmediate(resolve));
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -173,9 +129,9 @@ describe('Campaign CRUD', () => {
 
 		it('should show error message when API route not found', async (done) => {
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(404);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -191,9 +147,9 @@ describe('Campaign CRUD', () => {
 
 		it('should show error message when server denies you', async (done) => {
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(200, { status: 400, messages: ["Campaign not found."]});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -208,9 +164,9 @@ describe('Campaign CRUD', () => {
 
 		it('should show error message when server denies you without any messages', async (done) => {
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(200, { status: 401 });
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED, SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -234,9 +190,9 @@ describe('Campaign CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(200, basicResponse);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -258,7 +214,7 @@ describe('Campaign CRUD', () => {
 			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/edit', {
-				"Id": 0,
+				"Id": 1,
 				"Name": "Hello",
 				"Encounters": [],
 				"Characters": []
@@ -269,8 +225,8 @@ describe('Campaign CRUD', () => {
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			campaignCRUDInstance.update();
-			//expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully updated.");
-			//expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
+			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("Campaign successfully updated.");
+			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			expect(nock.isDone()).toEqual(true);
 			done();
 		});
@@ -279,7 +235,7 @@ describe('Campaign CRUD', () => {
 			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/edit', {
-				"Id": 0,
+				"Id": 1,
 				"Name": "Hello",
 				"Encounters": [],
 				"Characters": []
@@ -300,7 +256,7 @@ describe('Campaign CRUD', () => {
 			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/edit', {
-				"Id": 0,
+				"Id": 1,
 				"Name": "Hello",
 				"Encounters": [],
 				"Characters": []
@@ -321,7 +277,7 @@ describe('Campaign CRUD', () => {
 			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
 			nock(API_URL)
 			.post('/campaign/edit', {
-				"Id": 0,
+				"Id": 1,
 				"Name": "Hello",
 				"Encounters": [],
 				"Characters": []
@@ -349,19 +305,6 @@ describe('Campaign CRUD', () => {
 			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
 			done();
 		});
-
-		it('should show payload error message when campaign has an invalid field', async (done) => {
-			campaignCRUDInstance.find('input#Name').simulate('change', { target: { value: 'Hello' } })
-			campaignCRUDInstance.find('CampaignDetails').setState({ "InvalidEntry": 100 })
-			campaignCRUDInstance.instance().submitForm({ preventDefault() {} } as React.FormEvent);
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			await new Promise(resolve => setImmediate(resolve));
-			campaignCRUDInstance.update();
-			expect(campaignCRUDInstance.find('#ModalMessage').text()).toEqual("\"InvalidEntry\" is not allowed");
-			expect(campaignCRUDInstance.find('Modal#CampaignCRUDModal').prop('isActive')).toEqual(true);
-			done();
-		});
 	});
 
 	describe('Server request Path for props change', () => {
@@ -374,9 +317,9 @@ describe('Campaign CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(200, basicResponse);
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -396,9 +339,9 @@ describe('Campaign CRUD', () => {
 
 		it('should show error message when API route not found', async (done) => {
 			nock(API_URL)
-			.get('/campaign/1')
+			.get('/campaign/2')
 			.reply(404);
-			campaignCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 2})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -411,9 +354,9 @@ describe('Campaign CRUD', () => {
 
 		it('should show error message when server denies you', async (done) => {
 			nock(API_URL)
-			.get('/campaign/1')
+			.get('/campaign/2')
 			.reply(200, { status: 400, messages: ["Invalid campaign id"]});
-			campaignCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 2})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -426,9 +369,9 @@ describe('Campaign CRUD', () => {
 
 		it('should show error message when server denies you without any messages', async (done) => {
 			nock(API_URL)
-			.get('/campaign/1')
+			.get('/campaign/2')
 			.reply(200, { status: 401 });
-			campaignCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 2})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -441,9 +384,9 @@ describe('Campaign CRUD', () => {
 
 		it('should allow new campaign from server by new props', async (done) => {
 			nock(API_URL)
-			.get('/campaign/1')
+			.get('/campaign/2')
 			.reply(200, basicResponse);
-			campaignCRUDInstance.setProps({Id: 1})
+			campaignCRUDInstance.setProps({Id: 2})
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -464,13 +407,13 @@ describe('Campaign CRUD', () => {
 			CookieManager.RemoveCookie = CookieManagerMock.RemoveCookie.bind(CookieManager);
 			CookieManager.SetStringCookie = CookieManagerMock.SetStringCookie.bind(CookieManager);
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(200, {
 				status: 201,
 				messages: ['success'],
 				content: originalCampaign
 			});
-			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			campaignCRUDInstance = mount<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -490,13 +433,13 @@ describe('Campaign CRUD', () => {
 
 		it('renders correctly when the page is loaded', async (done) => {
 			nock(API_URL)
-			.get('/campaign/0')
+			.get('/campaign/1')
 			.reply(200, {
 				status: 201,
 				messages: ['success'],
 				content: originalCampaign
 			});
-			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={0} />);
+			const shallowCampaignCRUD = shallow<CampaignCRUD, ICampaignCRUDProps, ICampaignCRUDState>(<CampaignCRUD Process={CRUDProcess.Edit} Id={1} />);
 			// THREE IS REQUIRED,SOMETHING TO DO WITH NESTING PROMISES
 			await new Promise(resolve => setImmediate(resolve));
 			await new Promise(resolve => setImmediate(resolve));
@@ -514,7 +457,7 @@ describe('Campaign CRUD', () => {
 			campaignCRUDInstance.find('textarea#Notes').simulate('change', { target: { value: 'Very weak and sly' } })
 			expect(campaignCRUDInstance.state()).toEqual({
 				Process: CRUDProcess.Edit,
-				Id: 0,
+				Id: 1,
 				submitted: false,
 				modal: {
 					open: false,
@@ -524,7 +467,7 @@ describe('Campaign CRUD', () => {
 			})
 			nock(API_URL)
 			.post('/campaign/edit', {
-				"Id": 0,
+				"Id": 1,
 				"Name": "Hello",
 				"Summary": "Gnome",
 				"Notes": "Very weak and sly",
