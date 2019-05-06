@@ -1,4 +1,4 @@
-![DM Tools](https://github.com/UIOWA5830SP19/SPP500/blob/master/doc/art/DM-Tools-Logo.png)
+![DM Tools](https://github.com/UIOWA5830SP19/SPP500/blob/master/docs/art/DM-Tools-Logo.png)
 > A Dungeons and Dragons 5e tool dedicated to assist DM using [`electron-webpack`](https://github.com/electron-userland/electron-webpack).
 
 [![Build Status](https://travis-ci.org/UIOWA5830SP19/SPP500.svg?branch=master)](https://travis-ci.org/UIOWA5830SP19/SPP500)[![codecov](https://codecov.io/gh/UIOWA5830SP19/SPP500/branch/master/graph/badge.svg)](https://codecov.io/gh/UIOWA5830SP19/SPP500)
@@ -10,7 +10,7 @@ The DM’s role of directing and monitoring gameplay is an astronomical burden t
  
 DMs using DM Tools can easily generate and track details of their [campaign](https://github.com/UIOWA5830SP19/SPP500/wiki/03_Glossary#campaign) [encounters](https://github.com/UIOWA5830SP19/SPP500/wiki/03_Glossary#encounters), view a creature's information and conditions, and manage turn order in a single location. DM Tools is helping the D&D community leverage modern electronic information management strategies to enhance enjoyment of the game.
 
-![Preview of DM Tools](https://github.com/UIOWA5830SP19/SPP500/blob/master/doc/DM%20Tools%20Screenshot.png)
+![Preview of DM Tools](https://github.com/UIOWA5830SP19/SPP500/blob/master/docs/DM%20Tools%20Screenshot.png)
 
 
 ## Getting Started

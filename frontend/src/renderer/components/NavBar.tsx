@@ -36,7 +36,7 @@ export class NavBar extends React.Component<any, INavBarState> {
 			<Navbar className="navbar is-light">
 				<NavbarBrand>
 					<Link className='navbar-item' to="/" onClick={this.closeNav}>
-						<img src={require('../../../../doc/art/DM-Tools-Logo.png')} />
+						<img src={require('../../../../docs/art/DM-Tools-Logo.png')} />
 					</Link>
 					<NavbarBurger isActive={this.state.isActive} onClick={this.onClickNav} />
 				</NavbarBrand>
